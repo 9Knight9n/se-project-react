@@ -41,7 +41,7 @@ class Footer extends Component {
             <footer className='mt-auto'>
                 <div className="container">
                     <h1 className="text-center">
-                        Basic Footer
+                        Footer
                     </h1>
                     <hr/>
                     <ul className="list-inline" id="text_decoration">

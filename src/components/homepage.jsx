@@ -2,6 +2,7 @@
 import React, {Component, Fragment} from 'react';
 import './css/homepage.css'
 import Footer from "./footer";
+import Navbar from "./navbar";
 
 class Homepage extends Component {
     constructor(props) {
@@ -39,7 +40,7 @@ class Homepage extends Component {
     render() {
         return (
             <div id='homepage' className="d-flex flex-column">
-
+                <Navbar/>
 
 
 
