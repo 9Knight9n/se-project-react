@@ -1,7 +1,7 @@
 /*@Sajad*/
 
 import React, {Component} from 'react';
-import './css/footer.css';
+import './footer.css';
 
 class Footer extends Component {
     constructor(props) {

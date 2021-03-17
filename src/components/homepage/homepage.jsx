@@ -1,8 +1,8 @@
 //@Sajad
 import React, {Component, Fragment} from 'react';
-import './css/homepage.css'
+import './homepage.css'
 import Footer from "./footer";
-import Navbar from "./navbar";
+import Navbar from "./navbar/navbar";
 
 class Homepage extends Component {
     constructor(props) {
