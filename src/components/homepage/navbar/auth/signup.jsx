@@ -37,8 +37,9 @@ class Signup extends Component {
     render() {
         return (
             <Modal centered size={'sm'}
-                show={this.props.show}
-                onHide={()=>this.props.changeModal(false,true)}>
+                   backdrop="static"
+                    show={this.props.show}
+                    onHide={()=>this.props.changeModal(false,true)}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         Sign Up Now
