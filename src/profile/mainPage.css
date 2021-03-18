@@ -35,23 +35,33 @@
   border-top: 1px solid rgba(128, 128, 128, 0.2) !important;
 }
 
+/*icon css*/
+.pro-sidebar
+  .pro-menu.shaped
+  .pro-menu-item
+  > .pro-inner-item
+  > .pro-icon-wrapper {
+  background-color: rgb(172, 172, 172) !important;
+  width: 10%;
+}
+
 .container {
   max-width: 100% !important;
 }
 
-.profile-main {
+.setting-main {
   height: 100vh !important;
 }
 
-.profile-center {
+.setting-center {
   max-height: 100%;
 }
 
-.profile-right {
+.setting-right {
   max-height: 100%;
 }
 
-.profile-left {
+.setting-left {
   max-height: 100%;
 }
 

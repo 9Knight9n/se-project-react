@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/personal-info.css';
+import './mainPage.css';
 import 'react-pro-sidebar/dist/css/styles.css'; 
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarFooter, SidebarHeader, SidebarContent} from 'react-pro-sidebar';
-import PersonalInfo from './personal-info';
+import { AiOutlineIdcard } from "react-icons/ai";
+import { AiOutlineHome } from "react-icons/ai";
+import { SiGnuprivacyguard } from "react-icons/si";
+import { IoMdHelpCircleOutline } from "react-icons/io";
+import { FaRegHandshake } from "react-icons/fa";
+
+
+
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -14,50 +21,38 @@ class MainPage extends Component {
     render() { 
         return ( 
             <div className="container m-0">
-                <div className="profile-main row">
-                    <div className="profile-left col">
-                        <ProSidebar className="profile-sideBar">
+                <div className="setting-main row">
+                    <div className="setting-left col">
+                        <ProSidebar className="setting-sideBar">
                             <SidebarHeader>
-                                <h4 className="d-flex justify-content-center">Profile</h4>
+                                <h4 className="d-flex justify-content-center">Setting</h4>
                             </SidebarHeader>
                             <SidebarContent>
                                 <Menu iconShape="square">
-
-                                    <SubMenu title="ACCOUNT SETTING">
+                                    <SubMenu icon={<AiOutlineIdcard />} title="Account setting">
                                     <MenuItem>Personal information</MenuItem>
                                     <MenuItem>Payments and payouts</MenuItem>
                                     <MenuItem>Notifications</MenuItem>
                                     </SubMenu>
 
-                                    <SubMenu title="HOSTING">
+                                    <SubMenu icon={<AiOutlineHome />} title="Hosting">
                                     <MenuItem>List your space</MenuItem>
                                     <MenuItem>Learn about hosting</MenuItem>
                                     </SubMenu>
 
-                                    <SubMenu title="HOSTING">
-                                    <MenuItem>List your space</MenuItem>
-                                    <MenuItem>Learn about hosting</MenuItem>
+                                    <SubMenu icon={<SiGnuprivacyguard />} title="Secutiry">
+                                    <MenuItem>Update your password</MenuItem>
+                                    <MenuItem>Manage connected apps</MenuItem>
                                     </SubMenu>
 
-                                    <SubMenu title="HOSTING">
-                                    <MenuItem>List your space</MenuItem>
-                                    <MenuItem>Learn about hosting</MenuItem>
+                                    <SubMenu icon={<IoMdHelpCircleOutline />} title="Help & asked questions">
+                                    <MenuItem>Asked questions</MenuItem>
+                                    <MenuItem>Help</MenuItem>
                                     </SubMenu>
+                                    
+                                    <MenuItem icon={<FaRegHandshake />}>Terms & aggreement</MenuItem>
+        
 
-                                    <SubMenu title="HOSTING">
-                                    <MenuItem>List your space</MenuItem>
-                                    <MenuItem>Learn about hosting</MenuItem>
-                                    </SubMenu>
-
-                                    <SubMenu title="HOSTING">
-                                    <MenuItem>List your space</MenuItem>
-                                    <MenuItem>Learn about hosting</MenuItem>
-                                    </SubMenu>
-
-                                    <SubMenu title="HOSTING">
-                                    <MenuItem>List your space</MenuItem>
-                                    <MenuItem>Learn about hosting</MenuItem>
-                                    </SubMenu>
 
                                 </Menu>
                             </SidebarContent>
@@ -67,11 +62,12 @@ class MainPage extends Component {
                         </ProSidebar>
                     </div>
 
-                    <div className="profile-center col-8">
-                        <PersonalInfo />
+                    <div className="setting-center col-8">
+                        hi
+                        {/* <PersonalInfo /> */}
                     </div>
 
-                    <div className="profile-right bg-warning col">
+                    <div className="setting-right bg-warning col">
                         3 of 3
                     </div>
                 </div>
