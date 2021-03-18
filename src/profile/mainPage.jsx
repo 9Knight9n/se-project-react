@@ -8,7 +8,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { FaRegHandshake } from "react-icons/fa";
-
+import PersonalInfo from './account-setting/personal-info';
 
 
 class MainPage extends Component {
@@ -21,15 +21,18 @@ class MainPage extends Component {
     render() { 
         return ( 
             <div className="container m-0">
+                <div className="setting-navbar">
+                    hi
+                </div>
                 <div className="setting-main row">
-                    <div className="setting-left col">
+                    <div className="setting-left col-3">
                         <ProSidebar className="setting-sideBar">
                             <SidebarHeader>
-                                <h4 className="d-flex justify-content-center">Setting</h4>
+                                <h4 className="d-flex justify-content-center">Settings</h4>
                             </SidebarHeader>
                             <SidebarContent>
                                 <Menu iconShape="square">
-                                    <SubMenu icon={<AiOutlineIdcard />} title="Account setting">
+                                    <SubMenu icon={<AiOutlineIdcard />} title="Account settings">
                                     <MenuItem>Personal information</MenuItem>
                                     <MenuItem>Payments and payouts</MenuItem>
                                     <MenuItem>Notifications</MenuItem>
@@ -62,14 +65,14 @@ class MainPage extends Component {
                         </ProSidebar>
                     </div>
 
-                    <div className="setting-center col-8">
-                        hi
-                        {/* <PersonalInfo /> */}
+                    <div className="setting-center col-9">
+                        <PersonalInfo />
                     </div>
 
-                    <div className="setting-right bg-warning col">
-                        3 of 3
-                    </div>
+   
+                </div>
+                <div className="setting-footer">
+                    hi
                 </div>
             </div>
          );

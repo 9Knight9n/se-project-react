@@ -1,9 +1,11 @@
 /*bg color css*/
 .pro-sidebar {
   color: black !important;
+  width: 100% !important;
 }
 .pro-sidebar > .pro-sidebar-inner {
   background-color: rgb(172, 172, 172) !important;
+  border-radius: 8px;
 }
 .pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
   background-color: rgb(172, 172, 172) !important;
@@ -50,7 +52,7 @@
 }
 
 .setting-main {
-  height: 100vh !important;
+  height: 100% !important;
 }
 
 .setting-center {
@@ -63,32 +65,4 @@
 
 .setting-left {
   max-height: 100%;
-}
-
-.personalInfo-form input {
-  outline: none;
-  margin-left: 2%;
-  background-color: #e3e2e2;
-  border-radius: 4px;
-  border: 0px;
-  padding-left: 1%;
-}
-
-.personalInfo-form select {
-  outline: none;
-  margin-left: 2%;
-  background-color: #e3e2e2;
-  border-radius: 4px;
-  border: 0px;
-  padding-left: 1%;
-}
-
-.personalInfo-form select {
-  outline: none;
-}
-
-.personalInfo-main {
-  border: 1px solid black;
-  background-color: #f2f2f2;
-  box-shadow: -2px 3px 8px -1px rgba(0, 0, 0, 0.84);
 }
