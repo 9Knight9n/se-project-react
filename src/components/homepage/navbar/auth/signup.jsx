@@ -1,17 +1,12 @@
 //@Sajad
 import React, {Component, Fragment} from 'react';
 import { Modal, Spinner} from "react-bootstrap";
+import './auth.css'
 
 // https://www.npmjs.com/package/react-phone-input-2
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 
-
-const options = [
-  { value: 'Iran', label: '+98' },
-  { value: 'UK', label: '+44' },
-  { value: 'Canada', label: '+1' },
-];
 
 
 class Signup extends Component {
@@ -27,7 +22,7 @@ class Signup extends Component {
     }
 
     state = {
-        pageNum:2,
+        pageNum:0,
         loading:false,
         terms:false,
     }
@@ -95,7 +90,22 @@ class Signup extends Component {
                 )
             case 1:
                 return (
-                    <p>no content</p>
+                    <div className="form-group">
+                        <div className="input-group">
+                            <p>Enter Verification code sent to your Email. </p>
+                            <div className="input-group-prepend">
+                                <span className="text-primary input-group-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check2-circle"
+                                         viewBox="0 0 16 16">
+                                        <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                                        <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <input className="form-control shadow-none" type="verify" required
+                               placeholder="Verification code"/>
+                        </div>
+                    </div>
                 )
             case 2:
                 return (
@@ -147,6 +157,8 @@ class Signup extends Component {
                                             onlyCountries={["ir","uk","fr","ru"]}
                                             value={this.state.phone}
                                             onChange={phone => this.setState({ phone })}
+                                            // enableSearch={true}
+                                            // disableSearchIcon={true}
                                             inputProps={
                                                 {
                                                     required:true,
@@ -194,7 +206,25 @@ class Signup extends Component {
                         </div>
                     </Fragment>
                 )
+            case 3:
+                return (
+                    <div className="form-group">
+                        <div className="input-group">
+                            <Fragment>
+                                <span style={{lineHeight:"0.75"}}>
+                                    <p>
+                                        This email is already registered !
+                                    </p>
+                                    <p>
+                                        do you want to sign in instead?
+                                    </p>
+                                </span>
+                            </Fragment>
+                        </div>
+                    </div>
+                )
             default:
+                return (<p>some thing is wrong!</p>)
         }
     }
 
@@ -248,6 +278,27 @@ class Signup extends Component {
                         Sign up
                     </button>
                 )
+            case 3:
+                return (
+                    <div className={"w-100 row"} style={{marginLeft:"0"}}>
+                        <div className={"col-6"} style={{paddingLeft:"0"}}>
+                            <button className="btn btn-outline-primary btn-lg "
+                                style={{"width": "100%"}}
+                                type="button"
+                                onClick={()=>this.setPage(0)}>
+                                back
+                            </button>
+                        </div>
+                        <div className={"col-6"} style={{paddingRight:"0"}}>
+                            <button className="btn btn-primary btn-lg text-white "
+                                style={{"width": "100%"}}
+                                type="button"
+                                onClick={()=>this.exit(true,false,this.state.email)}>
+                                Sign in
+                            </button>
+                        </div>
+                    </div>
+                )
             default:
         }
 
@@ -294,7 +345,6 @@ class Signup extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <form>
-
                         {this.pageTop()}
                         {this.state.pageNum===2?
                         <div className="form-group">

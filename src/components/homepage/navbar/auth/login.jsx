@@ -125,7 +125,13 @@ class Login extends Component {
                                        placeholder="Password"/>}
                                 </Fragment>:
                                 <Fragment>
-                                    <span style={{lineHeight:"0.75"}}><p>This email is not registered !</p> <p>do you want to register now?</p></span>
+                                    <span style={{lineHeight:"0.75"}}>
+                                        <p>
+                                            This email is not registered !
+                                        </p>
+                                        <p>do you want to register now?
+                                        </p>
+                                    </span>
                                 </Fragment>}
                             </div>
                         </div>
@@ -146,7 +152,7 @@ class Login extends Component {
                                 {this.state.pageNum<1?"Next":"Log in"}
                             </button>:
                             <div className={"w-100 row"} style={{marginLeft:"0"}}>
-                                <div className={"col-6"}>
+                                <div className={"col-6"} style={{paddingLeft:"0"}}>
                                     <button className="btn btn-outline-primary btn-lg "
                                         style={{"width": "100%"}}
                                         type="button"
@@ -154,7 +160,7 @@ class Login extends Component {
                                         back
                                     </button>
                                 </div>
-                                <div className={"col-6"}>
+                                <div className={"col-6"} style={{paddingRight:"0"}}>
                                     <button className="btn btn-primary btn-lg text-white "
                                         style={{"width": "100%"}}
                                         type="button"
