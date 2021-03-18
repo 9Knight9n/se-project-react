@@ -1,6 +1,6 @@
 //@Sajad
 import React, {Component, Fragment} from 'react';
-import { Modal, Spinner} from "react-bootstrap";
+import {Form, Modal, Spinner} from "react-bootstrap";
 import './auth.css'
 
 // https://www.npmjs.com/package/react-phone-input-2
@@ -22,9 +22,15 @@ class Signup extends Component {
     }
 
     state = {
-        pageNum:0,
+        pageNum:2,
         loading:false,
         terms:false,
+        isInvalid1:false,
+        isInvalid2:false,
+        isInvalid3:false,
+        isInvalid4:false,
+        isInvalid5:false,
+        isInvalid6:true,
     }
 
     // componentWillMount() {
@@ -83,8 +89,15 @@ class Signup extends Component {
                                     </svg>
                                 </span>
                             </div>
-                            <input className="form-control shadow-none" type="email" required
+                            <Form.Control
+                                className="form-control shadow-none"
+                                type="email"
+                                required
+                                isInvalid={this.state.isInvalid1}
                                placeholder="Email"/>
+                               <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                   Email is invalid!
+                               </Form.Control.Feedback>
                         </div>
                     </div>
                 )
@@ -102,8 +115,14 @@ class Signup extends Component {
                                     </svg>
                                 </span>
                             </div>
-                            <input className="form-control shadow-none" type="verify" required
-                               placeholder="Verification code"/>
+                            <Form.Control
+                                className="form-control shadow-none"
+                                type="verify" required
+                                isInvalid={this.state.isInvalid1}
+                                placeholder="Verification code"/>
+                            <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                verification code is wrong!
+                            </Form.Control.Feedback>
                         </div>
                     </div>
                 )
@@ -120,8 +139,14 @@ class Signup extends Component {
                                         </svg>
                                     </span>
                                 </div>
-                                <input className="form-control shadow-none" type="first-name" required
-                                   placeholder="First name"/>
+                                <Form.Control
+                                    className="form-control shadow-none"
+                                    type="first-name" required
+                                    isInvalid={this.state.isInvalid1}
+                                    placeholder="First name"/>
+                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                    Fill this field!
+                                </Form.Control.Feedback>
                             </div>
                         </div>
                         <div className="form-group">
@@ -135,8 +160,14 @@ class Signup extends Component {
                                         </svg>
                                     </span>
                                 </div>
-                                <input className="form-control shadow-none" type="last-name" required
-                                   placeholder="Last name"/>
+                                <Form.Control
+                                    className="form-control shadow-none"
+                                    type="last-name" required
+                                    isInvalid={this.state.isInvalid2}
+                                    placeholder="Last name"/>
+                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                    Fill this Field!
+                                </Form.Control.Feedback>
                             </div>
                         </div>
                         <div className="form-group">
@@ -170,8 +201,6 @@ class Signup extends Component {
                                         />
                                     </span>
                                 </div>
-                                {/*<input className="form-control shadow-none" type="phone-number" required*/}
-                                {/*   placeholder="Phone number"/>*/}
                             </div>
                         </div>
                         <div className="form-group">
@@ -185,8 +214,14 @@ class Signup extends Component {
                                         </svg>
                                     </span>
                                 </div>
-                                <input className="form-control shadow-none" type="password" required
-                                   placeholder="Password"/>
+                                <Form.Control
+                                    className="form-control shadow-none"
+                                    type="password" required
+                                    isInvalid={this.state.isInvalid4}
+                                    placeholder="Password"/>
+                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                    Password is insecure!
+                                </Form.Control.Feedback>
                             </div>
                         </div>
                         <div className="form-group">
@@ -200,8 +235,14 @@ class Signup extends Component {
                                         </svg>
                                     </span>
                                 </div>
-                                <input className="form-control shadow-none" type="confirm-password" required
-                                   placeholder="Confirm password"/>
+                                <Form.Control
+                                    className="form-control shadow-none"
+                                    type="confirm-password" required
+                                    isInvalid={this.state.isInvalid5}
+                                    placeholder="Confirm password"/>
+                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                     Password doesn't match!
+                                </Form.Control.Feedback>
                             </div>
                         </div>
                     </Fragment>
@@ -346,14 +387,21 @@ class Signup extends Component {
                 <Modal.Body>
                     <form>
                         {this.pageTop()}
+
+
+
+
+
+                        {/*agree with terms*/}
                         {this.state.pageNum===2?
-                        <div className="form-group">
+                        <div className="form-group pb-1" >
                             <div className="form-check">
-                                <input className="form-check-input" onClick={()=>this.setState({terms:!this.state.terms})}
-                                        type="checkbox" id="formCheck-1" required checked={this.state.terms}/>
-                                <label className="form-check-label" htmlFor="formCheck-1">
-                                    I agree all the <a href={"#"}>terms</a> and conditions.
-                                </label>
+                                <Form.Check className="form-check-input"
+                                        onClick={()=>this.setState({terms:!this.state.terms})}
+                                        type="checkbox" id="formCheck-1" required checked={this.state.terms}
+                                        feedback="You must agree before submitting."
+                                        isInvalid={this.state.isInvalid6}/>
+                                <p>Agree to <a href={"#"}>terms</a> and conditions</p>
                             </div>
                         </div>:""}
                         <div className="form-group">

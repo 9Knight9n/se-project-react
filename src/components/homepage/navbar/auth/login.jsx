@@ -107,6 +107,10 @@ class Login extends Component {
 
                 <Modal.Body>
                     <form>
+
+
+
+                        {/*inputs and labels*/}
                         <div className="form-group">
                             <div className="input-group">
                                 {this.state.pageNum<2?
@@ -131,7 +135,7 @@ class Login extends Component {
                                         <Form.Control
                                                 className="form-control shadow-none"
                                                 type="email" required
-                                                isInvalid={this.state.isInvalid}
+                                                isInvalid={this.state.isInvalid1}
                                                 placeholder="Email"/>
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
                                             Email is invalid!
@@ -144,7 +148,7 @@ class Login extends Component {
                                                 isInvalid={this.state.isInvalid}
                                                 placeholder="Password"/>
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                            Email is invalid!
+                                            Password is Wrong!
                                         </Form.Control.Feedback>
                                     </Fragment>}
                                 </Fragment>:
@@ -159,6 +163,10 @@ class Login extends Component {
                                 </Fragment>}
                             </div>
                         </div>
+
+
+
+                        {/*buttons*/}
                         <div className="form-group">
                             {this.state.pageNum<2?
                             <button type="button"
@@ -196,6 +204,10 @@ class Login extends Component {
                         </div>
                     </form>
 
+
+
+
+                    {/*continue with google button*/}
                     {this.state.pageNum===0?
                     <Fragment>
                         <h5 className={"ml-auto mr-auto"} style={{width:"fit-content"}}>Or</h5>
@@ -212,6 +224,9 @@ class Login extends Component {
                         </div>
                     </Fragment>:""}
 
+
+
+                    {/*forget pass or signin buttons*/}
                     {this.state.pageNum<2?
                     <Fragment>
                         <hr style={{"backgroundColor": "#bababa"}}/>
