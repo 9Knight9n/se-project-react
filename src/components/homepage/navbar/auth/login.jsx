@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './auth.css'
-import {Modal, Spinner} from "react-bootstrap";
+import {Form, Modal, Spinner} from "react-bootstrap";
 import {Fragment} from "react";
 import Switch from "react-bootstrap/Switch";
 
@@ -19,6 +19,7 @@ class Login extends Component {
         pageNum : 0,
         loading : false,
         email : null,
+        isInvalid:false,
     }
     // componentWillMount() {
     //
@@ -82,6 +83,9 @@ class Login extends Component {
                    backdrop="static"
                     show={this.props.show}
                     onHide={()=>this.exit(false,true,null)}>
+
+
+
                 <Modal.Header className={"d-flex w-100"} closeButton>
                     {this.state.pageNum>0?
                     <button className="btn btn-sm close shadow-none" style={{margin:"-1rem 0 0 -1rem",zIndex:"1000",position:"absolute"}}
@@ -97,6 +101,10 @@ class Login extends Component {
                         <p style={{textAlign: "center"}} className={'m-auto w-auto pr-4'}>Sign In</p>
                     </Modal.Title>
                 </Modal.Header>
+
+
+
+
                 <Modal.Body>
                     <form>
                         <div className="form-group">
@@ -119,10 +127,26 @@ class Login extends Component {
                                         </span>
                                     </div>
                                     {this.state.pageNum<1?
-                                    <input className="form-control shadow-none" type="email" required
-                                       placeholder="Email"/>:
-                                    <input className="form-control shadow-none" type="password" required
-                                       placeholder="Password"/>}
+                                    <Fragment>
+                                        <Form.Control
+                                                className="form-control shadow-none"
+                                                type="email" required
+                                                isInvalid={this.state.isInvalid}
+                                                placeholder="Email"/>
+                                        <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                            Email is invalid!
+                                        </Form.Control.Feedback>
+                                    </Fragment>:
+                                    <Fragment>
+                                        <Form.Control
+                                                className="form-control shadow-none"
+                                                type="password" required
+                                                isInvalid={this.state.isInvalid}
+                                                placeholder="Password"/>
+                                        <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                            Email is invalid!
+                                        </Form.Control.Feedback>
+                                    </Fragment>}
                                 </Fragment>:
                                 <Fragment>
                                     <span style={{lineHeight:"0.75"}}>
