@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './auth.css'
 import {Modal, Spinner} from "react-bootstrap";
 import {Fragment} from "react";
+import Switch from "react-bootstrap/Switch";
 
 
 
@@ -11,11 +12,13 @@ class Login extends Component {
         this.emailValidation = this.emailValidation.bind(this);
         this.login = this.login.bind(this);
         this.exit = this.exit.bind(this);
+        this.setPage = this.setPage.bind(this);
     }
 
     state = {
-        enteringEmail : true,
+        pageNum : 0,
         loading : false,
+        email : null,
     }
     // componentWillMount() {
     //
@@ -45,21 +48,32 @@ class Login extends Component {
     //
     // }
 
-    exit(authModal,modalOnLogin)
+    exit(authModal,modalOnLogin,email)
     {
-        this.props.changeModal(authModal,modalOnLogin)
-        this.setState({enteringEmail:true,loading:false})
+        if(!this.state.loading)
+        {
+            this.props.changeModal(authModal,modalOnLogin,email)
+            this.setState({pageNum:0,loading:false})
+        }
+
+    }
+
+    setPage(pageNum)
+    {
+        this.setState({pageNum})
     }
 
     emailValidation()
     {
         this.setState({loading : true})
-        setTimeout(() => this.setState({loading : false,enteringEmail : false,}), 1000);
+        setTimeout(() => this.setState({loading : false,pageNum : 1,}), 1000);
     }
+
+
 
     login()
     {
-
+        // this.setPage(2)
     }
 
     render() {
@@ -67,11 +81,11 @@ class Login extends Component {
             <Modal centered size={'sm'}
                    backdrop="static"
                     show={this.props.show}
-                    onHide={()=>this.exit(false,true)}>
+                    onHide={()=>this.exit(false,true,null)}>
                 <Modal.Header className={"d-flex w-100"} closeButton>
-                    {!this.state.enteringEmail?
-                    <button className="btn btn-sm close" style={{margin:"-1rem 0 0 -1rem",zIndex:"1000",position:"absolute"}}
-                            onClick={()=>this.setState({enteringEmail:true})}>
+                    {this.state.pageNum>0?
+                    <button className="btn btn-sm close shadow-none" style={{margin:"-1rem 0 0 -1rem",zIndex:"1000",position:"absolute"}}
+                            onClick={()=>this.setPage(0)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                              className="bi bi-arrow-left" viewBox="0 0 16 16">
                             <path fillRule="evenodd"
@@ -85,56 +99,74 @@ class Login extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <form>
-                        {this.state.enteringEmail ?
                         <div className="form-group">
                             <div className="input-group">
-                                <div className="input-group-prepend">
-                                    <span className="text-primary input-group-text">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
-                                            <path
-                                                d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <input className="form-control shadow-none" type="email" required
-                                       placeholder="Email"/>
-                            </div>
-                        </div> :
-                        <div className="form-group">
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                    <span className="text-primary input-group-text">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" className="bi bi-key-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <input className="form-control shadow-none" type="password" required
-                                       placeholder="Password"/>
+                                {this.state.pageNum<2?
+                                <Fragment>
+                                    <div className="input-group-prepend">
+                                        <span className="text-primary input-group-text">
+                                            {this.state.pageNum<1?
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                                            </svg>:
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" className="bi bi-key-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                            </svg>}
+                                        </span>
+                                    </div>
+                                    {this.state.pageNum<1?
+                                    <input className="form-control shadow-none" type="email" required
+                                       placeholder="Email"/>:
+                                    <input className="form-control shadow-none" type="password" required
+                                       placeholder="Password"/>}
+                                </Fragment>:
+                                <Fragment>
+                                    <span style={{lineHeight:"0.75"}}><p>This email is not registered !</p> <p>do you want to register now?</p></span>
+                                </Fragment>}
                             </div>
                         </div>
-                        }
                         <div className="form-group">
-                            <button className="btn btn-primary btn-lg text-white"
+                            {this.state.pageNum<2?
+                            <button type="button"
+                                    className={"btn btn-lg btn-"
+                                        .concat(this.state.pageNum===0?"outline-primary":"primary text-white")}
                                     style={{"width": "100%"}}
-                                    type="button"
                                     disabled={this.state.loading}
-                                    onClick={this.state.enteringEmail?this.emailValidation:this.login}>
+                                    onClick={this.state.pageNum<1?this.emailValidation:this.login}>
                                 {this.state.loading?
                                 <Spinner className={'mb-1 mr-1'} as="span"
                                          animation="border"
                                          size="sm"
                                          role="status"
                                          aria-hidden="true"/>:""}
-                                {this.state.enteringEmail?"Next":"Log in"}
-                            </button>
+                                {this.state.pageNum<1?"Next":"Log in"}
+                            </button>:
+                            <div className={"w-100 row"} style={{marginLeft:"0"}}>
+                                <div className={"col-6"}>
+                                    <button className="btn btn-outline-primary btn-lg "
+                                        style={{"width": "100%"}}
+                                        type="button"
+                                        onClick={()=>this.setPage(0)}>
+                                        back
+                                    </button>
+                                </div>
+                                <div className={"col-6"}>
+                                    <button className="btn btn-primary btn-lg text-white "
+                                        style={{"width": "100%"}}
+                                        type="button"
+                                        onClick={()=>this.exit(true,false,this.state.email)}>
+                                        Sign up
+                                    </button>
+                                </div>
+                            </div>}
                         </div>
                     </form>
 
-                    {this.state.enteringEmail?
+                    {this.state.pageNum===0?
                     <Fragment>
                         <h5 className={"ml-auto mr-auto"} style={{width:"fit-content"}}>Or</h5>
                         <div className="text-center mt-3">
@@ -150,21 +182,24 @@ class Login extends Component {
                         </div>
                     </Fragment>:""}
 
-                    <hr style={{"backgroundColor": "#bababa"}}/>
-                    {!this.state.enteringEmail?
-                    <p className="text-center">
-                        <a className="text-decoration-none" href="#"> Forget
-                            password?
-                        </a>
-                    </p>:
-                    <p className="text-center">
-                        Don&#39;t have an account?
-                        <a className="text-decoration-none"
-                            href="#"
-                            onClick={()=>this.exit(true,false)}>
-                            Sign Up
-                        </a>
-                    </p>}
+                    {this.state.pageNum<2?
+                    <Fragment>
+                        <hr style={{"backgroundColor": "#bababa"}}/>
+                        <p className="text-center">
+                            {this.state.pageNum===1?
+                            <a className="text-decoration-none" href="#"> Forget
+                                password?
+                            </a>:
+                            <Fragment>
+                                Don&#39;t have an account?
+                                <a className="text-decoration-none"
+                                    href="#"
+                                    onClick={()=>this.exit(true,false)}>
+                                    Sign Up
+                                </a>
+                            </Fragment>}
+                        </p>
+                    </Fragment>:""}
                 </Modal.Body>
             </Modal>
         );

@@ -17,6 +17,7 @@ class Navbar extends Component {
     state = {
         authModal : false,
         modalOnLogin : true,
+        email : null,
     }
 
     // componentWillMount() {
@@ -47,9 +48,9 @@ class Navbar extends Component {
     //
     // }
 
-    changeModal(authModal,modalOnLogin)
+    changeModal(authModal,modalOnLogin,email)
     {
-        this.setState({authModal,modalOnLogin})
+        this.setState({authModal,modalOnLogin,email})
     }
 
     render() {
@@ -68,12 +69,12 @@ class Navbar extends Component {
                             </ul>
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item"><a className="nav-link active" href="#">
-                                    <button onClick={()=>this.changeModal(true,true)} className="btn btn-outline-primary" data-toggle="modal" data-target="#signup"
+                                    <button onClick={()=>this.changeModal(true,true,null)} className="btn btn-outline-primary" data-toggle="modal" data-target="#signup"
                                             type="button">Log In
                                     </button>
                                 </a></li>
                                 <li className="nav-item"><a className="nav-link active" href="#">
-                                    <button onClick={()=>this.changeModal(true,false)} className="btn btn-primary" data-toggle="modal" data-target="#signin"
+                                    <button onClick={()=>this.changeModal(true,false,null)} className="btn btn-primary" data-toggle="modal" data-target="#signin"
                                             type="button">Sign Up
                                     </button>
                                 </a></li>
