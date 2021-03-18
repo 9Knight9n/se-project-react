@@ -46,10 +46,10 @@
 }
 
 .personalInfo-line {
-  width: 98%;
+  width: 94%;
 }
 
-.textAreaCounter {
+.personalInfo-textAreaCounter {
   color: #7e828d;
   width: 10%;
   position: absolute;
@@ -82,4 +82,25 @@
 
 .react-tel-input .country-list .country:hover {
   background-color: #d2d2db !important;
+}
+.personalInfo-btn {
+  width: 50%;
+  margin-left: 18%;
+}
+
+.personalInfo-btn button {
+  outline: none;
+  border: 0px;
+  border-radius: 8px;
+  color: white;
+}
+
+.personalInfo-btn .submitBtn button {
+  background-color: #000000;
+  width: 90%;
+}
+.personalInfo-btn .cancelBtn button {
+  background-color: #8b8b8b;
+  margin-left: 2%;
+  width: 90%;
 }
