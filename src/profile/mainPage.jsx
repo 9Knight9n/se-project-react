@@ -25,6 +25,16 @@ class MainPage extends Component {
         super(props);
         this.state = {
             activePersonalInfo: true,
+            activePay: false,
+            activeNotif: false,
+            activeAskedQ: false,
+            activeHelp: false,
+            activeTerms: false,
+            activeListSpace: false,
+            activeLearnHosting: false,
+            activeUpdatePass: false,
+            activeConnectedApps: false,
+            collapsed: false,
         }; 
 
     }
@@ -56,15 +66,157 @@ class MainPage extends Component {
         if (b === 1) {
             this.setState({
                 activePersonalInfo: true,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
             });    
         }
         if (b === 2) {
             this.setState({
                 activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: true,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
             });    
+        }
+        if (b === 3){
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: true,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
+            }) 
+        }
+        if (b === 4) {
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: true,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
+            })
+        }
+
+        if (b === 5) {
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: true,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
+            })
+        }
+
+        if (b === 6) {
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: true,
+                activeConnectedApps: false,
+            })
+        }
+
+        if (b === 7) {
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: true,
+            })
+        }
+
+        if (b === 8) {
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: true,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
+            })
+        }
+
+        if (b === 9) {
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: false,
+                activeAskedQ: false,
+                activeHelp: true,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
+            })
+        }
+
+        if (b === 10) {
+            this.setState({
+                activePersonalInfo: false,
+                activeTerms: true,
+                activeAskedQ: false,
+                activeHelp: false,
+                activeNotif: false,
+                activePay: false,
+                activeListSpace: false,
+                activeLearnHosting: false,
+                activeUpdatePass: false,
+                activeConnectedApps: false,
+            })
         }
 
     }
+
+    // handleCollapsed = () =>{
+    //     this.setState({
+    //         collapsed: !this.state.collapsed,
+    //     })
+    // }
 
     render() { 
         return ( 
@@ -75,67 +227,62 @@ class MainPage extends Component {
                 </div>
                 <div className="setting-main row">
                     <div className="setting-left col-3">
-                        <ProSidebar className="setting-sideBar">
+                        <ProSidebar collapsed={this.state.collapsed} className="setting-sideBar">
                             <SidebarHeader>
                                 <h4 className="d-flex justify-content-center">Settings</h4>
+                                {/* <button onClick={this.handleCollapsed}>close</button> */}
                             </SidebarHeader>
                             <SidebarContent>
                                 <Menu iconShape="circle">
                                     <SubMenu defaultOpen icon={<AiOutlineIdcard />} title="Account settings">
-                                        {!this.state.activePersonalInfo? 
-                                            <MenuItem onClick={() => this.handleActivation(1)}>
-                                                Personal information
-                                                <Link to="/personalInfo" />
-                                            </MenuItem> :
-                                            <MenuItem onClick={() => this.handleActivation(1)} active>
-                                                Personal information
-                                                <Link to="/personalInfo" />
-                                            </MenuItem>
-                                        }
-                                        <MenuItem onClick={() => this.handleActivation(2)}>
+                                        <MenuItem onClick={() => this.handleActivation(1)} active={this.state.activePersonalInfo}>
+                                            Personal information
+                                            <Link to="/personalInfo" />
+                                        </MenuItem>
+                                        <MenuItem onClick={() => this.handleActivation(2)} active={this.state.activePay}>
                                             Payments and payouts
                                             <Link to="/paymentsPayouts" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(2)}>
+                                        <MenuItem onClick={() => this.handleActivation(3)} active={this.state.activeNotif}>
                                             Notifications
                                             <Link to="/notifications" />
                                         </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<AiOutlineHome />} title="Hosting">
-                                        <MenuItem onClick={() => this.handleActivation(2)}>
+                                        <MenuItem onClick={() => this.handleActivation(4)} active={this.state.activeListSpace}>
                                              List your space
                                             <Link to="/listSpace" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(2)}>
+                                        <MenuItem onClick={() => this.handleActivation(5)} active={this.state.activeLearnHosting}>
                                             Learn about hosting
                                             <Link to="/learnHosting" />
                                         </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<SiGnuprivacyguard />} title="Secutiry">
-                                    <MenuItem onClick={() => this.handleActivation(2)}>
+                                    <MenuItem onClick={() => this.handleActivation(6)}  active={this.state.activeUpdatePass}>
                                         Update your password
                                         <Link to="/updatePass"></Link>
                                     </MenuItem>
-                                    <MenuItem onClick={() => this.handleActivation(2)}>
+                                    <MenuItem onClick={() => this.handleActivation(7)} active={this.state.activeConnectedApps}>
                                         Manage connected apps
                                         <Link to="/connectedApps"></Link>
                                     </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<IoMdHelpCircleOutline />} title="Help & asked questions">
-                                    <MenuItem onClick={() => this.handleActivation(2)}>
+                                    <MenuItem onClick={() => this.handleActivation(8)} active={this.state.activeAskedQ}>
                                         Asked questions
                                         <Link to="/askedQuestions"></Link>
                                     </MenuItem>
-                                    <MenuItem onClick={() => this.handleActivation(2)}>
+                                    <MenuItem onClick={() => this.handleActivation(9)} active={this.state.activeHelp}>
                                         Help
                                         <Link to="/help"></Link>
                                     </MenuItem>
                                     </SubMenu>
                                     
-                                    <MenuItem onClick={() => this.handleActivation(2)} icon={<FaRegHandshake />}>
+                                    <MenuItem onClick={() => this.handleActivation(10)} icon={<FaRegHandshake />} active={this.state.activeTerms}>
                                         Terms & aggreement
                                         <Link to="/terms"></Link>
                                     </MenuItem>
