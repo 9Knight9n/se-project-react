@@ -12,6 +12,7 @@ import PersonalInfo from './account-setting/personal-info';
 import PaymentsPayouts from './account-setting/payments-payouts';
 import Notfications from './account-setting/notifications';
 import Temp from './account-setting/temp';
+import Terms from './account-setting/term&conditions';
 import { 
     BrowserRouter as Router, 
     Route, 
@@ -336,7 +337,7 @@ class MainPage extends Component {
                                 <Temp />
                             </Route>
                             <Route exact path="/terms">
-                                <Temp />
+                                <Terms />
                             </Route>
                   
                     </div>
