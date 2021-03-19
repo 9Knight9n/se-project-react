@@ -4,8 +4,7 @@ import { IconContext } from "react-icons";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './personal-info.css';
-import * as EmailValidator from 'email-validator';
- 
+import EmailValidator from 'email-validator';
 
 class PersonalInfo extends Component {
     constructor(props) {
@@ -21,8 +20,8 @@ class PersonalInfo extends Component {
             dateOfBirth: "",
             phoneNum: "",
             email: "",
-            emailValidationMsg: "Email is not correct",
             emailValidationError: false,
+            firstNameValidationError: false,
         }; 
 
     }
@@ -41,15 +40,13 @@ class PersonalInfo extends Component {
          let charsPerPageCount = this.state.charsPerPage;
          let unitCount = Math.round(characterCount/charsPerPageCount);
          this.setState({pageCount: unitCount});
+         if (EmailValidator.validate(target.value) && target.name === "email") {
+             this.setState({emailValidationError: true})
+            }
         }
-        if(name === "email" && !EmailValidator.validate(value)){
+        if (target.name == "firstName" && target.value === null){
             this.setState({
-                emailValidationError: true,
-            });
-        }
-        if(name === "email" && EmailValidator.validate(value)){
-            this.setState({
-                emailValidationError: false,
+                firstNameValidationError: true,
             });
         }
    }
@@ -70,25 +67,27 @@ class PersonalInfo extends Component {
                     <div className="personalInfo-form w-100 ml-4 mt-4">
                         <div className="firstName mb-2">
                                 <label for="personalInfo-firstName">First Name :</label>
-                                <input name="firstName" value={this.state.firstName} onChange={this.handleChange} id="firstName" required/>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                                <div class="invalid-feedback">
+                                <input name="firstName" className="form-control" id="validationCustom01" value={this.state.firstName} onChange={this.handleChange} id="firstName" required/>
+                                {this.firstNameValidationError? 
+                                <div className="valid-feedback">
+                                Looks good!
+                                </div>:
+                                <div className="invalid-feedback">
                                     Please enter your firstName
                                 </div>
+                                }
                         </div>
 
                         <hr className="personalInfo-line"/>
 
                         <div className="personalInfo-lastName mb-2">
                                 <label for="lastName">Last Name :</label>
-                                <input name="lastName" value={this.state.lastName} onChange={this.handleChange} id="lastName" required/>
-                                <div class="valid-feedback">
+                                <input name="lastName" className="form-control" id="validationCustom02" value={this.state.lastName} onChange={this.handleChange} id="lastName" required/>
+                                <div className="valid-feedback">
                                     Looks good!
                                 </div>
-                                <div class="invalid-feedback">
-                                    Please enter your lasrName
+                                <div className="invalid-feedback">
+                                    Please enter your lastName
                                 </div>
                         </div>
 
@@ -96,11 +95,11 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-nationalId">
                             <label for="nationalCode">National Code :</label>
-                            <input name="nationalId" value={this.state.nationalId} onChange={this.handleChange} id="nationalCode" required/>
-                            <div class="valid-feedback">
+                            <input name="nationalId" className="form-control" value={this.state.nationalId} onChange={this.handleChange} id="nationalCode" required/>
+                            <div className="valid-feedback">
                                 Looks good!
                             </div>
-                            <div class="invalid-feedback">
+                            <div className="invalid-feedback">
                                     Please enter your National code
                             </div>
                         </div>
@@ -109,15 +108,15 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-Gender mb-2">
                             <label for="Gender">Gender :</label>
-                            <select name="gender" value={this.state.gender} onChange={this.handleChange} id="Gender" required>
+                            <select className="form-select" name="gender" value={this.state.gender} onChange={this.handleChange} id="Gender" required>
                                 <option>Male</option>
                                 <option>Female</option>
                                 <option>Other</option>
                             </select>
-                            <div class="valid-feedback">
+                            <div className="valid-feedback">
                                 Looks good!
                             </div>
-                            <div class="invalid-feedback">
+                            <div className="invalid-feedback">
                                 Please select your Gender
                             </div>
                         </div>
@@ -126,7 +125,7 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-dateOfBirth mb-2">
                             <label for="birth">Date Of Birth :</label>
-                            <input name="dateOfBirth" value={this.state.dateOfBirth} onChange={this.handleChange} id="birth"/>
+                            <input className="form-control" name="dateOfBirth" value={this.state.dateOfBirth} onChange={this.handleChange} id="birth"/>
                         </div>
 
                         <hr className="personalInfo-line"/>
@@ -139,12 +138,13 @@ class PersonalInfo extends Component {
                             value={this.state.phoneNum}
                             onChange={phone => this.setState({ phone })}
                             required
+                            className="form-control"
                             />
                             </div>
-                            <div class="valid-feedback">
+                            <div className="valid-feedback">
                                 Looks good!
                             </div>
-                            <div class="invalid-feedback">
+                            <div className="invalid-feedback">
                                 Please enter your phone number
                             </div>
                             {/* <input name="phoneNum" value={this.state.phoneNum} onChange={this.handleChange} id="phone" /> */}
@@ -155,16 +155,15 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-emailId mb-2">
                             <label for="email">Email :</label>
-                            <input name="email" value={this.state.email} onChange={this.handleChange} id="email" required/>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                Please enter valid email
-                            </div>
-                            {/* <div>
-                                {this.state.emailValidationError? <div>{this.state.emailValidationMsg}</div> : ''}
-                            </div> */}
+                            <input className="form-control" name="email" value={this.state.email} onChange={this.handleChange} id="email" required/>
+                            {!this.state.emailValidationError?
+                                <div className="valid-feedback">
+                                    Looks good!
+                                </div>:
+                                <div className="invalid-feedback">
+                                    Please enter valid email
+                                </div>
+                            }
                         </div>
 
                         <hr className="personalInfo-line"/>

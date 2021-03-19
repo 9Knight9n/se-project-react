@@ -3,6 +3,9 @@
   color: black !important;
   width: 100% !important;
 }
+.pro-sidebar .pro-menu a {
+  color: black !important;
+}
 .pro-sidebar > .pro-sidebar-inner {
   background-color: rgb(172, 172, 172) !important;
   border-radius: 8px;
