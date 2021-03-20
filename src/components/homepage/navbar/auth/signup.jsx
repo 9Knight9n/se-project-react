@@ -6,6 +6,7 @@ import './auth.css'
 // https://www.npmjs.com/package/react-phone-input-2
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import {validateEmail, validatePass} from "../../../util";
 
 
 
@@ -19,18 +20,23 @@ class Signup extends Component {
         this.emailValidation = this.emailValidation.bind(this);
         this.emailVerification = this.emailVerification.bind(this);
         this.signup = this.signup.bind(this);
+        this.confirmPass = this.confirmPass.bind(this);
     }
 
     state = {
         pageNum:2,
         loading:false,
         terms:false,
+        email:null,
+        verify:null,
         isInvalid1:false,
         isInvalid2:false,
         isInvalid3:false,
+        isValid4:false,
         isInvalid4:false,
         isInvalid5:false,
-        isInvalid6:true,
+        isValid5:false,
+        isInvalid6:false,
     }
 
     // componentWillMount() {
@@ -64,11 +70,64 @@ class Signup extends Component {
     exit(authModal,modalOnLogin,email)
     {
         this.props.changeModal(authModal,modalOnLogin,email)
-        this.setState({pageNum:0,loading:false})
+        this.setState({pageNum:0,loading:false,email:null,verify:null,
+            isInvalid1:false,
+            isInvalid2:false,
+            isInvalid3:false,
+            isInvalid4:false,
+            isValid4:false,
+            isInvalid5:false,
+            isValid5:false,
+            isInvalid6:false,})
     }
 
     setPage(pageNum)
     {
+        switch (this.state.pageNum)
+        {
+            case 0:
+                this.setState({
+                    email:document.getElementById("email-input").value,
+                    isInvalid1:false,
+                    loading:false
+                })
+                document.getElementById("email-input").value = ""
+                break;
+            case 1:
+                switch (pageNum)
+                {
+                    case 0:
+                        document.getElementById("verify-input").value = this.state.email
+                        this.setState({isInvalid1:false,loading:false})
+                        break;
+                    case 2:
+                        this.setState({
+                            verify:document.getElementById("verify-input").value,
+                            isInvalid1:false,
+                            loading:false
+                        })
+                        break
+                    default:
+                        break
+                }
+                break;
+            case 2:
+                document.getElementById("firstname-input").value = this.state.email
+                this.setState({
+                    isInvalid1:false,
+                    isInvalid2:false,
+                    isInvalid3:false,
+                    isInvalid4:false,
+                    isValid4:false,
+                    isInvalid5:false,
+                    isValid5:false,
+                    isInvalid6:false,
+                    loading:false
+                })
+                break;
+            default:
+                break
+        }
         this.setState({pageNum})
     }
 
@@ -90,6 +149,7 @@ class Signup extends Component {
                                 </span>
                             </div>
                             <Form.Control
+                                id={"email-input"}
                                 className="form-control shadow-none"
                                 type="email"
                                 required
@@ -116,6 +176,7 @@ class Signup extends Component {
                                 </span>
                             </div>
                             <Form.Control
+                                id={"verify-input"}
                                 className="form-control shadow-none"
                                 type="verify" required
                                 isInvalid={this.state.isInvalid1}
@@ -140,6 +201,7 @@ class Signup extends Component {
                                     </span>
                                 </div>
                                 <Form.Control
+                                    id={"firstname-input"}
                                     className="form-control shadow-none"
                                     type="first-name" required
                                     isInvalid={this.state.isInvalid1}
@@ -161,8 +223,10 @@ class Signup extends Component {
                                     </span>
                                 </div>
                                 <Form.Control
+                                    id={"lastname-input"}
                                     className="form-control shadow-none"
                                     type="last-name" required
+                                    // isValid={true}
                                     isInvalid={this.state.isInvalid2}
                                     placeholder="Last name"/>
                                 <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -172,7 +236,7 @@ class Signup extends Component {
                         </div>
                         <div className="form-group">
                             <div className="input-group">
-                                <div className="input-group-prepend">
+                                <div className="input-group-prepend" style={{width:"inherit"}}>
                                     <span className="text-primary input-group-text">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" className="bi bi-phone" viewBox="0 0 16 16">
@@ -192,15 +256,22 @@ class Signup extends Component {
                                             // disableSearchIcon={true}
                                             inputProps={
                                                 {
+                                                    id:"phonenumber-input",
                                                     required:true,
                                                     type:"phone-number",
-                                                    className:"form-control shadow-none",
-                                                    style:{width:"auto"}
+                                                    className:("form-control shadow-none".concat(this.state.isInvalid3?" not-valid":"")),
+                                                    style:{width:"inherit",borderRadius:"5px 0 0 5px"}
                                                 }
                                             }
                                         />
                                     </span>
                                 </div>
+                                {this.state.isInvalid3?
+                                <div >
+                                    <small id="passwordHelp" className="text-danger">
+                                        Must be 11 digit long.
+                                    </small>
+                                </div>:""}
                             </div>
                         </div>
                         <div className="form-group">
@@ -215,13 +286,22 @@ class Signup extends Component {
                                     </span>
                                 </div>
                                 <Form.Control
+                                    onChange={(event => this.setState({isValid4:validatePass(event.target.value)}))}
+                                    id={'pass-input'}
                                     className="form-control shadow-none"
                                     type="password" required
+                                    isValid={this.state.isValid4}
                                     isInvalid={this.state.isInvalid4}
                                     placeholder="Password"/>
                                 <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                    Password is insecure!
+                                    Must contain both upper and lower case letter and at least one digit!
                                 </Form.Control.Feedback>
+                                {!this.state.isValid4 && !this.state.isInvalid4?
+                                <div>
+                                    <small id="passwordHelp" className="text-info font-weight-bold" style={{lineHeight:"1"}}>
+                                        Must contain both upper and lower case letter and at least one digit.
+                                    </small>
+                                </div>:""}
                             </div>
                         </div>
                         <div className="form-group">
@@ -236,8 +316,11 @@ class Signup extends Component {
                                     </span>
                                 </div>
                                 <Form.Control
+                                    onChange={this.confirmPass}
+                                    id={'pass2-input'}
                                     className="form-control shadow-none"
-                                    type="confirm-password" required
+                                    type="password" required
+                                    isValid={this.state.isValid5}
                                     isInvalid={this.state.isInvalid5}
                                     placeholder="Confirm password"/>
                                 <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -277,7 +360,7 @@ class Signup extends Component {
             case 0:
                 return (
                     <button className="btn btn-outline-primary btn-lg" style={{"width": "100%"}}
-                            onClick={()=>this.emailValidation()}
+                            onClick={this.emailValidation}
                             disabled={this.state.loading}
                             type="button">
                         {this.state.loading?
@@ -348,18 +431,95 @@ class Signup extends Component {
     emailValidation()
     {
         this.setState({loading : true})
-        setTimeout(() => this.setState({loading : false,pageNum : 1,}), 1000);
+        let email = document.getElementById("email-input").value
+        if (!validateEmail(email))
+            return this.setState({loading : false,isInvalid1 :true })
+
+
+        setTimeout(() => this.setPage(1), 1000);
     }
 
     emailVerification()
     {
         this.setState({loading : true})
-        setTimeout(() => this.setState({loading : false,pageNum : 2,}), 1000);
+        let verify = document.getElementById("verify-input").value
+        if(String(verify).length!==5)
+            return this.setState({loading : false,isInvalid1 :true })
+
+
+        if (false)
+            return
+
+        setTimeout(() => this.setPage(2), 1000);
     }
 
     signup()
     {
+        this.setState({loading : true})
+        let isInvalid = false;
+        let firstname = document.getElementById("firstname-input").value
+        let lastname = document.getElementById("lastname-input").value
+        let phonenumber = document.getElementById("phonenumber-input").value
+        let pass = document.getElementById("pass-input").value
+        let pass2 = document.getElementById("pass2-input").value
+        if( firstname.length === 0)
+        {
+            this.setState({isInvalid1:true})
+            isInvalid = true
+        }
+        else
+            this.setState({isInvalid1:false})
+        if( lastname.length === 0)
+        {
+            this.setState({isInvalid2:true})
+            isInvalid = true
+        }
+        else
+            this.setState({isInvalid2:false})
+        console.log(phonenumber)
+        if( phonenumber.length === 0)
+        {
+            this.setState({isInvalid3:true})
+            isInvalid = true
+        }
+        else
+            this.setState({isInvalid3:false})
+        if( !this.state.terms)
+        {
+            this.setState({isInvalid6:true})
+            isInvalid = true
+        }
+        else
+            this.setState({isInvalid6:false})
+        if( !validatePass(pass) )
+        {
+            this.setState({isInvalid4:true})
+            isInvalid = true
+        }
+        else
+            this.setState({isInvalid4:false})
+        if( pass2 !== pass)
+        {
+            this.setState({isInvalid5:true})
+            isInvalid = true
+        }
+        else
+            this.setState({isInvalid5:false})
 
+
+        if (isInvalid)
+            return this.setState({loading : false})
+
+
+
+    }
+
+
+    confirmPass()
+    {
+        let pass = document.getElementById("pass-input").value
+        let pass2 = document.getElementById("pass2-input").value
+        this.setState({isValid5:(pass === pass2)})
     }
 
 
@@ -385,7 +545,7 @@ class Signup extends Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
+                    <form  novalidate>
                         {this.pageTop()}
 
 
@@ -396,8 +556,12 @@ class Signup extends Component {
                         {this.state.pageNum===2?
                         <div className="form-group pb-1" >
                             <div className="form-check">
-                                <Form.Check className="form-check-input"
-                                        onClick={()=>this.setState({terms:!this.state.terms})}
+                                <Form.Check className="form-check-input" style={{marginTop: "0"}}
+                                        onClick={()=>this.setState({
+                                            isInvalid6:(!this.state.terms?false:this.state.isInvalid6),
+                                            terms:!this.state.terms,
+
+                                        })}
                                         type="checkbox" id="formCheck-1" required checked={this.state.terms}
                                         feedback="You must agree before submitting."
                                         isInvalid={this.state.isInvalid6}/>

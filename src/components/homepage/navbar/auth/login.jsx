@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import './auth.css'
 import {Form, Modal, Spinner} from "react-bootstrap";
 import {Fragment} from "react";
-import Switch from "react-bootstrap/Switch";
-
+import {validateEmail,validatePass} from "../../../util";
 
 
 class Login extends Component {
@@ -54,27 +53,51 @@ class Login extends Component {
         if(!this.state.loading)
         {
             this.props.changeModal(authModal,modalOnLogin,email)
-            this.setState({pageNum:0,loading:false})
+            this.setState({pageNum:0,loading:false,email:null,isInvalid:false})
         }
 
     }
 
     setPage(pageNum)
     {
+        switch (this.state.pageNum)
+        {
+            case 0:
+                this.setState({
+                    email:document.getElementById("email-input").value,
+                    isInvalid:false,
+                    loading:false
+                })
+                document.getElementById("email-input").value = ""
+                break;
+            case 1:
+                document.getElementById("pass-input").value = this.state.email
+                this.setState({isInvalid:false,loading:false})
+                break;
+            default:
+                break;
+        }
         this.setState({pageNum})
     }
 
     emailValidation()
     {
+        let email = document.getElementById("email-input").value
         this.setState({loading : true})
-        setTimeout(() => this.setState({loading : false,pageNum : 1,}), 1000);
+        if (!validateEmail(email))
+            return this.setState({loading : false,isInvalid :true })
+
+
+        setTimeout(() => this.setPage(1), 1000);
+
+
     }
 
 
 
     login()
     {
-        // this.setPage(2)
+        // let pass = document.getElementById("email-input").value
     }
 
     render() {
@@ -133,16 +156,18 @@ class Login extends Component {
                                     {this.state.pageNum<1?
                                     <Fragment>
                                         <Form.Control
+                                                id={"email-input"}
                                                 className="form-control shadow-none"
                                                 type="email" required
-                                                isInvalid={this.state.isInvalid1}
+                                                isInvalid={this.state.isInvalid}
                                                 placeholder="Email"/>
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                            Email is invalid!
+                                            Email is not valid!
                                         </Form.Control.Feedback>
                                     </Fragment>:
                                     <Fragment>
                                         <Form.Control
+                                                id={"pass-input"}
                                                 className="form-control shadow-none"
                                                 type="password" required
                                                 isInvalid={this.state.isInvalid}
