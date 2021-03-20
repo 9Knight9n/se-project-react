@@ -82,8 +82,8 @@ class Login extends Component {
 
     emailValidation()
     {
-        let email = document.getElementById("email-input").value
         this.setState({loading : true})
+        let email = document.getElementById("email-input").value
         if (!validateEmail(email))
             return this.setState({loading : false,isInvalid :true })
 
@@ -97,7 +97,13 @@ class Login extends Component {
 
     login()
     {
-        // let pass = document.getElementById("email-input").value
+        this.setState({loading : true})
+        let pass = document.getElementById("pass-input").value
+        if(!validatePass(pass))
+            return setTimeout(() => this.setState({loading : false,isInvalid:true}), 500);
+
+
+
     }
 
     render() {
@@ -156,6 +162,10 @@ class Login extends Component {
                                     {this.state.pageNum<1?
                                     <Fragment>
                                         <Form.Control
+                                                onChange={
+                                                    event => (
+                                                        validateEmail(event.target.value) && this.state.isInvalid
+                                                            ?this.setState({isInvalid:false}):"")}
                                                 id={"email-input"}
                                                 className="form-control shadow-none"
                                                 type="email" required
@@ -167,6 +177,9 @@ class Login extends Component {
                                     </Fragment>:
                                     <Fragment>
                                         <Form.Control
+                                                onChange={
+                                                    () => (this.state.isInvalid?
+                                                        this.setState({isInvalid:false}):"")}
                                                 id={"pass-input"}
                                                 className="form-control shadow-none"
                                                 type="password" required
