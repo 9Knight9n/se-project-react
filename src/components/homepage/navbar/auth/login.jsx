@@ -12,6 +12,7 @@ class Login extends Component {
         this.login = this.login.bind(this);
         this.exit = this.exit.bind(this);
         this.setPage = this.setPage.bind(this);
+
     }
 
     state = {
@@ -20,13 +21,33 @@ class Login extends Component {
         email : null,
         isInvalid:false,
     }
+
+    componentDidMount()
+    {
+        if (this.props.email)
+        {
+            document.getElementById("email-input").value = this.props.email
+            this.emailValidation()
+        }
+    }
+
+    // componentDidUpdate(prevProps) {
+    //     console.log(this.props)
+    //     if (prevProps.email !== this.props.email)
+    //     {
+    //         if (this.props.email)
+    //         {
+    //             document.getElementById("email-input").value = this.props.email
+    //             this.emailValidation()
+    //         }
+    //     }
+    // }
+
+
     // componentWillMount() {
     //
     // }
     //
-    // componentDidMount() {
-    //
-    // }
     //
     // componentWillReceiveProps(nextProps) {
     //
@@ -40,9 +61,6 @@ class Login extends Component {
     //
     // }
     //
-    // componentDidUpdate(prevProps, prevState) {
-    //
-    // }
     //
     // componentWillUnmount() {
     //
@@ -52,8 +70,8 @@ class Login extends Component {
     {
         if(!this.state.loading)
         {
-            this.props.changeModal(authModal,modalOnLogin,email)
             this.setState({pageNum:0,loading:false,email:null,isInvalid:false})
+            this.props.changeModal(authModal,modalOnLogin,email)
         }
 
     }
@@ -74,6 +92,9 @@ class Login extends Component {
                 document.getElementById("pass-input").value = this.state.email
                 this.setState({isInvalid:false,loading:false})
                 break;
+            case 2:
+                this.setState({email:null})
+                break;
             default:
                 break;
         }
@@ -86,6 +107,7 @@ class Login extends Component {
         let email = document.getElementById("email-input").value
         if (!validateEmail(email))
             return this.setState({loading : false,isInvalid :true })
+
 
 
         setTimeout(() => this.setPage(1), 1000);
@@ -277,7 +299,7 @@ class Login extends Component {
                                 Don&#39;t have an account?
                                 <a className="text-decoration-none"
                                     href="#"
-                                    onClick={()=>this.exit(true,false)}>
+                                    onClick={()=>this.exit(true,false,null)}>
                                     Sign Up
                                 </a>
                             </Fragment>}

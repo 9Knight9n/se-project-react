@@ -22,10 +22,11 @@ class Signup extends Component {
         this.signup = this.signup.bind(this);
         this.confirmPass = this.confirmPass.bind(this);
         this.checkPass = this.checkPass.bind(this);
+
     }
 
     state = {
-        pageNum:2,
+        pageNum:0,
         loading:false,
         terms:false,
         email:null,
@@ -40,13 +41,39 @@ class Signup extends Component {
         isInvalid6:false,
     }
 
+    componentDidMount()
+    {
+        if (this.props.email)
+        {
+            console.log(this.props.email)
+            document.getElementById("email-input").value = this.props.email
+            this.emailValidation()
+        }
+    }
+
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.email !== this.props.email)
+    //     {
+    //         if (this.props.email)
+    //         {
+    //             console.log(this.props.email)
+    //             document.getElementById("email-input").value = this.props.email
+    //             console.log(document.getElementById("email-input"))
+    //             console.log(document.getElementById("email-input").value)
+    //             this.forceUpdate()
+    //             // this.emailValidation()
+    //         }
+    //     }
+    //     if(this.state.pageNum===0 && this.state.email)
+    //         document.getElementById("email-input").value = this.state.email
+    // }
+
+
+
     // componentWillMount() {
     //
     // }
     //
-    // componentDidMount() {
-    //
-    // }
     //
     // componentWillReceiveProps(nextProps) {
     //
@@ -60,9 +87,6 @@ class Signup extends Component {
     //
     // }
     //
-    // componentDidUpdate(prevProps, prevState) {
-    //
-    // }
     //
     // componentWillUnmount() {
     //
@@ -159,10 +183,10 @@ class Signup extends Component {
                                 type="email"
                                 required
                                 isInvalid={this.state.isInvalid1}
-                               placeholder="Email"/>
-                               <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                   Email is invalid!
-                               </Form.Control.Feedback>
+                                placeholder="Email"/>
+                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                    Email is invalid!
+                                </Form.Control.Feedback>
                         </div>
                     </div>
                 )
@@ -432,7 +456,7 @@ class Signup extends Component {
                             <button className="btn btn-primary btn-lg text-white "
                                 style={{"width": "100%"}}
                                 type="button"
-                                onClick={()=>this.exit(true,false,this.state.email)}>
+                                onClick={()=>this.exit(true,true,this.state.email)}>
                                 Sign in
                             </button>
                         </div>
@@ -456,6 +480,7 @@ class Signup extends Component {
 
     emailVerification()
     {
+        console.log(this.state.email)
         this.setState({loading : true})
         let verify = document.getElementById("verify-input").value
         if(String(verify).length!==VERIFY_LENGTH)

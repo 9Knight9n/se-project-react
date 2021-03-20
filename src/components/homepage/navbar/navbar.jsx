@@ -83,13 +83,13 @@ class Navbar extends Component {
                     </div>
                 </nav>
 
+                {(this.state.authModal && this.state.modalOnLogin) ?
+                <Login show={true}
+                        changeModal={this.changeModal} email={this.state.email}/>:""}
 
-                <Login show={this.state.authModal && this.state.modalOnLogin}
-                        changeModal={this.changeModal}/>
-
-
-                <Signup show={this.state.authModal && !this.state.modalOnLogin}
-                        changeModal={this.changeModal}/>
+                {(this.state.authModal && !this.state.modalOnLogin)?
+                <Signup show={true}
+                        changeModal={this.changeModal} email={this.state.email}/>:""}
             </Fragment>
         );
     }
