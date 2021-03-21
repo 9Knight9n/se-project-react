@@ -1,7 +1,7 @@
 /*bg color css*/
 .pro-sidebar {
   color: black !important;
-  width: 100% !important;
+  position: relative;
 }
 .pro-sidebar .pro-menu a {
   color: black !important;
@@ -11,6 +11,14 @@
   border-radius: 8px;
 }
 .pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  background-color: rgb(172, 172, 172) !important;
+}
+.pro-sidebar.collapsed
+  .pro-menu
+  > ul
+  > .pro-menu-item.pro-sub-menu
+  > .pro-inner-list-item
+  > .popper-inner {
   background-color: rgb(172, 172, 172) !important;
 }
 /*arrow css*/

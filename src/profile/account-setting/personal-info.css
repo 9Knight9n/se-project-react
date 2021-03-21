@@ -46,16 +46,31 @@
 }
 
 .personalInfo-line {
-  width: 94%;
+  min-width: 50%;
+  max-width: 94%;
 }
 
 .personalInfo-textAreaCounter {
   color: #7e828d;
-  width: 10%;
-  position: absolute;
-  margin-top: -3%;
-  margin-left: 59%;
+  border-radius: 0px 0px 4px 4px;
+  min-width: 50%;
+  height: 4vh;
+  margin-left: 17%;
+  margin-right: 33%;
+  background-color: #e3e2e2;
   font-size: 13px;
+  display: block;
+  margin-top: -1%;
+}
+
+.personalInfo-Counter {
+  min-width: 30%;
+  margin-left: 75%;
+}
+
+.personalInfo-bioField textarea {
+  min-width: 50%;
+  min-height: 15vh;
 }
 
 /*phone component input*/

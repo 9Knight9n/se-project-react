@@ -63,6 +63,7 @@ class PersonalInfo extends Component {
                             <BsPeopleCircle />
                         </div>
                     </IconContext.Provider>
+                    
                 </div>
 
                 <hr className="personalInfo-line"/>
@@ -171,15 +172,17 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-bioField">
                             <label for="bio">Bio :</label>
-                            <textarea id="ptextArea" name="bio" className="bio" value={this.state.bio} onChange={this.handleChange} maxlength="175" rows="4" cols="66">
+                            <textarea id="ptextArea" name="bio" className="bio" value={this.state.bio} onChange={this.handleChange} maxlength="175">
                                     
                             </textarea>
                             <div className="personalInfo-textAreaCounter">
+                                <div className="personalInfo-Counter">
                                     {this.state.pageCount} of 175
+                                </div>
                             </div>
                         </div>
                         <div className="personalInfo-btn mb-2 mt-2 row">
-                            <div className="submitBtn col">
+                            <div className="submitBtn mb-2 col">
                                 <button>Submit</button>
                             </div>
                             <div className="cancelBtn col">

@@ -7,6 +7,7 @@ import { AiOutlineIdcard } from "react-icons/ai";
 import { AiOutlineHome } from "react-icons/ai";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { IoMdHelpCircleOutline } from "react-icons/io";
+import { IoMenuSharp } from "react-icons/io5";
 import { FaRegHandshake } from "react-icons/fa";
 import PersonalInfo from './account-setting/personal-info';
 import PaymentsPayouts from './account-setting/payments-payouts';
@@ -36,6 +37,7 @@ class MainPage extends Component {
             activeUpdatePass: false,
             activeConnectedApps: false,
             collapsed: false,
+            windowWidth: window.innerWidth,
         }; 
 
     }
@@ -62,6 +64,28 @@ class MainPage extends Component {
     //   }
 
 
+    componentDidMount (){
+        window.addEventListener("resize", this.handleResize);
+    }
+      
+    componentWillUnmount (){
+        window.addEventListener("resize", this.handleResize);
+    }
+
+    handleMenu = () =>{
+        this.setState({
+            collapsed: !this.state.collapsed,
+        })
+    }
+
+    handleResize = () =>{
+        console.log(this.state.windowWidth)
+        if (this.state.windowWidth >= 768) {
+            this.setState({collapsed:true})
+        }else{
+            this.setState({collapsed:false})
+        }
+    }
 
     handleActivation = (b) =>{
         if (b === 1) {
@@ -213,6 +237,8 @@ class MainPage extends Component {
 
     }
 
+
+
     // handleCollapsed = () =>{
     //     this.setState({
     //         collapsed: !this.state.collapsed,
@@ -227,10 +253,10 @@ class MainPage extends Component {
                     hi this is navbar
                 </div>
                 <div className="setting-main row">
-                    <div className="setting-left col-3">
-                        <ProSidebar collapsed={this.state.collapsed} className="setting-sideBar">
+                    <div className="setting-left col-lg-4 col-sm-2 col-xs-1">
+                        <ProSidebar width="inherit" collapsed={this.state.collapsed} className="setting-sideBar">
                             <SidebarHeader>
-                                <h4 className="d-flex justify-content-center">Settings</h4>
+                                <h4 onClick={this.handleMenu} className="d-flex justify-content-center"> Setting </h4>
                                 {/* <button onClick={this.handleCollapsed}>close</button> */}
                             </SidebarHeader>
                             <SidebarContent>
@@ -299,7 +325,7 @@ class MainPage extends Component {
 
                     </div>
 
-                    <div className="setting-center col-9">
+                    <div className="setting-center col-lg-8 col-sm-10 col-xs-11">
                      
                             <Route
                                 exact
