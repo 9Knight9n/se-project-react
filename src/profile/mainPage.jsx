@@ -14,6 +14,7 @@ import PaymentsPayouts from './account-setting/payments-payouts';
 import Notfications from './account-setting/notifications';
 import Temp from './account-setting/temp';
 import Terms from './account-setting/term&conditions';
+import Help from './account-setting/help'
 import { 
     BrowserRouter as Router, 
     Route, 
@@ -248,12 +249,12 @@ class MainPage extends Component {
     render() { 
         return ( 
             <Router>
-            <div className="container m-0">
+            <div className="setting container m-0">
                 <div className="setting-navbar">
                     hi this is navbar
                 </div>
                 <div className="setting-main row">
-                    <div className="setting-left col-lg-4 col-sm-2 col-xs-1">
+                    <div className="setting-left justify-content-start col-lg-4 col-sm-2 col-xs-1">
                         <ProSidebar width="inherit" collapsed={this.state.collapsed} className="setting-sideBar">
                             <SidebarHeader>
                                 <h4 onClick={this.handleMenu} className="d-flex justify-content-center"> Setting </h4>
@@ -325,7 +326,7 @@ class MainPage extends Component {
 
                     </div>
 
-                    <div className="setting-center col-lg-8 col-sm-10 col-xs-11">
+                    <div className="setting-center flex justify-content-center col-lg-8 col-sm-10 col-xs-11">
                      
                             <Route
                                 exact
@@ -360,7 +361,7 @@ class MainPage extends Component {
                                 <Temp />
                             </Route>
                             <Route exact path="/help">
-                                <Temp />
+                                <Help />
                             </Route>
                             <Route exact path="/terms">
                                 <Terms />
