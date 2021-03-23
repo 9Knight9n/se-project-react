@@ -3,6 +3,7 @@ import Card from '../cardBox';
 import travelImg from '../img/travel.png';
 import hostingImg from '../img/villa.png';
 import cookingImg from '../img/cooking.png';
+import './help.css'
 class Help extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +24,45 @@ class Help extends Component {
                     <div className="col mt-4">
                         <Card title="Hosting experiences" img={cookingImg} />
                     </div>
-                    
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
+                    <div className="col mt-4">
+                        <Card title="Hosting experiences" img={cookingImg} />
+                    </div>
                 </div>
                 
             </div>
