@@ -25,6 +25,8 @@ class PersonalInfo extends Component {
             email: "",
             emailValidationError: false,
             firstNameValidationError: false,
+            lastNameValidationError: false,
+            phoneValidationError: false,
         }; 
 
     }
@@ -32,9 +34,22 @@ class PersonalInfo extends Component {
 
 
     handleSubmit = () =>{
-        if (!this.emailValidation()){
-            this.setState({emailSignUp:"" , emailValidationError: true});
+        if (this.state.email.length === 0 || !this.emailValidation()) {
+
+            this.setState({emailValidationError: true});
             return(this.state.emailValidationError)
+        }
+        if (this.state.firstName.length === 0) {
+            this.setState({firstNameValidationError: true});
+            return(this.state.firstNameValidationError)
+        }
+        if (this.state.lastName.length === 0) {
+            this.setState({lastNameValidationError: true});
+            return(this.state.lastNameValidationError)
+        }
+        if (this.state.phoneNum.length === 0) {
+            this.setState({phoneValidationError: true});
+            return(this.state.phoneValidationError)
         }
     }
 
@@ -59,16 +74,6 @@ class PersonalInfo extends Component {
          let unitCount = Math.round(characterCount/charsPerPageCount);
          this.setState({pageCount: unitCount});
         }
-        if(name === "firstName" && value.length === 0){
-            this.setState({
-                firstNameValidationError: true,
-            });
-        }
-        if(name === "firstName" && value.length !== 0){
-            this.setState({
-                firstNameValidationError: false,
-            });
-        }
    }
 
     render() { 
@@ -84,7 +89,7 @@ class PersonalInfo extends Component {
                 </div>
 
                 <hr className="personalInfo-line"/>
-                <form class="row g-3 needs-validation" novalidate>
+                <form className="row g-3 needs-validation" novalidate>
                     <div className="personalInfo-form w-100 ml-4 mt-4">
                         <div className="firstName mb-2">
                                 <label className="form-label" for="personalInfo-firstName">First Name :</label>
@@ -106,12 +111,14 @@ class PersonalInfo extends Component {
                         <div className="personalInfo-lastName mb-2">
                                 <label className="form-label" for="personalInfo-lastName">Last Name :</label>
                                 <input className="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} id="personalInfo-lastName" required/>
-                                <div className="valid-feedback">
+                                {this.state.lastNameValidationError? 
+                                    <div className="invalid-feedback">
+                                    Please enter your lastName
+                                    </div>:
+                                    <div className="valid-feedback">
                                     Looks good!
-                                </div>
-                                <div className="invalid-feedback">
-                                    Please enter your lasrName
-                                </div>
+                                    </div>
+                                }
                         </div>
 
                         <hr className="personalInfo-line mb-2"/>
@@ -119,12 +126,6 @@ class PersonalInfo extends Component {
                         <div className="personalInfo-nationalId">
                             <label className="form-label" for="personalInfo-nationalId">National Code :</label>
                             <input className="form-control" name="nationalId" value={this.state.nationalId} onChange={this.handleChange} id="personalInfo-nationalId" required/>
-                            <div className="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div className="invalid-feedback">
-                                    Please enter your National code
-                            </div>
                         </div>
 
                         <hr className="personalInfo-line"/>
@@ -136,12 +137,6 @@ class PersonalInfo extends Component {
                                 <option>Female</option>
                                 <option>Other</option>
                             </select>
-                            <div className="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div className="invalid-feedback">
-                                Please select your Gender
-                            </div>
                         </div>
 
                         <hr className="personalInfo-line"/>
@@ -175,12 +170,15 @@ class PersonalInfo extends Component {
                             className="form-control"
                             />
                             </div>
-                            <div class="valid-feedback">
+                            {this.state.phoneValidationError ?
+                                <div class="valid-feedback">
                                 Looks good!
-                            </div>
-                            <div class="invalid-feedback">
+                                </div>:
+                                <div class="invalid-feedback">
                                 Please enter your phone number
-                            </div>
+                                </div>
+                            }
+  
                             {/* <input name="phoneNum" value={this.state.phoneNum} onChange={this.handleChange} id="phone" /> */}
 
                         </div>
