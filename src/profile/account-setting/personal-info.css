@@ -17,6 +17,11 @@
   font-family: Arial, Helvetica, Sans-serif;
   resize: none;
   color: black;
+  width: 50%;
+}
+
+.personalInfo-bioField {
+  width: 100%;
 }
 
 .personalInfo-form textarea:focus {
@@ -51,26 +56,15 @@
 }
 
 .personalInfo-textAreaCounter {
-  color: #7e828d;
-  border-radius: 0px 0px 4px 4px;
-  min-width: 50%;
-  height: 4vh;
-  margin-left: 17%;
-  margin-right: 33%;
-  background-color: #e3e2e2;
-  font-size: 13px;
-  display: block;
-  margin-top: -1%;
-}
-
-.personalInfo-Counter {
-  min-width: 30%;
-  margin-left: 75%;
+  position: relative;
+  z-index: 1004;
+  margin-top: -3%;
+  margin-left: 55%;
 }
 
 .personalInfo-bioField textarea {
   min-width: 50%;
-  min-height: 15vh;
+  min-height: 20vh;
 }
 
 /*phone component input*/
@@ -118,4 +112,16 @@
   background-color: #8b8b8b;
   margin-left: 2%;
   width: 90%;
+}
+
+/*date selector css*/
+.dateOfBirth-field {
+  margin-left: 17% !important;
+  width: 98%;
+}
+.MuiInput-underline:before {
+  border-bottom: 0px !important;
+}
+.MuiInput-underline:after {
+  border-bottom: 0px !important;
 }
