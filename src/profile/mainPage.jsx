@@ -38,7 +38,6 @@ class MainPage extends Component {
             activeUpdatePass: false,
             activeConnectedApps: false,
             collapsed: false,
-            windowWidth: window.innerWidth,
         }; 
 
     }

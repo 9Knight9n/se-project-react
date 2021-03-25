@@ -8,7 +8,9 @@ import * as EmailValidator from 'email-validator';
 import "react-datepicker/dist/react-datepicker.css";
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
- 
+import {Form, Modal, Spinner} from "react-bootstrap";
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 class PersonalInfo extends Component {
     constructor(props) {
         super(props);
@@ -27,6 +29,7 @@ class PersonalInfo extends Component {
             firstNameValidationError: false,
             lastNameValidationError: false,
             phoneValidationError: false,
+            invalidPhoneNum: false,
         }; 
 
     }
@@ -34,6 +37,9 @@ class PersonalInfo extends Component {
 
 
     handleSubmit = () =>{
+        if (isPossiblePhoneNumber(this.state.phoneNum) === true  && isValidPhoneNumber(this.state.phoneNum)) {
+
+        }
         if (this.state.email.length === 0 || !this.emailValidation()) {
 
             this.setState({emailValidationError: true});
@@ -88,44 +94,103 @@ class PersonalInfo extends Component {
                     
                 </div>
 
+                {/* <Form>
+                    <div className="form-group">
+                        <div className="input-group">
+                            <div className="input-group-prepend">
+                                <span className="text-primary input-group-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
+                                        <path
+                                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                                    </svg>
+                                </span>
+                            </div>
+                            <Form.Control
+                                id={"email-input"}
+                                className="form-control shadow-none"
+                                type="email"
+                                required
+                                isInvalid={true}
+                                placeholder="Email"/>
+                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                    Email is invalid!
+                                </Form.Control.Feedback>
+                        </div>
+                    </div>
+                </Form> */}
+
                 <hr className="personalInfo-line"/>
                 <form className="row g-3 needs-validation" novalidate>
                     <div className="personalInfo-form w-100 ml-4 mt-4">
-                        <div className="firstName mb-2">
-                                <label className="form-label" for="personalInfo-firstName">First Name :</label>
-                                <input className="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} id="personalInfo-firstName" required/>
-                                {this.state.firstNameValidationError? 
-                                    <div className="invalid-feedback">
-                                    Please enter your firstName
-                                    </div>:
-                                    <div className="valid-feedback">
-                                    Looks good!
+                        <div className="firstName mb-2 row">
+                                <label className="form-label col-2" for="personalInfo-firstName">First Name :</label>
+                                <div className="form-group col-10">
+                                    <div className="input-group">
+                                        <Form.Control
+                                            onChange={this.handleChange}
+                                            id="personalInfo-firstName"
+                                            className="form-control shadow-none"
+                                            type="text"
+                                            required
+                                            name="firstName"
+                                            value={this.state.firstName}
+                                            isInvalid={true}
+                                            />
+                                            <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                Email is invalid!
+                                            </Form.Control.Feedback>
                                     </div>
-                                }
+                                </div>
+                                {/* <input className="form-control" name="firstName" value={this.state.firstName} onChange={this.handleChange} id="personalInfo-firstName" required/> */}
 
 
                         </div>
 
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-lastName mb-2">
-                                <label className="form-label" for="personalInfo-lastName">Last Name :</label>
-                                <input className="form-control" name="lastName" value={this.state.lastName} onChange={this.handleChange} id="personalInfo-lastName" required/>
-                                {this.state.lastNameValidationError? 
-                                    <div className="invalid-feedback">
-                                    Please enter your lastName
-                                    </div>:
-                                    <div className="valid-feedback">
-                                    Looks good!
+                        <div className="personalInfo-lastName mb-2 row">
+                                <label className="form-label col-md-2 col-sm-1" for="personalInfo-lastName">Last Name :</label>
+                                <div className="form-group col-md-10 col-sm-11">
+                                    <div className="input-group">
+                                        <Form.Control
+                                            onChange={this.handleChange}
+                                            id="personalInfo-lastName"
+                                            className="form-control shadow-none"
+                                            type="text"
+                                            required
+                                            name="lastName"
+                                            value={this.state.lastName}
+                                            isInvalid={true}
+                                            />
+                                            <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                Email is invalid!
+                                            </Form.Control.Feedback>
                                     </div>
-                                }
+                                </div>
                         </div>
 
                         <hr className="personalInfo-line mb-2"/>
 
-                        <div className="personalInfo-nationalId">
-                            <label className="form-label" for="personalInfo-nationalId">National Code :</label>
-                            <input className="form-control" name="nationalId" value={this.state.nationalId} onChange={this.handleChange} id="personalInfo-nationalId" required/>
+                        <div className="personalInfo-nationalId row">
+                            <label className="form-label col-md-2 col-sm-1" for="personalInfo-nationalId">National Code :</label>
+                                <div className="form-group col-md-10 col-sm-11">
+                                    <div className="input-group">
+                                        <Form.Control
+                                            onChange={this.handleChange}
+                                            id="personalInfo-nationalId"
+                                            className="form-control shadow-none"
+                                            type="text"
+                                            required
+                                            name="nationalId"
+                                            value={this.state.nationalId}
+                                            isInvalid={false}
+                                            />
+                                            <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                Email is invalid!
+                                            </Form.Control.Feedback>
+                                    </div>
+                                </div>
                         </div>
 
                         <hr className="personalInfo-line"/>
@@ -160,42 +225,61 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line"/>
 
                         <div className="personalInfo-phoneNum mb-2 row">
-                            <label for="personalInfo-phoneNum" className="form-label col-2">Phone Number :</label>
-                            <div className="col-8">
-                            <PhoneInput
-                            id="personalInfo-phoneNum"
-                            country={'us'}
-                            onChange={phone => this.setState({ phoneNum: phone })}
-                            required
-                            className="form-control"
-                            />
-                            </div>
-                            {this.state.phoneValidationError ?
-                                <div class="valid-feedback">
-                                Looks good!
-                                </div>:
-                                <div class="invalid-feedback">
-                                Please enter your phone number
+                            <label for="personalInfo-phoneNum" className="form-label col-md-2 col-sm-1">Phone Number :</label>
+                            <div className="form-group col-md-10 col-sm-11">
+                                <div className="input-group">
+                                    <div className="input-group-prepend" style={{width:"inherit"}}>
+                                        <span className="input-group-btn">
+                                            <PhoneInput
+                                                onChange={this.handleChange}
+                                                country="us"
+                                                // country={'ir'}
+                                                // enableSearch={true}
+                                                // disableSearchIcon={true}
+                                                value={this.state.phoneNum}
+                                                inputProps={
+                                                    {
+                                                        id:"phonenumber-input",
+                                                        required:true,
+                                                        type:"phone-number",
+                                                        className:("form-control shadow-none".concat(this.state.isInvalid3?" not-valid":"")),
+                                                        style:{width:"inherit",borderRadius:"5px 0 0 5px"},
+                                                        name:"phoneNum",
+                                                    }
+                                                }
+                                            />
+                                        </span>
+                                    </div>
+                                    {this.state.invalidPhoneNum?
+                                    <div >
+                                        <small id="passwordHelp" className="text-danger">
+                                            Must be 11 digit long.
+                                        </small>
+                                    </div>:""}
                                 </div>
-                            }
-  
-                            {/* <input name="phoneNum" value={this.state.phoneNum} onChange={this.handleChange} id="phone" /> */}
-
+                            </div>
                         </div>
-
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-emailId mb-2">
-                            <label for="personalInfo-emailId" className="form-label">Email :</label>
-                            <input name="email" value={this.state.email} onChange={this.handleChange} className="form-control" id="personalInfo-emailId" required/>
-                            {this.state.emailValidationError? 
-                                <div className="invalid-feedback">
-                                Please enter valid email
-                                </div> :
-                                <div className="valid-feedback">
-                                Looks good!
+                        <div className="personalInfo-emailId row mb-2">
+                            <label for="personalInfo-emailId" className="form-label col-md-2 col-sm-1">Email :</label>
+                                <div className="form-group col-md-10 col-sm-11">
+                                    <div className="input-group">
+                                        <Form.Control
+                                            onChange={this.handleChange}
+                                            id="personalInfo-emailId"
+                                            className="form-control shadow-none"
+                                            type="text"
+                                            required
+                                            name="email"
+                                            value={this.state.email}
+                                            isInvalid={true}
+                                            />
+                                            <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                Email is invalid!
+                                            </Form.Control.Feedback>
+                                    </div>
                                 </div>
-                            }
 
 
                             {/* <div>
