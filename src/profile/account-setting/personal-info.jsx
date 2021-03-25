@@ -38,24 +38,21 @@ class PersonalInfo extends Component {
 
     handleSubmit = () =>{
         if (isPossiblePhoneNumber(this.state.phoneNum) === true  && isValidPhoneNumber(this.state.phoneNum)) {
-
+            this.setState({
+                invalidPhoneNum: true,
+            })
         }
         if (this.state.email.length === 0 || !this.emailValidation()) {
-
             this.setState({emailValidationError: true});
-            return(this.state.emailValidationError)
         }
-        if (this.state.firstName.length === 0) {
+        if (this.state.firstName === null) {
             this.setState({firstNameValidationError: true});
-            return(this.state.firstNameValidationError)
         }
-        if (this.state.lastName.length === 0) {
+        if (this.state.lastName === null) {
             this.setState({lastNameValidationError: true});
-            return(this.state.lastNameValidationError)
         }
-        if (this.state.phoneNum.length === 0) {
+        if (this.state.phoneNum === null) {
             this.setState({phoneValidationError: true});
-            return(this.state.phoneValidationError)
         }
     }
 
@@ -123,7 +120,7 @@ class PersonalInfo extends Component {
                 <hr className="personalInfo-line"/>
                 <form className="row g-3 needs-validation" novalidate>
                     <div className="personalInfo-form w-100 ml-4 mt-4">
-                        <div className="firstName mb-2 row">
+                        <div className="firstName row">
                                 <label className="form-label col-2" for="personalInfo-firstName">First Name :</label>
                                 <div className="form-group col-10">
                                     <div className="input-group">
@@ -135,10 +132,10 @@ class PersonalInfo extends Component {
                                             required
                                             name="firstName"
                                             value={this.state.firstName}
-                                            isInvalid={true}
+                                            isInvalid={this.state.firstNameValidationError}
                                             />
                                             <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                                Email is invalid!
+                                            You must enter your first name!
                                             </Form.Control.Feedback>
                                     </div>
                                 </div>
@@ -149,7 +146,7 @@ class PersonalInfo extends Component {
 
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-lastName mb-2 row">
+                        <div className="personalInfo-lastName row">
                                 <label className="form-label col-md-2 col-sm-1" for="personalInfo-lastName">Last Name :</label>
                                 <div className="form-group col-md-10 col-sm-11">
                                     <div className="input-group">
@@ -161,16 +158,16 @@ class PersonalInfo extends Component {
                                             required
                                             name="lastName"
                                             value={this.state.lastName}
-                                            isInvalid={true}
+                                            isInvalid={this.state.lastNameValidationError}
                                             />
                                             <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                                Email is invalid!
+                                                You must enter your last name!
                                             </Form.Control.Feedback>
                                     </div>
                                 </div>
                         </div>
 
-                        <hr className="personalInfo-line mb-2"/>
+                        <hr className="personalInfo-line "/>
 
                         <div className="personalInfo-nationalId row">
                             <label className="form-label col-md-2 col-sm-1" for="personalInfo-nationalId">National Code :</label>
@@ -187,7 +184,7 @@ class PersonalInfo extends Component {
                                             isInvalid={false}
                                             />
                                             <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                                Email is invalid!
+                                                national id is invalid!
                                             </Form.Control.Feedback>
                                     </div>
                                 </div>
@@ -195,7 +192,7 @@ class PersonalInfo extends Component {
 
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-Gender mb-2">
+                        <div className="personalInfo-Gender ">
                             <label className="form-label" for="personalInfo-Gender">Gender :</label>
                             <select className="form-select" name="gender" value={this.state.gender} onChange={this.handleChange} id="personalInfo-Gender" required>
                                 <option>Male</option>
@@ -206,7 +203,7 @@ class PersonalInfo extends Component {
 
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-dateOfBirth mb-2">
+                        <div className="personalInfo-dateOfBirth ">
                             <label className="form-label" for="date">Date Of Birth :</label>
                             <form noValidate>
                                 <TextField
@@ -224,12 +221,12 @@ class PersonalInfo extends Component {
 
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-phoneNum mb-2 row">
+                        <div className="personalInfo-phoneNum  row">
                             <label for="personalInfo-phoneNum" className="form-label col-md-2 col-sm-1">Phone Number :</label>
                             <div className="form-group col-md-10 col-sm-11">
                                 <div className="input-group">
                                     <div className="input-group-prepend" style={{width:"inherit"}}>
-                                        <span className="input-group-btn">
+                                        <span className={"input-group-btn".concat(this.state.invalidPhoneNum?" flag-warn":"")}>
                                             <PhoneInput
                                                 onChange={this.handleChange}
                                                 country="us"
@@ -242,8 +239,8 @@ class PersonalInfo extends Component {
                                                         id:"phonenumber-input",
                                                         required:true,
                                                         type:"phone-number",
-                                                        className:("form-control shadow-none".concat(this.state.isInvalid3?" not-valid":"")),
-                                                        style:{width:"inherit",borderRadius:"5px 0 0 5px"},
+                                                        className:("form-control shadow-none".concat(this.state.invalidPhoneNum?" not-valid":"")),
+                                                        style:{width:"inherit"},
                                                         name:"phoneNum",
                                                     }
                                                 }
@@ -253,7 +250,7 @@ class PersonalInfo extends Component {
                                     {this.state.invalidPhoneNum?
                                     <div >
                                         <small id="passwordHelp" className="text-danger">
-                                            Must be 11 digit long.
+                                            Phone number is invalid!
                                         </small>
                                     </div>:""}
                                 </div>
@@ -261,7 +258,7 @@ class PersonalInfo extends Component {
                         </div>
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-emailId row mb-2">
+                        <div className="personalInfo-emailId row ">
                             <label for="personalInfo-emailId" className="form-label col-md-2 col-sm-1">Email :</label>
                                 <div className="form-group col-md-10 col-sm-11">
                                     <div className="input-group">
@@ -273,7 +270,7 @@ class PersonalInfo extends Component {
                                             required
                                             name="email"
                                             value={this.state.email}
-                                            isInvalid={true}
+                                            isInvalid={this.state.emailValidationError}
                                             />
                                             <Form.Control.Feedback type="invalid" className={"ml-1"}>
                                                 Email is invalid!
