@@ -16,52 +16,13 @@ class Help extends Component {
                 <h3>Hi, How can we help you ?</h3>
                 <div className="help-card mt-4 row">
                     <div className="col mt-4">
-                        <Card title="Booking and traveling" img={travelImg} />
+                        <Card text="Learn how to book and rent a palce for your travel." title="Booking and traveling" img={travelImg} />
                     </div>
                     <div className="col mt-4">
-                        <Card title="Hosting stays" img={hostingImg} />
+                        <Card text="Learn how to use Airbnb for having income from your useless space." title="Hosting stays" img={hostingImg} />
                     </div>
                     <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
-                    </div>
-                    <div className="col mt-4">
-                        <Card title="Hosting experiences" img={cookingImg} />
+                        <Card text="Learn how to host an exprience with your friends." title="Hosting experiences" img={cookingImg} />
                     </div>
                 </div>
                 

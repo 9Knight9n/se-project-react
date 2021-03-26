@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import {Form, Modal, Spinner} from "react-bootstrap";
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import {validateEmail} from '../../utill/util';
 class PersonalInfo extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +29,6 @@ class PersonalInfo extends Component {
             emailValidationError: false,
             firstNameValidationError: false,
             lastNameValidationError: false,
-            phoneValidationError: false,
             invalidPhoneNum: false,
         }; 
 
@@ -42,24 +42,22 @@ class PersonalInfo extends Component {
                 invalidPhoneNum: true,
             })
         }
-        if (this.state.email.length === 0 || !this.emailValidation()) {
+        console.log("hi: " + this.state.email)
+        if (validateEmail(this.state.email) || this.state.email.length === 0) {
             this.setState({emailValidationError: true});
         }
-        if (this.state.firstName === null) {
+        if (this.state.firstName.length === 0) {
             this.setState({firstNameValidationError: true});
         }
-        if (this.state.lastName === null) {
+        if (this.state.lastName.length === 0) {
             this.setState({lastNameValidationError: true});
         }
-        if (this.state.phoneNum === null) {
-            this.setState({phoneValidationError: true});
+        if (this.state.phoneNum.length === 0) {
+            this.setState({invalidPhoneNum: true});
         }
     }
 
     emailValidation = () =>{
-        var validator = require("email-validator");
-        // true
-       return (validator.validate(this.state.emailSignUp));
     }
 
     handleChange = (e) => { 

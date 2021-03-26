@@ -325,7 +325,7 @@ class MainPage extends Component {
 
                     </div>
 
-                    <div className="setting-center col-lg-7 col-sm-9 col-xs-10">
+                    <div className="setting-center col-lg-8 col-sm-10 col-xs-10">
                      
                             <Route
                                 exact
@@ -367,8 +367,7 @@ class MainPage extends Component {
                             </Route>
                   
                     </div>
-                            
-                    <div className="setting-right col-lg-1 col-sm-1 col-xs-8"></div>
+                        
    
                 </div>
                 <div className="setting-footer">
