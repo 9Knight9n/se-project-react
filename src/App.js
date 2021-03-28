@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import PersonalInfo from './profile/mainPage'
+import Settings from './profile/mainPage'
 
 function App() {
   return (
     <div className="App">
-      <PersonalInfo />
+      <Settings />
     </div>
   );
 }

@@ -38,6 +38,7 @@ class MainPage extends Component {
             activeUpdatePass: false,
             activeConnectedApps: false,
             collapsed: false,
+            redirectPath: "/personalInfo"
         }; 
 
     }
@@ -333,7 +334,7 @@ class MainPage extends Component {
                                 render={() => {
                                     return (
                                         
-                                    <Redirect to="/personalInfo" />
+                                    <Redirect to={this.state.redirectPath} />
                                     )
                                 }}
                             />

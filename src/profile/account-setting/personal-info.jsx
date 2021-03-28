@@ -4,14 +4,14 @@ import { IconContext } from "react-icons";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import './personal-info.css';
-import * as EmailValidator from 'email-validator';
 import "react-datepicker/dist/react-datepicker.css";
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {Form, Modal, Spinner} from "react-bootstrap";
+import {Form, Modal, Spinner, ToastHeader} from "react-bootstrap";
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import {validateEmail} from '../../utill/util';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class PersonalInfo extends Component {
     constructor(props) {
         super(props);
@@ -30,37 +30,51 @@ class PersonalInfo extends Component {
             firstNameValidationError: false,
             lastNameValidationError: false,
             invalidPhoneNum: false,
-        }; 
+            toast: false,
+        };
+        this.baseState = this.state  
 
     }
 
 
 
     handleSubmit = () =>{
-        if (isPossiblePhoneNumber(this.state.phoneNum) === true  && isValidPhoneNumber(this.state.phoneNum)) {
+        if ( (!isPossiblePhoneNumber(this.state.phoneNum)  && !isValidPhoneNumber(this.state.phoneNum)) || this.state.phoneNum.length === 0) {
             this.setState({
                 invalidPhoneNum: true,
             })
+        }else{
+            this.setState({
+                invalidPhoneNum: false,
+            })
         }
-        console.log("hi: " + this.state.email)
         if (validateEmail(this.state.email) || this.state.email.length === 0) {
             this.setState({emailValidationError: true});
+        }else{
+            this.setState({emailValidationError: false});
         }
         if (this.state.firstName.length === 0) {
             this.setState({firstNameValidationError: true});
+        }else{
+            this.setState({firstNameValidationError: false});
         }
         if (this.state.lastName.length === 0) {
             this.setState({lastNameValidationError: true});
+        }else{
+            this.setState({lastNameValidationError: true});
         }
-        if (this.state.phoneNum.length === 0) {
-            this.setState({invalidPhoneNum: true});
-        }
+
+    }
+
+    handleReset = () =>{
+        this.setState(this.baseState)
     }
 
     emailValidation = () =>{
     }
 
     handleChange = (e) => { 
+        console.log("jijijijiji")
         let target=e.target;
         let name = target.name;
         let value = target.value
@@ -80,6 +94,7 @@ class PersonalInfo extends Component {
     render() { 
         return ( 
             <div className="personalInfo-main">
+                {this.state.toast? <ToastContainer />: ""}
                 <div className="personalInfo-avatar ml-4 mt-4">
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
@@ -127,7 +142,6 @@ class PersonalInfo extends Component {
                                             id="personalInfo-firstName"
                                             className="form-control shadow-none"
                                             type="text"
-                                            required
                                             name="firstName"
                                             value={this.state.firstName}
                                             isInvalid={this.state.firstNameValidationError}
@@ -153,7 +167,6 @@ class PersonalInfo extends Component {
                                             id="personalInfo-lastName"
                                             className="form-control shadow-none"
                                             type="text"
-                                            required
                                             name="lastName"
                                             value={this.state.lastName}
                                             isInvalid={this.state.lastNameValidationError}
@@ -176,7 +189,6 @@ class PersonalInfo extends Component {
                                             id="personalInfo-nationalId"
                                             className="form-control shadow-none"
                                             type="text"
-                                            required
                                             name="nationalId"
                                             value={this.state.nationalId}
                                             isInvalid={false}
@@ -201,9 +213,9 @@ class PersonalInfo extends Component {
 
                         <hr className="personalInfo-line"/>
 
-                        <div className="personalInfo-dateOfBirth ">
-                            <label className="form-label" for="date">Date Of Birth :</label>
-                            <form noValidate>
+                        <div className="personalInfo-dateOfBirth row">
+                            <label className="form-label col-2" for="date">Date Of Birth :</label>
+                            <form className="col-10" noValidate>
                                 <TextField
                                     id="date"
                                     type="date"
@@ -231,15 +243,14 @@ class PersonalInfo extends Component {
                                                 // country={'ir'}
                                                 // enableSearch={true}
                                                 // disableSearchIcon={true}
+                                                name="phoneNum"
                                                 value={this.state.phoneNum}
                                                 inputProps={
                                                     {
                                                         id:"phonenumber-input",
-                                                        required:true,
                                                         type:"phone-number",
                                                         className:("form-control shadow-none".concat(this.state.invalidPhoneNum?" not-valid":"")),
                                                         style:{width:"inherit"},
-                                                        name:"phoneNum",
                                                     }
                                                 }
                                             />
@@ -265,7 +276,6 @@ class PersonalInfo extends Component {
                                             id="personalInfo-emailId"
                                             className="form-control shadow-none"
                                             type="text"
-                                            required
                                             name="email"
                                             value={this.state.email}
                                             isInvalid={this.state.emailValidationError}
@@ -293,12 +303,12 @@ class PersonalInfo extends Component {
                                 {this.state.pageCount} of 175
                             </div>
                         </div>
-                        <div className="personalInfo-btn mb-2 mt-2 row">
+                        <div className="personalInfo-btn mb-2 mt-5 row">
                             <div className="submitBtn mb-2 col">
                                 <button onClick={this.handleSubmit}>Submit</button>
                             </div>
-                            <div className="cancelBtn col">
-                                <button>Cancel</button>
+                            <div className="resetBtn col">
+                                <button onClick={this.handleReset}>Reset</button>
                             </div>
                         </div>
                     </div>
