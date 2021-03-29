@@ -1,0 +1,105 @@
+#search-user{
+    width: 35vw;
+}
+#search-user div#bar{
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 0px;
+    /* transition: display 1s; */
+    /* display: none; */
+    /* -webkit-transition: width 1s ease-in-out;
+    -moz-transition: width 1s ease-in-out;
+    -o-transition: width 1s ease-in-out; */
+    transition: width 1s ease-in-out;
+}
+#search-user div#bar.active{
+    width: 35vw;
+    /* display: initial !important; */
+}
+.transparent-button{
+    /* outline: 0 !important; */
+     border: none;
+    background-color: #00000000 !important;
+    outline: none !important;
+
+    /*height: 100% !important;*/
+
+    /* width: 40px !important; */
+    /* background-color: #00000000 !important; */
+}
+.transparent-button:focus{
+    border: none;
+}
+#search-user .form-control{
+    color: white;
+    background-color: #03506f !important;
+    width: calc(35vw - 60px);
+}
+#search-user #panel{
+    background-color: #01374c;
+    border-radius: 2%;
+    position: absolute;
+    max-height: 0px;
+    width: calc(35vw - 60px);
+    z-index: 1024;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 1) !important;
+}
+#search-user #panel.active{
+    max-height: 35vh;
+    overflow-y: auto;
+    transition: max-height 1s ease-in-out;
+}
+#search-user input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(200, 200, 200);
+    opacity: 1; /* Firefox */
+  }
+
+  #search-user input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(200, 200, 200);
+  }
+
+  #search-user input::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(200, 200, 200);
+  }
+
+  #search-user .search-result{
+    max-height: 0vh;
+    transition: max-height 1s ease-in-out ;
+}
+#search-user .search-result.active{
+    max-height: 35vh;
+
+}
+
+.display-none{
+    display: none !important;
+}
+#search-user-result .nav-link{
+    width: fit-content;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    /* border-bottom: 1px solid white !important; */
+}
+#search-user-result .nav-link:hover{
+
+    /* outline: none; */
+    color: white !important;
+    border: none;
+    /* margin: 0; */
+}
+#search-user-result .nav-link.active{
+    /* border-top: 1px solid white !important;
+    border-right: 1px solid white !important;
+    border-left: 1px solid white !important; */
+    border-bottom: none !important;
+    background-color: #2842ad38 !important;
+
+}
+/* #search-user-result #header{
+    background-color: #0709137a
+} */
+#search-user #suggestion{
+    height: 50px;
+    background-color:#03506f ;
+    border-radius: 7px;
+}
