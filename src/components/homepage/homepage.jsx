@@ -3,6 +3,7 @@ import React, {Component, Fragment} from 'react';
 import './homepage.css'
 import Footer from "./footer";
 import Navbar from "./navbar/navbar";
+import SearchUser from "./searchUser/searchUser";
 
 class Homepage extends Component {
     constructor(props) {
@@ -41,8 +42,7 @@ class Homepage extends Component {
         return (
             <div id='homepage' className="d-flex flex-column">
                 <Navbar/>
-
-
+                <SearchUser/>
 
 
 
