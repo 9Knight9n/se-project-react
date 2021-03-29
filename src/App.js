@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Settings from './profile/mainPage'
+import Settings from './components/settings/settings'
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './mainPage.css';
+import './settings.css';
 import 'react-pro-sidebar/dist/css/styles.css'; 
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarFooter, SidebarHeader, SidebarContent} from 'react-pro-sidebar';
 import { AiOutlineIdcard } from "react-icons/ai";
@@ -12,20 +12,24 @@ import { FaRegHandshake } from "react-icons/fa";
 import PersonalInfo from './account-setting/personal-info';
 import PaymentsPayouts from './account-setting/payments-payouts';
 import Notfications from './account-setting/notifications';
-import Temp from './account-setting/temp';
-import Terms from './account-setting/term&conditions';
-import Help from './account-setting/help'
-import windowSize from 'react-window-size';
+import Temp from '../temp';
+import Terms from './termsAndConditions/term&conditions';
+import Help from './helpAndaskedQuestions/help'
 import { 
     BrowserRouter as Router, 
     Route, 
     Link, 
     Switch,
-    Redirect
+    Redirect,
 } from 'react-router-dom'; 
 
+// function setLocation() {
+//     const location = useLocation();
+//     console.log(location.pathname);
+//     return location.pathname;
+//   }
 
-class MainPage extends Component {
+class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,6 +47,7 @@ class MainPage extends Component {
             height: props.height,
             screenWidth: null,
             screenHeight: null,
+            redirectPath: "/personalInfo"
         }; 
 
     }
@@ -73,11 +78,26 @@ class MainPage extends Component {
         if (this.props.windowWidth <= 786 * 667) {
             this.setState({collapsed: true})
         }
+        console.log(this.setLocation)
+        // if(setLocation() === "/personalInfo"){
+        //     this.setState({
+        //         activePersonalInfo: true,
+        //         activePay: false,
+        //         activeNotif: false,
+        //         activeAskedQ: false,
+        //         activeHelp: false,
+        //         activeTerms: false,
+        //         activeListSpace: false,
+        //         activeLearnHosting: false,
+        //         activeUpdatePass: false,
+        //         activeConnectedApps: false,
+        //     })
+        // }
     }
 
+
+
     componentWillMount = () => {
-        this.setState({height: window.innerHeight + 'px'});
-        console.log(this.state.height)
       }
       
     componentWillUnmount (){
@@ -244,13 +264,6 @@ class MainPage extends Component {
     }
 
 
-
-    // handleCollapsed = () =>{
-    //     this.setState({
-    //         collapsed: !this.state.collapsed,
-    //     })
-    // }
-
     render() { 
         return ( 
             <Router>
@@ -268,51 +281,51 @@ class MainPage extends Component {
                             <SidebarContent>
                                 <Menu iconShape="circle">
                                     <SubMenu defaultOpen icon={<AiOutlineIdcard />} title="Account settings">
-                                        <MenuItem onClick={() => this.handleActivation(1)} active={this.state.activePersonalInfo}>
+                                        <MenuItem onClick={() => this.handleActivation(1)} active={window.location.pathname === "/personalInfo"}>
                                             Personal information
                                             <Link to="/personalInfo" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(2)} active={this.state.activePay}>
+                                        <MenuItem onClick={() => this.handleActivation(2)} active={window.location.pathname === "/paymentsPayouts"}>
                                             Payments and payouts
                                             <Link to="/paymentsPayouts" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(3)} active={this.state.activeNotif}>
+                                        <MenuItem onClick={() => this.handleActivation(3)} active={window.location.pathname === "/notifications"}>
                                             Notifications
                                             <Link to="/notifications" />
                                         </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<AiOutlineHome />} title="Hosting">
-                                        <MenuItem onClick={() => this.handleActivation(4)} active={this.state.activeListSpace}>
+                                        <MenuItem onClick={() => this.handleActivation(4)} active={window.location.pathname === "/listSpace"}>
                                              List your space
                                             <Link to="/listSpace" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(5)} active={this.state.activeLearnHosting}>
+                                        <MenuItem onClick={() => this.handleActivation(5)} active={window.location.pathname === "/learnHosting"}>
                                             Learn about hosting
                                             <Link to="/learnHosting" />
                                         </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<SiGnuprivacyguard />} title="Secutiry">
-                                    <MenuItem onClick={() => this.handleActivation(6)}  active={this.state.activeUpdatePass}>
-                                        Update your password
-                                        <Link to="/updatePass"></Link>
-                                    </MenuItem>
-                                    <MenuItem onClick={() => this.handleActivation(7)} active={this.state.activeConnectedApps}>
-                                        Manage connected apps
-                                        <Link to="/connectedApps"></Link>
-                                    </MenuItem>
+                                        <MenuItem onClick={() => this.handleActivation(6)}  active={window.location.pathname === "/updatePass"}>
+                                            Update your password
+                                            <Link to="/updatePass"></Link>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => this.handleActivation(7)} active={window.location.pathname === "/connectedApps"}>
+                                            Manage connected apps
+                                            <Link to="/connectedApps"></Link>
+                                        </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<IoMdHelpCircleOutline />} title="Help & asked questions">
-                                    <MenuItem onClick={() => this.handleActivation(8)} active={this.state.activeAskedQ}>
-                                        Asked questions
-                                        <Link to="/askedQuestions"></Link>
-                                    </MenuItem>
-                                    <MenuItem onClick={() => this.handleActivation(9)} active={this.state.activeHelp}>
-                                        Help
-                                        <Link to="/help"></Link>
-                                    </MenuItem>
+                                        <MenuItem onClick={() => this.handleActivation(8)} active={window.location.pathname === "/askedQuestions"}>
+                                            Asked questions
+                                            <Link to="/askedQuestions"></Link>
+                                        </MenuItem>
+                                        <MenuItem onClick={() => this.handleActivation(9)} active={window.location.pathname === "/help"}>
+                                            Help
+                                            <Link to="/help"></Link>
+                                        </MenuItem>
                                     </SubMenu>
                                     
                                     <MenuItem onClick={() => this.handleActivation(10)} icon={<FaRegHandshake />} active={this.state.activeTerms}>
@@ -332,17 +345,17 @@ class MainPage extends Component {
                     </div>
 
                     <div className="setting-center col-lg-8 col-sm-10 col-xs-10">
-                     
+                            {/*                      
                             <Route
                                 exact
                                 path="/"
                                 render={() => {
                                     return (
                                         
-                                    <Redirect to="personalInfo" />
+                                    <Redirect to={this.state.redirectPath} />
                                     )
                                 }}
-                            />
+                            /> */}
                             <Route exact path="/personalInfo" component={PersonalInfo} />
                             <Route exact path="/paymentsPayouts">
                                 <PaymentsPayouts />
@@ -385,4 +398,4 @@ class MainPage extends Component {
     }
 }
  
-export default MainPage;
+export default Settings;

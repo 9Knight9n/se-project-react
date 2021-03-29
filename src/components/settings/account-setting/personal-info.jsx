@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import {Form, Modal, Spinner, ToastHeader} from "react-bootstrap";
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import {validateEmail} from '../../utill/util';
+import {validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 class PersonalInfo extends Component {
