@@ -15,6 +15,7 @@ import Notfications from './account-setting/notifications';
 import Temp from './account-setting/temp';
 import Terms from './account-setting/term&conditions';
 import Help from './account-setting/help'
+import windowSize from 'react-window-size';
 import { 
     BrowserRouter as Router, 
     Route, 
@@ -22,6 +23,7 @@ import {
     Switch,
     Redirect
 } from 'react-router-dom'; 
+
 
 class MainPage extends Component {
     constructor(props) {
@@ -38,7 +40,9 @@ class MainPage extends Component {
             activeUpdatePass: false,
             activeConnectedApps: false,
             collapsed: false,
-            redirectPath: "/personalInfo"
+            height: props.height,
+            screenWidth: null,
+            screenHeight: null,
         }; 
 
     }
@@ -66,8 +70,15 @@ class MainPage extends Component {
 
 
     componentDidMount (){
-        window.addEventListener("resize", this.handleResize);
+        if (this.props.windowWidth <= 786 * 667) {
+            this.setState({collapsed: true})
+        }
     }
+
+    componentWillMount = () => {
+        this.setState({height: window.innerHeight + 'px'});
+        console.log(this.state.height)
+      }
       
     componentWillUnmount (){
         window.addEventListener("resize", this.handleResize);
@@ -79,13 +90,7 @@ class MainPage extends Component {
         })
     }
 
-    handleResize = () =>{
-        console.log(this.state.windowWidth)
-        if (this.state.windowWidth >= 768) {
-            this.setState({collapsed:true})
-        }else{
-            this.setState({collapsed:false})
-        }
+    handleResize = (e) =>{
     }
 
     handleActivation = (b) =>{
@@ -255,7 +260,7 @@ class MainPage extends Component {
                 </div>
                 <div className="setting-main d-flex row">
                     <div className="setting-left justify-content-start col-lg-4 col-sm-2 col-xs-1">
-                        <ProSidebar width="inherit" collapsed={false} className="setting-sideBar">
+                        <ProSidebar width="inherit" collapsed={this.state.collapsed} className="setting-sideBar">
                             <SidebarHeader>
                                 <h4 onClick={this.handleMenu} className="d-flex justify-content-center"> Setting </h4>
                                 {/* <button onClick={this.handleCollapsed}>close</button> */}
@@ -334,7 +339,7 @@ class MainPage extends Component {
                                 render={() => {
                                     return (
                                         
-                                    <Redirect to={this.state.redirectPath} />
+                                    <Redirect to="personalInfo" />
                                     )
                                 }}
                             />

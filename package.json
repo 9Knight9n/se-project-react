@@ -22,7 +22,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.3",
-    "web-vitals": "^1.1.1"
+    "react-window-size": "^1.2.2",
+    "web-vitals": "^1.1.1",
+	"window-size" : "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

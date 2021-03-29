@@ -38,39 +38,42 @@ class PersonalInfo extends Component {
 
 
 
-    handleSubmit = () =>{
-        if ( (!isPossiblePhoneNumber(this.state.phoneNum)  && !isValidPhoneNumber(this.state.phoneNum)) || this.state.phoneNum.length === 0) {
+    handleSubmit = (event) =>{
+        event.preventDefault();
+        if ( (isPossiblePhoneNumber(this.state.phoneNum)  && isValidPhoneNumber(this.state.phoneNum)) || this.state.phoneNum.length === 0) {
             this.setState({
                 invalidPhoneNum: true,
             })
-        }else{
+        }
+        else{
             this.setState({
                 invalidPhoneNum: false,
             })
         }
         if (validateEmail(this.state.email) || this.state.email.length === 0) {
             this.setState({emailValidationError: true});
-        }else{
+        }
+        else{
             this.setState({emailValidationError: false});
         }
+
         if (this.state.firstName.length === 0) {
             this.setState({firstNameValidationError: true});
-        }else{
+        }
+        else{
             this.setState({firstNameValidationError: false});
         }
+
         if (this.state.lastName.length === 0) {
             this.setState({lastNameValidationError: true});
-        }else{
-            this.setState({lastNameValidationError: true});
         }
-
+        else{
+            this.setState({lastNameValidationError: false});
+        }
     }
 
     handleReset = () =>{
         this.setState(this.baseState)
-    }
-
-    emailValidation = () =>{
     }
 
     handleChange = (e) => { 
