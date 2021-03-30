@@ -272,7 +272,7 @@ class Settings extends Component {
                     hi this is navbar
                 </div>
                 <div className="setting-main d-flex row">
-                    <div className="setting-left justify-content-start col-lg-4 col-sm-2 col-xs-1">
+                    <div className="setting-left justify-content-start col-lg-2 col-sm-2 col-xs-1">
                         <ProSidebar width="inherit" collapsed={this.state.collapsed} className="setting-sideBar">
                             <SidebarHeader>
                                 <h4 onClick={this.handleMenu} className="d-flex justify-content-center"> Setting </h4>
@@ -344,7 +344,7 @@ class Settings extends Component {
 
                     </div>
 
-                    <div className="setting-center col-lg-8 col-sm-10 col-xs-10">
+                    <div className="setting-center col-lg-10 col-sm-10 col-xs-10">
                             {/*                      
                             <Route
                                 exact

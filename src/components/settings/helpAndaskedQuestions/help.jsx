@@ -18,22 +18,22 @@ class Help extends Component {
             <div className="help-main">
                 <h3>Hi, How can we help you ?</h3>
                 <div className="help-card mt-4 row">
-                    <div className="col mt-4">
+                    <div className="help-card-responsiveForXl col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
                         <Card text="Learn how to book and rent a palce for your travel." title="Booking and traveling" img={travelImg} />
                     </div>
-                    <div className="col mt-4">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
                         <Card text="Learn how to use Airbnb for having income from your useless space." title="Hosting stays" img={hostingImg} />
                     </div>
-                    <div className="col mt-4">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
                         <Card text="Learn how to host an exprience with your friends." title="Hosting experiences" img={cookingImg} />
                     </div>
-                    <div className="col mt-4">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
                         <Card text="Learn how to pay to your host and what tips are best to follow." title="payemnt tips" img={paymentImg} />
                     </div>
-                    <div className="col mt-4">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
                         <Card text="Learn how to report your problems about your host or passenger." title="report a problem" img={problemImg} />
                     </div>
-                    <div className="col mt-4">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
                         <Card text="Learn how to make connections and find your friends on airbnb." title="connect with people" img={connectionImg} />
                     </div>
                 </div>

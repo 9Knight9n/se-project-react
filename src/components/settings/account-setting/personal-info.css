@@ -5,7 +5,9 @@
   height: 5vh;
   border: 1px solid #ced4da;
   border-radius: 4px !important;
-  width: 60%;
+}
+.personalInfo-avatar {
+  margin-left: 2%;
 }
 .form-group {
   width: 100%;
@@ -17,7 +19,8 @@
   width: 100% !important;
 }
 .input-group {
-  width: 60%;
+  min-width: 8%;
+  max-width: 75%;
 }
 .personalInfo-form textarea {
   background-color: #e3e2e2;
@@ -28,7 +31,6 @@
   font-family: Arial, Helvetica, Sans-serif;
   resize: none;
   color: black;
-  width: 50%;
 }
 
 .personalInfo-bioField {
@@ -40,7 +42,6 @@
 }
 
 .personalInfo-form label {
-  width: 17%;
   float: left;
 }
 
@@ -50,7 +51,9 @@
   border-radius: 4px;
   border: 1px solid #ced4da;
   padding-left: 1%;
-  width: 50%;
+  width: 100%;
+  min-width: 8%;
+  max-width: 75%;
   height: 5vh;
 }
 
@@ -74,7 +77,8 @@
 }
 
 .personalInfo-bioField textarea {
-  min-width: 50%;
+  min-width: 25%;
+  max-width: 77%;
   min-height: 20vh;
 }
 
@@ -118,8 +122,8 @@
   background-color: #d2d2db !important;
 }
 .personalInfo-btn {
-  width: 50%;
-  margin-left: 18%;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 .personalInfo-btn button {
@@ -149,4 +153,8 @@
 }
 .MuiInput-underline:after {
   border-bottom: 0px !important;
+}
+.MuiInput-root {
+  min-width: 8%;
+  max-width: 76.5%;
 }
