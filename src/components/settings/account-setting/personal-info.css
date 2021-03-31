@@ -73,7 +73,8 @@
   position: relative;
   z-index: 1004;
   margin-top: -3%;
-  margin-left: 55%;
+  margin-left: 74%;
+  color: #696988;
 }
 
 .personalInfo-bioField textarea {

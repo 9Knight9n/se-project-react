@@ -345,17 +345,6 @@ class Settings extends Component {
                     </div>
 
                     <div className="setting-center col-lg-10 col-sm-10 col-xs-10">
-                            {/*                      
-                            <Route
-                                exact
-                                path="/"
-                                render={() => {
-                                    return (
-                                        
-                                    <Redirect to={this.state.redirectPath} />
-                                    )
-                                }}
-                            /> */}
                             <Route exact path="/personalInfo" component={PersonalInfo} />
                             <Route exact path="/paymentsPayouts">
                                 <PaymentsPayouts />

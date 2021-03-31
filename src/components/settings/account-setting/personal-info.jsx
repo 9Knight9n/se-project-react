@@ -40,10 +40,13 @@ class PersonalInfo extends Component {
 
     handleSubmit = (event) =>{
         event.preventDefault();
-        let phonenumber = document.getElementById("phonenumber-input").value
-        this.setState({
-            phoneNum: phonenumber
-        })
+        let phonenumber = document.getElementById("personalInfo-phoneNum").value;
+        let firstName = document.getElementById("personalInfo-firstName").value;
+        let lastName = document.getElementById("personalInfo-lastName").value;
+        let nationalId = document.getElementById("personalInfo-nationalId").value;
+        let dateOfBirth = document.getElementById("personalInfo-dateOfBirth").value;
+        let emailId = document.getElementById("personalInfo-emailId").value;
+        let ptextArea = document.getElementById("ptextArea").value;
         if ( !isPossiblePhoneNumber(phonenumber)  || !isValidPhoneNumber(phonenumber) || phonenumber.length === 0) {
             this.setState({
                 invalidPhoneNum: true,
@@ -54,21 +57,21 @@ class PersonalInfo extends Component {
                 invalidPhoneNum: false,
             })
         }
-        if (!validateEmail(this.state.email) || this.state.email.length === 0) {
+        if (!validateEmail(emailId) || emailId.length === 0) {
             this.setState({emailValidationError: true});
         }
         else{
             this.setState({emailValidationError: false});
         }
 
-        if (this.state.firstName.length === 0) {
+        if (firstName.length === 0) {
             this.setState({firstNameValidationError: true});
         }
         else{
             this.setState({firstNameValidationError: false});
         }
 
-        if (this.state.lastName.length === 0) {
+        if (lastName.length === 0) {
             this.setState({lastNameValidationError: true});
         }
         else{
@@ -203,10 +206,10 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-dateOfBirth row">
-                            <label className="form-label col-lg-2 col-md-1 col-sm-1" for="date">Date Of Birth :</label>
+                            <label className="form-label col-lg-2 col-md-1 col-sm-1" for="personalInfo-dateOfBirth">Date Of Birth :</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                 <TextField
-                                    id="date"
+                                    id="personalInfo-dateOfBirth"
                                     type="date"
                                     defaultValue="2021-03-24"
                                     className="dateOfBirth-field"
@@ -233,7 +236,7 @@ class PersonalInfo extends Component {
                                                 value={this.state.phoneNum}
                                                 inputProps={
                                                     {
-                                                        id:"phonenumber-input",
+                                                        id:"personalInfo-phoneNum",
                                                         type:"phone-number",
                                                         className:("form-control shadow-none".concat(this.state.invalidPhoneNum?" not-valid":"")),
                                                         style:{width:"inherit"},
@@ -284,12 +287,12 @@ class PersonalInfo extends Component {
                         <div className="personalInfo-bioField row">
                             <label className="form-lable col-lg-2 col-md-1 col-sm-1" for="bio">Bio :</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
-                                <textarea id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxlength="175">
+                                <textarea id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxlength="200">
                                             
                                 </textarea>
                             </div>
                             <div className="personalInfo-textAreaCounter">
-                                {this.state.pageCount} of 175
+                                {this.state.pageCount} of 200
                             </div>
                         </div>
                         <div className="personalInfo-btn mb-2 mt-5 row">
