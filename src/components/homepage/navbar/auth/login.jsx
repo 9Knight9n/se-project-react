@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import './auth.css'
-import {Form, Modal, Spinner} from "react-bootstrap";
+import {Alert, Form, Modal, Spinner} from "react-bootstrap";
 import {Fragment} from "react";
-import {validateEmail,validatePass} from "../../../util";
+import {saveCredentials, showMemoryVariables, validateEmail, validatePass} from "../../../util";
+import axios from "axios";
+import {API_EMAIL_CHECK_URL, API_LOGIN_URL} from "../../../constants";
 
 
 class Login extends Component {
@@ -20,6 +22,7 @@ class Login extends Component {
         loading : false,
         email : null,
         isInvalid:false,
+        connectionError:false,
     }
 
     componentDidMount()
@@ -68,11 +71,8 @@ class Login extends Component {
 
     exit(authModal,modalOnLogin,email)
     {
-        if(!this.state.loading)
-        {
-            this.setState({pageNum:0,loading:false,email:null,isInvalid:false})
-            this.props.changeModal(authModal,modalOnLogin,email)
-        }
+        this.setState({pageNum:0,loading:false,email:null,isInvalid:false})
+        this.props.changeModal(authModal,modalOnLogin,email)
 
     }
 
@@ -101,7 +101,7 @@ class Login extends Component {
         this.setState({pageNum})
     }
 
-    emailValidation()
+    async emailValidation()
     {
         this.setState({loading : true})
         let email = document.getElementById("email-input").value
@@ -109,20 +109,67 @@ class Login extends Component {
             return this.setState({loading : false,isInvalid :true })
 
 
-
-        setTimeout(() => this.setPage(1), 1000);
-
-
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('email', email);
+        await axios.post(API_EMAIL_CHECK_URL, data)
+              .then(res => {
+                if (res.status===200)
+                {
+                     this.setPage(1)
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return this.setState({connectionError:true,loading:false})
+                }
+              }).catch(error =>{
+                    console.log(error)
+                    return this.setPage(2)
+                    // console.log("error")
+                    // console.log(error)
+                    // return this.setState({connectionError:true,loading:false})
+              })
     }
 
 
 
-    login()
+    async login()
     {
         this.setState({loading : true})
         let pass = document.getElementById("pass-input").value
-        if(!validatePass(pass))
-            return setTimeout(() => this.setState({loading : false,isInvalid:true}), 500);
+
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('username', this.state.email);
+        data.append('password', pass);
+        await axios.post(API_LOGIN_URL, data)
+              .then(res => {
+                if (res.status===200)
+                {
+                    console.log("success")
+                    saveCredentials(res.data.user_id,res.data.email,res.data.token,res.data.image,false)
+                    showMemoryVariables()
+                    this.props.onSuccess()
+                    return this.exit(false,false,null)
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return this.setState({connectionError:true,loading:false})
+                }
+              }).catch(error =>{
+                    console.log(error)
+                return this.setState({loading : false,isInvalid:true})
+                    // return this.setPage(2)
+                    // console.log("error")
+                    // console.log(error)
+                    // return this.setState({connectionError:true,loading:false})
+              })
+
+
+
+            // return setTimeout(() => , 500);
 
 
 
@@ -158,6 +205,14 @@ class Login extends Component {
 
                 <Modal.Body>
                     <form>
+                                                {this.state.connectionError?
+                        <Alert variant="danger" onClick={() => this.setState({connectionError:false})}>
+                            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                            <p>there was a problem while signing you in!
+                            check your connection !
+                            If the problem still persist,
+                            try reloading page. </p>
+                        </Alert>:""}
 
 
 

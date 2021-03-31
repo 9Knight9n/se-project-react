@@ -5,8 +5,11 @@ import './auth.css'
 // https://www.npmjs.com/package/react-phone-input-2
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import {validateEmail, validatePass} from "../../../util";
-const VERIFY_LENGTH = 5;
+import {saveCredentials, showMemoryVariables, validateEmail, validatePass} from "../../../util";
+import {API_EMAIL_CHECK_URL, API_EMAIL_VERIFY_URL, API_SIGNUP_URL, VERIFY_LENGTH} from "../../../constants";
+import axios from "axios";
+import { isValidPhoneNumber } from 'react-phone-number-input'
+
 
 
 
@@ -22,6 +25,7 @@ class Signup extends Component {
         this.signup = this.signup.bind(this);
         this.confirmPass = this.confirmPass.bind(this);
         this.checkPass = this.checkPass.bind(this);
+        this.sendVerification = this.sendVerification.bind(this);
 
     }
 
@@ -39,6 +43,7 @@ class Signup extends Component {
         isInvalid5:false,
         isValid5:false,
         isInvalid6:false,
+        vc_code:null,
     }
 
     componentDidMount()
@@ -94,7 +99,6 @@ class Signup extends Component {
 
     exit(authModal,modalOnLogin,email)
     {
-        this.props.changeModal(authModal,modalOnLogin,email)
         this.setState({pageNum:0,loading:false,email:null,verify:null,
             isInvalid1:false,
             isInvalid2:false,
@@ -104,6 +108,7 @@ class Signup extends Component {
             isInvalid5:false,
             isValid5:false,
             isInvalid6:false,})
+        this.props.changeModal(authModal,modalOnLogin,email)
     }
 
     setPage(pageNum)
@@ -467,39 +472,92 @@ class Signup extends Component {
 
     }
 
-    emailValidation()
+    async emailValidation()
     {
         this.setState({loading : true})
         let email = document.getElementById("email-input").value
         if (!validateEmail(email))
-            return this.setState({loading : false,isInvalid1 :true })
+            return this.setState({loading : false,isInvalid :true })
 
 
-        setTimeout(() => this.setPage(1), 1000);
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('email', email);
+        await axios.post(API_EMAIL_CHECK_URL, data)
+              .then(res => {
+                if (res.status===200)
+                {
+                     this.setPage(3)
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return this.setState({connectionError:true,loading:false})
+                }
+              }).catch(error =>{
+                    // console.log(error)
+                    this.sendVerification()
+                    return this.setPage(1)
+
+                    // console.log("error")
+                    // console.log(error)
+                    // return this.setState({connectionError:true,loading:false})
+              })
+    }
+
+    async sendVerification()
+    {
+        console.log("ran")
+        this.setState({loading : true})
+        let email = document.getElementById("email-input").value
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('first_name', email);
+        data.append('email', email);
+        await axios.post(API_EMAIL_VERIFY_URL, data)
+              .then(res => {
+                if (res.status===200)
+                {
+                    console.log("success")
+                    // console.log(res.data.vc_code)
+                     return this.setState({vc_code:res.data.vc_code,loading:false})
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return this.setState({connectionError:true,loading:false})
+                }
+              }).catch(error =>{
+                    console.log(error)
+                    // console.log("error")
+                    // console.log(error)
+                    // return this.setState({connectionError:true,loading:false})
+              })
     }
 
     emailVerification()
     {
-        console.log(this.state.email)
         this.setState({loading : true})
         let verify = document.getElementById("verify-input").value
         if(String(verify).length!==VERIFY_LENGTH)
             return this.setState({loading : false,isInvalid1 :true })
 
 
-        if (false)
-            return
+        // console.log(this.state.vc_code)
+        // console.log(verify)
+        if (this.state.vc_code.toString() !== verify)
+            return this.setState({loading : false,isInvalid1 :true })
 
-        setTimeout(() => this.setPage(2), 1000);
+        this.setPage(2);
     }
 
-    signup()
+    async signup()
     {
         this.setState({loading : true})
         let isInvalid = false;
         let firstname = document.getElementById("firstname-input").value
         let lastname = document.getElementById("lastname-input").value
-        let phonenumber = document.getElementById("phonenumber-input").value
+        let phonenumber = document.getElementById("phonenumber-input").value.replaceAll(" ","")
         let pass = document.getElementById("pass-input").value
         let pass2 = document.getElementById("pass2-input").value
         if( firstname.length === 0)
@@ -516,11 +574,7 @@ class Signup extends Component {
         }
         else
             this.setState({isInvalid2:false})
-        console.log(phonenumber)
-        let index = phonenumber.indexOf(" ")
-        console.log(phonenumber.substr(index+1).length)
-        console.log(phonenumber.substr(index+1))
-        if( phonenumber.substr(index+1).length !== 12)
+        if( !isValidPhoneNumber(phonenumber))
         {
             this.setState({isInvalid3:true})
             isInvalid = true
@@ -553,7 +607,35 @@ class Signup extends Component {
         if (isInvalid)
             return this.setState({loading : false})
 
-
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('first_name', firstname);
+        data.append('last_name', lastname);
+        data.append('email', this.state.email);
+        data.append('phone_number', phonenumber);
+        data.append('password', pass);
+        data.append('vc_code', this.state.vc_code);
+        await axios.post(API_SIGNUP_URL, data)
+              .then(res => {
+                if (res.status===201)
+                {
+                    saveCredentials(res.data.user_id,res.data.email,res.data.token,res.data.image,false)
+                    showMemoryVariables()
+                    this.props.onSuccess()
+                    return this.exit(false,false,null)
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return this.setState({connectionError:true,loading:false})
+                }
+              }).catch(error =>{
+                    console.log(error)
+                    return this.setState({loading : false})
+                    // console.log("error")
+                    // console.log(error)
+                    // return this.setState({connectionError:true,loading:false})
+              })
 
     }
 

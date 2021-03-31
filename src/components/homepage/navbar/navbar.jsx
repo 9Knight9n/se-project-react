@@ -12,6 +12,7 @@ class Navbar extends Component {
         super(props);
 
         this.changeModal = this.changeModal.bind(this);
+        this.onSuccess = this.onSuccess.bind(this);
     }
 
     state = {
@@ -53,6 +54,11 @@ class Navbar extends Component {
         this.setState({authModal,modalOnLogin,email})
     }
 
+    onSuccess()
+    {
+
+    }
+
     render() {
         return (
             <Fragment>
@@ -84,11 +90,11 @@ class Navbar extends Component {
                 </nav>
 
                 {(this.state.authModal && this.state.modalOnLogin) ?
-                <Login show={true}
+                <Login show={true} onSuccess={this.onSuccess}
                         changeModal={this.changeModal} email={this.state.email}/>:""}
 
                 {(this.state.authModal && !this.state.modalOnLogin)?
-                <Signup show={true}
+                <Signup show={true} onSuccess={this.onSuccess}
                         changeModal={this.changeModal} email={this.state.email}/>:""}
             </Fragment>
         );
