@@ -1,3 +1,10 @@
 .App {
   max-height: 100vh;
 }
+.list-inline {
+  text-align: center;
+}
+
+a:focus, a:hover {
+  color: #0085A1;
+}

@@ -1,12 +1,14 @@
 import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Settings from './components/settings/settings'
+import {Fragment} from "react";
+import Homepage from "./components/homepage/homepage";
 
 function App() {
   return (
-    <div className="App">
-      <Settings />
-    </div>
+      <Fragment>
+        <Homepage/>
+      </Fragment>
   );
 }
 
