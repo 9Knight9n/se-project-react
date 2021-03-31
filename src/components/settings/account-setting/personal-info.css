@@ -80,7 +80,8 @@
 .personalInfo-bioField textarea {
   min-width: 25%;
   max-width: 77%;
-  min-height: 20vh;
+  min-height: 15vh;
+  max-height: 25vh;
 }
 
 /*phone component input*/

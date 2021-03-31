@@ -22,7 +22,7 @@ class Help extends Component {
                         <Card text="Learn how to book and rent a palce for your travel." title="Booking and traveling" img={travelImg} />
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
-                        <Card text="Learn how to use Airbnb for having income from your useless space." title="Hosting stays" img={hostingImg} />
+                        <Card text="Learn how to use SweetHome for having income from your useless space." title="Hosting stays" img={hostingImg} />
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
                         <Card text="Learn how to host an exprience with your friends." title="Hosting experiences" img={cookingImg} />
@@ -34,7 +34,7 @@ class Help extends Component {
                         <Card text="Learn how to report your problems about your host or passenger." title="report a problem" img={problemImg} />
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 mt-4">
-                        <Card text="Learn how to make connections and find your friends on airbnb." title="connect with people" img={connectionImg} />
+                        <Card text="Learn how to make connections and find your friends at SweetHome." title="connect with people" img={connectionImg} />
                     </div>
                 </div>
                 

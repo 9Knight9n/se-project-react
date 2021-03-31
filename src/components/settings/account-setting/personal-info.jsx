@@ -29,7 +29,7 @@ class PersonalInfo extends Component {
             toast: false,
         };
         this.baseState = this.state  
-        // this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
     }
@@ -110,25 +110,25 @@ class PersonalInfo extends Component {
         this.setState(this.baseState)
     }
 
-//     handleChange(e) { 
-//         console.log("entered handle change")
-//         console.log("eeeee : " + e)
-//         let target=e.target;
-//         let name = target.name;
-//         let value = target.value
-//         this.setState({
-//          [name]: value
-//         });
-//         if (name === "bio"){
-//          let currentText = e.target.value;
-//          //Now we need to recalculate the number of characters that have been typed in so far
-//          let characterCount = currentText.length;
-//          let charsPerPageCount = this.state.charsPerPage;
-//          let unitCount = Math.round(characterCount/charsPerPageCount);
-//          this.setState({pageCount: unitCount});
-//         }
-//         console.log("value : " + value)
-//    }
+    handleChange(e) { 
+        console.log("entered handle change")
+        console.log("eeeee : " + e)
+        let target=e.target;
+        let name = target.name;
+        let value = target.value
+        this.setState({
+         [name]: value
+        });
+        if (name === "bio"){
+         let currentText = e.target.value;
+         //Now we need to recalculate the number of characters that have been typed in so far
+         let characterCount = currentText.length;
+         let charsPerPageCount = this.state.charsPerPage;
+         let unitCount = Math.round(characterCount/charsPerPageCount);
+         this.setState({pageCount: unitCount});
+        }
+        console.log("value : " + value)
+   }
 
     render() { 
         return ( 

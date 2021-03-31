@@ -10,8 +10,8 @@ class TermsConditions extends Component {
                 <h4 className="mt-2 mb-2">Terms and Conditions ("Terms")</h4>
                 <p>
                 Last updated: (3/20/2021)
-                Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the http://www.mywebsite.com
-                 (change this) website and the My Mobile App (change this) mobile application (the "Service") operated by My Company (change this)
+                Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the <a href="#" target="blank"> http://www.SweetHome.com </a>
+                 website and the SweetHome mobile application (the "Service") operated by SweetHome
                   ("us", "we", or "our").
                 Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply
                  to all visitors, users and others who access or use the Service.
@@ -36,16 +36,16 @@ class TermsConditions extends Component {
                 other material ("Content"). You are responsible for the …
                 </p>
                 <b>Links To Other Web Sites</b>
-                <p>Our Service may contain links to third-party web sites or services that are not owned or controlled by My Company (change this).
-                My Company (change this) has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any
-                third party web sites or services. You further acknowledge and agree that My Company (change this) shall not be responsible or liable,
+                <p>Our Service may contain links to third-party web sites or services that are not owned or controlled by SweetHome.
+                SweetHome has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any
+                third party web sites or services. You further acknowledge and agree that SweetHome shall not be responsible or liable,
                 directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such
                 content, goods or services available on or through any such web sites or services.
                 </p>
                 <b>Changes</b>
                 <p>
                 We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will
-                try to provide at least 30 (change this) days' notice prior to any new terms taking effect. What constitutes a material change
+                try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change
                 will be determined at our sole discretion.
                 </p>
                 <b>Contact Us</b>
