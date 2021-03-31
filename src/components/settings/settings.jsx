@@ -273,7 +273,7 @@ class Settings extends Component {
                 </div>
                 <div className="setting-main d-flex row">
                     <div className="setting-left justify-content-start col-lg-2 col-sm-2 col-xs-1">
-                        <ProSidebar width="inherit" collapsed={this.state.collapsed} className="setting-sideBar">
+                        <ProSidebar collapsed={this.state.collapsed} className="setting-sideBar">
                             <SidebarHeader>
                                 <h4 onClick={this.handleMenu} className="d-flex justify-content-center"> Setting </h4>
                                 {/* <button onClick={this.handleCollapsed}>close</button> */}
@@ -337,9 +337,9 @@ class Settings extends Component {
 
                                 </Menu>
                             </SidebarContent>
-                            <SidebarFooter>
+                            {/* <SidebarFooter>
                                 This is footer
-                            </SidebarFooter>
+                            </SidebarFooter> */}
                         </ProSidebar>
 
                     </div>

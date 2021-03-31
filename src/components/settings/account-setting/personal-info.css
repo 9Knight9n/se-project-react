@@ -123,19 +123,20 @@
   background-color: #d2d2db !important;
 }
 .personalInfo-btn {
-  margin-left: 20%;
-  margin-right: 20%;
+  min-width: 7%;
+  max-width: 70%;
+  width: 50%;
 }
 
-.personalInfo-btn button {
+/* .personalInfo-btn button {
   outline: none;
   border: 0px;
   border-radius: 8px;
   color: white;
   height: 4vh;
-}
+} */
 
-.personalInfo-btn .submitBtn button {
+/* .personalInfo-btn .submitBtn button {
   background-color: #000000;
   width: 90%;
 }
@@ -143,7 +144,7 @@
   background-color: #8b8b8b;
   margin-left: 2%;
   width: 90%;
-}
+} */
 
 /*date selector css*/
 .dateOfBirth-field {

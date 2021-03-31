@@ -6,26 +6,22 @@ import 'react-phone-input-2/lib/style.css';
 import './personal-info.css';
 import "react-datepicker/dist/react-datepicker.css";
 import TextField from '@material-ui/core/TextField';
-import {Form, Modal, Spinner, ToastHeader} from "react-bootstrap";
+import {Form} from "react-bootstrap";
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import {validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import {showMemoryVariables} from "../../../util";
+// import {API_EMAIL_CHECK_URL, API_EMAIL_VERIFY_URL, API_SIGNUP_URL, VERIFY_LENGTH} from "../../../constants";
+import axios from "axios";
+
 class PersonalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
             pageCount: 0,
             charsPerPage: 1,
-            bio: "",
-            firstName: "",
-            lastName:"",
-            nationalId: "",
-            gender: "",
-            dateOfBirth: "",
-            phoneNum: "",
-            email: "",
             emailValidationError: false,
             firstNameValidationError: false,
             lastNameValidationError: false,
@@ -33,13 +29,16 @@ class PersonalInfo extends Component {
             toast: false,
         };
         this.baseState = this.state  
-
+        // this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleReset = this.handleReset.bind(this);
     }
 
 
 
-    handleSubmit = (event) =>{
+    async handleSubmit(event) {
         event.preventDefault();
+        console.log("entered submit")
         let phonenumber = document.getElementById("personalInfo-phoneNum").value;
         let firstName = document.getElementById("personalInfo-firstName").value;
         let lastName = document.getElementById("personalInfo-lastName").value;
@@ -47,6 +46,7 @@ class PersonalInfo extends Component {
         let dateOfBirth = document.getElementById("personalInfo-dateOfBirth").value;
         let emailId = document.getElementById("personalInfo-emailId").value;
         let ptextArea = document.getElementById("ptextArea").value;
+        let gender = document.getElementById("personalInfo-Gender").value;
         if ( !isPossiblePhoneNumber(phonenumber)  || !isValidPhoneNumber(phonenumber) || phonenumber.length === 0) {
             this.setState({
                 invalidPhoneNum: true,
@@ -78,33 +78,57 @@ class PersonalInfo extends Component {
             this.setState({lastNameValidationError: false});
         }
 
-
+        // let FormData = require('form-data');
+        // let data = new FormData();
+        // data.append('first_name', firstName);
+        // data.append('last_name', lastName);
+        // data.append('email', emailId);
+        // data.append('phone_number', phonenumber);
+        // await axios.post("API_SIGNUP_URL", data)
+        //       .then(res => {
+        //         if (res.status===201)
+        //         {
+        //             showMemoryVariables()
+        //             return this.exit(false,false,null)
+        //         }
+        //         else
+        //         {
+        //             console.log("unknown status")
+        //             return this.setState({connectionError:true,loading:false})
+        //         }
+        //       }).catch(error =>{
+        //             console.log(error)
+        //             return this.setState({loading : false})
+        //             console.log("error")
+        //             console.log(error)
+        //             return this.setState({connectionError:true,loading:false})
+        //       })
 
     }
 
-    handleReset = () =>{
+    handleReset() {
         this.setState(this.baseState)
     }
 
-    handleChange = (e) => { 
-        console.log("entered handle change")
-        console.log("eeeee : " + e)
-        let target=e.target;
-        let name = target.name;
-        let value = target.value
-        this.setState({
-         [name]: value
-        });
-        if (name === "bio"){
-         let currentText = e.target.value;
-         //Now we need to recalculate the number of characters that have been typed in so far
-         let characterCount = currentText.length;
-         let charsPerPageCount = this.state.charsPerPage;
-         let unitCount = Math.round(characterCount/charsPerPageCount);
-         this.setState({pageCount: unitCount});
-        }
-        console.log("value : " + value)
-   }
+//     handleChange(e) { 
+//         console.log("entered handle change")
+//         console.log("eeeee : " + e)
+//         let target=e.target;
+//         let name = target.name;
+//         let value = target.value
+//         this.setState({
+//          [name]: value
+//         });
+//         if (name === "bio"){
+//          let currentText = e.target.value;
+//          //Now we need to recalculate the number of characters that have been typed in so far
+//          let characterCount = currentText.length;
+//          let charsPerPageCount = this.state.charsPerPage;
+//          let unitCount = Math.round(characterCount/charsPerPageCount);
+//          this.setState({pageCount: unitCount});
+//         }
+//         console.log("value : " + value)
+//    }
 
     render() { 
         return ( 
@@ -287,20 +311,22 @@ class PersonalInfo extends Component {
                         <div className="personalInfo-bioField row">
                             <label className="form-lable col-lg-2 col-md-1 col-sm-1" for="bio">Bio :</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
-                                <textarea id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxlength="200">
+                                <textarea id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxlength="300">
                                             
                                 </textarea>
                             </div>
                             <div className="personalInfo-textAreaCounter">
-                                {this.state.pageCount} of 200
+                                {this.state.pageCount} of 300
                             </div>
                         </div>
-                        <div className="personalInfo-btn mb-2 mt-5 row">
-                            <div className="submitBtn mb-2 col-6">
-                                <button onClick={this.handleSubmit}>Submit</button>
-                            </div>
-                            <div className="resetBtn mb-2 col-6">
-                                <button onClick={this.handleReset}>Reset</button>
+                        <div className="w-100 d-flex justify-content-center mb-5">
+                            <div className="personalInfo-btn mr-5 mb-2 mt-5">
+                                <div className="mb-4">
+                                    <button className="btn btn-primary btn-lg btn-block" type="button" onClick={this.handleSubmit}>Submit</button>
+                                </div>
+                                <div className="mb-4">
+                                    <button type="button" className="btn btn-secondary btn-lg btn-block" onClick={this.handleReset}>Reset</button>
+                                </div>
                             </div>
                         </div>
                     </div>
