@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './settings.css';
 import 'react-pro-sidebar/dist/css/styles.css'; 
-import NavBar from '../homepage/navbar/navbar';
-import Footer from '../homepage/footer';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarFooter, SidebarHeader, SidebarContent} from 'react-pro-sidebar';
 import { AiOutlineIdcard } from "react-icons/ai";
 import { AiOutlineHome } from "react-icons/ai";
@@ -271,7 +269,7 @@ class Settings extends Component {
             <Router>
             <div className="setting container m-0">
                 <div className="setting-navbar">
-                    <NavBar />
+                    hi this is navbar
                 </div>
                 <div className="setting-main d-flex row">
                     <div className="setting-left justify-content-start col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-4">
@@ -381,7 +379,7 @@ class Settings extends Component {
    
                 </div>
                 <div className="setting-footer">
-                    <Footer />
+                    hi this is footer
                 </div>
             </div>
             </Router>
