@@ -2,6 +2,7 @@
 .pro-sidebar {
   color: black !important;
   position: relative;
+  width: inherit !important;
 }
 .pro-sidebar .pro-menu a {
   color: black !important;
