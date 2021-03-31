@@ -12,8 +12,8 @@ import { isValidPhoneNumber } from 'react-phone-number-input';
 import {validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import {showMemoryVariables} from "../../../util";
-// import {API_EMAIL_CHECK_URL, API_EMAIL_VERIFY_URL, API_SIGNUP_URL, VERIFY_LENGTH} from "../../../constants";
+import {showMemoryVariables} from "../../util";
+import {API_PROFILE_URL} from "../../constants";
 import axios from "axios";
 
 class PersonalInfo extends Component {
@@ -27,6 +27,7 @@ class PersonalInfo extends Component {
             lastNameValidationError: false,
             invalidPhoneNum: false,
             toast: false,
+            dataValid: true,
         };
         this.baseState = this.state  
         this.handleChange = this.handleChange.bind(this);
@@ -45,11 +46,12 @@ class PersonalInfo extends Component {
         let nationalId = document.getElementById("personalInfo-nationalId").value;
         let dateOfBirth = document.getElementById("personalInfo-dateOfBirth").value;
         let emailId = document.getElementById("personalInfo-emailId").value;
-        let ptextArea = document.getElementById("ptextArea").value;
+        let bio = document.getElementById("ptextArea").value;
         let gender = document.getElementById("personalInfo-Gender").value;
         if ( !isPossiblePhoneNumber(phonenumber)  || !isValidPhoneNumber(phonenumber) || phonenumber.length === 0) {
             this.setState({
                 invalidPhoneNum: true,
+                dataValid: false,
             })
         }
         else{
@@ -58,51 +60,59 @@ class PersonalInfo extends Component {
             })
         }
         if (!validateEmail(emailId) || emailId.length === 0) {
-            this.setState({emailValidationError: true});
+            this.setState({emailValidationError: true,dataValid: false,});
         }
         else{
             this.setState({emailValidationError: false});
         }
 
         if (firstName.length === 0) {
-            this.setState({firstNameValidationError: true});
+            this.setState({firstNameValidationError: true,dataValid: false,});
         }
         else{
             this.setState({firstNameValidationError: false});
         }
 
         if (lastName.length === 0) {
-            this.setState({lastNameValidationError: true});
+            this.setState({lastNameValidationError: true,dataValid: false,});
         }
         else{
-            this.setState({lastNameValidationError: false});
+            this.setState({lastNameValidationError: false,});
         }
 
-        // let FormData = require('form-data');
-        // let data = new FormData();
-        // data.append('first_name', firstName);
-        // data.append('last_name', lastName);
-        // data.append('email', emailId);
-        // data.append('phone_number', phonenumber);
-        // await axios.post("API_SIGNUP_URL", data)
-        //       .then(res => {
-        //         if (res.status===201)
-        //         {
-        //             showMemoryVariables()
-        //             return this.exit(false,false,null)
-        //         }
-        //         else
-        //         {
-        //             console.log("unknown status")
-        //             return this.setState({connectionError:true,loading:false})
-        //         }
-        //       }).catch(error =>{
-        //             console.log(error)
-        //             return this.setState({loading : false})
-        //             console.log("error")
-        //             console.log(error)
-        //             return this.setState({connectionError:true,loading:false})
-        //       })
+        if (this.state.dataValid){
+            
+            let FormData = require('form-data');
+            let data = new FormData();
+            data.append('first_name', firstName);
+            data.append('last_name', lastName);
+            data.append('email', emailId);
+            data.append('national_code', nationalId);
+            data.append('birthday', dateOfBirth);
+            data.append('gender', gender);
+            data.append('phone_number', phonenumber);
+            data.append('bio', bio);
+            await axios.post(API_PROFILE_URL,{
+                data
+            }, {
+                headers: {
+                    'Authorization': 'Token 475ca0838d340bd825a3d985ac323da2aba8afd7'
+                }
+            })                
+            .then(res => {
+                if (res.status===201)
+                {
+                    console.log("edit was ok")
+                    // showMemoryVariables()
+                }
+                else
+                {
+                    console.log("unknown status")
+                }
+            }).catch(error =>{
+                    console.log(error)
+            })
+        }
 
     }
 
