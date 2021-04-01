@@ -2,9 +2,11 @@
 import React, {Component} from 'react';
 import './navbar.css'
 import {Fragment} from "react";
-import {Modal} from "react-bootstrap";
+import {Dropdown, Modal} from "react-bootstrap";
 import Login from "./auth/login";
 import Signup from "./auth/signup";
+import {getItem} from "../../util";
+import default_logo from '../../../assets/img/default-profile-picture.jpg'
 
 
 class Navbar extends Component {
@@ -19,6 +21,7 @@ class Navbar extends Component {
         authModal : false,
         modalOnLogin : true,
         email : null,
+        loggedIn:!!getItem("user-token"),
     }
 
     // componentWillMount() {
@@ -56,7 +59,7 @@ class Navbar extends Component {
 
     onSuccess()
     {
-
+        this.setState({loggedIn:!!getItem("user-token")})
     }
 
     render() {
@@ -74,16 +77,37 @@ class Navbar extends Component {
                                 <li className="nav-item"><a className="nav-link" href="#">Third Item</a></li>
                             </ul>
                             <ul className="navbar-nav ml-auto">
-                                <li className="nav-item"><a className="nav-link active" href="#">
-                                    <button onClick={()=>this.changeModal(true,true,null)} className="btn btn-outline-primary" data-toggle="modal" data-target="#signup"
-                                            type="button">Log In
-                                    </button>
-                                </a></li>
-                                <li className="nav-item"><a className="nav-link active" href="#">
-                                    <button onClick={()=>this.changeModal(true,false,null)} className="btn btn-primary" data-toggle="modal" data-target="#signin"
-                                            type="button">Sign Up
-                                    </button>
-                                </a></li>
+                                {this.state.loggedIn?
+                                <Dropdown>
+                                    <Dropdown.Toggle className={"shadow-none border-0 bg-transparent "} >
+                                        <img src={(getItem("user-image") && getItem("user-image")!=="null")?
+                                                    getItem("user-image"):default_logo}
+                                                height={"50px"} className={"rounded-circle"}/>
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu className={"shadow-lg"}>
+                                        <Dropdown.Item href="/setting/personalInfo">Setting</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                                :
+                                <Fragment>
+                                    <li className="nav-item">
+                                        <a className="nav-link active" href="#">
+                                            <button onClick={()=>this.changeModal(true,true,null)} className="btn btn-outline-primary" data-toggle="modal" data-target="#signup"
+                                                    type="button">Log In
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link active" href="#">
+                                            <button onClick={()=>this.changeModal(true,false,null)} className="btn btn-primary" data-toggle="modal" data-target="#signin"
+                                                    type="button">Sign Up
+                                            </button>
+                                        </a>
+                                    </li>
+                                </Fragment>}
                             </ul>
                         </div>
                     </div>

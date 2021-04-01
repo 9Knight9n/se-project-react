@@ -295,7 +295,7 @@ class Signup extends Component {
                                             placeholder={"Phone number"}
                                             preferredCountries={["ir"]}
                                             // country={'ir'}
-                                            onlyCountries={["ir","uk","fr","ru"]}
+                                            // onlyCountries={["ir","uk","fr","ru"]}
                                             // enableSearch={true}
                                             // disableSearchIcon={true}
                                             inputProps={
@@ -512,7 +512,7 @@ class Signup extends Component {
         let email = document.getElementById("email-input").value
         let FormData = require('form-data');
         let data = new FormData();
-        data.append('first_name', email);
+        data.append('first_name', "user");
         data.append('email', email);
         await axios.post(API_EMAIL_VERIFY_URL, data)
               .then(res => {
@@ -619,7 +619,7 @@ class Signup extends Component {
               .then(res => {
                 if (res.status===201)
                 {
-                    saveCredentials(res.data.user_id,res.data.email,res.data.token,res.data.image,false)
+                    saveCredentials(res.data.user_id,res.data.email,res.data.token,res.data.image,true)
                     showMemoryVariables()
                     this.props.onSuccess()
                     return this.exit(false,false,null)

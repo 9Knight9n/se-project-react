@@ -148,7 +148,7 @@ class Login extends Component {
                 if (res.status===200)
                 {
                     console.log("success")
-                    saveCredentials(res.data.user_id,res.data.email,res.data.token,res.data.image,false)
+                    saveCredentials(res.data.user_id,res.data.email,res.data.token,res.data.image,true)
                     showMemoryVariables()
                     this.props.onSuccess()
                     return this.exit(false,false,null)
