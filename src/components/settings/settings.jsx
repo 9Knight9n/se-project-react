@@ -14,7 +14,9 @@ import PaymentsPayouts from './account-setting/payments-payouts';
 import Notfications from './account-setting/notifications';
 import Temp from '../temp';
 import Terms from './termsAndConditions/term&conditions';
-import Help from './helpAndaskedQuestions/help'
+import Help from './helpAndaskedQuestions/help';
+import Footer from '../homepage/footer';
+import NavBar from '../homepage/navbar/navbar';
 import { 
     BrowserRouter as Router, 
     Route, 
@@ -78,7 +80,6 @@ class Settings extends Component {
         if (this.props.windowWidth <= 786 * 667) {
             this.setState({collapsed: true})
         }
-        console.log(this.setLocation)
         // if(setLocation() === "/personalInfo"){
         //     this.setState({
         //         activePersonalInfo: true,
@@ -269,7 +270,7 @@ class Settings extends Component {
             <Router>
             <div className="setting container m-0">
                 <div className="setting-navbar">
-                    hi this is navbar
+                    <NavBar />
                 </div>
                 <div className="setting-main d-flex row">
                     <div className="setting-left justify-content-start col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-4">
@@ -379,7 +380,7 @@ class Settings extends Component {
    
                 </div>
                 <div className="setting-footer">
-                    hi this is footer
+                    <Footer />
                 </div>
             </div>
             </Router>

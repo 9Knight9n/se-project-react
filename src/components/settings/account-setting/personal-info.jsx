@@ -156,7 +156,7 @@ class PersonalInfo extends Component {
                 <form className="row">
                     <div className="personalInfo-form w-100 ml-5 mt-4">
                         <div className="firstName row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" for="personalInfo-firstName">First Name :</label>
+                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-firstName">First Name :</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -181,7 +181,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-lastName row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" for="personalInfo-lastName">Last Name :</label>
+                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-lastName">Last Name :</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -203,7 +203,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2 "/>
 
                         <div className="personalInfo-nationalId row">
-                            <label className="form-label col-lg-2 col-md-1 col-sm-1" for="personalInfo-nationalId">National Code :</label>
+                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-nationalId">National Code :</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -226,7 +226,7 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-Gender ">
                             <div className="row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" for="personalInfo-Gender">Gender :</label>
+                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-Gender">Gender :</label>
                                 <div className="form-select form-group col-lg-10 col-md-11 col-sm-11">
                                     <select className="" name="gender" value={this.state.gender} onChange={this.handleChange} id="personalInfo-Gender" required>
                                         <option>Male</option>
@@ -240,7 +240,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-dateOfBirth row">
-                            <label className="form-label col-lg-2 col-md-1 col-sm-1" for="personalInfo-dateOfBirth">Date Of Birth :</label>
+                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-dateOfBirth">Date Of Birth :</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                 <TextField
                                     id="personalInfo-dateOfBirth"
@@ -257,7 +257,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-phoneNum row">
-                            <label for="personalInfo-phoneNum" className="form-label col-lg-2 col-md-1 col-sm-1">Phone Number :</label>
+                            <label htmlFor="personalInfo-phoneNum" className="form-label col-lg-2 col-md-1 col-sm-1">Phone Number :</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                 <div className="input-group">
                                     <div className="input-group-prepend" style={{width:"inherit"}}>
@@ -292,7 +292,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-emailId row ">
-                            <label for="personalInfo-emailId" className="form-label col-lg-2 col-md-1 col-sm-1">Email :</label>
+                            <label htmlFor="personalInfo-emailId" className="form-label col-lg-2 col-md-1 col-sm-1">Email :</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -301,7 +301,8 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="email"
-                                            value={this.state.email}
+                                            value={"admin@admin.com"}
+                                            data-testid="personalInfo-emailId"
                                             isInvalid={this.state.emailValidationError}
                                             />
                                             <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -319,23 +320,23 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-bioField row">
-                            <label className="form-lable col-lg-2 col-md-1 col-sm-1" for="bio">Bio :</label>
+                            <label className="form-lable col-lg-2 col-md-1 col-sm-1" htmlFor="bio">Bio :</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
-                                <textarea id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxlength="300">
+                                <textarea id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxLength="210">
                                             
                                 </textarea>
                             </div>
                             <div className="personalInfo-textAreaCounter">
-                                {this.state.pageCount} of 300
+                                {this.state.pageCount} of 210
                             </div>
                         </div>
                         <div className="w-100 d-flex justify-content-center mb-5">
                             <div className="personalInfo-btn mr-5 mb-2 mt-5">
                                 <div className="mb-4">
-                                    <button className="btn btn-primary btn-lg btn-block" type="button" onClick={this.handleSubmit}>Submit</button>
+                                    <button data-testid="personalInfo-submit" className="btn btn-primary btn-lg btn-block" type="button" onClick={this.handleSubmit}>Submit</button>
                                 </div>
                                 <div className="mb-4">
-                                    <button type="button" className="btn btn-secondary btn-lg btn-block" onClick={this.handleReset}>Reset</button>
+                                    <button data-testid="personalInfo-reset" type="button" className="btn btn-secondary btn-lg btn-block" onClick={this.handleReset}>Reset</button>
                                 </div>
                             </div>
                         </div>
