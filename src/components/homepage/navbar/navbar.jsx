@@ -86,14 +86,14 @@ class Navbar extends Component {
                             <ul className="navbar-nav ml-auto">
                                 {this.state.loggedIn?
                                 <Dropdown>
-                                    <Dropdown.Toggle className={"shadow-none border-0 bg-transparent "} >
+                                    <Dropdown.Toggle className={"shadow-none border-0 navBar-icon-css "} >
                                         <img src={(getItem("user-image") && getItem("user-image")!=="null")?
                                                     getItem("user-image"):default_logo}
                                                 height={"50px"} className={"rounded-circle"}/>
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className={"shadow-lg"}>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="/setting/personalInfo">
+                                        <Dropdown.Item as={'button'} className={""} href="/setting/personalInfo">
                                             <Link to="/settings/personalInfo">
                                                 Settings
                                             </Link>
