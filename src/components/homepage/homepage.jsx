@@ -4,6 +4,7 @@ import './homepage.css'
 import Footer from "./footer";
 import Navbar from "./navbar/navbar";
 import SearchUser from "./searchUser/searchUser";
+import SearchUserResult from "./searchUser/searchUserResult";
 
 class Homepage extends Component {
     constructor(props) {
@@ -42,6 +43,7 @@ class Homepage extends Component {
         return (
             <div id='homepage' className="d-flex flex-column">
                 <Navbar/>
+                <br/><br/><br/>
                 <SearchUser/>
 
 

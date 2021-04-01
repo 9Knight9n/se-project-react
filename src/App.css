@@ -2,6 +2,6 @@
   text-align: center;
 }
 
-a:focus, a:hover {
-  color: #0085A1;
+a:focus, a:hover,button:hover {
+  color: #0085A1 !important;
 }
