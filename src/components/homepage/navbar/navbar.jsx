@@ -5,7 +5,7 @@ import {Fragment} from "react";
 import {Dropdown, Modal} from "react-bootstrap";
 import Login from "./auth/login";
 import Signup from "./auth/signup";
-import {getItem} from "../../util";
+import {clearCredentials, getItem} from "../../util";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
 
 
@@ -15,6 +15,7 @@ class Navbar extends Component {
 
         this.changeModal = this.changeModal.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
 
     state = {
@@ -62,6 +63,11 @@ class Navbar extends Component {
         this.setState({loggedIn:!!getItem("user-token")})
     }
 
+    logOut()
+    {
+        clearCredentials()
+        this.setState({loggedIn:false})
+    }
     render() {
         return (
             <Fragment>
@@ -86,9 +92,9 @@ class Navbar extends Component {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className={"shadow-lg"}>
-                                        <Dropdown.Item href="/setting/personalInfo">Setting</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="/setting/personalInfo">Setting</Dropdown.Item>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="#/action-2">Another action</Dropdown.Item>
+                                        <Dropdown.Item as={'button'} className={"btn-danger"} onClick={this.logOut} href="#">Log out</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                                 :
