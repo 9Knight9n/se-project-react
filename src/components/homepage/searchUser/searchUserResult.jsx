@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import EllipsisToolTip from "ellipsis-tooltip-react-chan";
+import default_logo from '../../../assets/img/default-profile-picture.jpg'
+import {getItem} from "../../util";
 
 const ellipsisToolTipOptions = {
     effect: "solid",
@@ -16,11 +18,19 @@ class SearchUserResult extends Component {
         return (
             <div className={"container p-2 border-primary m-1  rounded"} style={{border:'2px solid',width:'inherit'}}>
                 <div className={"d-flex flex-row"}>
-                    <img className={"rounded-circle align-self-center mr-3"} src={this.props.profile} height={"50px"}/>
-                    <div className={'align-self-center '} style={{maxWidth:"calc(100% - 115px)"}}>
-                        <EllipsisToolTip options={ellipsisToolTipOptions}>
-                        {this.props.email}
-                        </EllipsisToolTip>
+                    <img className={"rounded-circle align-self-center mr-3"} src={(getItem("user-image") && getItem("user-image")!=="null")?
+                                                    getItem("user-image"):default_logo} height={"50px"}/>
+                    <div className={'align-self-center d-flex flex-column'} style={{maxWidth:"calc(100% - 115px)"}}>
+                        <div className={'w-100'}>
+                            <EllipsisToolTip options={ellipsisToolTipOptions}>
+                            {this.props.email}
+                            </EllipsisToolTip>
+                        </div>
+                        <small className={'w-100'}>
+                            <EllipsisToolTip options={ellipsisToolTipOptions}>
+                            {this.props.first_name +" "+ this.props.last_name}
+                            </EllipsisToolTip>
+                        </small>
                     </div>
                     <div className={'ml-auto'}>
                         <button className={'ml-auto btn transparent-button'}>

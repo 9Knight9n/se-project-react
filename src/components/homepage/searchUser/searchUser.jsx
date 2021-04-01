@@ -4,6 +4,9 @@ import {Link} from "react-router-dom";
 import SearchUserResult from "./searchUserResult";
 import icon from '../../../assets/img/default-profile-picture.jpg'
 import EllipsisToolTip from "ellipsis-tooltip-react-chan";
+import {Spinner} from "react-bootstrap";
+import {API_SEARCH_USER_URL} from "../../constants";
+import axios from "axios";
 
 const ellipsisToolTipOptions = {
     effect: "solid",
@@ -17,9 +20,10 @@ class SearchUser extends Component {
 
     state = {
         focused:false,
-        panelOpened:true,
-        searchInput:"knidwdwddwdwdwwdwwdwdwdw",
-        suggestions:[{email:"9knight9n@gmail9knight9n@gmail.com .com",profile:icon,isFriend:true},{email:"sajad@te.st",profile:icon,isFriend:false}],
+        panelOpened:false,
+        searchInput:"",
+        suggestions:[],
+        notFound:false,
     }
 
     componentDidMount(){
@@ -53,7 +57,7 @@ class SearchUser extends Component {
     handleInputChange=(event)=>{
         let input = event.target.value;
         this.setState({searchInput:input})
-        if (input.length >2)
+        if (input.length >0)
         {
             // toast.dismiss()
             this.setState({panelOpened:true})
@@ -64,32 +68,27 @@ class SearchUser extends Component {
     }
 
     loadSuggestions= async (input)=>{
-        // let config ={
-        //     url:"http://127.0.0.1:8000/api/SeggestionChatroomSreach/",
-        //     needToken:true,
-        //     type:"post",
-        //     formKey:[
-        //         "searchText",
-        //     ],
-        //     formValue:[
-        //         input,
-        //     ]
-        // }
-        // let data = []
-        // // console.log("outside 0",data)
-        // data = await request(config)
-        // // console.log(await request(config))
-        // // console.log("outside",data)
-        // if (data)
-        // {
-        //     this.setState({suggestions:data,})
-        //     console.log("state set")
-        // }
+        console.log("searching for : ",input)
+
+        let config = {
+            method: 'get',
+            url: API_SEARCH_USER_URL.concat("?search=").concat(input),
+            headers: { }
+        };
+
+        let response = await axios(config)
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        this.setState({notFound:(response.length===0)})
+        this.setState({suggestions:response})
+        // this.setState({notFound:0})
+
     }
 
-    quickSelect=(id)=>{
-        this.setState({searchInput:"",panelOpened:false,focused:false,suggestions:[]})
-    }
 
     render() {
         return (
@@ -98,22 +97,36 @@ class SearchUser extends Component {
                     <div style={{width:'inherit'}}>
                         <div id='bar' className={"ml-auto d-flex flex-row-reverse".concat(this.state.focused?" active ":"")}>
                             <input value={this.state.searchInput}
-                                   onChange={this.handleInputChange} onKeyDown={this._handleKeyDown}
+                                   onChange={this.handleInputChange}
                                    className=" form-control shadow-none" placeholder="Search" id="search-input-field"/>
                         </div>
                         <div id='panel' className={"mt-2 ".concat(this.state.panelOpened?" active":"")}>
-                            {/*<div id='search-sub-panel1' className={"ml-3 mr-3 mt-3".concat(this.state.panelOpened?" ":" display-none")}>*/}
-                            {/*    <EllipsisToolTip options={ellipsisToolTipOptions}>*/}
-                            {/*        {this.state.suggestions.length>0?*/}
-                            {/*        "users matching ".concat(this.state.searchInput)*/}
-                            {/*        :"can't find any user matching ".concat(this.state.searchInput)}*/}
-                            {/*    </EllipsisToolTip>*/}
-                            {/*</div>*/}
-                        <div id='search-sub-panel2' className={"search-result".concat(this.state.suggestions.length>0 && this.state.searchInput !== ""?" active":"")}>
-                            {this.state.panelOpened?
-                            this.state.suggestions.map(sug =>
-                                    <SearchUserResult email={sug.email} profile={sug.profile} isFriend={sug.isFriend}/>
-                                ):""}
+                            <div id='search-sub-panel1' className={"ml-3 mr-3 mt-3".concat(this.state.panelOpened?" ":" display-none")}>
+                                {/*<EllipsisToolTip options={ellipsisToolTipOptions}>*/}
+                                {/*    {this.state.suggestions.length>0?*/}
+                                {/*    "users matching ".concat(this.state.searchInput)*/}
+                                {/*    :"can't find any user matching ".concat(this.state.searchInput)}*/}
+                                {/*</EllipsisToolTip>*/}
+                                {this.state.suggestions.length===0 ?
+                                    (this.state.notFound?
+                                    <p>
+                                        No user found.
+                                    </p>:
+                                    <p>
+                                        <Spinner className={'ml-2 mr-2'} as="span"
+                                             animation="grow"
+                                             size="sm"
+                                             role="status"
+                                             aria-hidden="true"/>Searching ...
+                                    </p>)
+                                    :""}
+                            </div>
+                            <div id='search-sub-panel2' className={"search-result".concat(this.state.suggestions.length>0 && this.state.searchInput !== ""?" active":"")}>
+                                {this.state.panelOpened?
+                                this.state.suggestions.map(sug =>
+                                        <SearchUserResult email={sug.email} profile={sug.image} last_name={sug.last_name}
+                                                          isFriend={sug.isFriend} first_name={sug.first_name}/>
+                                    ):""}
 
                             </div>
                         </div>
