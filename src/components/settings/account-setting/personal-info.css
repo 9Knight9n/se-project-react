@@ -5,6 +5,7 @@
   height: 5vh;
   border: 1px solid #ced4da;
   border-radius: 4px !important;
+  color: black !important;
 }
 .personalInfo-avatar {
   margin-left: 2%;
