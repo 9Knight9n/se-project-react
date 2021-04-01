@@ -165,6 +165,7 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="firstName"
+                                            data-testid="personalInfo-firstName"
                                             value={this.state.firstName}
                                             isInvalid={this.state.firstNameValidationError}
                                         />
@@ -190,6 +191,7 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="lastName"
+                                            data-testid="personalInfo-lastName"
                                             value={this.state.lastName}
                                             isInvalid={this.state.lastNameValidationError}
                                         />
@@ -212,6 +214,7 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="nationalId"
+                                            data-testid="personalInfo-nationalId"
                                             value={this.state.nationalId}
                                             isInvalid={false}
                                         />
@@ -228,7 +231,7 @@ class PersonalInfo extends Component {
                             <div className="row">
                                 <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-Gender">Gender :</label>
                                 <div className="form-select form-group col-lg-10 col-md-11 col-sm-11">
-                                    <select className="" name="gender" value={this.state.gender} onChange={this.handleChange} id="personalInfo-Gender" required>
+                                    <select data-testid="personalInfo-Gender" className="" name="gender" value={this.state.gender} onChange={this.handleChange} id="personalInfo-Gender" required>
                                         <option>Male</option>
                                         <option>Female</option>
                                         <option>Other</option>
@@ -247,6 +250,7 @@ class PersonalInfo extends Component {
                                     type="date"
                                     defaultValue="2021-03-24"
                                     className="dateOfBirth-field"
+                                    data-testid="personalInfo-dateOfBirth"
                                     InputLabelProps={{
                                     shrink: true,
                                     }}
@@ -268,12 +272,14 @@ class PersonalInfo extends Component {
                                                 // enableSearch={true}
                                                 // disableSearchIcon={true}
                                                 value={this.state.phoneNum}
+                                                data-testid="personalInfo-phoneNum"
                                                 inputProps={
                                                     {
                                                         id:"personalInfo-phoneNum",
                                                         type:"phone-number",
                                                         className:("form-control shadow-none".concat(this.state.invalidPhoneNum?" not-valid":"")),
                                                         style:{width:"inherit"},
+                                                        
                                                     }
                                                 }
                                             />
@@ -322,7 +328,7 @@ class PersonalInfo extends Component {
                         <div className="personalInfo-bioField row">
                             <label className="form-lable col-lg-2 col-md-1 col-sm-1" htmlFor="bio">Bio :</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
-                                <textarea id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxLength="210">
+                                <textarea data-testid="personalInfo-ptextArea" id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxLength="210">
                                             
                                 </textarea>
                             </div>
