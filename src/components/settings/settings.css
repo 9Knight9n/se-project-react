@@ -1,17 +1,17 @@
 /*bg color css*/
-.pro-sidebar {
+#settings .pro-sidebar {
   color: black !important;
   position: relative;
   width: inherit !important;
 }
-.pro-sidebar .pro-menu a {
+#settings .pro-sidebar .pro-menu a {
   color: black !important;
 }
-.pro-sidebar > .pro-sidebar-inner {
+#settings .pro-sidebar > .pro-sidebar-inner {
   background-color: white !important;
   border-radius: 8px;
 }
-.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+#settings .pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
   background-color: white !important;
 }
 .pro-sidebar.collapsed
@@ -73,23 +73,23 @@
   width: 10%;
 }
 
-.container {
+#settings .container {
   max-width: 100% !important;
 }
 
-.setting-main {
+#settings .setting-main {
   height: 100% !important;
 }
 
-.setting-center {
+#settings .setting-center {
   max-height: 100%;
 }
 
-.setting-right {
+#settings .setting-right {
   max-height: 100%;
 }
 
-.setting-left {
+#settings .setting-left {
   position: sticky;
   top: 0;
   height: 100vh;

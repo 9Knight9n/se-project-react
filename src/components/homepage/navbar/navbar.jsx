@@ -7,6 +7,7 @@ import Login from "./auth/login";
 import Signup from "./auth/signup";
 import {clearCredentials, getItem} from "../../util";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
+import {Link} from "react-router-dom";
 
 
 class Navbar extends Component {
@@ -71,7 +72,7 @@ class Navbar extends Component {
     render() {
         return (
             <Fragment>
-                <nav className="navbar navbar-light navbar-expand-md sticky-top bg-white">
+                <nav className="navbar navbar-light navbar-expand-md sticky-top bg-white border-bottom mb-2">
                     <div className="container-fluid"><a className="navbar-brand" href="#">Brand</a>
                         <button data-toggle="collapse" data-target="#navcol-1" className="navbar-toggler"><span
                             className="sr-only">Toggle navigation</span><span className="navbar-toggler-icon"></span>
@@ -93,7 +94,9 @@ class Navbar extends Component {
 
                                     <Dropdown.Menu className={"shadow-lg"}>
                                         <Dropdown.Item as={'button'} className={"btn-primary"} href="/setting/personalInfo">
-                                            Setting
+                                            <Link to="/settings/personalInfo">
+                                                Settings
+                                            </Link>
                                         </Dropdown.Item>
                                         <Dropdown.Divider/>
                                         <Dropdown.Item as={'button'} className={"btn-primary"} href="#/action-2">
@@ -101,7 +104,9 @@ class Navbar extends Component {
                                         </Dropdown.Item>
                                         <Dropdown.Divider/>
                                         <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut} href="#">
-                                            Log out
+                                            <Link to="/settings/personalInfo">
+                                                Log Out
+                                            </Link>
                                         </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>

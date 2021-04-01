@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import {Form} from "react-bootstrap";
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import {validateEmail} from '../../util';
+import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {showMemoryVariables} from "../../util";
@@ -40,7 +40,7 @@ class PersonalInfo extends Component {
             
         await axios.get(API_PROFILE_URL,{
             headers: {
-                'Authorization': 'Token 475ca0838d340bd825a3d985ac323da2aba8afd7'
+                'Authorization': 'Token '.concat(getItem('user-token'))
             }
         })                
         .then(res => {
@@ -61,7 +61,8 @@ class PersonalInfo extends Component {
     }
 
     loadData = (data) =>{
-        document.getElementById("personalInfo-phoneNum").value = "+".concat(data.phone_number); 
+        this.setState({phone:data.phone_number})
+        // document.getElementById("personalInfo-phoneNum").value = data.phone_number;
         document.getElementById("personalInfo-firstName").value = data.first_name;
         document.getElementById("personalInfo-lastName").value = data.last_name;
         document.getElementById("personalInfo-nationalId").value = data.national_code;
@@ -74,7 +75,7 @@ class PersonalInfo extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        let phonenumber = document.getElementById("personalInfo-phoneNum").value.replaceAll(" ", "").replaceAll("(","").replaceAll(")","").replaceAll("+","")
+        let phonenumber = document.getElementById("personalInfo-phoneNum").value.replaceAll(" ", "").replaceAll("(","").replaceAll(")","")
         let firstName = document.getElementById("personalInfo-firstName").value;
         let lastName = document.getElementById("personalInfo-lastName").value;
         let nationalId = document.getElementById("personalInfo-nationalId").value;
@@ -141,7 +142,7 @@ class PersonalInfo extends Component {
             await axios.post(API_PROFILE_UPDATE_URL,data,
             {
                 headers: {
-                    'Authorization': 'Token 475ca0838d340bd825a3d985ac323da2aba8afd7'
+                    'Authorization': 'Token '.concat(getItem('user-token'))
                 }
             })                
             .then(res => {
@@ -199,7 +200,7 @@ class PersonalInfo extends Component {
                 <form className="row">
                     <div className="personalInfo-form w-100 ml-5 mt-4">
                         <div className="firstName row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-firstName">First Name :</label>
+                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-firstName">First Name:</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -225,7 +226,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-lastName row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-lastName">Last Name :</label>
+                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-lastName">Last Name:</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -248,7 +249,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2 "/>
 
                         <div className="personalInfo-nationalId row">
-                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-nationalId">National Code :</label>
+                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-nationalId">National Code:</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -272,7 +273,7 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-Gender ">
                             <div className="row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-Gender">Gender :</label>
+                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-Gender">Gender:</label>
                                 <div className="form-select form-group col-lg-10 col-md-11 col-sm-11">
                                     <select data-testid="personalInfo-Gender" className="" name="gender" value={this.state.gender} onChange={this.handleChange} id="personalInfo-Gender" required>
                                         <option>Male</option>
@@ -286,7 +287,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-dateOfBirth row">
-                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-dateOfBirth">Date Of Birth :</label>
+                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-dateOfBirth">Date Of Birth:</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                 <TextField
                                     id="personalInfo-dateOfBirth"
@@ -304,17 +305,17 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-phoneNum row">
-                            <label htmlFor="personalInfo-phoneNum" className="form-label col-lg-2 col-md-1 col-sm-1">Phone Number :</label>
+                            <label htmlFor="personalInfo-phoneNum" className="form-label col-lg-2 col-md-1 col-sm-1">Phone Number:</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                 <div className="input-group">
                                     <div className="input-group-prepend" style={{width:"inherit"}}>
                                         <span className={"input-group-btn".concat(this.state.invalidPhoneNum?" flag-warn":"")}>
                                             <PhoneInput
-                                                country="us"
+                                                // country="us"
                                                 // country={'ir'}
                                                 // enableSearch={true}
                                                 // disableSearchIcon={true}
-                                                value={this.state.phoneNum}
+                                                value={this.state.phone}
                                                 data-testid="personalInfo-phoneNum"
                                                 inputProps={
                                                     {
@@ -341,7 +342,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-emailId row ">
-                            <label htmlFor="personalInfo-emailId" className="form-label col-lg-2 col-md-1 col-sm-1">Email :</label>
+                            <label htmlFor="personalInfo-emailId" className="form-label col-lg-2 col-md-1 col-sm-1">Email:</label>
                                 <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                     <div className="input-group">
                                         <Form.Control
@@ -369,7 +370,7 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-bioField row">
-                            <label className="form-lable col-lg-2 col-md-1 col-sm-1" htmlFor="bio">Bio :</label>
+                            <label className="form-lable col-lg-2 col-md-1 col-sm-1" htmlFor="bio">Bio:</label>
                             <div className="form-group col-lg-10 col-md-11 col-sm-11">
                                 <textarea data-testid="personalInfo-ptextArea" id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxLength="210">
                                             
