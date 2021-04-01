@@ -13,7 +13,7 @@ import {validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {showMemoryVariables} from "../../util";
-import {API_PROFILE_URL} from "../../constants";
+import {API_PROFILE_URL, API_PROFILE_UPDATE_URL} from "../../constants";
 import axios from "axios";
 
 class PersonalInfo extends Component {
@@ -35,12 +35,45 @@ class PersonalInfo extends Component {
         this.handleReset = this.handleReset.bind(this);
     }
 
+    async componentDidMount() {
+            
+        await axios.get(API_PROFILE_URL,{
+            headers: {
+                'Authorization': 'Token 475ca0838d340bd825a3d985ac323da2aba8afd7'
+            }
+        })                
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log(res.data)
+                console.log("data is shown")
+                this.loadData(res.data)
+                // showMemoryVariables()
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+    }
 
+    loadData = (data) =>{
+        document.getElementById("personalInfo-phoneNum").value = "+".concat(data.phone_number); 
+        document.getElementById("personalInfo-firstName").value = data.first_name;
+        document.getElementById("personalInfo-lastName").value = data.last_name;
+        document.getElementById("personalInfo-nationalId").value = data.national_code;
+        document.getElementById("personalInfo-dateOfBirth").value = data.birthday;
+        document.getElementById("personalInfo-emailId").value = data.email;
+        document.getElementById("ptextArea").value = data.bio;
+        document.getElementById("personalInfo-Gender").value = data.gender;
+    }
 
     async handleSubmit(event) {
         event.preventDefault();
-        console.log("entered submit")
-        let phonenumber = document.getElementById("personalInfo-phoneNum").value;
+        console.log(document.getElementById("personalInfo-phoneNum").value)
+        let phonenumber = document.getElementById("personalInfo-phoneNum").value.replaceAll(" ", "").replaceAll("(","").replaceAll(")","").replaceAll("+","")
         let firstName = document.getElementById("personalInfo-firstName").value;
         let lastName = document.getElementById("personalInfo-lastName").value;
         let nationalId = document.getElementById("personalInfo-nationalId").value;
@@ -48,11 +81,12 @@ class PersonalInfo extends Component {
         let emailId = document.getElementById("personalInfo-emailId").value;
         let bio = document.getElementById("ptextArea").value;
         let gender = document.getElementById("personalInfo-Gender").value;
-        if ( !isPossiblePhoneNumber(phonenumber)  || !isValidPhoneNumber(phonenumber) || phonenumber.length === 0) {
+        if (!isValidPhoneNumber("+".concat(phonenumber))) {
             this.setState({
                 invalidPhoneNum: true,
                 dataValid: false,
             })
+            return;
         }
         else{
             this.setState({
@@ -60,21 +94,33 @@ class PersonalInfo extends Component {
             })
         }
         if (!validateEmail(emailId) || emailId.length === 0) {
-            this.setState({emailValidationError: true,dataValid: false,});
+            this.setState({
+                emailValidationError: true,
+                dataValid: false,
+            });
+            return;
         }
         else{
             this.setState({emailValidationError: false});
         }
 
         if (firstName.length === 0) {
-            this.setState({firstNameValidationError: true,dataValid: false,});
+            this.setState({
+                firstNameValidationError: true,
+                dataValid: false,
+            });
+            return;
         }
         else{
             this.setState({firstNameValidationError: false});
         }
 
         if (lastName.length === 0) {
-            this.setState({lastNameValidationError: true,dataValid: false,});
+            this.setState({
+                lastNameValidationError: true,
+                dataValid: false,
+            });
+            return;
         }
         else{
             this.setState({lastNameValidationError: false,});
@@ -92,15 +138,13 @@ class PersonalInfo extends Component {
             data.append('gender', gender);
             data.append('phone_number', phonenumber);
             data.append('bio', bio);
-            await axios.post(API_PROFILE_URL,{
-                data
-            }, {
+            await axios.post(API_PROFILE_UPDATE_URL,data,{
                 headers: {
                     'Authorization': 'Token 475ca0838d340bd825a3d985ac323da2aba8afd7'
                 }
             })                
             .then(res => {
-                if (res.status===201)
+                if (res.status===205)
                 {
                     console.log("edit was ok")
                     // showMemoryVariables()
@@ -110,8 +154,9 @@ class PersonalInfo extends Component {
                     console.log("unknown status")
                 }
             }).catch(error =>{
-                    console.log(error)
+                console.log(error)
             })
+            toast.success("data updated.")
         }
 
     }
@@ -121,14 +166,9 @@ class PersonalInfo extends Component {
     }
 
     handleChange(e) { 
-        console.log("entered handle change")
-        console.log("eeeee : " + e)
         let target=e.target;
         let name = target.name;
         let value = target.value
-        this.setState({
-         [name]: value
-        });
         if (name === "bio"){
          let currentText = e.target.value;
          //Now we need to recalculate the number of characters that have been typed in so far
@@ -143,7 +183,7 @@ class PersonalInfo extends Component {
     render() { 
         return ( 
             <div className="personalInfo-main">
-                {this.state.toast? <ToastContainer />: ""}
+                <ToastContainer />
                 <div className="personalInfo-avatar mt-4 mb-4">
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
@@ -262,21 +302,23 @@ class PersonalInfo extends Component {
                                 <div className="input-group">
                                     <div className="input-group-prepend" style={{width:"inherit"}}>
                                         <span className={"input-group-btn".concat(this.state.invalidPhoneNum?" flag-warn":"")}>
-                                            <PhoneInput
-                                                country="us"
-                                                // country={'ir'}
-                                                // enableSearch={true}
-                                                // disableSearchIcon={true}
-                                                value={this.state.phoneNum}
-                                                inputProps={
-                                                    {
-                                                        id:"personalInfo-phoneNum",
-                                                        type:"phone-number",
-                                                        className:("form-control shadow-none".concat(this.state.invalidPhoneNum?" not-valid":"")),
-                                                        style:{width:"inherit"},
-                                                    }
+                                        <PhoneInput
+                                            placeholder={"Phone number"}
+                                            preferredCountries={["ir"]}
+                                            // country={'ir'}
+                                            // onlyCountries={["ir","uk","fr","ru"]}
+                                            // enableSearch={true}
+                                            // disableSearchIcon={true}
+                                            inputProps={
+                                                {
+                                                    id:"personalInfo-phoneNum",
+                                                    required:true,
+                                                    type:"phone-number",
+                                                    className:("form-control shadow-none".concat(this.state.invalidPhoneNum?" not-valid":"")),
+                                                    style:{width:"inherit",borderRadius:"5px 0 0 5px"}
                                                 }
-                                            />
+                                            }
+                                        />
                                         </span>
                                     </div>
                                     {this.state.invalidPhoneNum?
