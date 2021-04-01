@@ -1,7 +1,7 @@
 import axios from "axios";
 export const VERIFY_LENGTH = 6;
 
-const API_BASE_URL = "https://softcheetahs.herokuapp.com/"
+const API_BASE_URL = "http://127.0.0.1:8000/"
 axios.defaults.baseURL=API_BASE_URL;
 
 
