@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import './auth.css'
-import {Form, Modal, Spinner} from "react-bootstrap";
+import {Alert, Form, Modal, Spinner} from "react-bootstrap";
 import {Fragment} from "react";
-import {validateEmail,validatePass} from "../../../util";
+import {saveCredentials, showMemoryVariables, validateEmail, validatePass} from "../../../util";
+import axios from "axios";
+import {API_EMAIL_CHECK_URL, API_LOGIN_URL} from "../../../constants";
 
 
 class Login extends Component {
@@ -20,6 +22,7 @@ class Login extends Component {
         loading : false,
         email : null,
         isInvalid:false,
+        connectionError:false,
     }
 
     componentDidMount()
@@ -68,11 +71,8 @@ class Login extends Component {
 
     exit(authModal,modalOnLogin,email)
     {
-        if(!this.state.loading)
-        {
-            this.setState({pageNum:0,loading:false,email:null,isInvalid:false})
-            this.props.changeModal(authModal,modalOnLogin,email)
-        }
+        this.setState({pageNum:0,loading:false,email:null,isInvalid:false})
+        this.props.changeModal(authModal,modalOnLogin,email)
 
     }
 
@@ -101,7 +101,7 @@ class Login extends Component {
         this.setState({pageNum})
     }
 
-    emailValidation()
+    async emailValidation()
     {
         this.setState({loading : true})
         let email = document.getElementById("email-input").value
@@ -109,20 +109,67 @@ class Login extends Component {
             return this.setState({loading : false,isInvalid :true })
 
 
-
-        setTimeout(() => this.setPage(1), 1000);
-
-
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('email', email);
+        await axios.post(API_EMAIL_CHECK_URL, data)
+              .then(res => {
+                if (res.status===200)
+                {
+                     this.setPage(1)
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return this.setState({connectionError:true,loading:false})
+                }
+              }).catch(error =>{
+                    console.log(error)
+                    return this.setPage(2)
+                    // console.log("error")
+                    // console.log(error)
+                    // return this.setState({connectionError:true,loading:false})
+              })
     }
 
 
 
-    login()
+    async login()
     {
         this.setState({loading : true})
         let pass = document.getElementById("pass-input").value
-        if(!validatePass(pass))
-            return setTimeout(() => this.setState({loading : false,isInvalid:true}), 500);
+
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('username', this.state.email);
+        data.append('password', pass);
+        await axios.post(API_LOGIN_URL, data)
+              .then(res => {
+                if (res.status===200)
+                {
+                    console.log("success")
+                    saveCredentials(res.data.user_id,res.data.email,res.data.token,res.data.image,true)
+                    showMemoryVariables()
+                    this.props.onSuccess()
+                    return this.exit(false,false,null)
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return this.setState({connectionError:true,loading:false})
+                }
+              }).catch(error =>{
+                    console.log(error)
+                return this.setState({loading : false,isInvalid:true})
+                    // return this.setPage(2)
+                    // console.log("error")
+                    // console.log(error)
+                    // return this.setState({connectionError:true,loading:false})
+              })
+
+
+
+            // return setTimeout(() => , 500);
 
 
 
@@ -158,6 +205,14 @@ class Login extends Component {
 
                 <Modal.Body>
                     <form>
+                                                {this.state.connectionError?
+                        <Alert variant="danger" onClick={() => this.setState({connectionError:false})}>
+                            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+                            <p>there was a problem while signing you in!
+                            check your connection !
+                            If the problem still persist,
+                            try reloading page. </p>
+                        </Alert>:""}
 
 
 
@@ -268,21 +323,21 @@ class Login extends Component {
 
 
                     {/*continue with google button*/}
-                    {this.state.pageNum===0?
-                    <Fragment>
-                        <h5 className={"ml-auto mr-auto"} style={{width:"fit-content"}}>Or</h5>
-                        <div className="text-center mt-3">
-                            <button className="btn btn-light text-left border-dark" style={{"width": "100%"}}
-                                    type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                     className="bi bi-google mr-2  mb-1" viewBox="0 0 16 16">
-                                    <path
-                                        d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>
-                                </svg>
-                                Continue with Google
-                            </button>
-                        </div>
-                    </Fragment>:""}
+                    {/*{this.state.pageNum===0?*/}
+                    {/*<Fragment>*/}
+                    {/*    <h5 className={"ml-auto mr-auto"} style={{width:"fit-content"}}>Or</h5>*/}
+                    {/*    <div className="text-center mt-3">*/}
+                    {/*        <button className="btn btn-light text-left border-dark" style={{"width": "100%"}}*/}
+                    {/*                type="button">*/}
+                    {/*            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"*/}
+                    {/*                 className="bi bi-google mr-2  mb-1" viewBox="0 0 16 16">*/}
+                    {/*                <path*/}
+                    {/*                    d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>*/}
+                    {/*            </svg>*/}
+                    {/*            Continue with Google*/}
+                    {/*        </button>*/}
+                    {/*    </div>*/}
+                    {/*</Fragment>:""}*/}
 
 
 
