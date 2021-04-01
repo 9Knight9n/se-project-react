@@ -92,9 +92,17 @@ class Navbar extends Component {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className={"shadow-lg"}>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="/setting/personalInfo">Setting</Dropdown.Item>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="#/action-2">Another action</Dropdown.Item>
-                                        <Dropdown.Item as={'button'} className={"btn-danger"} onClick={this.logOut} href="#">Log out</Dropdown.Item>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="/setting/personalInfo">
+                                            Setting
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider/>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="#/action-2">
+                                            Another action
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider/>
+                                        <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut} href="#">
+                                            Log out
+                                        </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                                 :

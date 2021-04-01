@@ -507,7 +507,6 @@ class Signup extends Component {
 
     async sendVerification()
     {
-        console.log("ran")
         this.setState({loading : true})
         let email = document.getElementById("email-input").value
         let FormData = require('form-data');
@@ -519,7 +518,6 @@ class Signup extends Component {
                 if (res.status===200)
                 {
                     console.log("success")
-                    // console.log(res.data.vc_code)
                      return this.setState({vc_code:res.data.vc_code,loading:false})
                 }
                 else
@@ -735,6 +733,17 @@ class Signup extends Component {
                                     onClick={()=>this.exit(true,true,null)}
                                     href="#">
                                 Log In
+                            </a>
+                        </p>
+                    </Fragment>:""}
+                    {this.state.pageNum===1?
+                    <Fragment>
+                    <hr style={{"backgroundColor": "#bababa"}}/>
+                        <p className="text-center">Didn't get it?
+                            <a className="text-decoration-none"
+                                    onClick={this.sendVerification}
+                                    href="#">
+                                Resend!
                             </a>
                         </p>
                     </Fragment>:""}
