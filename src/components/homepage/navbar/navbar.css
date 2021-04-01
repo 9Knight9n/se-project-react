@@ -9,7 +9,7 @@
   border: none;
   margin-bottom: 0;
 }
-.navBar-icon-css {
+/* .navBar-icon-css {
   background-color: transparent;
   color: rgb(60, 60, 99) !important;
 }
@@ -22,7 +22,7 @@
 .show > .btn-primary.dropdown-toggle {
   background-color: transparent;
   color: rgb(60, 60, 99) !important;
-}
+} */
 
 @media (min-width: 768px) {
   .navigation-clean-button {
