@@ -24,6 +24,7 @@ import {
     Switch,
     Redirect,
 } from 'react-router-dom'; 
+import Homepage from '../homepage/homepage';
 
 // function setLocation() {
 //     const location = useLocation();
@@ -100,18 +101,11 @@ class Settings extends Component {
 
     componentWillMount = () => {
       }
-      
-    componentWillUnmount (){
-        window.addEventListener("resize", this.handleResize);
-    }
 
     handleMenu = () =>{
         this.setState({
             collapsed: !this.state.collapsed,
         })
-    }
-
-    handleResize = (e) =>{
     }
 
     handleActivation = (b) =>{
@@ -335,9 +329,11 @@ class Settings extends Component {
 
                                 </Menu>
                             </SidebarContent>
-                            {/* <SidebarFooter>
-                                This is footer
-                            </SidebarFooter> */}
+                            <SidebarFooter>
+                                <Link to="/">
+                                    <button className="w-100 btn btn-primary">Back</button>
+                                </Link>
+                            </SidebarFooter>
                         </ProSidebar>
 
                     </div>

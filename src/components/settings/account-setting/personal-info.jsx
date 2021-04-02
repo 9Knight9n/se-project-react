@@ -28,6 +28,15 @@ class PersonalInfo extends Component {
             invalidPhoneNum: false,
             toast: false,
             dataValid: true,
+            firstName:"",
+            lastName:"",
+            nationalId:"",
+            gender:"",
+            bio:"",
+            phonenumber:"",
+            emailId:"",
+            dateOfBirth:"",
+            phone:""
         };
         this.baseState = this.state  
         this.handleChange = this.handleChange.bind(this);
@@ -37,7 +46,6 @@ class PersonalInfo extends Component {
 
     
     async componentDidMount() {
-            
         await axios.get(API_PROFILE_URL,{
             headers: {
                 'Authorization': 'Token '.concat(getItem('user-token'))
@@ -48,6 +56,16 @@ class PersonalInfo extends Component {
             {
                 console.log(res.data)
                 console.log("data is shown")
+                // this.setState({
+                //     firstName: res.data.first_name,
+                //     lastName: res.data.last_name,
+                //     bio: res.data.bio,
+                //     phonenumber: res.data.phone_number,
+                //     gender: res.data.gender,
+                //     nationalId: res.data.national_code,
+                //     dateOfBirth: res.data.birthday,
+                //     emailId: res.data.email
+                // })
                 this.loadData(res.data)
                 // showMemoryVariables()
             }
@@ -83,7 +101,7 @@ class PersonalInfo extends Component {
         let emailId = document.getElementById("personalInfo-emailId").value;
         let bio = document.getElementById("ptextArea").value;
         let gender = document.getElementById("personalInfo-Gender").value;
-        if (!isValidPhoneNumber("+".concat(phonenumber))) {
+        if (!isValidPhoneNumber(phonenumber)) {
             this.setState({
                 invalidPhoneNum: true,
                 dataValid: false,
@@ -126,8 +144,12 @@ class PersonalInfo extends Component {
         else{
             this.setState({lastNameValidationError: false,});
         }
+        // && (firstName !== this.state.firstName || lastName !== this.state.lastName ||
+        //     nationalId !== this.state.nationalId || bio !== this.state.bio || gender !== this.state.gender  ||
+        //     emailId !== this.state.emailId || dateOfBirth !== this.state.dateOfBirth || phonenumber !== this.state.phonenumber )
 
-        if (this.state.dataValid){
+        if (this.state.dataValid)
+        {
             
             let FormData = require('form-data');
             let data = new FormData();
@@ -159,6 +181,8 @@ class PersonalInfo extends Component {
                     console.log(error)
             })
             toast.success("Changes saved")
+        }else{
+            toast.warn("No changes detected")
         }
 
     }
@@ -210,7 +234,6 @@ class PersonalInfo extends Component {
                                             type="text"
                                             name="firstName"
                                             data-testid="personalInfo-firstName"
-                                            value={this.state.firstName}
                                             isInvalid={this.state.firstNameValidationError}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -236,7 +259,6 @@ class PersonalInfo extends Component {
                                             type="text"
                                             name="lastName"
                                             data-testid="personalInfo-lastName"
-                                            value={this.state.lastName}
                                             isInvalid={this.state.lastNameValidationError}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -259,7 +281,6 @@ class PersonalInfo extends Component {
                                             type="text"
                                             name="nationalId"
                                             data-testid="personalInfo-nationalId"
-                                            value={this.state.nationalId}
                                             isInvalid={false}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -275,7 +296,7 @@ class PersonalInfo extends Component {
                             <div className="row">
                                 <label className="form-label col-lg-2 col-md-2 col-sm-3" htmlFor="personalInfo-Gender">Gender:</label>
                                 <div className="form-select form-group col-lg-10 col-md-10 col-sm-9">
-                                    <select data-testid="personalInfo-Gender" className="" name="gender" value={this.state.gender} onChange={this.handleChange} id="personalInfo-Gender" required>
+                                    <select data-testid="personalInfo-Gender" className="" name="gender" onChange={this.handleChange} id="personalInfo-Gender" required>
                                         <option>Male</option>
                                         <option>Female</option>
                                         <option>Other</option>
@@ -351,9 +372,9 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="email"
-                                            value={"admin@admin.com"}
                                             data-testid="personalInfo-emailId"
                                             isInvalid={this.state.emailValidationError}
+                                            disabled
                                             />
                                             <Form.Control.Feedback type="invalid" className={"ml-1"}>
                                                  Email is invalid!
@@ -372,7 +393,7 @@ class PersonalInfo extends Component {
                         <div className="personalInfo-bioField row">
                             <label className="form-lable col-lg-2 col-md-2 col-sm-3" htmlFor="bio">Bio:</label>
                             <div className="form-group col-lg-10 col-md-10 col-sm-9">
-                                <textarea data-testid="personalInfo-ptextArea" id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxLength="210">
+                                <textarea data-testid="personalInfo-ptextArea" id="ptextArea" name="bio" className="bio form-control" onChange={this.handleChange} maxLength="210">
                                             
                                 </textarea>
                             
