@@ -368,7 +368,6 @@ class PersonalInfo extends Component {
                                                 // enableSearch={true}
                                                 // disableSearchIcon={true}
                                                 value={this.state.phone}
-                                                data-testid="personalInfo-phoneNum"
                                                 inputProps={
                                                     {
                                                         id:"personalInfo-phoneNum",
