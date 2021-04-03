@@ -26,6 +26,7 @@ class PersonalInfo extends Component {
             firstNameValidationError: false,
             lastNameValidationError: false,
             invalidPhoneNum: false,
+            invalidNationalId: false,
             toast: false,
             dataValid: true,
             firstName:"",
@@ -47,6 +48,7 @@ class PersonalInfo extends Component {
     
     async componentDidMount() {
         await this.loadDataInit()
+        console.log("Token ".concat(getItem("user-token")))
         // this.baseState = this.state
     }
 
@@ -126,7 +128,7 @@ class PersonalInfo extends Component {
                 dataValid: false,
             });
             return;
-        }
+        }  
         else{
             this.setState({emailValidationError: false});
         }
@@ -151,6 +153,17 @@ class PersonalInfo extends Component {
         else{
             this.setState({lastNameValidationError: false,});
         }
+
+        if (!(nationalId.length >= 10)) {
+            console.log("wrong enter")
+            if(nationalId.length !== 0){ 
+                this.setState({invalidNationalId:true, dataValid:false})
+                return;
+            }
+        }else{
+
+            this.setState({invalidNationalId:false})
+        }
         // && (firstName !== this.state.firstName || lastName !== this.state.lastName ||
         //     nationalId !== this.state.nationalId || bio !== this.state.bio || gender !== this.state.gender  ||
         //     emailId !== this.state.emailId || dateOfBirth !== this.state.dateOfBirth || phonenumber !== this.state.phonenumber )
@@ -165,7 +178,9 @@ class PersonalInfo extends Component {
             data.append('email', emailId);
             data.append('national_code', nationalId);
             data.append('birthday', dateOfBirth);
-            data.append('gender', gender);
+            if (gender !== ""){
+                data.append('gender', gender);
+            }
             data.append('phone_number', phonenumber);
             data.append('bio', bio);
             await axios.post(API_PROFILE_UPDATE_URL,data,
@@ -189,7 +204,7 @@ class PersonalInfo extends Component {
             })
             toast.success("Changes saved")
         }else{
-            toast.warn("No changes detected")
+            toast.warn("You entred a wrong input")
         }
 
     }
@@ -199,8 +214,6 @@ class PersonalInfo extends Component {
     }
 
     handleChange(e) { 
-        console.log("entered handle change")
-        console.log("eeeee : " + e)
         let target=e.target;
         let name = target.name;
         let value = target.value
@@ -212,7 +225,14 @@ class PersonalInfo extends Component {
          let unitCount = Math.round(characterCount/charsPerPageCount);
          this.setState({pageCount: unitCount});
         }
-        console.log("value : " + value)
+        if (name === "nationalId"){
+            const re = /^[0-9\b]*$/;
+            if (re.test(e.target.value)) {
+                this.setState({nationalId: e.target.value, invalidNationalId: false, dataValid:true})
+            }else{
+                this.setState({invalidNationalId: true})
+            }
+        }
    }
 
     render() { 
@@ -287,11 +307,12 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="nationalId"
+                                            value={this.state.nationalId}
                                             data-testid="personalInfo-nationalId"
-                                            isInvalid={false}
+                                            isInvalid={this.state.invalidNationalId}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                            national id is invalid!
+                                            National code must be up to 10 digits.
                                         </Form.Control.Feedback>
                                     </div>
                                 </div>
