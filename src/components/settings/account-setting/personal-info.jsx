@@ -110,6 +110,7 @@ class PersonalInfo extends Component {
         let emailId = document.getElementById("personalInfo-emailId").value;
         let bio = document.getElementById("ptextArea").value;
         let gender = document.getElementById("personalInfo-Gender").value;
+        console.log("dat of birth: ".concat(dateOfBirth))
         if (!isValidPhoneNumber(phonenumber)) {
             this.setState({
                 invalidPhoneNum: true,
@@ -177,7 +178,9 @@ class PersonalInfo extends Component {
             data.append('last_name', lastName);
             data.append('email', emailId);
             data.append('national_code', nationalId);
-            data.append('birthday', dateOfBirth);
+            if (dateOfBirth !== ""){
+                data.append('birthday', dateOfBirth);
+            }
             if (gender !== ""){
                 data.append('gender', gender);
             }
