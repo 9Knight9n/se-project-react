@@ -329,11 +329,11 @@ class Settings extends Component {
 
                                 </Menu>
                             </SidebarContent>
-                            <SidebarFooter>
+                            {/* <SidebarFooter>
                                 <Link to="/">
                                     <button className="w-100 btn btn-primary">Back</button>
                                 </Link>
-                            </SidebarFooter>
+                            </SidebarFooter> */}
                         </ProSidebar>
 
                     </div>

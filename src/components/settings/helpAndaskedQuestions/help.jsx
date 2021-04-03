@@ -15,7 +15,7 @@ class Help extends Component {
     }
     render() { 
         return ( 
-            <div className="help-main">
+            <div className="help-main bg-white">
                 <h3>Hi, How can we help you ?</h3>
                 <div className="help-card mt-4 row">
                     <div className="help-card-responsiveForXl col-xl-4 col-lg-6 col-md-8 col-sm-8 mt-4">

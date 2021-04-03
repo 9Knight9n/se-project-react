@@ -38,19 +38,25 @@ class PersonalInfo extends Component {
             dateOfBirth:"",
             phone:""
         };
-        this.baseState = this.state  
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.loadDataInit = this.loadDataInit.bind(this);
     }
 
     
     async componentDidMount() {
+        await this.loadDataInit()
+        // this.baseState = this.state
+    }
+
+
+    async loadDataInit(){
         await axios.get(API_PROFILE_URL,{
             headers: {
                 'Authorization': 'Token '.concat(getItem('user-token'))
             }
-        })                
+        })
         .then(res => {
             if (res.status===200)
             {
@@ -77,6 +83,7 @@ class PersonalInfo extends Component {
                 console.log(error)
         })
     }
+
 
     loadData = (data) =>{
         this.setState({phone:data.phone_number})
@@ -299,7 +306,7 @@ class PersonalInfo extends Component {
                                     <select data-testid="personalInfo-Gender" className="" name="gender" onChange={this.handleChange} id="personalInfo-Gender" required>
                                         <option>Male</option>
                                         <option>Female</option>
-                                        <option>Other</option>
+                                        {/*<option>Other</option>*/}
                                     </select>
                                 </div>
                             </div>
@@ -408,7 +415,7 @@ class PersonalInfo extends Component {
                                     <button data-testid="personalInfo-submit" className="btn btn-primary btn-lg btn-block" type="button" onClick={this.handleSubmit}>Submit</button>
                                 </div>
                                 <div className="mb-4">
-                                    <button data-testid="personalInfo-reset" type="button" className="btn btn-secondary btn-lg btn-block" onClick={this.handleReset}>Reset</button>
+                                    <button data-testid="personalInfo-reset" type="button" className="btn btn-secondary btn-lg btn-block" onClick={this.loadDataInit}>Reset</button>
                                 </div>
                             </div>
                         </div>

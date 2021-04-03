@@ -93,18 +93,20 @@ class Navbar extends Component {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className={"shadow-lg"}>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="/setting/personalInfo">
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
                                             <Link to="/settings/personalInfo">
                                                 Settings
                                             </Link>
                                         </Dropdown.Item>
                                         <Dropdown.Divider/>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} href="#/action-2">
-                                            Another action
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                            <Link to="/">
+                                                Homepage
+                                            </Link>
                                         </Dropdown.Item>
                                         <Dropdown.Divider/>
-                                        <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut} href="#">
-                                            <Link to="/settings/personalInfo">
+                                        <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut}>
+                                            <Link to="/" style={{color:"red"}}>
                                                 Log Out
                                             </Link>
                                         </Dropdown.Item>
