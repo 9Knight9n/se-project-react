@@ -28,7 +28,6 @@ class PersonalInfo extends Component {
             invalidPhoneNum: false,
             invalidNationalId: false,
             toast: false,
-            dataValid: true,
             firstName:"",
             lastName:"",
             nationalId:"",
@@ -49,6 +48,7 @@ class PersonalInfo extends Component {
     async componentDidMount() {
         await this.loadDataInit()
         console.log("Token ".concat(getItem("user-token")))
+        console.log("your state : " + this.state.dataIsValid)
         // this.baseState = this.state
     }
 
@@ -84,6 +84,7 @@ class PersonalInfo extends Component {
         }).catch(error =>{
                 console.log(error)
         })
+        window.scrollTo(0, 0)
     }
 
 
@@ -110,13 +111,13 @@ class PersonalInfo extends Component {
         let emailId = document.getElementById("personalInfo-emailId").value;
         let bio = document.getElementById("ptextArea").value;
         let gender = document.getElementById("personalInfo-Gender").value;
+        let dataIsValid = true;
         console.log("dat of birth: ".concat(dateOfBirth))
         if (!isValidPhoneNumber(phonenumber)) {
+            dataIsValid = false
             this.setState({
                 invalidPhoneNum: true,
-                dataValid: false,
             })
-            return;
         }
         else{
             this.setState({
@@ -124,42 +125,38 @@ class PersonalInfo extends Component {
             })
         }
         if (!validateEmail(emailId) || emailId.length === 0) {
+            dataIsValid = false
             this.setState({
                 emailValidationError: true,
-                dataValid: false,
             });
-            return;
         }  
         else{
             this.setState({emailValidationError: false});
         }
 
         if (firstName.length === 0) {
+            dataIsValid = false
             this.setState({
                 firstNameValidationError: true,
-                dataValid: false,
             });
-            return;
         }
         else{
             this.setState({firstNameValidationError: false});
         }
 
         if (lastName.length === 0) {
-            this.setState({lastNameValidationError: true,
-                dataValid: false,
-            });
-            return;
+            dataIsValid = false
+            this.setState({lastNameValidationError: true});
         }
         else{
-            this.setState({lastNameValidationError: false,});
+            this.setState({lastNameValidationError: false});
         }
 
         if (!(nationalId.length >= 10)) {
             console.log("wrong enter")
             if(nationalId.length !== 0){ 
-                this.setState({invalidNationalId:true, dataValid:false})
-                return;
+                dataIsValid = false
+                this.setState({invalidNationalId:true})
             }
         }else{
 
@@ -169,7 +166,7 @@ class PersonalInfo extends Component {
         //     nationalId !== this.state.nationalId || bio !== this.state.bio || gender !== this.state.gender  ||
         //     emailId !== this.state.emailId || dateOfBirth !== this.state.dateOfBirth || phonenumber !== this.state.phonenumber )
 
-        if (this.state.dataValid)
+        if (dataIsValid)
         {
             
             let FormData = require('form-data');
@@ -207,7 +204,7 @@ class PersonalInfo extends Component {
             })
             toast.success("Changes saved")
         }else{
-            toast.warn("You entred a wrong input")
+            toast.error("You may entered an unacceptable input. Please review the fields.")
         }
 
     }
@@ -231,7 +228,7 @@ class PersonalInfo extends Component {
         if (name === "nationalId"){
             const re = /^[0-9\b]*$/;
             if (re.test(e.target.value)) {
-                this.setState({nationalId: e.target.value, invalidNationalId: false, dataValid:true})
+                this.setState({nationalId: e.target.value, invalidNationalId: false, dataIsValid:true})
             }else{
                 this.setState({invalidNationalId: true})
             }
