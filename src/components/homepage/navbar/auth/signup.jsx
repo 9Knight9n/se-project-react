@@ -44,6 +44,7 @@ class Signup extends Component {
         isValid5:false,
         isInvalid6:false,
         vc_code:null,
+        showResend:true,
     }
 
     componentDidMount()
@@ -477,7 +478,7 @@ class Signup extends Component {
         this.setState({loading : true})
         let email = document.getElementById("email-input").value
         if (!validateEmail(email))
-            return this.setState({loading : false,isInvalid :true })
+            return this.setState({loading : false,isInvalid1 :true })
 
 
         let FormData = require('form-data');
@@ -496,7 +497,7 @@ class Signup extends Component {
                 }
               }).catch(error =>{
                     // console.log(error)
-                    this.sendVerification()
+                    this.sendVerification(false)
                     return this.setPage(1)
 
                     // console.log("error")
@@ -505,10 +506,14 @@ class Signup extends Component {
               })
     }
 
-    async sendVerification()
+    async sendVerification(resend)
     {
-        this.setState({loading : true})
-        let email = document.getElementById("email-input").value
+        this.setState({loading:true})
+        if(resend)
+        {
+            this.setState({showResend:false})
+        }
+        let email =(document.getElementById("email-input")?document.getElementById("email-input").value:this.state.email) 
         let FormData = require('form-data');
         let data = new FormData();
         data.append('first_name', "user");
@@ -531,6 +536,12 @@ class Signup extends Component {
                     // console.log(error)
                     // return this.setState({connectionError:true,loading:false})
               })
+        if(resend)
+        {
+            this.setState({loading:false})
+            setTimeout(() => {  this.setState({showResend:true}) }, 10000);
+        }
+
     }
 
     emailVerification()
@@ -736,16 +747,17 @@ class Signup extends Component {
                             </a>
                         </p>
                     </Fragment>:""}
-                    {this.state.pageNum===1?
+                    {(this.state.pageNum===1 && !this.state.loading)?
                     <Fragment>
                     <hr style={{"backgroundColor": "#bababa"}}/>
+                        {this.state.showResend?
                         <p className="text-center">Didn't get it?
                             <a className="text-decoration-none"
-                                    onClick={this.sendVerification}
+                                    onClick={()=>this.sendVerification(true)}
                                     href="#">
-                                Resend!
+                                    Resend!
                             </a>
-                        </p>
+                        </p>:<p className="text-center">Sent!</p>}
                     </Fragment>:""}
                 </Modal.Body>
 

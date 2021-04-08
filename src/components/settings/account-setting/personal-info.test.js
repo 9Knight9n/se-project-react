@@ -32,11 +32,6 @@ it("lastName is not null", () =>{
     expect(getByTestId("personalInfo-lastName")).not.toBeNull;
 })
 
-it("phoneNumber is not null", () =>{
-    const {getByTestId} = render(<PersonalInfo />);
-    expect(getByTestId("personalInfo-lastName")).not.toBeNull;
-})
-
 it("matches snapShot", () =>{
     const tree = renderer.create(<PersonalInfo />).toJSON();
     expect(tree).toMatchSnapshot();

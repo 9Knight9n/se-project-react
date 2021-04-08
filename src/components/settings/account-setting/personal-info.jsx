@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import {Form} from "react-bootstrap";
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import {validateEmail} from '../../util';
+import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {showMemoryVariables} from "../../util";
@@ -26,28 +26,54 @@ class PersonalInfo extends Component {
             firstNameValidationError: false,
             lastNameValidationError: false,
             invalidPhoneNum: false,
+            invalidNationalId: false,
             toast: false,
-            dataValid: true,
+            firstName:"",
+            lastName:"",
+            nationalId:"",
+            gender:"",
+            bio:"",
+            phonenumber:"",
+            emailId:"",
+            dateOfBirth:"",
+            phone:""
         };
-        this.baseState = this.state  
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.loadDataInit = this.loadDataInit.bind(this);
     }
 
     
     async componentDidMount() {
-            
+        await this.loadDataInit()
+        console.log("Token ".concat(getItem("user-token")))
+        console.log("your state : " + this.state.dataIsValid)
+        // this.baseState = this.state
+    }
+
+
+    async loadDataInit(){
         await axios.get(API_PROFILE_URL,{
             headers: {
-                'Authorization': 'Token 475ca0838d340bd825a3d985ac323da2aba8afd7'
+                'Authorization': 'Token '.concat(getItem('user-token'))
             }
-        })                
+        })
         .then(res => {
             if (res.status===200)
             {
                 console.log(res.data)
                 console.log("data is shown")
+                // this.setState({
+                //     firstName: res.data.first_name,
+                //     lastName: res.data.last_name,
+                //     bio: res.data.bio,
+                //     phonenumber: res.data.phone_number,
+                //     gender: res.data.gender,
+                //     nationalId: res.data.national_code,
+                //     dateOfBirth: res.data.birthday,
+                //     emailId: res.data.email
+                // })
                 this.loadData(res.data)
                 // showMemoryVariables()
             }
@@ -58,10 +84,13 @@ class PersonalInfo extends Component {
         }).catch(error =>{
                 console.log(error)
         })
+        window.scrollTo(0, 0)
     }
 
+
     loadData = (data) =>{
-        document.getElementById("personalInfo-phoneNum").value = "+".concat(data.phone_number); 
+        this.setState({phone:data.phone_number})
+        // document.getElementById("personalInfo-phoneNum").value = data.phone_number;
         document.getElementById("personalInfo-firstName").value = data.first_name;
         document.getElementById("personalInfo-lastName").value = data.last_name;
         document.getElementById("personalInfo-nationalId").value = data.national_code;
@@ -74,7 +103,7 @@ class PersonalInfo extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        let phonenumber = document.getElementById("personalInfo-phoneNum").value.replaceAll(" ", "").replaceAll("(","").replaceAll(")","").replaceAll("+","")
+        let phonenumber = document.getElementById("personalInfo-phoneNum").value.replaceAll(" ", "").replaceAll("(","").replaceAll(")","")
         let firstName = document.getElementById("personalInfo-firstName").value;
         let lastName = document.getElementById("personalInfo-lastName").value;
         let nationalId = document.getElementById("personalInfo-nationalId").value;
@@ -82,12 +111,13 @@ class PersonalInfo extends Component {
         let emailId = document.getElementById("personalInfo-emailId").value;
         let bio = document.getElementById("ptextArea").value;
         let gender = document.getElementById("personalInfo-Gender").value;
-        if (!isValidPhoneNumber("+".concat(phonenumber))) {
+        let dataIsValid = true;
+        console.log("dat of birth: ".concat(dateOfBirth))
+        if (!isValidPhoneNumber(phonenumber)) {
+            dataIsValid = false
             this.setState({
                 invalidPhoneNum: true,
-                dataValid: false,
             })
-            return;
         }
         else{
             this.setState({
@@ -95,38 +125,49 @@ class PersonalInfo extends Component {
             })
         }
         if (!validateEmail(emailId) || emailId.length === 0) {
+            dataIsValid = false
             this.setState({
                 emailValidationError: true,
-                dataValid: false,
             });
-            return;
-        }
+        }  
         else{
             this.setState({emailValidationError: false});
         }
 
         if (firstName.length === 0) {
+            dataIsValid = false
             this.setState({
                 firstNameValidationError: true,
-                dataValid: false,
             });
-            return;
         }
         else{
             this.setState({firstNameValidationError: false});
         }
 
         if (lastName.length === 0) {
-            this.setState({lastNameValidationError: true,
-                dataValid: false,
-            });
-            return;
+            dataIsValid = false
+            this.setState({lastNameValidationError: true});
         }
         else{
-            this.setState({lastNameValidationError: false,});
+            this.setState({lastNameValidationError: false});
         }
 
-        if (this.state.dataValid){
+        if (!(nationalId.length >= 10)) {
+            console.log("wrong enter")
+            if(nationalId.length !== 0){ 
+                dataIsValid = false
+                this.setState({invalidNationalId:true})
+            }
+        }else{
+
+            this.setState({invalidNationalId:false})
+        }
+        // && (firstName !== this.state.firstName || lastName !== this.state.lastName ||
+        //     nationalId !== this.state.nationalId || bio !== this.state.bio || gender !== this.state.gender  ||
+        //     emailId !== this.state.emailId || dateOfBirth !== this.state.dateOfBirth || phonenumber !== this.state.phonenumber )
+
+        if (dataIsValid)
+        {
             
             let FormData = require('form-data');
             let data = new FormData();
@@ -134,14 +175,18 @@ class PersonalInfo extends Component {
             data.append('last_name', lastName);
             data.append('email', emailId);
             data.append('national_code', nationalId);
-            data.append('birthday', dateOfBirth);
-            data.append('gender', gender);
+            if (dateOfBirth !== ""){
+                data.append('birthday', dateOfBirth);
+            }
+            if (gender !== ""){
+                data.append('gender', gender);
+            }
             data.append('phone_number', phonenumber);
             data.append('bio', bio);
             await axios.post(API_PROFILE_UPDATE_URL,data,
             {
                 headers: {
-                    'Authorization': 'Token 475ca0838d340bd825a3d985ac323da2aba8afd7'
+                    'Authorization': 'Token '.concat(getItem('user-token'))
                 }
             })                
             .then(res => {
@@ -158,6 +203,8 @@ class PersonalInfo extends Component {
                     console.log(error)
             })
             toast.success("Changes saved")
+        }else{
+            toast.error("You may entered an unacceptable input. Please review the fields.")
         }
 
     }
@@ -167,8 +214,6 @@ class PersonalInfo extends Component {
     }
 
     handleChange(e) { 
-        console.log("entered handle change")
-        console.log("eeeee : " + e)
         let target=e.target;
         let name = target.name;
         let value = target.value
@@ -180,7 +225,14 @@ class PersonalInfo extends Component {
          let unitCount = Math.round(characterCount/charsPerPageCount);
          this.setState({pageCount: unitCount});
         }
-        console.log("value : " + value)
+        if (name === "nationalId"){
+            const re = /^[0-9\b]*$/;
+            if (re.test(e.target.value)) {
+                this.setState({nationalId: e.target.value, invalidNationalId: false, dataIsValid:true})
+            }else{
+                this.setState({invalidNationalId: true})
+            }
+        }
    }
 
     render() { 
@@ -199,8 +251,8 @@ class PersonalInfo extends Component {
                 <form className="row">
                     <div className="personalInfo-form w-100 ml-5 mt-4">
                         <div className="firstName row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-firstName">First Name :</label>
-                                <div className="form-group col-lg-10 col-md-11 col-sm-11">
+                                <label className="form-label col-lg-2 col-md-2 col-sm-3" htmlFor="personalInfo-firstName">First Name:</label>
+                                <div className="form-group col-lg-10 col-md-10 col-sm-9">
                                     <div className="input-group">
                                         <Form.Control
                                             onChange={this.handleChange}
@@ -209,7 +261,6 @@ class PersonalInfo extends Component {
                                             type="text"
                                             name="firstName"
                                             data-testid="personalInfo-firstName"
-                                            value={this.state.firstName}
                                             isInvalid={this.state.firstNameValidationError}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -225,8 +276,8 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-lastName row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-lastName">Last Name :</label>
-                                <div className="form-group col-lg-10 col-md-11 col-sm-11">
+                                <label className="form-label col-lg-2 col-md-2 col-sm-3" htmlFor="personalInfo-lastName">Last Name:</label>
+                                <div className="form-group col-lg-10 col-md-10 col-sm-9">
                                     <div className="input-group">
                                         <Form.Control
                                             onChange={this.handleChange}
@@ -235,7 +286,6 @@ class PersonalInfo extends Component {
                                             type="text"
                                             name="lastName"
                                             data-testid="personalInfo-lastName"
-                                            value={this.state.lastName}
                                             isInvalid={this.state.lastNameValidationError}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
@@ -248,8 +298,8 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2 "/>
 
                         <div className="personalInfo-nationalId row">
-                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-nationalId">National Code :</label>
-                                <div className="form-group col-lg-10 col-md-11 col-sm-11">
+                            <label className="form-label col-lg-2 col-md-2 col-sm-3" htmlFor="personalInfo-nationalId">National Code:</label>
+                                <div className="form-group col-lg-10 col-md-10 col-sm-9">
                                     <div className="input-group">
                                         <Form.Control
                                             onChange={this.handleChange}
@@ -257,12 +307,12 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="nationalId"
-                                            data-testid="personalInfo-nationalId"
                                             value={this.state.nationalId}
-                                            isInvalid={false}
+                                            data-testid="personalInfo-nationalId"
+                                            isInvalid={this.state.invalidNationalId}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                            national id is invalid!
+                                            National code must be up to 10 digits.
                                         </Form.Control.Feedback>
                                     </div>
                                 </div>
@@ -272,12 +322,12 @@ class PersonalInfo extends Component {
 
                         <div className="personalInfo-Gender ">
                             <div className="row">
-                                <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-Gender">Gender :</label>
-                                <div className="form-select form-group col-lg-10 col-md-11 col-sm-11">
-                                    <select data-testid="personalInfo-Gender" className="" name="gender" value={this.state.gender} onChange={this.handleChange} id="personalInfo-Gender" required>
+                                <label className="form-label col-lg-2 col-md-2 col-sm-3" htmlFor="personalInfo-Gender">Gender:</label>
+                                <div className="form-select form-group col-lg-10 col-md-10 col-sm-9">
+                                    <select data-testid="personalInfo-Gender" className="" name="gender" onChange={this.handleChange} id="personalInfo-Gender" required>
                                         <option>Male</option>
                                         <option>Female</option>
-                                        <option>Other</option>
+                                        {/*<option>Other</option>*/}
                                     </select>
                                 </div>
                             </div>
@@ -286,8 +336,8 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-dateOfBirth row">
-                            <label className="form-label col-lg-2 col-md-1 col-sm-1" htmlFor="personalInfo-dateOfBirth">Date Of Birth :</label>
-                            <div className="form-group col-lg-10 col-md-11 col-sm-11">
+                            <label className="form-label col-lg-2 col-md-2 col-sm-3" htmlFor="personalInfo-dateOfBirth">Date Of Birth:</label>
+                            <div className="form-group col-lg-10 col-md-10 col-sm-9">
                                 <TextField
                                     id="personalInfo-dateOfBirth"
                                     type="date"
@@ -304,18 +354,17 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-phoneNum row">
-                            <label htmlFor="personalInfo-phoneNum" className="form-label col-lg-2 col-md-1 col-sm-1">Phone Number :</label>
-                            <div className="form-group col-lg-10 col-md-11 col-sm-11">
+                            <label htmlFor="personalInfo-phoneNum" className="form-label col-lg-2 col-md-2 col-sm-3">Phone Number:</label>
+                            <div className="form-group col-lg-10 col-md-10 col-sm-9">
                                 <div className="input-group">
                                     <div className="input-group-prepend" style={{width:"inherit"}}>
                                         <span className={"input-group-btn".concat(this.state.invalidPhoneNum?" flag-warn":"")}>
                                             <PhoneInput
-                                                country="us"
+                                                // country="us"
                                                 // country={'ir'}
                                                 // enableSearch={true}
                                                 // disableSearchIcon={true}
-                                                value={this.state.phoneNum}
-                                                data-testid="personalInfo-phoneNum"
+                                                value={this.state.phone}
                                                 inputProps={
                                                     {
                                                         id:"personalInfo-phoneNum",
@@ -341,8 +390,8 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-emailId row ">
-                            <label htmlFor="personalInfo-emailId" className="form-label col-lg-2 col-md-1 col-sm-1">Email :</label>
-                                <div className="form-group col-lg-10 col-md-11 col-sm-11">
+                            <label htmlFor="personalInfo-emailId" className="form-label col-lg-2 col-md-2 col-sm-3">Email:</label>
+                                <div className="form-group col-lg-10 col-md-10 col-sm-9">
                                     <div className="input-group">
                                         <Form.Control
                                             onChange={this.handleChange}
@@ -350,9 +399,9 @@ class PersonalInfo extends Component {
                                             className="form-control shadow-none"
                                             type="text"
                                             name="email"
-                                            value={"admin@admin.com"}
                                             data-testid="personalInfo-emailId"
                                             isInvalid={this.state.emailValidationError}
+                                            disabled
                                             />
                                             <Form.Control.Feedback type="invalid" className={"ml-1"}>
                                                  Email is invalid!
@@ -369,14 +418,15 @@ class PersonalInfo extends Component {
                         <hr className="personalInfo-line p-2"/>
 
                         <div className="personalInfo-bioField row">
-                            <label className="form-lable col-lg-2 col-md-1 col-sm-1" htmlFor="bio">Bio :</label>
-                            <div className="form-group col-lg-10 col-md-11 col-sm-11">
-                                <textarea data-testid="personalInfo-ptextArea" id="ptextArea" name="bio" className="bio form-control" value={this.state.bio} onChange={this.handleChange} maxLength="210">
+                            <label className="form-lable col-lg-2 col-md-2 col-sm-3" htmlFor="bio">Bio:</label>
+                            <div className="form-group col-lg-10 col-md-10 col-sm-9">
+                                <textarea data-testid="personalInfo-ptextArea" id="ptextArea" name="bio" className="bio form-control" onChange={this.handleChange} maxLength="210">
                                             
                                 </textarea>
-                            </div>
-                            <div className="personalInfo-textAreaCounter">
-                                {this.state.pageCount} of 210
+                            
+                                <div className="personalInfo-textAreaCounter">
+                                    {this.state.pageCount} of 210
+                                </div>
                             </div>
                         </div>
                         <div className="w-100 d-flex justify-content-center mb-5">
@@ -385,7 +435,7 @@ class PersonalInfo extends Component {
                                     <button data-testid="personalInfo-submit" className="btn btn-primary btn-lg btn-block" type="button" onClick={this.handleSubmit}>Submit</button>
                                 </div>
                                 <div className="mb-4">
-                                    <button data-testid="personalInfo-reset" type="button" className="btn btn-secondary btn-lg btn-block" onClick={this.handleReset}>Reset</button>
+                                    <button data-testid="personalInfo-reset" type="button" className="btn btn-secondary btn-lg btn-block" onClick={this.loadDataInit}>Reset</button>
                                 </div>
                             </div>
                         </div>

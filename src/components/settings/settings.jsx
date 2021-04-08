@@ -24,6 +24,7 @@ import {
     Switch,
     Redirect,
 } from 'react-router-dom'; 
+import Homepage from '../homepage/homepage';
 
 // function setLocation() {
 //     const location = useLocation();
@@ -100,18 +101,11 @@ class Settings extends Component {
 
     componentWillMount = () => {
       }
-      
-    componentWillUnmount (){
-        window.addEventListener("resize", this.handleResize);
-    }
 
     handleMenu = () =>{
         this.setState({
             collapsed: !this.state.collapsed,
         })
-    }
-
-    handleResize = (e) =>{
     }
 
     handleActivation = (b) =>{
@@ -268,11 +262,8 @@ class Settings extends Component {
     render() { 
         return ( 
             <Router>
-            <div className="setting container m-0">
-                <div className="setting-navbar">
-                    <NavBar />
-                </div>
-                <div className="setting-main d-flex row">
+            <div className="setting m-0 w-100" id={"settings"}>
+                <div className="setting-main d-flex row w-100">
                     <div className="setting-left justify-content-start col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-4">
                         <ProSidebar collapsed={this.state.collapsed} className="setting-sideBar">
                             <SidebarHeader>
@@ -282,56 +273,56 @@ class Settings extends Component {
                             <SidebarContent>
                                 <Menu iconShape="circle">
                                     <SubMenu defaultOpen icon={<AiOutlineIdcard />} title="Account settings">
-                                        <MenuItem onClick={() => this.handleActivation(1)} active={window.location.pathname === "/personalInfo"}>
+                                        <MenuItem onClick={() => this.handleActivation(1)} active={window.location.pathname === "/settings/personalInfo"}>
                                             Personal information
-                                            <Link to="/personalInfo" />
+                                            <Link to="/settings/personalInfo" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(2)} active={window.location.pathname === "/paymentsPayouts"}>
+                                        <MenuItem onClick={() => this.handleActivation(2)} active={window.location.pathname === "/settings/paymentsPayouts"}>
                                             Payments and payouts
-                                            <Link to="/paymentsPayouts" />
+                                            <Link to="/settings/paymentsPayouts" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(3)} active={window.location.pathname === "/notifications"}>
+                                        <MenuItem onClick={() => this.handleActivation(3)} active={window.location.pathname === "/settings/notifications"}>
                                             Notifications
-                                            <Link to="/notifications" />
+                                            <Link to="/settings/notifications" />
                                         </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<AiOutlineHome />} title="Hosting">
-                                        <MenuItem onClick={() => this.handleActivation(4)} active={window.location.pathname === "/listSpace"}>
+                                        <MenuItem onClick={() => this.handleActivation(4)} active={window.location.pathname === "/settings/listSpace"}>
                                              List your space
-                                            <Link to="/listSpace" />
+                                            <Link to="/settings/listSpace" />
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(5)} active={window.location.pathname === "/learnHosting"}>
+                                        <MenuItem onClick={() => this.handleActivation(5)} active={window.location.pathname === "/settings/learnHosting"}>
                                             Learn about hosting
-                                            <Link to="/learnHosting" />
+                                            <Link to="/settings/learnHosting" />
                                         </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<SiGnuprivacyguard />} title="Secutiry">
-                                        <MenuItem onClick={() => this.handleActivation(6)}  active={window.location.pathname === "/updatePass"}>
+                                        <MenuItem onClick={() => this.handleActivation(6)}  active={window.location.pathname === "/settings/updatePass"}>
                                             Update your password
-                                            <Link to="/updatePass"></Link>
+                                            <Link to="/settings/updatePass"/>
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(7)} active={window.location.pathname === "/connectedApps"}>
+                                        <MenuItem onClick={() => this.handleActivation(7)} active={window.location.pathname === "/settings/connectedApps"}>
                                             Manage connected apps
-                                            <Link to="/connectedApps"></Link>
+                                            <Link to="/settings/connectedApps"/>
                                         </MenuItem>
                                     </SubMenu>
 
                                     <SubMenu icon={<IoMdHelpCircleOutline />} title="Help & asked questions">
-                                        <MenuItem onClick={() => this.handleActivation(8)} active={window.location.pathname === "/askedQuestions"}>
+                                        <MenuItem onClick={() => this.handleActivation(8)} active={window.location.pathname === "/settings/askedQuestions"}>
                                             Asked questions
-                                            <Link to="/askedQuestions"></Link>
+                                            <Link to="/settings/askedQuestions"/>
                                         </MenuItem>
-                                        <MenuItem onClick={() => this.handleActivation(9)} active={window.location.pathname === "/help"}>
+                                        <MenuItem onClick={() => this.handleActivation(9)} active={window.location.pathname === "/settings/help"}>
                                             Help
-                                            <Link to="/help"></Link>
+                                            <Link to="/settings/help"/>
                                         </MenuItem>
                                     </SubMenu>
                                     
                                     <MenuItem onClick={() => this.handleActivation(10)} icon={<FaRegHandshake />} active={this.state.activeTerms}>
                                         Terms & aggreement
-                                        <Link to="/terms"></Link>
+                                        <Link to="/settings/terms"></Link>
                                     </MenuItem>
         
 
@@ -339,48 +330,50 @@ class Settings extends Component {
                                 </Menu>
                             </SidebarContent>
                             {/* <SidebarFooter>
-                                This is footer
+                                <Link to="/">
+                                    <button className="w-100 btn btn-primary">Back</button>
+                                </Link>
                             </SidebarFooter> */}
                         </ProSidebar>
 
                     </div>
 
                     <div className="setting-center col-xl-9 col-lg-8 col-md-8 col-sm-6 col-xs-8">
-                            <Route exact path="/personalInfo" component={PersonalInfo} />
-                            <Route exact path="/paymentsPayouts">
+                        <Switch>
+                            <Route exact path="/settings/personalInfo" >
+                                <PersonalInfo/>
+                            </Route>
+                            <Route exact path="/settings/paymentsPayouts">
                                 <PaymentsPayouts />
                             </Route>
-                            <Route exact path="/notifications">
+                            <Route exact path="/settings/notifications">
                                 <Notfications />
                             </Route>
-                            <Route exact path="/learnHosting">
+                            <Route exact path="/settings/learnHosting">
                                 <Temp />
                             </Route>
-                            <Route exact path="/listSpace">
+                            <Route exact path="/settings/listSpace">
                                 <Temp />
                             </Route>
-                            <Route exact path="/updatePass">
+                            <Route exact path="/settings/updatePass">
                                 <Temp />
                             </Route>
-                            <Route exact path="/connectedApps">
+                            <Route exact path="/settings/connectedApps">
                                 <Temp />
                             </Route>
-                            <Route exact path="/askedQuestions">
+                            <Route exact path="/settings/askedQuestions">
                                 <Temp />
                             </Route>
-                            <Route exact path="/help">
+                            <Route exact path="/settings/help">
                                 <Help />
                             </Route>
-                            <Route exact path="/terms">
+                            <Route exact path="/settings/terms">
                                 <Terms />
                             </Route>
-                  
+                        </Switch>
                     </div>
                         
    
-                </div>
-                <div className="setting-footer">
-                    <Footer />
                 </div>
             </div>
             </Router>

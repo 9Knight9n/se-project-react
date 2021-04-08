@@ -10,16 +10,16 @@
 .personalInfo-avatar {
   margin-left: 2%;
 }
-.form-group {
+#settings .form-group {
   width: 100%;
 }
-.input-group-btn {
+#settings .input-group-btn {
   width: 100% !important;
 }
-.input-group-prepend {
+#settings .input-group-prepend {
   width: 100% !important;
 }
-.input-group {
+#settings .input-group {
   min-width: 8%;
   max-width: 75%;
 }
@@ -59,10 +59,10 @@
 }
 
 .personalInfo-main {
-  border-radius: 8px;
-  border: 1px solid #b9b5b5;
+  /* border-radius: 8px;
+  border: 1px solid #b9b5b5; */
   background-color: white;
-  box-shadow: -2px 3px 8px -1px rgba(0, 0, 0, 0.84);
+  /* box-shadow: -2px 3px 8px -1px rgba(0, 0, 0, 0.84); */
 }
 
 .personalInfo-line {
@@ -73,8 +73,6 @@
 .personalInfo-textAreaCounter {
   position: relative;
   z-index: 1004;
-  margin-top: -5%;
-  margin-left: 72%;
   color: #696988;
 }
 
@@ -86,7 +84,7 @@
 }
 
 /*phone component input*/
-.not-valid {
+#settings .not-valid {
   border: 1px solid #dc3545 !important;
   border-left: 1px solid #dc3545 !important;
   padding-right: calc(1.5em + 0.75rem) !important;
@@ -96,35 +94,35 @@
   background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
   position: relative;
 }
-.flag-warn .react-tel-input .flag-dropdown {
+#settings .flag-warn .react-tel-input .flag-dropdown {
   border-right: 1px solid #dc3545;
 }
 
-.react-tel-input .form-control {
+#settings .react-tel-input .form-control {
   width: 100% !important;
   background-color: #e3e2e2 !important;
   height: 5vh;
 }
-.react-tel-input .country-list {
+#settings .react-tel-input .country-list {
   background-color: #e3e2e2 !important;
 }
 
-.react-tel-input .selected-flag:hover,
-.react-tel-input .selected-flag:focus {
+#settings .react-tel-input .selected-flag:hover,
+#settings .react-tel-input .selected-flag:focus {
   background-color: #c2c2c9 !important;
 }
-.react-tel-input .selected-flag {
+#settings .react-tel-input .selected-flag {
   background-color: #e3e2e2 !important;
 }
 
-.react-tel-input .country-list .country.highlight {
+#settings .react-tel-input .country-list .country.highlight {
   background-color: #c2c2c9 !important;
 }
 
-.react-tel-input .country-list .country:hover {
+#settings .react-tel-input .country-list .country:hover {
   background-color: #d2d2db !important;
 }
-.personalInfo-btn {
+#settings .personalInfo-btn {
   min-width: 7%;
   max-width: 70%;
   width: 50%;
@@ -149,16 +147,16 @@
 } */
 
 /*date selector css*/
-.dateOfBirth-field {
+#settings .dateOfBirth-field {
   width: 98%;
 }
-.MuiInput-underline:before {
+#settings .MuiInput-underline:before {
   border-bottom: 0px !important;
 }
-.MuiInput-underline:after {
+#settings .MuiInput-underline:after {
   border-bottom: 0px !important;
 }
-.MuiInput-root {
+#settings .MuiInput-root {
   min-width: 8%;
   max-width: 76.5%;
 }
