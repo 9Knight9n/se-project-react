@@ -15,6 +15,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import {showMemoryVariables} from "../../util";
 import {API_PROFILE_URL, API_PROFILE_UPDATE_URL} from "../../constants";
 import axios from "axios";
+import AvatarEditor from 'react-avatar-editor';
+import sampleProfileImg from '../../../assets/img/defalt-avatar.png';
+import editAvatar from '../../../assets/img/man.png';
+import Avatar from './avatar';
 
 class PersonalInfo extends Component {
     constructor(props) {
@@ -36,7 +40,12 @@ class PersonalInfo extends Component {
             phonenumber:"",
             emailId:"",
             dateOfBirth:"",
-            phone:""
+            phone:"",
+            avatarSrc: sampleProfileImg,
+            showAvatarModal: false,
+            imgHovered: false,
+            authModal : false,
+            modalOnLogin : true,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -235,17 +244,32 @@ class PersonalInfo extends Component {
         }
    }
 
+   handleAvatarEdit = () =>{
+       if (this.state.imgHovered){
+
+       }
+   }
+
+   exitModal = () =>
+   {
+       this.setState({
+        showAvatarModal: false,
+        })
+   }
+
+
     render() { 
         return ( 
             <div className="personalInfo-main">
                 <ToastContainer />
                 <div className="personalInfo-avatar mt-4 mb-4">
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
-                        <div>
-                            <BsPeopleCircle />
-                        </div>
+                            <img onClick={() => this.setState({showAvatarModal: true})}
+                                onMouseEnter={() => this.setState({imgHovered: true})} onMouseLeave={() => this.setState({imgHovered: false})}
+                                alt="profile avatar" src={this.state.imgHovered? editAvatar : this.state.avatarSrc}
+                            />
+                            <Avatar show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc}  />
                     </IconContext.Provider>
-                
                 </div>
 
                 <form className="row">
