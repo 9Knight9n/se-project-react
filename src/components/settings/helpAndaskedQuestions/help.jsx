@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Card from '../../cardBox';
+import Card from '../../card/cardBox';
 import travelImg from '../img/travel.png';
 import hostingImg from '../img/villa.png';
 import cookingImg from '../img/cooking.png';

@@ -16,7 +16,7 @@ import {showMemoryVariables} from "../../util";
 import {API_PROFILE_URL, API_PROFILE_UPDATE_URL} from "../../constants";
 import axios from "axios";
 import AvatarEditor from 'react-avatar-editor';
-import sampleProfileImg from '../../../assets/img/defalt-avatar.png';
+import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
 import editAvatar from '../../../assets/img/man.png';
 import Avatar from './avatar';
 
@@ -46,6 +46,7 @@ class PersonalInfo extends Component {
             imgHovered: false,
             authModal : false,
             modalOnLogin : true,
+            removeAvatar : false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -258,17 +259,24 @@ class PersonalInfo extends Component {
    }
 
 
+
     render() { 
         return ( 
             <div className="personalInfo-main">
                 <ToastContainer />
                 <div className="personalInfo-avatar mt-4 mb-4">
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
-                            <img onClick={() => this.setState({showAvatarModal: true})}
-                                onMouseEnter={() => this.setState({imgHovered: true})} onMouseLeave={() => this.setState({imgHovered: false})}
-                                alt="profile avatar" src={this.state.imgHovered? editAvatar : this.state.avatarSrc}
-                            />
-                            <Avatar show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc}  />
+                        <div>
+                            <img alt="profile avatar" src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}/>
+                            <Avatar show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ? '' : this.state.avatarSrc}  />
+                            {/* warning check this later!!!!!!!!!!!!!!!!!!!!!!!! */}
+                        </div>
+                        <div className="w-100 mt-2">
+                            <div className="w-100">
+                                <button onClick={() => this.setState({showAvatarModal: true})} className="btn btn-primary mr-2">Edit avatar</button>
+                                <button onClick={() => this.setState({avatarSrc: ''})}  className="btn btn-secondary">Remove avatar</button>
+                            </div>
+                        </div>
                     </IconContext.Provider>
                 </div>
 

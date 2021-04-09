@@ -9,6 +9,7 @@
     "bootstrap": "^4.6.0",
     "ellipsis-tooltip-react-chan": "^1.2.0",
     "react": "^17.0.1",
+    "react-avatar-edit": "^1.0.0",
     "react-avatar-editor": "^11.1.0",
     "react-bootstrap": "^1.5.2",
     "react-bootstrap-sidebar": "0.0.1",
