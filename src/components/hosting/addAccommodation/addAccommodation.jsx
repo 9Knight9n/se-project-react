@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Alert, Button, Form, Modal, Spinner} from "react-bootstrap";
 import {Link, Redirect, Route, Switch} from "react-router-dom";
-import Categories from "./categories/categories";
+import Categories from "./categories";
 
 class AddAccommodation extends Component {
     constructor(props) {
