@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../hosting/hosting.css';
 import {Alert, Form, Modal, Spinner} from "react-bootstrap";
+import Address from './addVilla/address';
 
 class Hosting extends Component {
     constructor(props) {
@@ -18,9 +19,17 @@ class Hosting extends Component {
                 backdrop="static"
                 show={this.props.show}
                 onHide={this.props.hide}>
-                <div>
-                    This is start page of Hosting
-                </div>
+                <Modal.Header className={"d-flex w-100"} closeButton>
+
+                    <Modal.Title className={"w-100 position-absolute"}>
+                        Welcome
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>
+                        <Address/>
+                    </div>
+                </Modal.Body>
             </Modal>
          );
     }
