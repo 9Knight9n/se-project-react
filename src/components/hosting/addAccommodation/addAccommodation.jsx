@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Alert, Button, Form, Modal, Spinner} from "react-bootstrap";
-import {Link, Redirect, Route, Switch} from "react-router-dom";
+import { Modal} from "react-bootstrap";
+import {Link, Route, Switch} from "react-router-dom";
 import Categories from "./categories";
 
 class AddAccommodation extends Component {
@@ -31,11 +31,13 @@ class AddAccommodation extends Component {
                             </Route>
                         </Switch>
                     </Modal.Header>
-                    <Switch>
-                        <Route path={'/hosting/addaccommodation/categories/'}>
-                            <Categories/>
-                        </Route>
-                    </Switch>
+                    <Modal.Body>
+                        <Switch>
+                            <Route path={'/hosting/addaccommodation/categories/'}>
+                                <Categories/>
+                            </Route>
+                        </Switch>
+                    </Modal.Body>
                 </Modal>
             </div>
         );
