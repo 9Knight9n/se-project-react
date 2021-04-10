@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import beach_icon from '../../../assets/img/beach.png'
 import './categories.css'
 import {Modal} from "react-bootstrap";
-import {Route, Switch} from "react-router-dom";
+import {Link, Route, Switch} from "react-router-dom";
 
 class Categories extends Component {
     constructor(props) {
@@ -52,7 +52,9 @@ class Categories extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                    <Link to={'/hosting/addaccommodation/details/'}>
+                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                    </Link>
                 </Modal.Footer>
             </React.Fragment>
         );
