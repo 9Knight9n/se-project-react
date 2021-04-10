@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import '../hosting/hosting.css';
-import {Alert, Form, Modal, Spinner} from "react-bootstrap";
-import Address from './addVilla/address';
+import {Alert, Button, Form, Modal, Spinner} from "react-bootstrap";
+import Navbar from "../homepage/navbar/navbar";
+import Footer from "../homepage/footer";
+import AddAccommodation from "./addAccommodation/addAccommodation";
+import {Link, Route, Switch} from "react-router-dom";
 
 class Hosting extends Component {
     constructor(props) {
@@ -9,28 +12,26 @@ class Hosting extends Component {
         this.state = {
 
         };
-
     }
 
 
     render() { 
         return (
-            <Modal centered size={'md'}
-                backdrop="static"
-                show={this.props.show}
-                onHide={this.props.hide}>
-                <Modal.Header className={"d-flex w-100"} closeButton>
+            <div className={'container-fluid'}>
+                <Switch>
+                    <Route path="/hosting/addaccommodation/">
+                        <AddAccommodation/>
+                    </Route>
 
-                    <Modal.Title className={"w-100 position-absolute"}>
-                        Welcome
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div>
-                        <Address/>
-                    </div>
-                </Modal.Body>
-            </Modal>
+                    <Route path="/hosting/">
+                        <Link to={'/hosting/addaccommodation/categories/'} >
+                            <Button className={'btn btn-primary w-auto hover-effect'}>
+                                Add Accommodation
+                            </Button>
+                        </Link>
+                    </Route>
+                </Switch>
+            </div>
          );
     }
 }

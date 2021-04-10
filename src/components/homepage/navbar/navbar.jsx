@@ -25,7 +25,6 @@ class Navbar extends Component {
         modalOnLogin : true,
         email : null,
         loggedIn:!!getItem("user-token"),
-        showHosting:false,
     }
 
     // componentWillMount() {
@@ -71,18 +70,8 @@ class Navbar extends Component {
         clearCredentials()
         this.setState({loggedIn:false})
     }
-    
-    exitHosting = () =>{
-        this.setState({
-            showHosting: false,
-        })
-    }
 
-    showHosting = () =>{
-        this.setState({
-            showHosting: true
-        })
-    }
+
     render() {
         return (
             <Fragment>
@@ -95,7 +84,7 @@ class Navbar extends Component {
                             <ul className="navbar-nav">
                                 <li className="nav-item"><a className="nav-link active" href="#">First Item</a></li>
                                 <li className="nav-item"><a className="nav-link" href="#">Second Item</a></li>
-                                <li onClick={this.showHosting} className="nav-item"><Link to="/hosting" className="nav-link">Become a host</Link></li>
+                                <li className="nav-item"><Link to="/Hosting/" className="nav-link">Become a host</Link></li>
                             </ul>
                             <ul className="navbar-nav ml-auto">
                                 {this.state.loggedIn?
@@ -108,7 +97,7 @@ class Navbar extends Component {
 
                                     <Dropdown.Menu className={"shadow-lg"}>
                                         <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                            <Link to="/settings/personalInfo">
+                                            <Link to="/settings/personalInfo/">
                                                 Settings
                                             </Link>
                                         </Dropdown.Item>
@@ -116,6 +105,12 @@ class Navbar extends Component {
                                         <Dropdown.Item as={'button'} className={"btn-primary"} >
                                             <Link to="/">
                                                 Homepage
+                                            </Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider/>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                            <Link to="/Hosting/">
+                                                Hosting
                                             </Link>
                                         </Dropdown.Item>
                                         <Dropdown.Divider/>
@@ -156,8 +151,6 @@ class Navbar extends Component {
                 <Signup show={true} onSuccess={this.onSuccess}
                         changeModal={this.changeModal} email={this.state.email}/>:""}
 
-                {this.state.showHosting ?
-                <Hosting show={this.state.showHosting} hide={this.exitHosting}/>:""}
             </Fragment>
         );
     }
