@@ -8,6 +8,7 @@ import Signup from "./auth/signup";
 import {clearCredentials, getItem} from "../../util";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
 import {Link} from "react-router-dom";
+import Hosting from '../../hosting/hosting';
 
 
 class Navbar extends Component {
@@ -24,6 +25,7 @@ class Navbar extends Component {
         modalOnLogin : true,
         email : null,
         loggedIn:!!getItem("user-token"),
+        showHosting:false,
     }
 
     // componentWillMount() {
@@ -69,6 +71,18 @@ class Navbar extends Component {
         clearCredentials()
         this.setState({loggedIn:false})
     }
+    
+    exitHosting = () =>{
+        this.setState({
+            showHosting: false,
+        })
+    }
+
+    showHosting = () =>{
+        this.setState({
+            showHosting: true
+        })
+    }
     render() {
         return (
             <Fragment>
@@ -81,7 +95,7 @@ class Navbar extends Component {
                             <ul className="navbar-nav">
                                 <li className="nav-item"><a className="nav-link active" href="#">First Item</a></li>
                                 <li className="nav-item"><a className="nav-link" href="#">Second Item</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Third Item</a></li>
+                                <li onClick={this.showHosting} className="nav-item"><Link to="/hosting" className="nav-link">Become a host</Link></li>
                             </ul>
                             <ul className="navbar-nav ml-auto">
                                 {this.state.loggedIn?
@@ -141,6 +155,9 @@ class Navbar extends Component {
                 {(this.state.authModal && !this.state.modalOnLogin)?
                 <Signup show={true} onSuccess={this.onSuccess}
                         changeModal={this.changeModal} email={this.state.email}/>:""}
+
+                {this.state.showHosting ?
+                <Hosting show={this.state.showHosting} hide={this.exitHosting}/>:""}
             </Fragment>
         );
     }
