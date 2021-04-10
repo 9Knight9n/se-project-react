@@ -19,12 +19,12 @@ class Hosting extends Component {
         return (
             <div className={'container-fluid'}>
                 <Switch>
-                    <Route path="/hosting/addaccommodation">
+                    <Route path="/hosting/addaccommodation/categories/">
                         <AddAccommodation/>
                     </Route>
 
                     <Route path="/hosting/">
-                        <Link to={'/hosting/addaccommodation'} >
+                        <Link to={'/hosting/addaccommodation/categories/'} >
                             <Button className={'btn btn-primary w-auto'}>
                                 Add Accommodation
                             </Button>
