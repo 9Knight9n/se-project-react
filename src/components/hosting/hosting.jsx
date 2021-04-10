@@ -19,7 +19,7 @@ class Hosting extends Component {
         return (
             <div className={'container-fluid'}>
                 <Switch>
-                    <Route path="/hosting/addaccommodation/categories/">
+                    <Route path="/hosting/addaccommodation/">
                         <AddAccommodation/>
                     </Route>
 

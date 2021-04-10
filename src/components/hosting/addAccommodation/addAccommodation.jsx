@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
 import Categories from "./categories";
+import Facilities from "./facilities";
 
 class AddAccommodation extends Component {
     constructor(props) {
@@ -25,8 +26,11 @@ class AddAccommodation extends Component {
                         show={true}
                         onHide={this.exit}>
                     <Switch>
-                        <Route path={'/hosting/addaccommodation/categories/'}>
+                        <Route path='/hosting/addaccommodation/categories/'>
                             <Categories/>
+                        </Route>
+                        <Route path='/hosting/addaccommodation/facilities/'>
+                            <Facilities/>
                         </Route>
                     </Switch>
                 </Modal>
