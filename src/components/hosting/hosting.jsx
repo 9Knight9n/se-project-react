@@ -25,7 +25,7 @@ class Hosting extends Component {
 
                     <Route path="/hosting/">
                         <Link to={'/hosting/addaccommodation/categories/'} >
-                            <Button className={'btn btn-primary w-auto'}>
+                            <Button className={'btn btn-primary w-auto hover-effect'}>
                                 Add Accommodation
                             </Button>
                         </Link>

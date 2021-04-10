@@ -4,9 +4,13 @@
 .list-inline {
   text-align: center;
 }
-a:focus, a:hover,button:hover {
+a:focus, a:hover {
   color: #0085A1 !important;
   text-decoration-line: none !important;
+}
+
+button.hover-effect:hover{
+  background-color: #0085A1 !important;;
 }
 
 .fade-in-overlay{
