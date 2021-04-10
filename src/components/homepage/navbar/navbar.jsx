@@ -108,7 +108,7 @@ class Navbar extends Component {
 
                                     <Dropdown.Menu className={"shadow-lg"}>
                                         <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                            <Link to="/settings/personalInfo">
+                                            <Link to="/settings/personalInfo/">
                                                 Settings
                                             </Link>
                                         </Dropdown.Item>
@@ -116,6 +116,12 @@ class Navbar extends Component {
                                         <Dropdown.Item as={'button'} className={"btn-primary"} >
                                             <Link to="/">
                                                 Homepage
+                                            </Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider/>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                            <Link to="/Hosting/">
+                                                Hosting
                                             </Link>
                                         </Dropdown.Item>
                                         <Dropdown.Divider/>

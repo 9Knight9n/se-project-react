@@ -45,34 +45,10 @@ class Homepage extends Component {
     render() {
         return (
             <div id='homepage' className="d-flex flex-column">
-                <Navbar/>
                 <div className={'w-100'}>
-                <Switch>
-                    <Route exact={true} path="/">
-                        {/*<div className={'w-100'}>*/}
-                        {/*    <div className={'align-self-center'} style={{width:"fit-content"}}>*/}
-                                <SearchUser/>
-                        {/*    </div>*/}
-
-                        {/*</div>*/}
-                    </Route>
-                    <Route path="/settings">
-                        <Settings/>
-                    </Route>
-
-                    <Route path="/hosting">
-                        <Hosting show={this.state.showHosting} exitHosting={this.exitHosting} />
-                    </Route>
-
-                </Switch>
+                    <SearchUser/>
 
                 </div>
-
-
-
-
-
-                <Footer/>
             </div>
         );
     }

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import '../hosting/hosting.css';
-import {Alert, Form, Modal, Spinner} from "react-bootstrap";
+import {Alert, Button, Form, Modal, Spinner} from "react-bootstrap";
+import Navbar from "../homepage/navbar/navbar";
+import Footer from "../homepage/footer";
+import AddAccommodation from "./addAccommodation/addAccommodation";
+import {Link, Route, Switch} from "react-router-dom";
 
 class Hosting extends Component {
     constructor(props) {
@@ -8,20 +12,26 @@ class Hosting extends Component {
         this.state = {
 
         };
-
     }
 
 
     render() { 
         return (
-            <Modal centered size={'md'}
-                backdrop="static"
-                show={this.props.show}
-                onHide={this.props.hide}>
-                <div>
-                    This is start page of Hosting
-                </div>
-            </Modal>
+            <div className={'container-fluid'}>
+                <Switch>
+                    <Route path="/hosting/addaccommodation">
+                        <AddAccommodation/>
+                    </Route>
+
+                    <Route path="/hosting/">
+                        <Link to={'/hosting/addaccommodation'} >
+                            <Button className={'btn btn-primary w-auto'}>
+                                Add Accommodation
+                            </Button>
+                        </Link>
+                    </Route>
+                </Switch>
+            </div>
          );
     }
 }
