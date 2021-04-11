@@ -7,12 +7,10 @@ import './personal-info.css';
 import "react-datepicker/dist/react-datepicker.css";
 import TextField from '@material-ui/core/TextField';
 import {Form} from "react-bootstrap";
-import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {showMemoryVariables} from "../../util";
 import {API_PROFILE_URL, API_PROFILE_UPDATE_URL} from "../../constants";
 import axios from "axios";
 

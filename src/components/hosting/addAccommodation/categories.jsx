@@ -52,7 +52,7 @@ class Categories extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/facilities/'} >
+                    <Link to={'/hosting/addaccommodation/details/'} >
                         <button className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
