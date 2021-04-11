@@ -4,6 +4,7 @@ import {Link, Route, Switch} from "react-router-dom";
 import Categories from "./categories";
 import Details from './details';
 import Facilities from "./facilities";
+import Photos from "./photos";
 
 class AddAccommodation extends Component {
     constructor(props) {
@@ -32,6 +33,9 @@ class AddAccommodation extends Component {
                         </Route>
                         <Route path='/hosting/addaccommodation/facilities/'>
                             <Facilities/>
+                        </Route>
+                        <Route path='/hosting/addaccommodation/photos/'>
+                            <Photos/>
                         </Route>
                         <Route path='/hosting/addaccommodation/details/'>
                             <Details/>
