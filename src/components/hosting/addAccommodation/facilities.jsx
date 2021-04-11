@@ -206,10 +206,10 @@ class Facilities extends Component {
                         {this.state.facilities.map((facility=>
                         <div key={facility.id} className={'col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-4 d-flex flex-column'}
                                 onClick={()=>this.onSelect(facility.id)} >
-                            <div className={'fade-in-overlay h-100'}>
+                            <div className={'fade-in-overlay h-100 d-flex flex-column'}>
                                 {/*<img className={'w-100 image'}*/}
                                 {/*    src={facility.src}/>*/}
-                                <div className={'w-100 image'}>
+                                <div className={'w-100 image mt-auto mb-auto'}>
                                     <div className={'pl-4 pr-4 pt-4 pb-3 '}>
                                         {facility.src}
                                     </div>
