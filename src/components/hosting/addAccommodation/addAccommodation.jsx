@@ -31,7 +31,7 @@ class AddAccommodation extends Component {
                         <Route path='/hosting/addaccommodation/categories/'>
                             <Categories/>
                         </Route>
-                        <Route path='/hosting/addaccommodation/facilities/'>
+                        <Route path='/hosting/addaccommodation/amentities/'>
                             <Amentities/>
                         </Route>
                         <Route path='/hosting/addaccommodation/facilities/'>

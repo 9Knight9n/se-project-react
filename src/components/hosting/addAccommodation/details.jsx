@@ -119,7 +119,7 @@ class Details extends Component {
                     <Link to={'/hosting/addaccommodation/categories/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/details/'} >
+                    <Link to={'/hosting/addaccommodation/amentities/'} >
                         <button className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
