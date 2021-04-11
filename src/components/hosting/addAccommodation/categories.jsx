@@ -29,11 +29,11 @@ class Categories extends Component {
                 <Modal.Body>
                     <div className={'row m-2'} id={'categories'}>
                         {this.state.categories.map((category=>
-                        <div className={'col-sm-6 col-md-4 col-lg-4 col-xl-4 mb-4 '}
+                        <div key={category.id} className={'col-sm-6 col-md-4 col-lg-4 col-xl-4 mb-4 '}
                                 onClick={()=>this.setState({selectedItem:category.id})} >
                             <div className={'fade-in-overlay'}>
                                 <img className={'w-100 image'}
-                                    src={category.src} key={category.id}/>
+                                    src={category.src}/>
                                 <div className={"overlay".concat(category.id===this.state.selectedItem?' selected border-success':'')}>
                                     {category.id===this.state.selectedItem?
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
@@ -53,7 +53,7 @@ class Categories extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Link to={'/hosting/addaccommodation/facilities/'} >
-                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button className={'btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>
