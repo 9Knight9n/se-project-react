@@ -240,7 +240,7 @@ class Facilities extends Component {
                     <Link to={'/hosting/addaccommodation/categories/'}>
                         <button className={'btn btn-outline-secondary'}>back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/photos/'}>
+                    <Link to={'/hosting/addaccommodation/address/'}>
                         <button className={'btn btn-outline-primary'}>next</button>
                     </Link>
                 </Modal.Footer>
