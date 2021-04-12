@@ -14,7 +14,7 @@ class Amentities extends Component {
             maximumCapacity: 1,
             bedrooms: 0,
             doubleBeds: 0,
-            singleBeds: 1,
+            singleBeds: 0,
             bathrooms: 1,
             showers: 1,
 
@@ -90,7 +90,7 @@ class Amentities extends Component {
             })
             return;
         }
-        else if (select === 4 && this.state.doubleBeds <= 0)
+        else if (select === 4 && this.state.singleBeds <= 0)
         {
             toast.dark("This is not a possible amount!");
             return;
@@ -103,15 +103,15 @@ class Amentities extends Component {
             })
             return;
         }
-        if (select === 5 && operator === "-" && this.state.singleBeds > 1){
+        if (select === 5 && operator === "-" && this.state.singleBeds > 0){
             this.setState({
                 singleBeds: this.state.singleBeds - 1
             })
             return;
         }
-        else if (select === 5 && this.state.singleBeds <= 1)
+        else if (select === 5 || this.state.singleBeds <= 0)
         {
-            toast.dark("Your place must contains at least one single bed!");
+            toast.dark("This is not a possible amount!");
             return;
         }
 
