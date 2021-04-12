@@ -4,6 +4,7 @@ import {Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
 import {Form} from "react-bootstrap";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+import { ToastContainer, toast } from 'react-toastify';
 
 class Address extends Component {
     constructor(props) {
@@ -13,8 +14,62 @@ class Address extends Component {
             charsPerPage: 1,
             invalidPlaceName: '',
             postalCode: null,
-            invalidPostalCode: false
+            invalidPostalCode: false,
+            invalidCountry: false,
+            invalidRegion: false,
+            amentitiesAddress: '',
+            invalidFulladdress: false
+
         };
+
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        let country = document.getElementById("address-country")
+        let region = document.getElementById("address-region").value;
+        let fulladdress = document.getElementById("address-fullAddress").value;
+        let postalCode = document.getElementById("address-postalCode").value;
+        let dataIsValid = true;
+
+        // if (country.contains("<")) {
+        //     dataIsValid = false
+        //     this.setState({
+        //         invalidCountry: true,
+        //     });
+        // }
+        // else{
+        //     this.setState({invalidCountry: false});
+        // }
+
+        if (region.length === 0) {
+            dataIsValid = false
+            this.setState({invalidRegion: true});
+        }
+        else{
+            this.setState({invalidRegion: false});
+        }
+
+        if (fulladdress.length === 0) {
+            dataIsValid = false
+            this.setState({invalidFulladdress: true});
+        }
+        else{
+            this.setState({invalidFulladdress: false});
+        }
+
+        if (this.state.invalidPostalCode){
+            dataIsValid = false
+        }
+
+        if (dataIsValid){
+            this.setState({
+                amentitiesAddress: '/hosting/addaccommodation/amentities/'
+            })
+            return;
+        }else{
+            toast.error("You may entered invalid amounts!")
+        }  
 
     }
 
@@ -46,30 +101,43 @@ class Address extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="address-main">
+                        <ToastContainer/>
                         <b>Describe your place for guests.</b>
                         <div className="address-form">
                             <form>
                                 <div className="row mb-4">
                                     <div className="col-md-6">
-                                        <label htmlFor="address-country">Country</label>
+                                        <label htmlFor="address-country">Country :</label>
                                         <div>
                                             <CountryDropdown
                                             id="address-country"
                                             style={{width: "100%"}}
                                             value={this.state.country}
+                                            className={this.state.invalidCountry? "address-select-control":""}
                                             onChange={(value)=>this.setState({country: value})} />
                                         </div>
+                                        {this.state.invalidCountry ? 
+                                        <div className="ml-2 address-errors">
+                                            You must choose your country!
+                                        </div>
+                                        : ""}
                                     </div>
                                     <div className="col-md-6">
-                                        <label htmlFor="address-region">Region</label>
+                                        <label htmlFor="address-region">Region :</label>
                                         <div>
                                             <RegionDropdown
                                             country={this.state.country}
                                             value={this.state.region}
                                             id="address-region"
+                                            className={this.state.invalidRegion? "address-select-control":""}
                                             style={{width: "100%"}}
                                             onChange={(value)=>this.setState({region: value})} />
                                         </div>
+                                        {this.state.invalidRegion ? 
+                                        <div className="ml-2 address-errors">
+                                            You must choose your region!
+                                        </div>
+                                        : ""}
                                     </div>
                                 </div>
 
@@ -91,7 +159,11 @@ class Address extends Component {
                                                     name="fullAddress"
                                                     placeholder="Example: Tehran, Vali-asr street, Zaferaniyeh street, Kafi-abadi alley ...."
                                                     data-testid="address-full"
+                                                    isInvalid={this.state.invalidFulladdress}
                                                 />
+                                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                    You must enter your place full address!
+                                                </Form.Control.Feedback>
                                             </div>
                                             <div className="personalInfo-textAreaCounter">
                                                 {this.state.pageCount} of 120
@@ -127,11 +199,11 @@ class Address extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/categories/'} >
+                    <Link to={'/hosting/addaccommodation/facilities/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/amentities/'} >
-                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                    <Link to={this.state.amentitiesAddress} >
+                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>

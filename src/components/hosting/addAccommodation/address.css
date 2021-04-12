@@ -22,3 +22,11 @@
   font-size: 13px;
   margin-left: 0.5rem;
 }
+.address-errors {
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+.address-select-control {
+  border: 1px solid #dc3545;
+}
