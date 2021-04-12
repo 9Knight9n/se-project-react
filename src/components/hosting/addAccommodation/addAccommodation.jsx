@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
+import Amentities from './amentities';
 import Categories from "./categories";
+import Details from './details';
 import Facilities from "./facilities";
 
 class AddAccommodation extends Component {
@@ -29,8 +31,14 @@ class AddAccommodation extends Component {
                         <Route path='/hosting/addaccommodation/categories/'>
                             <Categories/>
                         </Route>
+                        <Route path='/hosting/addaccommodation/amentities/'>
+                            <Amentities/>
+                        </Route>
                         <Route path='/hosting/addaccommodation/facilities/'>
                             <Facilities/>
+                        </Route>
+                        <Route path='/hosting/addaccommodation/details/'>
+                            <Details/>
                         </Route>
                     </Switch>
                 </Modal>

@@ -18,7 +18,7 @@ button.hover-effect:hover{
 }
 
 .fade-in-overlay:hover .overlay {
-  opacity: 0.9;
+  opacity: 0.4;
 }
 .fade-in-overlay .image {
   display: block;
@@ -36,11 +36,11 @@ button.hover-effect:hover{
   width: 100%;
   opacity: 0;
   transition: .5s ease;
-  background-color: #008CBA;
+  background-color: #000000;
 }
 .fade-in-overlay .selected {
-  opacity: 0.9;
-  border:solid 10px;
+  opacity: 0.85 !important;
+  border:solid 5px;
 }
 
 .fade-in-overlay .text {
