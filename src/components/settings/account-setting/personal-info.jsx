@@ -251,10 +251,11 @@ class PersonalInfo extends Component {
        }
    }
 
-   exitModal = () =>
+   exitModal = (avatarSrc) =>
    {
        this.setState({
         showAvatarModal: false,
+        avatarSrc: avatarSrc
         })
    }
 

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import editAvatar from '../../../assets/img/man.png';
 import './avatar.css';
 import SelectAvatar from '../../avatarEditor/selectAvatar';
-import {Alert, Form, Modal, Spinner} from "react-bootstrap";
+import {  Modal } from "react-bootstrap";
 class Avatar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             preview: null,
-            src : this.props.src,
+            src : this.props.src === ''? editAvatar : this.props.src,
             editing:false,
             showSelect:false,
           }
@@ -28,10 +28,12 @@ class Avatar extends Component {
 
     exit = () =>
     {
-        this.props.exitModal()
+        this.props.exitModal(sessionStorage.getItem("AvatarSrc"))
     }
 
     onClose() {
+        let src = this.state.preview;
+        sessionStorage.setItem("profileAvatar", src)
         this.setState({preview: null})
     }
 
@@ -49,8 +51,9 @@ class Avatar extends Component {
     }
     
       async onSave(){
-          console.log("saved")
-        // let src = this.state.preview
+        console.log("saved")
+        let src = this.state.preview
+        sessionStorage.setItem("profileAvatar", src)
         // console.log("save button pressed")
         // console.log("current preview:",src)
         // this.setState({avatarChanged:true,src})
@@ -94,6 +97,9 @@ class Avatar extends Component {
 
                     </div>
                 </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={()=>this.exit()} className="btn btn-primary">Done</button>
+                </Modal.Footer>
             </Modal> 
          );
     }
