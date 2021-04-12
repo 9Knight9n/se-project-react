@@ -8,7 +8,7 @@ class Avatar extends Component {
         super(props);
         this.state = {
             preview: null,
-            src : this.props.src === ''? editAvatar : this.props.src,
+            src : this.props.src,
             editing:false,
             showSelect:false,
           }
@@ -18,6 +18,13 @@ class Avatar extends Component {
         this.onSave = this.onSave.bind(this)
 
     }
+    
+    componentDidUpdate (prevProps){
+        if (prevProps.src !== this.props.src){
+            this.setState({src: this.props.src})
+        }
+    }
+    
     componentDidMount (){
         console.log("this is src : " + this.props.src)
     }
@@ -28,7 +35,7 @@ class Avatar extends Component {
 
     exit = () =>
     {
-        this.props.exitModal(sessionStorage.getItem("AvatarSrc"))
+        this.props.exitModal(this.state.preview)
     }
 
     onClose() {
@@ -47,7 +54,6 @@ class Avatar extends Component {
       
     onCrop(preview) {
         this.setState({preview})
-        console.log(preview)
     }
     
       async onSave(){

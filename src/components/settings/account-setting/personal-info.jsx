@@ -269,7 +269,7 @@ class PersonalInfo extends Component {
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
                             <img alt="profile avatar" src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}/>
-                            <Avatar show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ? '' : this.state.avatarSrc}  />
+                            <Avatar show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}  />
                             {/* warning check this later!!!!!!!!!!!!!!!!!!!!!!!! */}
                         </div>
                         <div className="w-100 mt-2">
