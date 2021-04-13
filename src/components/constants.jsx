@@ -1,7 +1,7 @@
 import axios from "axios";
 export const VERIFY_LENGTH = 6;
 
-const API_BASE_URL = "https://softcheetahs.herokuapp.com/"
+export const API_BASE_URL = "https://softcheetahs.herokuapp.com/"
 axios.defaults.baseURL=API_BASE_URL;
 
 
@@ -13,3 +13,4 @@ export const API_TOKEN_URL = "api/token/"
 export const API_PROFILE_URL = "api/account/properties"
 export const API_PROFILE_UPDATE_URL = "api/account/properties/update"
 export const API_SEARCH_USER_URL = "api/account/properties/all"
+export const API_UPLOAD_IMAGE_URL = "api/villa/admin/remove-waste-images/"
