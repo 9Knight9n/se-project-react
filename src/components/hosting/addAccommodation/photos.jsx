@@ -4,7 +4,8 @@ import {Link} from "react-router-dom";
 import 'antd/dist/antd.css';
 import { Upload, Modal as antdModal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import {getBase64} from "../../util";
+import {getBase64, getItem} from "../../util";
+import {API_BASE_URL,API_UPLOAD_IMAGE_URL} from '../../constants';
 
 
 class Photos extends Component {
@@ -37,11 +38,22 @@ class Photos extends Component {
         var w = window.open("");
         w.document.write(image.outerHTML);
     }
+    
+
+
+    SaveFileListToSessionStorage=()=>{
+      sessionStorage.setItem('add-villa-uploaded-photos', JSON.stringify(this.state.fileList));
+    }
+
+    loadFileList=()=>{
+      this.setState({fileList:JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos'))})
+    }
+
 
     render() {
         const { previewVisible, previewImage, fileList, previewTitle } = this.state;
         const uploadButton = (
-            <div>
+            <div >
             <PlusOutlined />
             <div style={{ marginTop: 8 }}>Upload</div>
             </div>
@@ -53,12 +65,15 @@ class Photos extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Upload
-                        headers={null}
+                        headers={{'Authorization':'Token '.concat(getItem('user-token'))}}
+                        headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
                         // method={'post'}
                         accept={'image/*'}
-                        action={'http://127.0.0.1:8000/image/'}
+                        action={'http://127.0.0.1:8000/api/villa/user/images/'}
                         listType="picture-card"
                         fileList={fileList}
+                        // customRequest={(obj)=>this.rename(obj)}
+                        // onSuccess={()=>console.log(this.state.fileList)}
                         onRemove={()=>console.log(this.state.fileList)}
                         onPreview={this.handlePreview}
                         onChange={this.handleChange}
@@ -101,7 +116,6 @@ class Photos extends Component {
                     <Link to={'/hosting/addaccommodation/documentations/'} >
                         <button className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
-
                 </Modal.Footer>
             </React.Fragment>
         );

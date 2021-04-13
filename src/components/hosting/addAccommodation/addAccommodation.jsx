@@ -17,6 +17,7 @@ class AddAccommodation extends Component {
     exit()
     {
         document.getElementById('redirect-to-hosting').click()
+        sessionStorage.removeItem('add-villa-uploaded-photos');
     }
 
     render() {
