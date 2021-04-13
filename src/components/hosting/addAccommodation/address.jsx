@@ -102,7 +102,7 @@ class Address extends Component {
                 <Modal.Body>
                     <div className="address-main">
                         <ToastContainer/>
-                        <b>Describe your place for guests.</b>
+                        <b>Enter your place address details here.</b>
                         <div className="address-form">
                             <form>
                                 <div className="row mb-4">
@@ -184,6 +184,7 @@ class Address extends Component {
                                                     type="number"
                                                     min="0"
                                                     name="postalCode"
+                                                    placeholder="Example : 1234567890"
                                                     value={this.state.postalCode}
                                                     data-testid="address-postalCode"
                                                     isInvalid={this.state.invalidPostalCode}
