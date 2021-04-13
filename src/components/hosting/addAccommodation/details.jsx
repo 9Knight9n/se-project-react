@@ -112,10 +112,10 @@ class Details extends Component {
                                         </div>
                                     </div>
 
-                                    <div className="row">
-                                        <div className="details-price col-md-6">
+                                        <div className="details-price">
                                             <div className="details-input-price">
                                                 <label className="form-label" htmlFor="details-price">Price : </label>
+                                                <p>The currency is in dollar.</p>
                                             </div>
                                             <div className="form-group">
                                                 <div className="input-group">
@@ -132,27 +132,6 @@ class Details extends Component {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div className="details-currency col-md-6">
-                                            <div className="details-input-currency">
-                                                <label className="form-label" htmlFor="details-currency">Currency : </label>
-                                            </div>
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Control
-                                                        onChange={this.handleChange}
-                                                        id="details-currency"
-                                                        className="form-control shadow-none"
-                                                        type="text"
-                                                        min="0"
-                                                        name="currency"
-                                                        placeholder="Example: Dollar"
-                                                        data-testid="details-currency"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                             </form>
                         </div>
                     </div>
