@@ -303,7 +303,9 @@ class PersonalInfo extends Component {
                                             onChange={this.handleChange}
                                             id="personalInfo-nationalId"
                                             className="form-control shadow-none"
-                                            type="text"
+                                            type="number"
+                                            min={0}
+                                            minLength={10}
                                             name="nationalId"
                                             value={this.state.nationalId}
                                             data-testid="personalInfo-nationalId"

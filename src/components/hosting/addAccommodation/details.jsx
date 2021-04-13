@@ -9,12 +9,12 @@ class Details extends Component {
         this.state = {
             pageCount: 0,
             charsPerPage: 1,
-            invalidPlaceName: ''
+            invalidPlaceName: '',
         };
 
     }
 
-    handleChange(e){
+    handleChange = (e) => {
         let target=e.target;
         let name = target.name;
         let value = target.value
@@ -73,7 +73,7 @@ class Details extends Component {
                                         <div className="form-group">
                                             <div className="input-group">
                                                 <Form.Control
-                                                    // onChange={this.handleChange}
+                                                    onChange={this.handleChange}
                                                     as="textarea"
                                                     rows={3}
                                                     maxLength="120"
@@ -84,9 +84,9 @@ class Details extends Component {
                                                     placeholder="Example: Luxurious villa with swimming pool near the sea and close to ..."
                                                     data-testid="details-description"
                                                 />
-                                                {/* <div className="personalInfo-textAreaCounter">
-                                                    {this.state.pageCount} of 120
-                                                </div> */}
+                                            </div>
+                                            <div className="personalInfo-textAreaCounter">
+                                                {this.state.pageCount} of 120
                                             </div>
                                         </div>
                                     </div>
@@ -140,7 +140,7 @@ class Details extends Component {
                     <Link to={'/hosting/addaccommodation/categories/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/details/'} >
+                    <Link to={'/hosting/addaccommodation/amentities/'} >
                         <button className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
