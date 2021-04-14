@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './details.css'
 import {Modal} from "react-bootstrap";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import {Form} from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import {valueIsNumber} from '../../util';
@@ -98,10 +98,11 @@ class Details extends Component {
                     <h4>Place details</h4>
                 </Modal.Header>
                 <Modal.Body>
+                    
                     <div className="details-main">
                         <b>Describe your place for guests.</b>
                         <div className="details-form">
-                            <form>
+                                <form>
                                     <div className="details-placeName">
                                         <div className="details-input-description">
                                             <label className="form-label" htmlFor="details-placeName">Place name:</label>
@@ -205,17 +206,20 @@ class Details extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                            </form>
+                                </form>
                         </div>
                     </div>
+                    
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/categories/'} >
-                        <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
-                    </Link>
-                    <Link to={this.state.goToAddressPage ? '/hosting/addaccommodation/address/' : ''} >
-                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                    </Link>
+                    <Router>
+                        <Link to={'/hosting/addaccommodation/categories/'} >
+                            <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
+                        </Link>
+                        <Link to={this.state.goToAddressPage ? '/hosting/addaccommodation/address/' : ''} >
+                            <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        </Link>
+                    </Router>
                 </Modal.Footer>
             </React.Fragment>
          );

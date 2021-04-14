@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './address.css'
 import {Modal} from "react-bootstrap";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import {Form} from "react-bootstrap";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { ToastContainer, toast } from 'react-toastify';
@@ -200,12 +200,14 @@ class Address extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/facilities/'} >
-                        <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
-                    </Link>
-                    <Link to={this.state.goToAmentities ? '/hosting/addaccommodation/amentities/' : ''} >
-                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                    </Link>
+                    <Router>
+                        <Link to={'/hosting/addaccommodation/facilities/'} >
+                            <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
+                        </Link>
+                        <Link to={this.state.goToAmentities ? '/hosting/addaccommodation/amentities/' : ''} >
+                            <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        </Link>
+                    </Router>
                 </Modal.Footer>
             </React.Fragment>
          );
