@@ -3,21 +3,81 @@ import './details.css'
 import {Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
 import {Form} from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import {valueIsNumber} from '../../util';
+
 class Details extends Component {
     constructor(props) {
         super(props);
         this.state = {
             pageCount: 0,
             charsPerPage: 1,
-            invalidPlaceName: '',
+            invalidPlaceName: false,
+            goToAddressPage: false,
+            invalidDescription: false,
+            invalidPrice: false,
+
         };
+
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        let placeName = document.getElementById("details-placeName").value
+        let description = document.getElementById("details-description").value;
+        let area = document.getElementById("details-area").value;
+        let price = document.getElementById("details-price").value;
+        let dataIsValid = true;
+
+        // if (country.contains("<")) {
+        //     dataIsValid = false
+        //     this.setState({
+        //         invalidCountry: true,
+        //     });
+        // }
+        // else{
+        //     this.setState({invalidCountry: false});
+        // }
+
+        if (placeName.length === 0 || placeName.length > 40) {
+            dataIsValid = false
+            this.setState({invalidPlaceName: true});
+        }
+        else{
+            this.setState({invalidPlaceName: false});
+        }
+
+        if (price.length === 0) {
+            dataIsValid = false
+            this.setState({invalidPrice: true});
+        }
+        else{
+            this.setState({invalidPrice: false});
+        }
+
+        if (area.length === 0 || area.length > 40) {
+            dataIsValid = false
+            this.setState({invalidArea: true});
+        }
+        else{
+            this.setState({invalidArea: false});
+        }
+
+        if (dataIsValid){
+            console.log("link")
+            this.setState({
+                goToAddressPage: true
+            })
+            return;
+        }else{
+            toast.error("You may entered invalid amounts!")
+        }  
 
     }
 
     handleChange = (e) => {
         let target=e.target;
         let name = target.name;
-        let value = target.value
         if (name === "description"){
          let currentText = e.target.value;
          //Now we need to recalculate the number of characters that have been typed in so far
@@ -25,6 +85,10 @@ class Details extends Component {
          let charsPerPageCount = this.state.charsPerPage;
          let unitCount = Math.round(characterCount/charsPerPageCount);
          this.setState({pageCount: unitCount});
+        }
+
+        if (name === "price"){
+            target.value.toLocaleString();
         }
     }
     render() { 
@@ -94,6 +158,7 @@ class Details extends Component {
                                     <div className="details-area">
                                         <div className="details-input-description">
                                             <label className="form-label" htmlFor="details-area">Area (Meter):</label>
+                                            {/* <p>Enter the price per day for your place.</p> */}
                                         </div>
                                         <div className="form-group">
                                             <div className="input-group">
@@ -107,7 +172,11 @@ class Details extends Component {
                                                     maxLength="4"
                                                     placeholder="Example: 150"
                                                     data-testid="details-area"
-                                                />
+                                                    isInvalid={this.state.invalidArea}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                        Area must be digits and more than 9!
+                                                    </Form.Control.Feedback>
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +184,7 @@ class Details extends Component {
                                         <div className="details-price">
                                             <div className="details-input-price">
                                                 <label className="form-label" htmlFor="details-price">Price : </label>
-                                                <p>The currency is in dollar.</p>
+                                                <p>Enter the price per day for your place.</p>
                                             </div>
                                             <div className="form-group">
                                                 <div className="input-group">
@@ -126,9 +195,13 @@ class Details extends Component {
                                                         type="number"
                                                         min="0"
                                                         name="price"
-                                                        placeholder="Example: 150"
+                                                        placeholder="Example: 1000"
                                                         data-testid="details-price"
-                                                    />
+                                                        isInvalid={this.state.invalidPrice}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                            Price can only contains digits.
+                                                        </Form.Control.Feedback>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,8 +213,8 @@ class Details extends Component {
                     <Link to={'/hosting/addaccommodation/categories/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/amentities/'} >
-                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                    <Link to={this.state.goToAddressPage ? '/hosting/addaccommodation/address/' : ''} >
+                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>
