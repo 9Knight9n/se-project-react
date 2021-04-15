@@ -39,23 +39,5 @@ test('Price doesn not accept string and null value', () =>{
     expect(inputPrice).not.toBeNull;
 
 });
-// it("form is valid", () =>{
-//     const {getByTestId} = render(<Details />);
-//     expect(getByTestId("details-placeNames")).toContainHTML(<form></form>);
-// })
 
-// it("firstName is not null", () =>{
-//     const {getByTestId} = render(<PersonalInfo />);
-//     expect(getByTestId("personalInfo-firstName")).not.toBeNull;
-// })
-
-// it("lastName is not null", () =>{
-//     const {getByTestId} = render(<PersonalInfo />);
-//     expect(getByTestId("personalInfo-lastName")).not.toBeNull;
-// })
-
-// it("matches snapShot", () =>{
-//     const tree = renderer.create(<PersonalInfo />).toJSON();
-//     expect(tree).toMatchSnapshot();
-// })
 

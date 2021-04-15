@@ -64,7 +64,6 @@ class Details extends Component {
         }
 
         if (dataIsValid){
-            console.log("link")
             this.setState({
                 goToAddressPage: true
             })

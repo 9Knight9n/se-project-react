@@ -31,7 +31,6 @@ class Address extends Component {
         let fulladdress = document.getElementById("address-fullAddress").value;
         let postalCode = document.getElementById("address-postalCode").value;
         let dataIsValid = true;
-        console.log(country)
         if (country.length === 0) {
             dataIsValid = false
             this.setState({
@@ -41,7 +40,6 @@ class Address extends Component {
         else{
             this.setState({invalidCountry: false});
         }
-        console.log(region)
         if (region.length === 0) {
             dataIsValid = false
             this.setState({invalidRegion: true});
@@ -85,7 +83,6 @@ class Address extends Component {
             let unitCount = Math.round(characterCount/charsPerPageCount);
             this.setState({pageCount: unitCount});
         }
-        console.log(name , " " , value )
         if (name === "postalCode" && ( value.length > 5 && value.length < 16)){
             this.setState({postalCode: value, invalidPostalCode: false})
         }
@@ -93,6 +90,7 @@ class Address extends Component {
             this.setState({postalCode: value, invalidPostalCode: true})
         }
     }
+
     render() { 
         return ( 
             <React.Fragment>
@@ -114,6 +112,7 @@ class Address extends Component {
                                             style={{width: "100%"}}
                                             value={this.state.country}
                                             className={this.state.invalidCountry? "address-select-control":""}
+                                            data-testid="address-country"
                                             onChange={(value)=>this.setState({country: value})} />
                                         </div>
                                         {this.state.invalidCountry ? 
@@ -131,6 +130,7 @@ class Address extends Component {
                                             id="address-region"
                                             className={this.state.invalidRegion? "address-select-control":""}
                                             style={{width: "100%"}}
+                                            data-testid="address-region"
                                             onChange={(value)=>this.setState({region: value})} />
                                         </div>
                                         {this.state.invalidRegion ? 
@@ -158,7 +158,7 @@ class Address extends Component {
                                                     type="text"
                                                     name="fullAddress"
                                                     placeholder="Example: Tehran, Vali-asr street, Zaferaniyeh street, Kafi-abadi alley ...."
-                                                    data-testid="address-full"
+                                                    data-testid="address-fullAddress"
                                                     isInvalid={this.state.invalidFulladdress}
                                                 />
                                                 <Form.Control.Feedback type="invalid" className={"ml-1"}>
