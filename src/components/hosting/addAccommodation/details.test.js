@@ -15,8 +15,8 @@ it('Renders without crashing', () => {
 test('place name doesn not accept string over 40 character and null value', () =>{
     render(<Details/>);
     const inputPlaceName = screen.getByTestId('details-placeName');
-    userEvent.type(inputPlaceName, 'seaSide villa in front og the jungle and near to facilities in city.');
-    expect(inputPlaceName).not.toHaveValue('seaSide villa in front og the jungle and near to facilities in city.');
+    userEvent.type(inputPlaceName, 'seaSide villa in front of the jungle and near to facilities in city.');
+    expect(inputPlaceName).not.toHaveValue('seaSide villa in front of the jungle and near to facilities in city.');
     expect(inputPlaceName).not.toBeNull;
 
 });
