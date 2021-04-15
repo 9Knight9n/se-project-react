@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './address.css'
 import {Modal} from "react-bootstrap";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import {Form} from "react-bootstrap";
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,7 +17,7 @@ class Address extends Component {
             invalidPostalCode: false,
             invalidCountry: false,
             invalidRegion: false,
-            amentitiesAddress: '',
+            goToAmentities: false,
             invalidFulladdress: false
 
         };
@@ -26,22 +26,22 @@ class Address extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        let country = document.getElementById("address-country")
+        let country = document.getElementById("address-country").value;
         let region = document.getElementById("address-region").value;
         let fulladdress = document.getElementById("address-fullAddress").value;
         let postalCode = document.getElementById("address-postalCode").value;
         let dataIsValid = true;
-
-        // if (country.contains("<")) {
-        //     dataIsValid = false
-        //     this.setState({
-        //         invalidCountry: true,
-        //     });
-        // }
-        // else{
-        //     this.setState({invalidCountry: false});
-        // }
-
+        console.log(country)
+        if (country.length === 0) {
+            dataIsValid = false
+            this.setState({
+                invalidCountry: true,
+            });
+        }
+        else{
+            this.setState({invalidCountry: false});
+        }
+        console.log(region)
         if (region.length === 0) {
             dataIsValid = false
             this.setState({invalidRegion: true});
@@ -64,7 +64,7 @@ class Address extends Component {
 
         if (dataIsValid){
             this.setState({
-                amentitiesAddress: '/hosting/addaccommodation/amentities/'
+                goToAmentities: true
             })
             return;
         }else{
@@ -102,7 +102,7 @@ class Address extends Component {
                 <Modal.Body>
                     <div className="address-main">
                         <ToastContainer/>
-                        <b>Describe your place for guests.</b>
+                        <b>Enter your place address details here.</b>
                         <div className="address-form">
                             <form>
                                 <div className="row mb-4">
@@ -184,6 +184,7 @@ class Address extends Component {
                                                     type="number"
                                                     min="0"
                                                     name="postalCode"
+                                                    placeholder="Example : 1234567890"
                                                     value={this.state.postalCode}
                                                     data-testid="address-postalCode"
                                                     isInvalid={this.state.invalidPostalCode}
@@ -199,12 +200,14 @@ class Address extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/facilities/'} >
-                        <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
-                    </Link>
-                    <Link to={this.state.amentitiesAddress} >
-                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                    </Link>
+                    <Router>
+                        <Link to={'/hosting/addaccommodation/facilities/'} >
+                            <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
+                        </Link>
+                        <Link to={this.state.goToAmentities ? '/hosting/addaccommodation/amentities/' : ''} >
+                            <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        </Link>
+                    </Router>
                 </Modal.Footer>
             </React.Fragment>
          );

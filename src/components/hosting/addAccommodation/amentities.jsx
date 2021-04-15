@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './amenities.css';
 import { Modal} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, BrowserRouter as Router} from "react-router-dom";
 import plusImg from '../../../assets/img/plus.png';
 import minusImg from '../../../assets/img/minus.png';
 import { ToastContainer, toast } from 'react-toastify';
@@ -231,12 +231,14 @@ class Amentities extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/details/'}>
-                        <button className={'btn btn-outline-secondary'}>back</button>
-                    </Link>
-                    <Link to={'/hosting/addaccommodation/facilities/'}>
-                        <button className={'ml-auto btn btn-outline-primary'}>next</button>
-                    </Link>
+                    <Router>
+                        <Link to={'/hosting/addaccommodation/details/'}>
+                            <button className={'btn btn-outline-secondary'}>back</button>
+                        </Link>
+                        <Link to={'/hosting/addaccommodation/facilities/'}>
+                            <button className={'ml-auto btn btn-outline-primary'}>next</button>
+                        </Link>
+                    </Router>
                 </Modal.Footer>
             </React.Fragment>
          );
