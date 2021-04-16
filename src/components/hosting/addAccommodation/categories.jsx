@@ -6,6 +6,8 @@ import wild_icon from '../../../assets/img/wild.png'
 import mountainous_icon from '../../../assets/img/mountainous.png'
 import rural_icon from '../../../assets/img/rural.png'
 import suburban_icon from '../../../assets/img/suburban.png'
+import motel_icon from '../../../assets/img/motel.png'
+import desert_icon from '../../../assets/img/desert.png'
 import './categories.css'
 import {Button, Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
@@ -24,7 +26,9 @@ class Categories extends Component {
             {src:wild_icon,id:2,label:'Wild'},
             {src:mountainous_icon,id:3,label:'Mountainous'},
             {src:rural_icon,id:4,label:'Rural'},
-            {src:suburban_icon,id:5,label:'Suburban'},
+            {src:suburban_icon,id:6,label:'Suburban'},
+            {src:motel_icon,id:7,label:'Motel'},
+            {src:desert_icon,id:8,label:'Desert'},
         ],
         selectedItem:null,
     }
@@ -51,12 +55,12 @@ class Categories extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    Select your hosting Category
+                    What area is your residence located in?
                 </Modal.Header>
                 <Modal.Body>
-                    <div className={'row m-2'} id={'categories'}>
+                    <div className={'row mt-2 mr-2 ml-2'} id={'categories'}>
                         {this.state.categories.map((category=>
-                        <div className={'col-sm-6 col-md-4 col-lg-4 col-xl-4 mb-4 '}
+                        <div className={'col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4 '}
                                 onClick={()=>this.setState({selectedItem:category.id})} >
                             <div className={'fade-in-overlay'}>
                                 <img className={'w-100 image'}
@@ -74,6 +78,12 @@ class Categories extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <div className={'w-100 d-flex mt-1'}>
+                                <label className="ml-auto mr-auto">
+                                    {category.label}
+                                </label>
+                            </div>
+
                         </div>
                         ))}
                     </div>
