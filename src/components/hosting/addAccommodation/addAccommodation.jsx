@@ -7,6 +7,7 @@ import Details from './details';
 import Facilities from "./facilities";
 import Address from "./address";
 import Photos from "./photos";
+import Documentations from "./documentations";
 
 class AddAccommodation extends Component {
     constructor(props) {
@@ -42,6 +43,9 @@ class AddAccommodation extends Component {
                         </Route>
                         <Route path='/hosting/addaccommodation/photos/'>
                             <Photos/>
+                        </Route>
+                        <Route path='/hosting/addaccommodation/documentations/'>
+                            <Documentations/>
                         </Route>
                         <Route path='/hosting/addaccommodation/details/'>
                             <Details/>

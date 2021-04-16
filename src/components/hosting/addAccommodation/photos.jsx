@@ -80,34 +80,6 @@ class Photos extends Component {
                         >
                         {fileList.length >= 8 ? null : uploadButton}
                     </Upload>
-                    {/*<div className={'row m-2'} id={'categories'}>*/}
-                    {/*    {this.state.categories.map((category=>*/}
-                    {/*    <div key={category.id} className={'col-sm-6 col-md-4 col-lg-4 col-xl-4 mb-4 '}*/}
-                    {/*            onClick={()=>this.setState({selectedItem:category.id})} >*/}
-                    {/*        <div className={'fade-in-overlay '}>*/}
-                    {/*            <img className={'w-100 image'} id={'category-'.concat(category.id)}*/}
-                    {/*                src={category.src}/>*/}
-                    {/*            <div className={"overlay".concat(category.id===this.state.selectedItem?' selected border-success':'')}>*/}
-                    {/*                {category.id===this.state.selectedItem?*/}
-                    {/*                <React.Fragment>*/}
-                    {/*                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"*/}
-                    {/*                         fill="green" className=" mt-2 ml-2 bi bi-check-circle-fill"*/}
-                    {/*                         viewBox="0 0 16 16">*/}
-                    {/*                        <path*/}
-                    {/*                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>*/}
-                    {/*                    </svg>*/}
-                    {/*                    <div className="text">*/}
-                    {/*                        {category.label}*/}
-                    {/*                    </div>*/}
-                    {/*                </React.Fragment>:""}*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*        <label className={'text-center w-100'}>*/}
-                    {/*            {category.label}*/}
-                    {/*        </label>*/}
-                    {/*    </div>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
                 </Modal.Body>
                 <Modal.Footer>
                     <Link to={'/hosting/addaccommodation/facilities/'} >
