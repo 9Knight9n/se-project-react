@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
 import beach_icon from '../../../assets/img/beach.png'
+import urban_icon from '../../../assets/img/urban.png'
+import wild_icon from '../../../assets/img/wild.png'
+import mountainous_icon from '../../../assets/img/mountainous.png'
+import rural_icon from '../../../assets/img/rural.png'
+import suburban_icon from '../../../assets/img/suburban.png'
 import './categories.css'
 import {Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
@@ -12,10 +17,11 @@ class Categories extends Component {
     state = {
         categories : [
             {src:beach_icon,id:0,label:'Coastal'},
-            {src:beach_icon,id:1,label:'no label'},
-            {src:beach_icon,id:2,label:'no label'},
-            {src:beach_icon,id:3,label:'no label'},
-            {src:beach_icon,id:4,label:'no label'},
+            {src:urban_icon,id:1,label:'Urban'},
+            {src:wild_icon,id:2,label:'Wild'},
+            {src:mountainous_icon,id:3,label:'Mountainous'},
+            {src:rural_icon,id:4,label:'Rural'},
+            {src:suburban_icon,id:5,label:'Suburban'},
         ],
         selectedItem:null,
     }
