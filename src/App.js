@@ -11,7 +11,7 @@ function App() {
     return (
         <Fragment>
             <BrowserRouter>
-                <Settings />
+                <Homepage />
             </BrowserRouter>
         </Fragment>
     );

@@ -64,27 +64,6 @@ class Avatar extends Component {
         let src = this.state.preview;
         sessionStorage.setItem("profileAvatar", src);
         this.props.saveAvatar(src);
-        // console.log("save button pressed")
-        // console.log("current preview:",src)
-        // this.setState({avatarChanged:true,src})
-        // if(isExpired(sessionStorage.getItem("access")))
-        // {
-        //     console.log("renewing")
-        //     token=await renewToken()
-        // }
-        // let token = sessionStorage.getItem("access")
-        // token = "Bearer "+token;
-        // const form = new FormData()
-        // form.set("id",sessionStorage.getItem("id"))
-        // form.set("Base64",this.state.preview)
-        // const response3 =
-        // await axios.post('http://127.0.0.1:8000/api/editprofilepicture/', form, {
-        // headers: { 'Content-Type': 'multipart/form-data',
-        //             'Authorization': token
-        // },
-        // })
-
-        // sessionStorage.setItem("avatar",this.state.preview)
 
     }
 

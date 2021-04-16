@@ -13,7 +13,7 @@ import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {showMemoryVariables} from "../../util";
-import {API_PROFILE_URL, API_PROFILE_UPDATE_URL, API_PROFILE_AVATAR_URL} from "../../constants";
+import {API_PROFILE_URL, API_PROFILE_UPDATE_URL, API_PROFILE_UPDATE_AVATAR_URL, API_PROFILE_SHOW_AVATAR_URL} from "../../constants";
 import axios from "axios";
 import AvatarEditor from 'react-avatar-editor';
 import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
@@ -61,7 +61,6 @@ class PersonalInfo extends Component {
         await this.loadAvatarInit()
         console.log("Token ".concat(getItem("user-token")))
         console.log("your state : " + this.state.dataIsValid)
-        // this.baseState = this.state
     }
 
 
@@ -76,18 +75,7 @@ class PersonalInfo extends Component {
             {
                 console.log(res.data)
                 console.log("data is shown")
-                // this.setState({
-                //     firstName: res.data.first_name,
-                //     lastName: res.data.last_name,
-                //     bio: res.data.bio,
-                //     phonenumber: res.data.phone_number,
-                //     gender: res.data.gender,
-                //     nationalId: res.data.national_code,
-                //     dateOfBirth: res.data.birthday,
-                //     emailId: res.data.email
-                // })
                 this.loadData(res.data)
-                // showMemoryVariables()
             }
             else
             {
@@ -100,7 +88,7 @@ class PersonalInfo extends Component {
     }
 
     async loadAvatarInit(){
-        await axios.get(API_PROFILE_AVATAR_URL,{
+        await axios.get(API_PROFILE_SHOW_AVATAR_URL,{
             headers: {
                 'Authorization': 'Token '.concat(getItem('user-token'))
             }
@@ -110,18 +98,7 @@ class PersonalInfo extends Component {
             {
                 console.log(res.data)
                 console.log("data is shown")
-                // this.setState({
-                //     firstName: res.data.first_name,
-                //     lastName: res.data.last_name,
-                //     bio: res.data.bio,
-                //     phonenumber: res.data.phone_number,
-                //     gender: res.data.gender,
-                //     nationalId: res.data.national_code,
-                //     dateOfBirth: res.data.birthday,
-                //     emailId: res.data.email
-                // })
                 this.loadAvatar(res.data)
-                // showMemoryVariables()
             }
             else
             {
@@ -133,7 +110,7 @@ class PersonalInfo extends Component {
     }
 
     loadAvatar = (data) =>{
-        if (!data.base64 === null)
+        if (data.base64 !== null)
             this.setState({avatarSrc: data.base64})
         else
             this.setState({avatarSrc: sampleProfileImg})
@@ -288,12 +265,6 @@ class PersonalInfo extends Component {
         }
    }
 
-   handleAvatarEdit = () =>{
-       if (this.state.imgHovered){
-
-       }
-   }
-
    exitModal = (avatarSrc) =>
    {
        this.setState({
@@ -307,17 +278,16 @@ class PersonalInfo extends Component {
         let FormData = require('form-data');
         let data = new FormData();
         data.append('base64', src);
-        await axios.post(API_PROFILE_AVATAR_URL,data,
+        await axios.post(API_PROFILE_UPDATE_AVATAR_URL,data,
         {
             headers: {
                 'Authorization': 'Token '.concat(getItem('user-token'))
             }
         })                
         .then(res => {
-            if (res.status===205)
+            if (res.status===200)
             {
                 console.log("edit was ok")
-                // showMemoryVariables()
             }
             else
             {
@@ -328,7 +298,8 @@ class PersonalInfo extends Component {
             return;
         })
         toast.success("Changes saved")
-   }    
+   }   
+   
 
 
 
@@ -339,16 +310,13 @@ class PersonalInfo extends Component {
                 <div className="personalInfo-avatar mt-4 mb-4">
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
-                            <img alt="profile avatar" src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}/>
+                            <img alt="profile avatar" src={this.state.avatarSrc}/>
                             <Avatar saveAvatar={this.saveAvatar} show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}  />
                             {/* warning check this later!!!!!!!!!!!!!!!!!!!!!!!! */}
                         </div>
-                        <div className="w-100 mt-2">
-                            <div className="w-100">
-                                <button onClick={() => this.setState({showAvatarModal: true})} className="btn btn-primary mr-2">Edit avatar</button>
-                                <button onClick={() => this.setState({avatarSrc: ''})}  className="btn btn-secondary">Remove avatar</button>
+                            <div className="w-100 mt-2">
+                                <button onClick={() => this.setState({showAvatarModal: true})} className="btn btn-primary">Edit avatar</button>
                             </div>
-                        </div>
                     </IconContext.Provider>
                 </div>
 
