@@ -17,3 +17,9 @@
   font-size: 13px;
   margin-left: 0.5rem;
 }
+
+.details-input-price p {
+  color: red;
+  font-size: 13px;
+  margin-left: 0.5rem;
+}

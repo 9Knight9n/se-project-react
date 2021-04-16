@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Modal} from "react-bootstrap";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import Amentities from './amentities';
 import Categories from "./categories";
 import Details from './details';
@@ -8,6 +8,8 @@ import Facilities from "./facilities";
 import Address from "./address";
 import Photos from "./photos";
 import Documentations from "./documentations";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 class AddAccommodation extends Component {
     constructor(props) {
@@ -26,6 +28,7 @@ class AddAccommodation extends Component {
     render() {
         return (
             <div>
+                <ToastContainer/>
                 <Link className={'display-none'} to="/hosting/"  id={'redirect-to-hosting'}/>
                 <Modal centered size={'lg'}
                         backdrop="static"

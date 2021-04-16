@@ -6,6 +6,7 @@ import { Upload, Modal as antdModal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import {getBase64, getItem} from "../../util";
 import {API_BASE_URL,API_UPLOAD_IMAGE_URL} from '../../constants';
+import {toast} from "react-toastify";
 
 
 class Photos extends Component {
@@ -17,36 +18,67 @@ class Photos extends Component {
         previewVisible: false,
         previewImage: '',
         previewTitle: '',
-        fileList: [
-        ],
+        fileList: [],
     };
 
+    componentDidMount() {
 
-  handlePreview = async file => {
+
+
+
+        if (sessionStorage.getItem('fill-pre-page'))
+        {
+            toast.error('You should fill previous pages!\nThat\'s why you were redirected to this page!' )
+            sessionStorage.removeItem('fill-pre-page')
+        }
+        if(sessionStorage.getItem('add-villa-uploaded-photos'))
+        {
+           this.loadFileList()
+        }
+    }
+
+
+    handlePreview = async file => {
     if (file.originFileObj ) {
-      let base46 = await getBase64(file.originFileObj);
-      this.openBase64(base46)
+        try {
+            let base46 = await getBase64(file.originFileObj);
+            this.openBase64(base46)
+        }
+        catch (TypeError) {
+            return toast.info('We don\'t have access to this file on your machine,so it can not be previewed ,but it\'s uploaded to our server and you can continue on your operation without any problem. ')
+        }
     }
   };
 
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   openBase64 =(data)=> {
-        var image = new Image();
+        let image = new Image();
         image.src = data;
 
-        var w = window.open("");
+        let w = window.open("");
         w.document.write(image.outerHTML);
     }
     
 
 
-    SaveFileListToSessionStorage=()=>{
+    saveFileListToSessionStorage=()=>{
       sessionStorage.setItem('add-villa-uploaded-photos', JSON.stringify(this.state.fileList));
     }
 
     loadFileList=()=>{
       this.setState({fileList:JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos'))})
+        console.log(JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos')))
+    }
+
+    getNumOfUploaded=()=>{
+      let num = 0;
+      for (let k = 0;k<this.state.fileList.length;k++)
+      {
+          if(this.state.fileList[k].status==='done')
+              num++;
+      }
+      return num;
     }
 
 
@@ -61,7 +93,7 @@ class Photos extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    Upload at least 3 photos of accommodation
+                    Upload at least 3 photos of accommodation.{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}
                 </Modal.Header>
                 <Modal.Body>
                     <Upload
@@ -85,8 +117,8 @@ class Photos extends Component {
                     <Link to={'/hosting/addaccommodation/facilities/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/documentations/'} >
-                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                    <Link to={'/hosting/addaccommodation/documentations/'}>
+                        <button onClick={this.saveFileListToSessionStorage} disabled={this.getNumOfUploaded()<3} className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>

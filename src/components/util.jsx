@@ -9,6 +9,11 @@ export function validatePass(pass)
     return (/[a-z]/.test(pass) && /[A-Z]/.test(pass) && /[0-9]/.test(pass) && pass.length>7);
 }
 
+export function valueIsNumber(value)
+{
+    return (/^[0-9\b]*$/.test(value))
+}
+
 export function saveCredentials(userID,email,token,image,rememberMe)
 {
     if(rememberMe)
