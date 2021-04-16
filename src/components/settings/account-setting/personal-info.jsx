@@ -13,7 +13,7 @@ import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {showMemoryVariables} from "../../util";
-import {API_PROFILE_URL, API_PROFILE_UPDATE_URL} from "../../constants";
+import {API_PROFILE_URL, API_PROFILE_UPDATE_URL, API_PROFILE_AVATAR_URL} from "../../constants";
 import axios from "axios";
 import AvatarEditor from 'react-avatar-editor';
 import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
@@ -41,7 +41,7 @@ class PersonalInfo extends Component {
             emailId:"",
             dateOfBirth:"",
             phone:"",
-            avatarSrc: sampleProfileImg,
+            avatarSrc: null,
             showAvatarModal: false,
             imgHovered: false,
             authModal : false,
@@ -57,6 +57,7 @@ class PersonalInfo extends Component {
     
     async componentDidMount() {
         await this.loadDataInit()
+        await this.loadAvatarInit()
         console.log("Token ".concat(getItem("user-token")))
         console.log("your state : " + this.state.dataIsValid)
         // this.baseState = this.state
@@ -95,6 +96,47 @@ class PersonalInfo extends Component {
                 console.log(error)
         })
         window.scrollTo(0, 0)
+    }
+
+    async loadAvatarInit(){
+        await axios.get(API_PROFILE_AVATAR_URL,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            }
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log(res.data)
+                console.log("data is shown")
+                // this.setState({
+                //     firstName: res.data.first_name,
+                //     lastName: res.data.last_name,
+                //     bio: res.data.bio,
+                //     phonenumber: res.data.phone_number,
+                //     gender: res.data.gender,
+                //     nationalId: res.data.national_code,
+                //     dateOfBirth: res.data.birthday,
+                //     emailId: res.data.email
+                // })
+                this.loadAvatar(res.data)
+                // showMemoryVariables()
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+    }
+
+    loadAvatar = (data) =>{
+        if (!data.base64 === null)
+            this.setState({avatarSrc: data.base64})
+        else
+            this.setState({avatarSrc: sampleProfileImg})
+
     }
 
 
@@ -257,7 +299,11 @@ class PersonalInfo extends Component {
         showAvatarModal: false,
         avatarSrc: avatarSrc
         })
-        
+
+   }
+
+   saveAvatar = (src) => {
+
    }
 
 
