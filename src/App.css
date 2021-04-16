@@ -40,7 +40,7 @@ button.hover-effect:hover{
 }
 .fade-in-overlay .selected {
   opacity: 0.9;
-  border:solid 10px;
+  border:solid 5px;
 }
 
 .fade-in-overlay .text {

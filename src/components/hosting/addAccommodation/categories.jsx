@@ -1,3 +1,4 @@
+//@Sajad
 import React, {Component} from 'react';
 import beach_icon from '../../../assets/img/beach.png'
 import urban_icon from '../../../assets/img/urban.png'
@@ -6,12 +7,14 @@ import mountainous_icon from '../../../assets/img/mountainous.png'
 import rural_icon from '../../../assets/img/rural.png'
 import suburban_icon from '../../../assets/img/suburban.png'
 import './categories.css'
-import {Modal} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
+import {toast} from "react-toastify";
 
 class Categories extends Component {
     constructor(props) {
         super(props);
+        this.save = this.save.bind(this);
     }
 
     state = {
@@ -24,6 +27,24 @@ class Categories extends Component {
             {src:suburban_icon,id:5,label:'Suburban'},
         ],
         selectedItem:null,
+    }
+
+
+    componentDidMount() {
+        if (sessionStorage.getItem('fill-pre-page'))
+        {
+            toast.error('You should fill previous pages!\nThat\'s why you were redirected to this page!' )
+            sessionStorage.removeItem('fill-pre-page')
+        }
+        if(sessionStorage.getItem('add-villa-selected-category'))
+        {
+           this.setState({selectedItem:parseInt(sessionStorage.getItem('add-villa-selected-category'))})
+        }
+    }
+
+    save()
+    {
+        sessionStorage.setItem('add-villa-selected-category',this.state.selectedItem)
     }
 
     render() {
@@ -59,7 +80,12 @@ class Categories extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Link to={'/hosting/addaccommodation/details/'}>
-                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button
+                            className={'ml-auto btn btn-outline-primary'}
+                            onClick={this.save}
+                            disabled={!this.state.selectedItem}>
+                            Next
+                        </button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { Modal} from "react-bootstrap";
 import {Link, Route, Switch} from "react-router-dom";
 import Categories from "./categories";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 class AddAccommodation extends Component {
     constructor(props) {
@@ -19,6 +21,7 @@ class AddAccommodation extends Component {
     render() {
         return (
             <div>
+                <ToastContainer/>
                 <Link className={'display-none'} to="/hosting/"  id={'redirect-to-hosting'}/>
                 <Modal centered size={'lg'}
                         backdrop="static"
