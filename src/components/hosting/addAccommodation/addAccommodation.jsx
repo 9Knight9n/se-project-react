@@ -7,6 +7,8 @@ import Details from './details';
 import Facilities from "./facilities";
 import Address from "./address";
 import Photos from "./photos";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 class AddAccommodation extends Component {
     constructor(props) {
@@ -25,7 +27,7 @@ class AddAccommodation extends Component {
     render() {
         return (
             <div>
-
+                <ToastContainer/>
                 <Link className={'display-none'} to="/hosting/"  id={'redirect-to-hosting'}/>
                 <Modal centered size={'lg'}
                         backdrop="static"

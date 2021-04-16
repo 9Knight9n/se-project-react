@@ -18,7 +18,7 @@ button.hover-effect:hover{
 }
 
 .fade-in-overlay:hover .overlay {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 .fade-in-overlay .image {
   display: block;
