@@ -35,7 +35,10 @@ class Avatar extends Component {
 
     exit = () =>
     {
-        this.props.exitModal(this.state.preview)
+        if (this.state.preview === null)
+            this.props.exitModal(this.state.src) 
+        else
+            this.props.exitModal(this.state.preview)
     }
 
     onClose() {
@@ -96,7 +99,7 @@ class Avatar extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="w-100 avatar">
-                        <SelectAvatar className="w-100 h-100" src={this.state.src === ''? editAvatar: this.state.src }
+                        <SelectAvatar className="w-100 h-100" src={this.state.src}
                             onCrop={this.onCrop}
                             onClose={this.onClose}
                             onSave={this.onSave} side="30" />

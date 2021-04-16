@@ -257,6 +257,7 @@ class PersonalInfo extends Component {
         showAvatarModal: false,
         avatarSrc: avatarSrc
         })
+        
    }
 
 

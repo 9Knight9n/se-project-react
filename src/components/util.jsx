@@ -67,4 +67,13 @@ export function showMemoryVariables()
     console.log(getItem("user-remember-me"))
 }
 
+export function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+
 
