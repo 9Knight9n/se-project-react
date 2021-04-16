@@ -50,6 +50,9 @@ class AddAccommodation extends Component {
                             <Route path='/hosting/addaccommodation/address/'>
                                 <Address />
                             </Route>
+                            <Route path='/hosting/addaccommodation/photos/'>
+                                <Photos/>
+                            </Route>
                         </Switch>
                     </Router>
                 </Modal>

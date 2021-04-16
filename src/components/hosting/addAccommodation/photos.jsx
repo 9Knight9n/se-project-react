@@ -6,6 +6,7 @@ import { Upload, Modal as antdModal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import {getBase64, getItem} from "../../util";
 import {API_BASE_URL,API_UPLOAD_IMAGE_URL} from '../../constants';
+import {toast} from "react-toastify";
 
 
 class Photos extends Component {
@@ -17,36 +18,67 @@ class Photos extends Component {
         previewVisible: false,
         previewImage: '',
         previewTitle: '',
-        fileList: [
-        ],
+        fileList: [],
     };
 
+    componentDidMount() {
 
-  handlePreview = async file => {
+
+
+
+        if (sessionStorage.getItem('fill-pre-page'))
+        {
+            toast.error('You should fill previous pages!\nThat\'s why you were redirected to this page!' )
+            sessionStorage.removeItem('fill-pre-page')
+        }
+        if(sessionStorage.getItem('add-villa-uploaded-photos'))
+        {
+           this.loadFileList()
+        }
+    }
+
+
+    handlePreview = async file => {
     if (file.originFileObj ) {
-      let base46 = await getBase64(file.originFileObj);
-      this.openBase64(base46)
+        try {
+            let base46 = await getBase64(file.originFileObj);
+            this.openBase64(base46)
+        }
+        catch (TypeError) {
+            return toast.info('We don\'t have access to this file on your machine,so it can not be previewed ,but it\'s uploaded to our server and you can continue on your operation without any problem. ')
+        }
     }
   };
 
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   openBase64 =(data)=> {
-        var image = new Image();
+        let image = new Image();
         image.src = data;
 
-        var w = window.open("");
+        let w = window.open("");
         w.document.write(image.outerHTML);
     }
     
 
 
-    SaveFileListToSessionStorage=()=>{
+    saveFileListToSessionStorage=()=>{
       sessionStorage.setItem('add-villa-uploaded-photos', JSON.stringify(this.state.fileList));
     }
 
     loadFileList=()=>{
       this.setState({fileList:JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos'))})
+        console.log(JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos')))
+    }
+
+    getNumOfUploaded=()=>{
+      let num = 0;
+      for (let k = 0;k<this.state.fileList.length;k++)
+      {
+          if(this.state.fileList[k].status==='done')
+              num++;
+      }
+      return num;
     }
 
 
@@ -61,7 +93,7 @@ class Photos extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    Upload at least 3 photos of accommodation
+                    Upload at least 3 photos of accommodation.{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}
                 </Modal.Header>
                 <Modal.Body>
                     <Upload
@@ -80,41 +112,13 @@ class Photos extends Component {
                         >
                         {fileList.length >= 8 ? null : uploadButton}
                     </Upload>
-                    {/*<div className={'row m-2'} id={'categories'}>*/}
-                    {/*    {this.state.categories.map((category=>*/}
-                    {/*    <div key={category.id} className={'col-sm-6 col-md-4 col-lg-4 col-xl-4 mb-4 '}*/}
-                    {/*            onClick={()=>this.setState({selectedItem:category.id})} >*/}
-                    {/*        <div className={'fade-in-overlay '}>*/}
-                    {/*            <img className={'w-100 image'} id={'category-'.concat(category.id)}*/}
-                    {/*                src={category.src}/>*/}
-                    {/*            <div className={"overlay".concat(category.id===this.state.selectedItem?' selected border-success':'')}>*/}
-                    {/*                {category.id===this.state.selectedItem?*/}
-                    {/*                <React.Fragment>*/}
-                    {/*                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"*/}
-                    {/*                         fill="green" className=" mt-2 ml-2 bi bi-check-circle-fill"*/}
-                    {/*                         viewBox="0 0 16 16">*/}
-                    {/*                        <path*/}
-                    {/*                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>*/}
-                    {/*                    </svg>*/}
-                    {/*                    <div className="text">*/}
-                    {/*                        {category.label}*/}
-                    {/*                    </div>*/}
-                    {/*                </React.Fragment>:""}*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*        <label className={'text-center w-100'}>*/}
-                    {/*            {category.label}*/}
-                    {/*        </label>*/}
-                    {/*    </div>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
                 </Modal.Body>
                 <Modal.Footer>
                     <Link to={'/hosting/addaccommodation/facilities/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/documentations/'} >
-                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                    <Link to={'/hosting/addaccommodation/documentations/'}>
+                        <button onClick={this.saveFileListToSessionStorage} disabled={this.getNumOfUploaded()<3} className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>
