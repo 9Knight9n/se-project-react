@@ -60,9 +60,10 @@ class Avatar extends Component {
     }
     
       async onSave(){
-        console.log("saved")
-        let src = this.state.preview
-        sessionStorage.setItem("profileAvatar", src)
+        console.log("saved");
+        let src = this.state.preview;
+        sessionStorage.setItem("profileAvatar", src);
+        this.props.saveAvatar(src);
         // console.log("save button pressed")
         // console.log("current preview:",src)
         // this.setState({avatarChanged:true,src})

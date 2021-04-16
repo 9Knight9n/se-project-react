@@ -52,6 +52,7 @@ class PersonalInfo extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.loadDataInit = this.loadDataInit.bind(this);
+        this.saveAvatar = this.saveAvatar.bind(this);
     }
 
     
@@ -302,9 +303,32 @@ class PersonalInfo extends Component {
 
    }
 
-   saveAvatar = (src) => {
-
-   }
+    async saveAvatar (src){
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('base64', src);
+        await axios.post(API_PROFILE_AVATAR_URL,data,
+        {
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            }
+        })                
+        .then(res => {
+            if (res.status===205)
+            {
+                console.log("edit was ok")
+                // showMemoryVariables()
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+            console.log(error)
+            return;
+        })
+        toast.success("Changes saved")
+   }    
 
 
 
@@ -316,7 +340,7 @@ class PersonalInfo extends Component {
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
                             <img alt="profile avatar" src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}/>
-                            <Avatar show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}  />
+                            <Avatar saveAvatar={this.saveAvatar} show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}  />
                             {/* warning check this later!!!!!!!!!!!!!!!!!!!!!!!! */}
                         </div>
                         <div className="w-100 mt-2">
