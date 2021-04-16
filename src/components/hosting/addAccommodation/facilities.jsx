@@ -4,11 +4,13 @@ import {Link} from "react-router-dom";
 import beach_icon from "../../../assets/img/beach.png";
 import hairD from "../../../assets/img/hairdryer.png";
 import './facilities.css'
+import {toast} from "react-toastify";
 
 class Facilities extends Component {
     constructor(props) {
         super(props);
         this.onSelect = this.onSelect.bind(this);
+        this.save = this.save.bind(this);
     }
 
     state = {
@@ -185,6 +187,16 @@ class Facilities extends Component {
         selectedItems : new Set([])
     }
 
+    componentDidMount() {
+
+        let already_visited = sessionStorage.getItem('add-villa-selected-facilities-id')
+        if(already_visited && already_visited !== 'empty')
+        {
+            let array = JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-id'))
+            this.setState({selectedItems:new Set(array)})
+        }
+    }
+
     onSelect(id){
         if(this.state.selectedItems.has(id))
         {
@@ -194,6 +206,30 @@ class Facilities extends Component {
             this.state.selectedItems.add(id)
         this.forceUpdate()
     };
+
+    save()
+    {
+        if (this.state.selectedItems.size===0)
+        {
+            sessionStorage.setItem('add-villa-selected-facilities-id', 'empty');
+            toast.info('No facilities?! 😐')
+        }
+        else
+        {
+            let array = Array.from(this.state.selectedItems);
+            sessionStorage.setItem('add-villa-selected-facilities-id', JSON.stringify(array));
+        }
+        let selected_facilities = []
+        for (let k=0;k<this.state.facilities.length;k++)
+        {
+            if (this.state.selectedItems.has(this.state.facilities[k].id))
+            {
+                selected_facilities = [...selected_facilities,this.state.facilities[k].label]
+                console.log(selected_facilities)
+            }
+        }
+        sessionStorage.setItem('add-villa-selected-facilities-label', JSON.stringify(selected_facilities));
+    }
 
     render() {
         return (
@@ -207,8 +243,6 @@ class Facilities extends Component {
                         <div key={facility.id} className={'col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-4 d-flex flex-column'}
                                 onClick={()=>this.onSelect(facility.id)} >
                             <div className={'fade-in-overlay h-100 d-flex flex-column'}>
-                                {/*<img className={'w-100 image'}*/}
-                                {/*    src={facility.src}/>*/}
                                 <div className={'w-100 image mt-auto mb-auto'}>
                                     <div className={'pl-4 pr-4 pt-4 pb-3 '}>
                                         {facility.src}
@@ -223,9 +257,6 @@ class Facilities extends Component {
                                             <path
                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                                         </svg>
-                                        {/*<div className="text">*/}
-                                        {/*    {facility.label}*/}
-                                        {/*</div>*/}
                                     </React.Fragment>:""}
                                 </div>
                             </div>
@@ -241,7 +272,7 @@ class Facilities extends Component {
                         <button className={'btn btn-outline-secondary'}>back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/address/'}>
-                        <button className={'btn btn-outline-primary'}>next</button>
+                        <button onClick={this.save} className={'btn btn-outline-primary'}>next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>
