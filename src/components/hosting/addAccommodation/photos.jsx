@@ -107,8 +107,8 @@ class Photos extends Component {
                     </Upload>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/address/'} >
-                        <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
+                    <Link to={'/hosting/addaccommodation/address/'} className={'mr-auto'} >
+                        <button className={'btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/documentations/'}>
                         <button onClick={this.saveFileListToSessionStorage} disabled={this.getNumOfUploaded()<1} className={'ml-auto btn btn-outline-primary'}>Next</button>

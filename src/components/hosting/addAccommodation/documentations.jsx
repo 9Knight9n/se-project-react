@@ -159,8 +159,8 @@ class Documentations extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/photos/'} >
-                        <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
+                    <Link to={'/hosting/addaccommodation/photos/'} className={'mr-auto'}>
+                        <button className={'btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={''} >
                         <button onClick={this.submit} disabled={!this.showSubmit()} className={'ml-auto btn btn-primary'}>Submit</button>

@@ -268,7 +268,7 @@ class Facilities extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer className={'w-100'}>
-                    <Link to={'/hosting/addaccommodation/amentities/'}>
+                    <Link to={'/hosting/addaccommodation/amentities/'} className={'mr-auto'}>
                         <button className={'btn btn-outline-secondary'}>back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/address/'}>
