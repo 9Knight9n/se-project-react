@@ -50,8 +50,8 @@ test('Country doesn not accept null value', () =>{
     expect(countrySelect).not.toBeNull;
 });
 
-test('Region doesn not accept null value', () =>{
+test('State doesn not accept null value', () =>{
     render(<Address />);
-    const regionSelect = screen.getByTestId('address-region');
+    const regionSelect = screen.getByTestId('address-state');
     expect(regionSelect).not.toBeNull;
 });

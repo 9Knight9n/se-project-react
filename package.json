@@ -8,6 +8,7 @@
     "antd": "^4.15.1",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "country-state-city": "^2.0.0",
     "ellipsis-tooltip-react-chan": "^1.2.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.2",
