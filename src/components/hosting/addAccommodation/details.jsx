@@ -20,6 +20,15 @@ class Details extends Component {
 
     }
 
+    componentDidMount (){
+        if (sessionStorage.getItem("add-villa-placeName") || sessionStorage.getItem("add-villa-description") || sessionStorage.getItem("add-villa-area") || sessionStorage.getItem("add-villa-price")){
+            document.getElementById("details-placeName").value = sessionStorage.getItem('add-villa-placeName');
+            document.getElementById("details-description").value = sessionStorage.getItem('add-villa-description');
+            document.getElementById("details-area").value = sessionStorage.getItem('add-villa-area');
+            document.getElementById("details-price").value = sessionStorage.getItem('add-villa-price');
+        }
+    }
+
     handleSubmit = (event) => {
         event.preventDefault();
         let placeName = document.getElementById("details-placeName").value
@@ -63,11 +72,11 @@ class Details extends Component {
         }
 
         if (dataIsValid){
-            sessionStorage.getItem('add-villa-placeName', placeName)
-            sessionStorage.getItem('add-villa-description', description)
-            sessionStorage.getItem('add-villa-area', area)
-            sessionStorage.getItem('add-villa-price', price)
-            
+            sessionStorage.setItem('add-villa-placeName', placeName);
+            sessionStorage.setItem('add-villa-description', description);
+            sessionStorage.setItem('add-villa-area', area);
+            sessionStorage.setItem('add-villa-price', price);
+            console.log("set")
             document.getElementById("goToAmentities").click();    
         }else{
             toast.error("You may entered invalid amounts!")
@@ -98,7 +107,6 @@ class Details extends Component {
                     <h4>Place details</h4>
                 </Modal.Header>
                 <Modal.Body>
-                    
                     <div className="details-main">
                         <b>Describe your place for guests.</b>
                         <div className="details-form">

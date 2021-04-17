@@ -17,17 +17,30 @@ class Address extends Component {
             invalidPostalCode: false,
             invalidCountry: false,
             invalidRegion: false,
-            invalidFulladdress: false
+            invalidFullAddress: false
 
         };
 
+    }
+
+    componentDidMount (){
+        if (sessionStorage.getItem("add-villa-selected-country") || sessionStorage.getItem("add-villa-selected-region") || sessionStorage.getItem("add-villa-fullAddress") || sessionStorage.getItem("add-villa-postalCode")){
+            document.getElementById("address-country").value = sessionStorage.getItem('add-villa-selected-country');
+            document.getElementById("address-region").value = sessionStorage.getItem('add-villa-selected-region');
+            document.getElementById("address-fullAddress").value = sessionStorage.getItem('add-villa-fullAddress');
+            document.getElementById("address-postalCode").value = sessionStorage.getItem('add-villa-postalCode');
+            console.log(sessionStorage.getItem('add-villa-selected-country'))
+            console.log(sessionStorage.getItem('add-villa-selected-region'))
+            console.log(sessionStorage.getItem('add-villa-postalCode'))
+            console.log(sessionStorage.getItem('add-villa-fullAddress'))
+        }
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         let country = document.getElementById("address-country").value;
         let region = document.getElementById("address-region").value;
-        let fulladdress = document.getElementById("address-fullAddress").value;
+        let fullAddress = document.getElementById("address-fullAddress").value;
         let postalCode = document.getElementById("address-postalCode").value;
         let dataIsValid = true;
         if (country.length === 0) {
@@ -47,12 +60,12 @@ class Address extends Component {
             this.setState({invalidRegion: false});
         }
 
-        if (fulladdress.length === 0) {
+        if (fullAddress.length === 0) {
             dataIsValid = false
-            this.setState({invalidFulladdress: true});
+            this.setState({invalidFullAddress: true});
         }
         else{
-            this.setState({invalidFulladdress: false});
+            this.setState({invalidFullAddress: false});
         }
 
         if (this.state.invalidPostalCode){
@@ -60,10 +73,10 @@ class Address extends Component {
         }
 
         if (dataIsValid){
-            sessionStorage.getItem('add-villa-selected-country', country)
-            sessionStorage.getItem('add-villa-selected-region', region)
-            sessionStorage.getItem('add-villa-fulladdress', fulladdress)
-            sessionStorage.getItem('add-villa-postalCode', postalCode)
+            sessionStorage.setItem('add-villa-selected-country', country)
+            sessionStorage.setItem('add-villa-selected-region', region)
+            sessionStorage.setItem('add-villa-fullAddress', fullAddress)
+            sessionStorage.setItem('add-villa-postalCode', postalCode)
 
             document.getElementById("goToPhotos").click();
         }else{
@@ -160,7 +173,7 @@ class Address extends Component {
                                                         name="fullAddress"
                                                         placeholder="Example: Tehran, Vali-asr street, Zaferaniyeh street, Kafi-abadi alley ...."
                                                         data-testid="address-fullAddress"
-                                                        isInvalid={this.state.invalidFulladdress}
+                                                        isInvalid={this.state.invalidFullAddress}
                                                     />
                                                     <Form.Control.Feedback type="invalid" className={"ml-1"}>
                                                         You must enter your place full address!

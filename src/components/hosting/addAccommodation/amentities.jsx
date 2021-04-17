@@ -22,6 +22,21 @@ class Amentities extends Component {
         };
     }
 
+    componentDidMount (){
+        if (sessionStorage.getItem('add-villa-amentities')){
+            this.setState({
+            normalCapacityate: JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity,
+            maximumCapacity: JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity,
+            bedrooms: JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms,
+            doubleBeds: JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds,
+            singleBeds: JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds,
+            bathrooms: JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms,
+            showers: JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers,
+        });
+            console.log(JSON.parse(sessionStorage.getItem('add-villa-amentities')))
+        }
+    }
+
     handleCounter = (select, operator) =>{
         if (select === 1 && operator === "+"){
             this.setState({
@@ -153,6 +168,12 @@ class Amentities extends Component {
         }
 
     }
+
+    handleSubmit = () =>{
+        sessionStorage.setItem("add-villa-amentities", JSON.stringify(this.state))
+        document.getElementById('goToFacilities').click();
+    }
+
     render() { 
         return ( 
             <React.Fragment>
@@ -235,8 +256,9 @@ class Amentities extends Component {
                         <Link to={'/hosting/addaccommodation/details/'}>
                             <button className={'btn btn-outline-secondary'}>back</button>
                         </Link>
-                        <Link to={'/hosting/addaccommodation/facilities/'}>
-                            <button className={'ml-auto btn btn-outline-primary'}>next</button>
+                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>next</button>
+                        <Link id='goToFacilities' to='/hosting/addaccommodation/facilities/'>
+                            
                         </Link>
                     {/* </Router> */}
                 </Modal.Footer>
