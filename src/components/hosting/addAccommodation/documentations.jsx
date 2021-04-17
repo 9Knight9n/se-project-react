@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import { Upload, Modal as antdModal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import {getBase64, getItem} from "../../util";
+import {toast} from "react-toastify";
 
 
 class Documentations extends Component {
@@ -13,7 +14,7 @@ class Documentations extends Component {
     }
 
     state = {
-        identityProvided:true,
+        identityProvided:false,
         previewVisible: false,
         previewImage: '',
         previewTitle: '',
@@ -21,12 +22,24 @@ class Documentations extends Component {
         fileList2: [],
     };
 
+    componentDidMount() {
+        if(sessionStorage.getItem('add-villa-uploaded-doc-residence') || sessionStorage.getItem('add-villa-uploaded-doc-person'))
+        {
+           this.loadFileList()
+        }
+    }
+
     handlePreview = async file => {
         if (file.originFileObj ) {
-            let base46 = await getBase64(file.originFileObj);
-            this.openBase64(base46)
+            try {
+                let base46 = await getBase64(file.originFileObj);
+                this.openBase64(base46)
+            }
+            catch (TypeError) {
+                return toast.info('We don\'t have access to this file on your machine,so it can not be previewed ,but it\'s uploaded to our server and you can continue on your operation without any problem. ')
+            }
         }
-    };
+      };
 
     handleChange1 = ({ fileList }) => this.setState({ fileList1:fileList });
     handleChange2 = ({ fileList }) => this.setState({ fileList2:fileList });
@@ -41,11 +54,49 @@ class Documentations extends Component {
 
 
     SaveFileListToSessionStorage=()=>{
-        sessionStorage.setItem('add-villa-uploaded-photos', JSON.stringify(this.state.fileList1));
+        sessionStorage.setItem('add-villa-uploaded-doc-residence', JSON.stringify(this.state.fileList1));
+        sessionStorage.setItem('add-villa-uploaded-doc-person', JSON.stringify(this.state.fileList2));
     }
 
     loadFileList=()=>{
-        this.setState({fileList1:JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos'))})
+        if(sessionStorage.getItem('add-villa-uploaded-doc-residence'))
+            this.setState({fileList1:JSON.parse(sessionStorage.getItem('add-villa-uploaded-doc-residence'))})
+        if(sessionStorage.getItem('add-villa-uploaded-doc-person'))
+            this.setState({fileList2:JSON.parse(sessionStorage.getItem('add-villa-uploaded-doc-person'))})
+    }
+
+    getNumOfUploaded=(number)=>{
+        let num = 0;
+        if(number===1)
+        {
+            for (let k = 0;k<this.state.fileList1.length;k++)
+            {
+              if(this.state.fileList1[k].status==='done')
+                  num++;
+            }
+            return num;
+        }
+        else
+        {
+
+            for (let k = 0;k<this.state.fileList2.length;k++)
+            {
+              if(this.state.fileList2[k].status==='done')
+                  num++;
+            }
+            return num;
+        }
+    }
+
+    showSubmit=()=>{
+        if (this.state.identityProvided)
+        {
+             return (this.getNumOfUploaded(2)>0)
+        }
+        else
+        {
+            return ((this.getNumOfUploaded(1)>0) && (this.getNumOfUploaded(2)>0))
+        }
     }
 
     render() {
@@ -111,9 +162,10 @@ class Documentations extends Component {
                     <Link to={'/hosting/addaccommodation/photos/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
-                    <Link to={'/hosting/addaccommodation/documentations/'} >
-                        <button className={'ml-auto btn btn-primary'}>Submit</button>
+                    <Link to={''} >
+                        <button onClick={this.submit} disabled={!this.showSubmit()} className={'ml-auto btn btn-primary'}>Submit</button>
                     </Link>
+                    <Link id={'go-to-hosting-page-from-add-villa'} to={'/hosting/'}/>
                 </Modal.Footer>
             </React.Fragment>
         );
