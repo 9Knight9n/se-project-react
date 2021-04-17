@@ -94,119 +94,121 @@ class Address extends Component {
     render() { 
         return ( 
             <React.Fragment>
-                <Modal.Header closeButton={true}>
-                    <h4>Place address</h4>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="address-main">
-                        <ToastContainer/>
-                        <b>Enter your place address details here.</b>
-                        <div className="address-form">
-                            <form>
-                                <div className="row mb-4">
-                                    <div className="col-md-6">
-                                        <label htmlFor="address-country">Country :</label>
-                                        <div>
-                                            <CountryDropdown
-                                            id="address-country"
-                                            style={{width: "100%"}}
-                                            value={this.state.country}
-                                            className={this.state.invalidCountry? "address-select-control":""}
-                                            data-testid="address-country"
-                                            onChange={(value)=>this.setState({country: value})} />
-                                        </div>
-                                        {this.state.invalidCountry ? 
-                                        <div className="ml-2 address-errors">
-                                            You must choose your country!
-                                        </div>
-                                        : ""}
-                                    </div>
-                                    <div className="col-md-6">
-                                        <label htmlFor="address-region">Region :</label>
-                                        <div>
-                                            <RegionDropdown
-                                            country={this.state.country}
-                                            value={this.state.region}
-                                            id="address-region"
-                                            className={this.state.invalidRegion? "address-select-control":""}
-                                            style={{width: "100%"}}
-                                            data-testid="address-region"
-                                            onChange={(value)=>this.setState({region: value})} />
-                                        </div>
-                                        {this.state.invalidRegion ? 
-                                        <div className="ml-2 address-errors">
-                                            You must choose your region!
-                                        </div>
-                                        : ""}
-                                    </div>
-                                </div>
-
-                                    <div className="address-fullAddress">
-                                        <div className="address-full">
-                                            <label className="form-label" htmlFor="address-full">Your place full address :</label>
-                                            <p>Write your full address containing City, Region, Street, Alley and ...</p>
-                                        </div>
-                                        <div className="form-group">
-                                            <div className="input-group">
-                                                <Form.Control
-                                                    onChange={this.handleChange}
-                                                    as="textarea"
-                                                    rows={3}
-                                                    maxLength="120"
-                                                    id="address-fullAddress"
-                                                    className="form-control shadow-none"
-                                                    type="text"
-                                                    name="fullAddress"
-                                                    placeholder="Example: Tehran, Vali-asr street, Zaferaniyeh street, Kafi-abadi alley ...."
-                                                    data-testid="address-fullAddress"
-                                                    isInvalid={this.state.invalidFulladdress}
-                                                />
-                                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                                    You must enter your place full address!
-                                                </Form.Control.Feedback>
+                <Router>
+                    <Modal.Header closeButton={true}>
+                        <h4>Place address</h4>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="address-main">
+                            <ToastContainer/>
+                            <b>Enter your place address details here.</b>
+                            <div className="address-form">
+                                <form>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label htmlFor="address-country">Country :</label>
+                                            <div>
+                                                <CountryDropdown
+                                                id="address-country"
+                                                style={{width: "100%"}}
+                                                value={this.state.country}
+                                                className={this.state.invalidCountry? "address-select-control":""}
+                                                data-testid="address-country"
+                                                onChange={(value)=>this.setState({country: value})} />
                                             </div>
-                                            <div className="personalInfo-textAreaCounter">
-                                                {this.state.pageCount} of 120
+                                            {this.state.invalidCountry ? 
+                                            <div className="ml-2 address-errors">
+                                                You must choose your country!
                                             </div>
+                                            : ""}
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label htmlFor="address-region">Region :</label>
+                                            <div>
+                                                <RegionDropdown
+                                                country={this.state.country}
+                                                value={this.state.region}
+                                                id="address-region"
+                                                className={this.state.invalidRegion? "address-select-control":""}
+                                                style={{width: "100%"}}
+                                                data-testid="address-region"
+                                                onChange={(value)=>this.setState({region: value})} />
+                                            </div>
+                                            {this.state.invalidRegion ? 
+                                            <div className="ml-2 address-errors">
+                                                You must choose your region!
+                                            </div>
+                                            : ""}
                                         </div>
                                     </div>
 
-                                    <div className="address-postalCode">
+                                        <div className="address-fullAddress">
+                                            <div className="address-full">
+                                                <label className="form-label" htmlFor="address-full">Your place full address :</label>
+                                                <p>Write your full address containing City, Region, Street, Alley and ...</p>
+                                            </div>
+                                            <div className="form-group">
+                                                <div className="input-group">
+                                                    <Form.Control
+                                                        onChange={this.handleChange}
+                                                        as="textarea"
+                                                        rows={3}
+                                                        maxLength="120"
+                                                        id="address-fullAddress"
+                                                        className="form-control shadow-none"
+                                                        type="text"
+                                                        name="fullAddress"
+                                                        placeholder="Example: Tehran, Vali-asr street, Zaferaniyeh street, Kafi-abadi alley ...."
+                                                        data-testid="address-fullAddress"
+                                                        isInvalid={this.state.invalidFulladdress}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                        You must enter your place full address!
+                                                    </Form.Control.Feedback>
+                                                </div>
+                                                <div className="personalInfo-textAreaCounter">
+                                                    {this.state.pageCount} of 120
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div className="address-postalCode">
-                                            <label className="form-label" htmlFor="address-postalCode">Postal code :</label>
-                                        </div>
-                                        <div className="form-group">
-                                            <div className="input-group">
-                                                <Form.Control
-                                                    onChange={this.handleChange}
-                                                    id="address-postalCode"
-                                                    className="form-control shadow-none"
-                                                    type="number"
-                                                    min="0"
-                                                    name="postalCode"
-                                                    placeholder="Example : 1234567890"
-                                                    value={this.state.postalCode}
-                                                    data-testid="address-postalCode"
-                                                    isInvalid={this.state.invalidPostalCode}
-                                                />
-                                                <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                                    Postal code must be up to 6 and less than 15 digits.
-                                                </Form.Control.Feedback>
+                                            <div className="address-postalCode">
+                                                <label className="form-label" htmlFor="address-postalCode">Postal code :</label>
+                                            </div>
+                                            <div className="form-group">
+                                                <div className="input-group">
+                                                    <Form.Control
+                                                        onChange={this.handleChange}
+                                                        id="address-postalCode"
+                                                        className="form-control shadow-none"
+                                                        type="number"
+                                                        min="0"
+                                                        name="postalCode"
+                                                        placeholder="Example : 1234567890"
+                                                        value={this.state.postalCode}
+                                                        data-testid="address-postalCode"
+                                                        isInvalid={this.state.invalidPostalCode}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid" className={"ml-1"}>
+                                                        Postal code must be up to 6 and less than 15 digits.
+                                                    </Form.Control.Feedback>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                        <Link to={'/hosting/addaccommodation/facilities/'} >
-                            <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
-                        </Link>
-                        <Link to={this.state.goToPhotos ? '/hosting/addaccommodation/photos/': ''} >
-                            <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                        </Link>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                            <Link to={'/hosting/addaccommodation/facilities/'} >
+                                <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
+                            </Link>
+                            <Link to={this.state.goToPhotos ? '/hosting/addaccommodation/photos/': ''} >
+                                <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                            </Link>
+                    </Modal.Footer>
+                </Router>
             </React.Fragment>
          );
     }
