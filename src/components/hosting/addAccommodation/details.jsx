@@ -13,7 +13,6 @@ class Details extends Component {
             pageCount: 0,
             charsPerPage: 1,
             invalidPlaceName: false,
-            goToAmentities: false,
             invalidDescription: false,
             invalidPrice: false,
 
@@ -64,10 +63,12 @@ class Details extends Component {
         }
 
         if (dataIsValid){
-            this.setState({
-                goToAmentities: true
-            })
+            sessionStorage.getItem('add-villa-placeName', placeName)
+            sessionStorage.getItem('add-villa-description', description)
+            sessionStorage.getItem('add-villa-area', area)
+            sessionStorage.getItem('add-villa-price', price)
             
+            document.getElementById("goToAmentities").click();    
         }else{
             toast.error("You may entered invalid amounts!")
         }  
@@ -214,8 +215,9 @@ class Details extends Component {
                         <Link to={'/hosting/addaccommodation/categories/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
-                        <Link to={this.state.goToAmentities? '/hosting/addaccommodation/amentities/': ''} >
-                            <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <Link id="goToAmentities" className="display-none" to={'/hosting/addaccommodation/amentities/'}>
+
                         </Link>
                 </Modal.Footer>
             </React.Fragment>
