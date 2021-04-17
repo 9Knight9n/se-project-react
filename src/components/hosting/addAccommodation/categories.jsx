@@ -35,11 +35,6 @@ class Categories extends Component {
 
 
     componentDidMount() {
-        if (sessionStorage.getItem('fill-pre-page'))
-        {
-            toast.error('You should fill previous pages!\nThat\'s why you were redirected to this page!' )
-            sessionStorage.removeItem('fill-pre-page')
-        }
         if(sessionStorage.getItem('add-villa-selected-category'))
         {
            this.setState({selectedItem:parseInt(sessionStorage.getItem('add-villa-selected-category'))})

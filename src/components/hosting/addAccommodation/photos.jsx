@@ -22,15 +22,6 @@ class Photos extends Component {
     };
 
     componentDidMount() {
-
-
-
-
-        if (sessionStorage.getItem('fill-pre-page'))
-        {
-            toast.error('You should fill previous pages!\nThat\'s why you were redirected to this page!' )
-            sessionStorage.removeItem('fill-pre-page')
-        }
         if(sessionStorage.getItem('add-villa-uploaded-photos'))
         {
            this.loadFileList()
@@ -93,7 +84,9 @@ class Photos extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    <h4>Upload at least 3 photos of accommodation.{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}</h4>
+                    <h4>Upload at least 1 photo of accommodation.
+                        {/*{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}*/}
+                    </h4>
                 </Modal.Header>
                 <Modal.Body>
                     <Upload
@@ -118,7 +111,7 @@ class Photos extends Component {
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/documentations/'}>
-                        <button onClick={this.saveFileListToSessionStorage} disabled={this.getNumOfUploaded()<3} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button onClick={this.saveFileListToSessionStorage} disabled={this.getNumOfUploaded()<1} className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>
