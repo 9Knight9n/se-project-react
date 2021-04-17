@@ -9,8 +9,8 @@ import suburban_icon from '../../../assets/img/suburban.png'
 import motel_icon from '../../../assets/img/motel.png'
 import desert_icon from '../../../assets/img/desert.png'
 import './categories.css'
-import {Button, Modal} from "react-bootstrap";
-import {Link, Route, Switch} from "react-router-dom";
+import {Modal} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
 
 class Categories extends Component {
@@ -21,11 +21,11 @@ class Categories extends Component {
 
     state = {
         categories : [
-            {src:beach_icon,id:0,label:'Coastal'},
-            {src:urban_icon,id:1,label:'Urban'},
-            {src:wild_icon,id:2,label:'Wild'},
-            {src:mountainous_icon,id:3,label:'Mountainous'},
-            {src:rural_icon,id:4,label:'Rural'},
+            {src:beach_icon,id:1,label:'Coastal'},
+            {src:urban_icon,id:2,label:'Urban'},
+            {src:wild_icon,id:3,label:'Wild'},
+            {src:mountainous_icon,id:4,label:'Mountainous'},
+            {src:rural_icon,id:5,label:'Rural'},
             {src:suburban_icon,id:6,label:'Suburban'},
             {src:motel_icon,id:7,label:'Motel'},
             {src:desert_icon,id:8,label:'Desert'},
