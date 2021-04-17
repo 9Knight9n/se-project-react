@@ -17,7 +17,6 @@ class Address extends Component {
             invalidPostalCode: false,
             invalidCountry: false,
             invalidRegion: false,
-            goToPhotos: false,
             invalidFulladdress: false
 
         };
@@ -61,10 +60,12 @@ class Address extends Component {
         }
 
         if (dataIsValid){
-            this.setState({
-                goToPhotos: true
-            })
-            
+            sessionStorage.getItem('add-villa-selected-country', country)
+            sessionStorage.getItem('add-villa-selected-region', region)
+            sessionStorage.getItem('add-villa-fulladdress', fulladdress)
+            sessionStorage.getItem('add-villa-postalCode', postalCode)
+
+            document.getElementById("goToPhotos").click();
         }else{
             toast.error("You may entered invalid amounts!")
         }  
@@ -203,8 +204,8 @@ class Address extends Component {
                         <Link to={'/hosting/addaccommodation/facilities/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
-                        <Link to={this.state.goToPhotos ? '/hosting/addaccommodation/photos/': ''} >
-                            <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <Link id="goToPhotos" to={'/hosting/addaccommodation/photos/'} >
                         </Link>
                 </Modal.Footer>
             </React.Fragment>
