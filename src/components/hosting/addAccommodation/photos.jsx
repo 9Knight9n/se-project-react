@@ -93,7 +93,7 @@ class Photos extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    Upload at least 3 photos of accommodation.{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}
+                    <h4>Upload at least 3 photos of accommodation.{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}</h4>
                 </Modal.Header>
                 <Modal.Body>
                     <Upload
@@ -114,7 +114,7 @@ class Photos extends Component {
                     </Upload>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/facilities/'} >
+                    <Link to={'/hosting/addaccommodation/address/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/documentations/'}>

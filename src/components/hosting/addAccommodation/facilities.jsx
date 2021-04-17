@@ -235,7 +235,7 @@ class Facilities extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    Specify accommodation facilities
+                    <h4>Specify accommodation facilities</h4>
                 </Modal.Header>
                 <Modal.Body>
                     <div className={'row m-2'} id={'facilities'}>
@@ -268,7 +268,7 @@ class Facilities extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer className={'w-100'}>
-                    <Link to={'/hosting/addaccommodation/categories/'}>
+                    <Link to={'/hosting/addaccommodation/amentities/'}>
                         <button className={'btn btn-outline-secondary'}>back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/address/'}>

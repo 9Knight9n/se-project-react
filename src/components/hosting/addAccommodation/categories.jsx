@@ -55,7 +55,7 @@ class Categories extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    What area is your residence located in?
+                    <h4>What area is your residence located in?</h4>
                 </Modal.Header>
                 <Modal.Body>
                     <div className={'row mt-2 mr-2 ml-2'} id={'categories'}>

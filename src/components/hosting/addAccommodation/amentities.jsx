@@ -37,7 +37,7 @@ class Amentities extends Component {
         }
         else if (select === 1 && this.state.normalCapacity <= 1)
         {
-            toast.dark("Your place must have the capacity at least for one person!");
+            toast.info("Your place must have the capacity at least for one person!");
             return;
         }
 
@@ -55,7 +55,7 @@ class Amentities extends Component {
         }
         else if (select === 2 && this.state.maximumCapacity <= 1)
         {
-            toast.dark("Your place must have the capacity at least for one person!");
+            toast.info("Your place must have the capacity at least for one person!");
             return;
         }
 
@@ -74,7 +74,7 @@ class Amentities extends Component {
         }
         else if (select === 3 && this.state.bedrooms <= 0)
         {
-            toast.dark("This is not a possible amount!")
+            toast.info("This is not a possible amount!")
             return;
         }
 
@@ -92,7 +92,7 @@ class Amentities extends Component {
         }
         else if (select === 4 && this.state.singleBeds <= 0)
         {
-            toast.dark("This is not a possible amount!");
+            toast.info("This is not a possible amount!");
             return;
         }
 
@@ -111,7 +111,7 @@ class Amentities extends Component {
         }
         else if (select === 5 || this.state.singleBeds <= 0)
         {
-            toast.dark("This is not a possible amount!");
+            toast.info("This is not a possible amount!");
             return;
         }
 
@@ -129,7 +129,7 @@ class Amentities extends Component {
         }
         else if (select === 6 && this.state.bathrooms <= 1)
         {
-            toast.dark("Your place must contains at least one bathroom!");
+            toast.info("Your place must contains at least one bathroom!");
             return;
         }
 
@@ -148,7 +148,7 @@ class Amentities extends Component {
         }
         else if (select === 7 && this.state.showers <= 1)
         {
-            toast.dark("Your place must contains at least one shower!");
+            toast.info("Your place must contains at least one shower!");
             return;
         }
 
@@ -231,14 +231,14 @@ class Amentities extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Router>
-                        <Link to={'/hosting/addaccommodation/amentities/'}>
+                    {/* <Router> */}
+                        <Link to={'/hosting/addaccommodation/details/'}>
                             <button className={'btn btn-outline-secondary'}>back</button>
                         </Link>
                         <Link to={'/hosting/addaccommodation/facilities/'}>
                             <button className={'ml-auto btn btn-outline-primary'}>next</button>
                         </Link>
-                    </Router>
+                    {/* </Router> */}
                 </Modal.Footer>
             </React.Fragment>
          );

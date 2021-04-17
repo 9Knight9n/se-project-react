@@ -17,7 +17,7 @@ class Address extends Component {
             invalidPostalCode: false,
             invalidCountry: false,
             invalidRegion: false,
-            goToAmentities: false,
+            goToPhotos: false,
             invalidFulladdress: false
 
         };
@@ -62,9 +62,9 @@ class Address extends Component {
 
         if (dataIsValid){
             this.setState({
-                goToAmentities: true
+                goToPhotos: true
             })
-            return;
+            
         }else{
             toast.error("You may entered invalid amounts!")
         }  
@@ -200,14 +200,12 @@ class Address extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Router>
                         <Link to={'/hosting/addaccommodation/facilities/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
-                        <Link to={this.state.goToAmentities ? '/hosting/addaccommodation/amentities/' : ''} >
+                        <Link to={this.state.goToPhotos ? '/hosting/addaccommodation/photos/': ''} >
                             <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
                         </Link>
-                    </Router>
                 </Modal.Footer>
             </React.Fragment>
          );

@@ -58,7 +58,7 @@ class Documentations extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    Upload some documentations
+                    <h4>Upload some documentations</h4>
                 </Modal.Header>
                 <Modal.Body>
                     <div className={'d-flex row pl-4 pr-4'}>
@@ -108,11 +108,11 @@ class Documentations extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/facilities/'} >
+                    <Link to={'/hosting/addaccommodation/photos/'} >
                         <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/documentations/'} >
-                        <button className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button className={'ml-auto btn btn-primary'}>Submit</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>
