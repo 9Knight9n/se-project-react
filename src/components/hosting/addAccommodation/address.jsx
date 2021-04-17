@@ -95,7 +95,6 @@ class Address extends Component {
     render() { 
         return ( 
             <React.Fragment>
-                <Router>
                     <Modal.Header closeButton={true}>
                         <h4>Place address</h4>
                     </Modal.Header>
@@ -200,7 +199,6 @@ class Address extends Component {
                                 </form>
                             </div>
                         </div>
-                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                         <Link to={'/hosting/addaccommodation/facilities/'} >
