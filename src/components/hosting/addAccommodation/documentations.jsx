@@ -9,8 +9,10 @@ import {toast} from "react-toastify";
 import {
     API_BASE_URL,
     API_CHECK_DOC_URL,
+    API_ADD_VILLA_URL,
     API_LOGIN_URL, API_SEARCH_USER_URL,
     API_UPLOAD_DOC_URL,
+    API_UPLOAD_DOC_RESIDANCE_URL,
     API_UPLOAD_IMAGE_URL
 } from "../../constants";
 import axios from "axios";
@@ -19,6 +21,7 @@ import axios from "axios";
 class Documentations extends Component {
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     state = {
@@ -29,6 +32,107 @@ class Documentations extends Component {
         fileList1: [],
         fileList2: [],
     };
+
+    getPhotoList=(input)=>
+    {
+        let array = []
+        let temp = JSON.parse(sessionStorage.getItem(input))
+        for (let k=0;k<temp.length;k++)
+        {
+        array = [...array,temp[k].response.image_id]
+        }
+        return array
+    }
+
+    async handleSubmit (event){
+        event.preventDefault();
+        this.SaveFileListToSessionStorage();
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('type', sessionStorage.getItem('add-villa-selected-category'));
+        console.log('category : ', sessionStorage.getItem('add-villa-selected-category'));
+
+        data.append('name', sessionStorage.getItem('add-villa-placeName'));
+        console.log('place name : ', sessionStorage.getItem('add-villa-placeName'));
+
+        data.append('description', sessionStorage.getItem('add-villa-description'));
+        console.log('des : ', sessionStorage.getItem('add-villa-description'));
+
+        data.append('area', sessionStorage.getItem('add-villa-area'));
+        console.log('area : ', sessionStorage.getItem('add-villa-area'));
+
+        data.append('price_per_night', sessionStorage.getItem('add-villa-price'));
+        console.log("price : ", sessionStorage.getItem('add-villa-price'));
+
+        data.append('capacity', JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity);
+        console.log('normal : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity);
+
+        data.append('max_capacity', JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity);
+        console.log('max : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity);
+
+        data.append('number_of_bedrooms', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms);
+        console.log('bedrooms : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms);
+
+        data.append('number_of_double_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
+        console.log('doubleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
+
+        data.append('number_of_Single_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
+        console.log('singleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
+
+        data.append('number_of_bathrooms', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms);
+        console.log('bathrooms : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms);
+
+        data.append('number_of_showers', JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers);
+        console.log('showers : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers);
+
+        data.append('facilities_list', JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')));
+        console.log('facilities_list : ', JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')));
+
+        data.append('country', sessionStorage.getItem('add-villa-selected-country'));
+        console.log('country : ', sessionStorage.getItem('add-villa-selected-country'));
+
+        data.append('state', sessionStorage.getItem('add-villa-selected-state'));
+        console.log('state : ', sessionStorage.getItem('add-villa-selected-state'));
+
+        data.append('city', sessionStorage.getItem('add-villa-selected-city'));
+        console.log('city : ', sessionStorage.getItem('add-villa-selected-city'));
+
+        data.append('postal_code', sessionStorage.getItem('add-villa-postalCode'));
+        console.log('postal_code : ', sessionStorage.getItem('add-villa-postalCode'));
+
+        
+        data.append('address', sessionStorage.getItem('add-villa-fullAddress'));
+        console.log('address : ', sessionStorage.getItem('add-villa-fullAddress'));
+        
+        data.append('image_id_list', this.getPhotoList('add-villa-uploaded-photos'));
+        console.log('image_id_list : ', this.getPhotoList('add-villa-uploaded-photos'));
+
+        data.append('doc_id_list', this.getPhotoList('add-villa-uploaded-doc-residence'));
+        console.log('doc_id_list : ', this.getPhotoList('add-villa-uploaded-doc-residence'));
+
+
+
+        await axios.post(API_ADD_VILLA_URL,data,
+        {
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            }
+        })                
+        .then(res => {
+            if (res.status===205)
+            {
+                console.log("edit was ok")
+                // showMemoryVariables()
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+        toast.success("Villa added")
+    }
 
     async componentDidMount() {
         if(sessionStorage.getItem('add-villa-uploaded-doc-residence') || sessionStorage.getItem('add-villa-uploaded-doc-person'))
@@ -82,7 +186,7 @@ class Documentations extends Component {
 
     SaveFileListToSessionStorage=()=>{
         sessionStorage.setItem('add-villa-uploaded-doc-residence', JSON.stringify(this.state.fileList1));
-        sessionStorage.setItem('add-villa-uploaded-doc-person', JSON.stringify(this.state.fileList2));
+        // sessionStorage.setItem('add-villa-uploaded-doc-person', JSON.stringify(this.state.fileList2));
     }
 
     loadFileList=()=>{
@@ -170,7 +274,7 @@ class Documentations extends Component {
                                     // headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
                                     // method={'post'}
                                     // accept={'image/*'}
-                                    action={API_BASE_URL+API_UPLOAD_IMAGE_URL}
+                                    action={API_BASE_URL+API_UPLOAD_DOC_RESIDANCE_URL}
                                     listType="picture-card"
                                     fileList={this.state.fileList2}
                                     // customRequest={(obj)=>this.rename(obj)}
@@ -190,7 +294,7 @@ class Documentations extends Component {
                         <button className={'btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={''} >
-                        <button onClick={this.submit} disabled={!this.showSubmit()} className={'ml-auto btn btn-primary'}>Submit</button>
+                        <button onClick={this.handleSubmit} disabled={!this.showSubmit()} className={'ml-auto btn btn-primary'}>Submit</button>
                     </Link>
                     <Link id={'go-to-hosting-page-from-add-villa'} to={'/hosting/'}/>
                 </Modal.Footer>
