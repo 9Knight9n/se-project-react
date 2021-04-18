@@ -3,8 +3,8 @@ import './address.css'
 import {Modal} from "react-bootstrap";
 import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import {Form} from "react-bootstrap";
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { ToastContainer, toast } from 'react-toastify';
+import csc from 'country-state-city';
 
 class Address extends Component {
     constructor(props) {
@@ -16,34 +16,61 @@ class Address extends Component {
             postalCode: null,
             invalidPostalCode: false,
             invalidCountry: false,
-            invalidRegion: false,
-            invalidFullAddress: false
+            invalidState: false,
+            invalidCity: false,
+            invalidFullAddress: false,
+            countries: [],
+            states: [],
+            cityOptions:[],
+            cities: [],
+            countryCode: null,
+            cityCode: null,
+            stateCode: null,
+            country: null,
+            state: null,
+            city: null,
 
         };
 
     }
 
     componentDidMount (){
-        if (sessionStorage.getItem("add-villa-selected-country") || sessionStorage.getItem("add-villa-selected-region") || sessionStorage.getItem("add-villa-fullAddress") || sessionStorage.getItem("add-villa-postalCode")){
-            document.getElementById("address-country").value = sessionStorage.getItem('add-villa-selected-country');
-            document.getElementById("address-region").value = sessionStorage.getItem('add-villa-selected-region');
+
+        this.setState({countries: csc.getAllCountries()});
+
+        if (sessionStorage.getItem("add-villa-selected-country") || sessionStorage.getItem("add-villa-selected-state") || 
+        sessionStorage.getItem("add-villa-selected-city") || sessionStorage.getItem("add-villa-fullAddress") || 
+        sessionStorage.getItem("add-villa-postalCode"))
+        {
+            this.setState({
+              country: sessionStorage.getItem('add-villa-selected-country'),
+              states: csc.getStatesOfCountry(sessionStorage.getItem('add-villa-selected-country')),
+              state: sessionStorage.getItem('add-villa-selected-state'),
+              cities: csc.getCitiesOfState(sessionStorage.getItem('add-villa-selected-state')),
+              city: sessionStorage.getItem('add-villa-selected-city')
+            })
+
             document.getElementById("address-fullAddress").value = sessionStorage.getItem('add-villa-fullAddress');
             document.getElementById("address-postalCode").value = sessionStorage.getItem('add-villa-postalCode');
+
             console.log(sessionStorage.getItem('add-villa-selected-country'))
-            console.log(sessionStorage.getItem('add-villa-selected-region'))
+            console.log(sessionStorage.getItem('add-villa-selected-state'))
+            console.log(sessionStorage.getItem('add-villa-selected-city'))
             console.log(sessionStorage.getItem('add-villa-postalCode'))
             console.log(sessionStorage.getItem('add-villa-fullAddress'))
         }
     }
+    
 
     handleSubmit = (event) => {
         event.preventDefault();
         let country = document.getElementById("address-country").value;
-        let region = document.getElementById("address-region").value;
+        let state = document.getElementById("address-state").value;
+        let city = document.getElementById("address-city").value;
         let fullAddress = document.getElementById("address-fullAddress").value;
         let postalCode = document.getElementById("address-postalCode").value;
         let dataIsValid = true;
-        if (country.length === 0) {
+        if (country === "Select your country") {
             dataIsValid = false
             this.setState({
                 invalidCountry: true,
@@ -52,12 +79,21 @@ class Address extends Component {
         else{
             this.setState({invalidCountry: false});
         }
-        if (region.length === 0) {
+
+        if (state === "Select your state" && csc.getStatesOfCountry(this.state.countryCode).length !== 0) {
             dataIsValid = false
-            this.setState({invalidRegion: true});
+            this.setState({invalidState: true});
         }
         else{
-            this.setState({invalidRegion: false});
+            this.setState({invalidState: false});
+        }
+
+        if (city === "Select your city" && csc.getCitiesOfState(this.state.countryCode, this.state.stateCode).length !== 0) {
+            dataIsValid = false
+            this.setState({invalidCity: true});
+        }
+        else{
+            this.setState({invalidCity: false});
         }
 
         if (fullAddress.length === 0) {
@@ -74,7 +110,8 @@ class Address extends Component {
 
         if (dataIsValid){
             sessionStorage.setItem('add-villa-selected-country', country)
-            sessionStorage.setItem('add-villa-selected-region', region)
+            sessionStorage.setItem('add-villa-selected-state', state)
+            sessionStorage.setItem('add-villa-selected-city', city)
             sessionStorage.setItem('add-villa-fullAddress', fullAddress)
             sessionStorage.setItem('add-villa-postalCode', postalCode)
 
@@ -105,6 +142,62 @@ class Address extends Component {
         }
     }
 
+    onCountrySelect = (e) =>{
+        let selectedindex = e.target.options.selectedIndex;
+        let countryCode = e.target.options[selectedindex].getAttribute("countryCode");
+        if (csc.getStatesOfCountry(countryCode).length === 0){
+            console.log(csc.getCitiesOfCountry(countryCode))
+            this.setState({
+                country: e.target.value,
+                countryCode: countryCode,
+                cities: csc.getCitiesOfCountry(countryCode),
+            })
+        }else{
+            this.setState({
+                country: e.target.value,
+                countryCode: countryCode,
+                states: csc.getStatesOfCountry(countryCode),
+            })
+        }
+        if (e.target.value === "Select your country"){
+            this.setState({
+                states: [],
+            })
+        }
+    }
+
+    onStateSelect = (e) =>{
+        let selectedindex = e.target.options.selectedIndex;
+        let stateCode = e.target.options[selectedindex].getAttribute("stateCode");
+        if (csc.getCitiesOfState(this.state.countryCode , stateCode).length !== 0)
+            this.setState({
+                state: e.target.value,
+                stateCode: stateCode,
+                cities: csc.getCitiesOfState(this.state.countryCode , stateCode),
+            })
+        else
+            this.setState({
+                state: e.target.value,
+                stateCode: stateCode,
+                cities: csc.getCitiesOfCountry(this.state.countryCode),
+            }) 
+        if (e.target.value === "Select your state"){
+            this.setState({
+                cities: [],
+            })
+        }
+    }
+
+    onCitySelect = (e) =>{
+        let selectedindex = e.target.options.selectedIndex;
+        let cityCode = e.target.options[selectedindex].getAttribute("cityCode");
+        this.setState({
+            city: e.target.value,
+            cityCode: cityCode,
+        })
+
+    }
+
     render() { 
         return ( 
             <React.Fragment>
@@ -117,48 +210,95 @@ class Address extends Component {
                             <b>Enter your place address details here.</b>
                             <div className="address-form">
                                 <form>
-                                    <div className="row mb-4">
-                                        <div className="col-md-6">
+                                    <div className="row mb-4 mt-2">
+                                        <div className="col-md-12">
                                             <label htmlFor="address-country">Country :</label>
                                             <div>
-                                                <CountryDropdown
+                                                <select
                                                 id="address-country"
                                                 style={{width: "100%"}}
                                                 value={this.state.country}
                                                 className={this.state.invalidCountry? "address-select-control":""}
                                                 data-testid="address-country"
-                                                onChange={(value)=>this.setState({country: value})} />
+                                                onChange={this.onCountrySelect}
+                                                >
+                                                    <option countryCode="default">Select your country</option>
+                                                    {this.state.countries.map(country =>
+
+                                                            <option countryCode={country.isoCode} key={country.isoCode}>
+                                                            {country.name}
+                                                        </option>)
+                                                    }
+                                                </select>
                                             </div>
                                             {this.state.invalidCountry ? 
                                             <div className="ml-2 address-errors">
-                                                You must choose your country!
+                                               You must choose your country!
                                             </div>
                                             : ""}
                                         </div>
+                                    </div>
+                                    
+                                    <div className="row mb-4">
                                         <div className="col-md-6">
-                                            <label htmlFor="address-region">Region :</label>
+                                                <label htmlFor="address-state">State :</label>
+                                                <div>
+                                                    <select
+                                                    id="address-state"
+                                                    style={{width: "100%"}}
+                                                    value={this.state.state}
+                                                    className={this.state.invalidState? "address-select-control":""}
+                                                    data-testid="address-state"
+                                                    onChange={this.onStateSelect}
+                                                    >
+                                                        <option stateCode="default">Select your state</option>
+                                                        {this.state.states.map(state =>
+
+                                                                <option stateCode={state.isoCode} key={state.isoCode}>
+                                                                {state.name}
+                                                            </option>)
+                                                        }
+                                                    </select>
+                                                </div>
+                                                {this.state.invalidState? 
+                                                <div className="ml-2 address-errors">
+                                                You must choose your country!
+                                                </div>
+                                                : ""}
+                                        </div>
+
+                                        <div className="col-md-6">
+                                            <label htmlFor="address-state">City :</label>
                                             <div>
-                                                <RegionDropdown
-                                                country={this.state.country}
-                                                value={this.state.region}
-                                                id="address-region"
-                                                className={this.state.invalidRegion? "address-select-control":""}
+                                                <select
+                                                id="address-city"
+                                                value={this.state.city}
+                                                className={this.state.invalidCity? "address-select-control":""}
                                                 style={{width: "100%"}}
-                                                data-testid="address-region"
-                                                onChange={(value)=>this.setState({region: value})} />
+                                                data-testid="address-city"
+                                                onChange={this.onCitySelect}
+                                                >
+                                                    <option cityCode="default">Select your city</option>
+                                                    {this.state.cities.map(city =>
+                                                        <option cityCode={city.isoCode} key={city.isoCode}>
+                                                            {city.name}
+                                                        </option>)
+                                                    }
+                                                </select>
                                             </div>
-                                            {this.state.invalidRegion ? 
+                                            {this.state.invalidCity ? 
                                             <div className="ml-2 address-errors">
-                                                You must choose your region!
+                                               You must choose your city!
                                             </div>
                                             : ""}
                                         </div>
                                     </div>
 
+
                                         <div className="address-fullAddress">
                                             <div className="address-full">
                                                 <label className="form-label" htmlFor="address-full">Your place full address :</label>
-                                                <p>Write your full address containing City, Region, Street, Alley and ...</p>
+                                                <p>Write your full address containing City, state, Street, Alley and ...</p>
                                             </div>
                                             <div className="form-group">
                                                 <div className="input-group">
