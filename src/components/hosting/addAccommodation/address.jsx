@@ -88,7 +88,7 @@ class Address extends Component {
             this.setState({invalidState: false});
         }
 
-        if (city === "Select your city") {
+        if (city === "Select your city" && csc.getCitiesOfState(this.state.countryCode, this.state.stateCode).length !== 0) {
             dataIsValid = false
             this.setState({invalidCity: true});
         }
@@ -145,17 +145,31 @@ class Address extends Component {
     onCountrySelect = (e) =>{
         let selectedindex = e.target.options.selectedIndex;
         let countryCode = e.target.options[selectedindex].getAttribute("countryCode");
-        this.setState({
-            country: e.target.value,
-            countryCode: countryCode,
-            states: csc.getStatesOfCountry(countryCode),
-        })
+        if (csc.getStatesOfCountry(countryCode).length === 0){
+            console.log(csc.getCitiesOfCountry(countryCode))
+            this.setState({
+                country: e.target.value,
+                countryCode: countryCode,
+                cities: csc.getCitiesOfCountry(countryCode),
+            })
+        }else{
+            this.setState({
+                country: e.target.value,
+                countryCode: countryCode,
+                states: csc.getStatesOfCountry(countryCode),
+            })
+        }
+        if (e.target.value === "Select your country"){
+            this.setState({
+                states: [],
+            })
+        }
     }
 
     onStateSelect = (e) =>{
         let selectedindex = e.target.options.selectedIndex;
         let stateCode = e.target.options[selectedindex].getAttribute("stateCode");
-        if (csc.getStatesOfCountry(this.state.countryCode).length !== 0)
+        if (csc.getCitiesOfState(this.state.countryCode , stateCode).length !== 0)
             this.setState({
                 state: e.target.value,
                 stateCode: stateCode,
@@ -165,9 +179,13 @@ class Address extends Component {
             this.setState({
                 state: e.target.value,
                 stateCode: stateCode,
-                cities: csc.getAllCities(),
+                cities: csc.getCitiesOfCountry(this.state.countryCode),
             }) 
-
+        if (e.target.value === "Select your state"){
+            this.setState({
+                cities: [],
+            })
+        }
     }
 
     onCitySelect = (e) =>{
