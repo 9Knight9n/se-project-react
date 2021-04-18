@@ -44,9 +44,9 @@ class Address extends Component {
         {
             this.setState({
               country: sessionStorage.getItem('add-villa-selected-country'),
-              states: csc.getStatesOfCountry(sessionStorage.getItem('add-villa-selected-country')),
+              states: csc.getStatesOfCountry(sessionStorage.getItem('add-villa-selected-countryCode')),
               state: sessionStorage.getItem('add-villa-selected-state'),
-              cities: csc.getCitiesOfState(sessionStorage.getItem('add-villa-selected-state')),
+              cities: csc.getCitiesOfState(sessionStorage.getItem('add-villa-selected-countryCode'), sessionStorage.getItem('add-villa-selected-stateCode')),
               city: sessionStorage.getItem('add-villa-selected-city')
             })
 
@@ -110,7 +110,9 @@ class Address extends Component {
 
         if (dataIsValid){
             sessionStorage.setItem('add-villa-selected-country', country)
+            sessionStorage.setItem('add-villa-selected-countryCode', this.state.countryCode)
             sessionStorage.setItem('add-villa-selected-state', state)
+            sessionStorage.setItem('add-villa-selected-stateCode', this.state.stateCode)
             sessionStorage.setItem('add-villa-selected-city', city)
             sessionStorage.setItem('add-villa-fullAddress', fullAddress)
             sessionStorage.setItem('add-villa-postalCode', postalCode)

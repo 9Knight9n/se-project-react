@@ -38,6 +38,8 @@ class AddAccommodation extends Component {
         // sessionStorage.removeItem('add-villa-uploaded-doc-residence');
         // sessionStorage.removeItem('add-villa-selected-category');
         // sessionStorage.removeItem('add-villa-postalCode');
+        // sessionStorage.removeItem('add-villa-selected-stateCode')
+        // sessionStorage.removeItem('add-villa-selected-countryCode');
 
     }
 

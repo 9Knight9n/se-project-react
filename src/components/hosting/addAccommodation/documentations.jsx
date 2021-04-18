@@ -76,7 +76,7 @@ class Documentations extends Component {
         data.append('number_of_double_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
         console.log('doubleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
 
-        data.append('number_of_Single_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
+        data.append('number_of_single_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
         console.log('singleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
 
         data.append('number_of_bathrooms', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms);
@@ -103,6 +103,12 @@ class Documentations extends Component {
         
         data.append('address', sessionStorage.getItem('add-villa-fullAddress'));
         console.log('address : ', sessionStorage.getItem('add-villa-fullAddress'));
+
+        data.append('latitude', 0);
+        console.log('latitude : ', 0);
+
+        data.append('longitude', 0);
+        console.log('longitude : ', 0);
         
         data.append('image_id_list', this.getPhotoList('add-villa-uploaded-photos'));
         console.log('image_id_list : ', this.getPhotoList('add-villa-uploaded-photos'));
