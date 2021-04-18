@@ -8,6 +8,10 @@
   color: #aaaaab;
 }
 
+.address-form label {
+  font-size: 16px;
+}
+
 .address-form select {
   outline: none;
   height: 5vh;
@@ -30,4 +34,3 @@
 .address-select-control {
   border: 1px solid #dc3545;
 }
-

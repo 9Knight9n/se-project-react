@@ -3,6 +3,10 @@
   color: #aaaaab;
 }
 
+.details-form label {
+  font-size: 16px;
+}
+
 .details-form textarea::placeholder {
   font-size: 15px;
   color: #aaaaab;

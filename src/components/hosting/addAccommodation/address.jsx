@@ -327,7 +327,7 @@ class Address extends Component {
 
                                         <div className="address-postalCode">
                                             <div className="address-postalCode">
-                                                <label className="form-label" htmlFor="address-postalCode">Postal code :</label>
+                                                <label className="form-label" htmlFor="address-postalCode">Postal code : <span className="address-optional">(Optional)</span></label>
                                             </div>
                                             <div className="form-group">
                                                 <div className="input-group">

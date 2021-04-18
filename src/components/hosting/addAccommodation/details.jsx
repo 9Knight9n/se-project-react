@@ -138,7 +138,7 @@ class Details extends Component {
 
                                     <div className="details-description">
                                         <div className="details-input-description">
-                                            <label className="form-label" htmlFor="details-description">Describe your place :</label>
+                                            <label className="form-label" htmlFor="details-description">Describe your place : <span classNmae="details-optinal">(Optional)</span></label>
                                             <p>Here you can point to your place's attributs like view, facilities and everything that makes
                                             your place special.
                                             </p>
