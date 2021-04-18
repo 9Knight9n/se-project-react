@@ -4,8 +4,16 @@ import {Link} from "react-router-dom";
 import 'antd/dist/antd.css';
 import { Upload, Modal as antdModal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import {getBase64, getItem} from "../../util";
+import {getBase64, getItem, saveCredentials, showMemoryVariables} from "../../util";
 import {toast} from "react-toastify";
+import {
+    API_BASE_URL,
+    API_CHECK_DOC_URL,
+    API_LOGIN_URL, API_SEARCH_USER_URL,
+    API_UPLOAD_DOC_URL,
+    API_UPLOAD_IMAGE_URL
+} from "../../constants";
+import axios from "axios";
 
 
 class Documentations extends Component {
@@ -22,11 +30,30 @@ class Documentations extends Component {
         fileList2: [],
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         if(sessionStorage.getItem('add-villa-uploaded-doc-residence') || sessionStorage.getItem('add-villa-uploaded-doc-person'))
         {
            this.loadFileList()
         }
+
+        let config = {
+            method: 'get',
+            url: API_CHECK_DOC_URL,
+            headers: { 'Authorization': 'Token '.concat(getItem('user-token')),}
+        };
+
+        console.log(config)
+
+        let response = await axios(config)
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+                return false
+            });
+        this.setState({identityProvided:response})
+
     }
 
     handlePreview = async file => {
@@ -118,11 +145,11 @@ class Documentations extends Component {
                             <div className={'mt-2 mb-2 d-flex flex-column p-3 border-secondary rounded'} style={{border:"2px dotted"}}>
                                 <label>Prove your identity by providing your id card, driving licence or ...(upload at least one photo)</label>
                                 <Upload
-                                    // headers={{'Authorization':'Token '.concat(getItem('user-token'))}}
-                                    headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
+                                    headers={{'Authorization':'Token '.concat(getItem('user-token'))}}
+                                    // headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
                                     // method={'post'}
-                                    accept={'image/*'}
-                                    action={'http://127.0.0.1:8000/api/villa/user/images/'}
+                                    // accept={'image/*'}
+                                    action={API_BASE_URL+API_UPLOAD_DOC_URL}
                                     listType="picture-card"
                                     fileList={this.state.fileList1}
                                     // customRequest={(obj)=>this.rename(obj)}
@@ -139,11 +166,11 @@ class Documentations extends Component {
                             <div className={'mt-2 mb-2 ml-auto d-flex flex-column p-3 border-secondary rounded'} style={{border:"2px dotted"}}>
                                 <label>Prove your ownership of accommodation by any means.(upload at least one photo)</label>
                                 <Upload
-                                    // headers={{'Authorization':'Token '.concat(getItem('user-token'))}}
-                                    headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
+                                    headers={{'Authorization':'Token '.concat(getItem('user-token'))}}
+                                    // headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
                                     // method={'post'}
-                                    accept={'image/*'}
-                                    action={'http://127.0.0.1:8000/api/villa/user/images/'}
+                                    // accept={'image/*'}
+                                    action={API_BASE_URL+API_UPLOAD_IMAGE_URL}
                                     listType="picture-card"
                                     fileList={this.state.fileList2}
                                     // customRequest={(obj)=>this.rename(obj)}

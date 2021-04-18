@@ -91,10 +91,10 @@ class Photos extends Component {
                 <Modal.Body>
                     <Upload
                         headers={{'Authorization':'Token '.concat(getItem('user-token'))}}
-                        headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
+                        // headers={{'Authorization':'Token 78e997f0da492bbe5ee02f1650ada77c0c8c8fcd'}}
                         // method={'post'}
                         accept={'image/*'}
-                        action={'http://127.0.0.1:8000/api/villa/user/images/'}
+                        action={API_BASE_URL+API_UPLOAD_IMAGE_URL}
                         listType="picture-card"
                         fileList={fileList}
                         // customRequest={(obj)=>this.rename(obj)}
