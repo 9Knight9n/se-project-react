@@ -25,7 +25,7 @@ class Amentities extends Component {
     componentDidMount (){
         if (sessionStorage.getItem('add-villa-amentities')){
             this.setState({
-            normalCapacityate: JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity,
+            normalCapacity: JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity,
             maximumCapacity: JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity,
             bedrooms: JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms,
             doubleBeds: JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds,
@@ -105,7 +105,7 @@ class Amentities extends Component {
             })
             return;
         }
-        else if (select === 4 && this.state.singleBeds <= 0)
+        else if (select === 4 && this.state.doubleBeds <= 0)
         {
             toast.info("This is not a possible amount!");
             return;
@@ -124,7 +124,7 @@ class Amentities extends Component {
             })
             return;
         }
-        else if (select === 5 || this.state.singleBeds <= 0)
+        else if (select === 5 && this.state.singleBeds <= 0)
         {
             toast.info("This is not a possible amount!");
             return;
