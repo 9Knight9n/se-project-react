@@ -248,7 +248,8 @@ class Facilities extends Component {
                                         {facility.src}
                                     </div>
                                 </div>
-                                <div className={"overlay".concat(this.state.selectedItems.has(facility.id)?' selected border-success':'')}>
+                                <div data-testid={'facility-select-test-'.concat(facility.id)}
+                                    className={"overlay".concat(this.state.selectedItems.has(facility.id)?' selected border-success':'')}>
                                     {this.state.selectedItems.has(facility.id)?
                                     <React.Fragment>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
@@ -269,10 +270,10 @@ class Facilities extends Component {
                 </Modal.Body>
                 <Modal.Footer className={'w-100'}>
                     <Link to={'/hosting/addaccommodation/amentities/'} className={'mr-auto'}>
-                        <button className={'btn btn-outline-secondary'}>back</button>
+                        <button className={'btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/address/'}>
-                        <button onClick={this.save} className={'btn btn-outline-primary'}>next</button>
+                        <button onClick={this.save} className={'btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>

@@ -46,7 +46,7 @@ describe('category-page-test', () => {
       render(<BrowserRouter><Categories /></BrowserRouter>);
 
       userEvent.click(screen.getAllByText(category.label)[1])
-      expect(screen.getByTestId('select-test-'.concat(category.id))).toHaveClass('selected');
+      expect(screen.getByTestId('category-select-test-'.concat(category.id))).toHaveClass('selected');
 
     });
   });

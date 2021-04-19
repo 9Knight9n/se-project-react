@@ -70,7 +70,7 @@ class Categories extends Component {
                             <div className={'fade-in-overlay'}>
                                 <img className={'w-100 image'}
                                     src={category.src} key={category.id}/>
-                                <div data-testid={'select-test-'.concat(category.id)}
+                                <div data-testid={'category-select-test-'.concat(category.id)}
                                     className={"overlay".concat(category.id===this.state.selectedItem?' selected border-success':'')}>
                                     {category.id===this.state.selectedItem?
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
