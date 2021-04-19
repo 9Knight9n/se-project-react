@@ -44,6 +44,16 @@ class Categories extends Component {
     save()
     {
         sessionStorage.setItem('add-villa-selected-category',this.state.selectedItem)
+        for(let k=0;k<this.state.categories.length;k++)
+        {
+            if (this.state.categories[k].id===this.state.selectedItem)
+            {
+                sessionStorage.setItem('add-villa-selected-category-name',this.state.categories[k].label)
+                console.log(sessionStorage.getItem('add-villa-selected-category-name'))
+                break
+            }
+        }
+
     }
 
     render() {

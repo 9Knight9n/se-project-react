@@ -22,24 +22,24 @@ class AddAccommodation extends Component {
     exit()
     {
         document.getElementById('redirect-to-hosting').click()
-        // sessionStorage.removeItem('add-villa-selected-category');
-        // sessionStorage.removeItem('add-villa-placeName');
-        // sessionStorage.removeItem('add-villa-description');
-        // sessionStorage.removeItem('add-villa-area');
-        // sessionStorage.removeItem('add-villa-price');
-        // sessionStorage.removeItem('add-villa-amentities');
-        // sessionStorage.removeItem('add-villa-selected-country');
-        // sessionStorage.removeItem('add-villa-selected-state');
-        // sessionStorage.removeItem('add-villa-selected-city');
-        // sessionStorage.removeItem('add-villa-fullAddress');
-        // sessionStorage.removeItem('add-villa-selected-facilities-label');
-        // sessionStorage.removeItem('add-villa-selected-facilities-id');
-        // sessionStorage.removeItem('add-villa-uploaded-photos');
-        // sessionStorage.removeItem('add-villa-uploaded-doc-residence');
-        // sessionStorage.removeItem('add-villa-selected-category');
-        // sessionStorage.removeItem('add-villa-postalCode');
-        // sessionStorage.removeItem('add-villa-selected-stateCode')
-        // sessionStorage.removeItem('add-villa-selected-countryCode');
+        sessionStorage.removeItem('add-villa-selected-category');
+        sessionStorage.removeItem('add-villa-placeName');
+        sessionStorage.removeItem('add-villa-description');
+        sessionStorage.removeItem('add-villa-area');
+        sessionStorage.removeItem('add-villa-price');
+        sessionStorage.removeItem('add-villa-amentities');
+        sessionStorage.removeItem('add-villa-selected-country');
+        sessionStorage.removeItem('add-villa-selected-state');
+        sessionStorage.removeItem('add-villa-selected-city');
+        sessionStorage.removeItem('add-villa-fullAddress');
+        sessionStorage.removeItem('add-villa-selected-facilities-label');
+        sessionStorage.removeItem('add-villa-selected-facilities-id');
+        sessionStorage.removeItem('add-villa-uploaded-photos');
+        sessionStorage.removeItem('add-villa-uploaded-doc-residence');
+        sessionStorage.removeItem('add-villa-selected-category');
+        sessionStorage.removeItem('add-villa-postalCode');
+        sessionStorage.removeItem('add-villa-selected-stateCode')
+        sessionStorage.removeItem('add-villa-selected-countryCode');
 
     }
 

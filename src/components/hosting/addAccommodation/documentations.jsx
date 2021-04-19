@@ -37,9 +37,13 @@ class Documentations extends Component {
     {
         let array = []
         let temp = JSON.parse(sessionStorage.getItem(input))
+        console.log(sessionStorage.getItem(input))
         for (let k=0;k<temp.length;k++)
         {
-        array = [...array,temp[k].response.image_id]
+            if (input === 'add-villa-uploaded-doc-residence')
+                array = [...array,temp[k].response.document_id]
+            else
+                array = [...array,temp[k].response.image_id]
         }
         return array
     }
@@ -49,8 +53,8 @@ class Documentations extends Component {
         this.SaveFileListToSessionStorage();
         let FormData = require('form-data');
         let data = new FormData();
-        data.append('type', sessionStorage.getItem('add-villa-selected-category'));
-        console.log('category : ', sessionStorage.getItem('add-villa-selected-category'));
+        data.append('type', sessionStorage.getItem('add-villa-selected-category-name'));
+        console.log('category : ', sessionStorage.getItem('add-villa-selected-category-name'));
 
         data.append('name', sessionStorage.getItem('add-villa-placeName'));
         console.log('place name : ', sessionStorage.getItem('add-villa-placeName'));
@@ -125,26 +129,28 @@ class Documentations extends Component {
             }
         })                
         .then(res => {
-            if (res.status===205)
+            if (res.status===201)
             {
-                console.log("edit was ok")
+                console.log("added")
                 // showMemoryVariables()
+                toast.success("Villa added")
             }
             else
             {
                 console.log("unknown status")
+                toast.error("Something happened. we couldn't add your villa")
             }
         }).catch(error =>{
                 console.log(error)
+                toast.error("Something happened. we couldn't add your villa")
         })
-        toast.success("Villa added")
     }
 
     async componentDidMount() {
-        if(sessionStorage.getItem('add-villa-uploaded-doc-residence') || sessionStorage.getItem('add-villa-uploaded-doc-person'))
-        {
-           this.loadFileList()
-        }
+        // if(sessionStorage.getItem('add-villa-uploaded-doc-residence') || sessionStorage.getItem('add-villa-uploaded-doc-person'))
+        // {
+        //    this.loadFileList()
+        // }
 
         let config = {
             method: 'get',
@@ -192,15 +198,16 @@ class Documentations extends Component {
 
     SaveFileListToSessionStorage=()=>{
         sessionStorage.setItem('add-villa-uploaded-doc-residence', JSON.stringify(this.state.fileList1));
+        console.log(sessionStorage.getItem('add-villa-uploaded-doc-residence'))
         // sessionStorage.setItem('add-villa-uploaded-doc-person', JSON.stringify(this.state.fileList2));
     }
 
-    loadFileList=()=>{
-        if(sessionStorage.getItem('add-villa-uploaded-doc-residence'))
-            this.setState({fileList1:JSON.parse(sessionStorage.getItem('add-villa-uploaded-doc-residence'))})
-        if(sessionStorage.getItem('add-villa-uploaded-doc-person'))
-            this.setState({fileList2:JSON.parse(sessionStorage.getItem('add-villa-uploaded-doc-person'))})
-    }
+    // loadFileList=()=>{
+    //     if(sessionStorage.getItem('add-villa-uploaded-doc-residence'))
+    //         this.setState({fileList1:JSON.parse(sessionStorage.getItem('add-villa-uploaded-doc-residence'))})
+    //     if(sessionStorage.getItem('add-villa-uploaded-doc-person'))
+    //         this.setState({fileList2:JSON.parse(sessionStorage.getItem('add-villa-uploaded-doc-person'))})
+    // }
 
     getNumOfUploaded=(number)=>{
         let num = 0;
@@ -303,6 +310,9 @@ class Documentations extends Component {
                         <button onClick={this.handleSubmit} disabled={!this.showSubmit()} className={'ml-auto btn btn-primary'}>Submit</button>
                     </Link>
                     <Link id={'go-to-hosting-page-from-add-villa'} to={'/hosting/'}/>
+                    <button onClick={()=>console.log('doc_id_list : ', this.state.fileList2)}>
+                        fefe
+                    </button>
                 </Modal.Footer>
             </React.Fragment>
         );
