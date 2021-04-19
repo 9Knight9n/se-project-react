@@ -51,81 +51,117 @@ class Documentations extends Component {
     async handleSubmit (event){
         event.preventDefault();
         this.SaveFileListToSessionStorage();
-        let FormData = require('form-data');
-        let data = new FormData();
-        data.append('type', sessionStorage.getItem('add-villa-selected-category-name'));
-        console.log('category : ', sessionStorage.getItem('add-villa-selected-category-name'));
+        let data = JSON.stringify({"name":sessionStorage.getItem('add-villa-placeName'),
+            "type":sessionStorage.getItem('add-villa-selected-category-name'),
+            "description":sessionStorage.getItem('add-villa-description'),
+            "state":sessionStorage.getItem('add-villa-selected-state'),
+            "country":sessionStorage.getItem('add-villa-selected-country'),
+            "city":sessionStorage.getItem('add-villa-selected-city'),
+            "address":sessionStorage.getItem('add-villa-fullAddress'),
+            "postal_code":sessionStorage.getItem('add-villa-postalCode'),
+            "latitude":2.156,
+            "longitude":3.33,
+            "number_of_bathrooms":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms),
+            "number_of_single_beds":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds),
+            "number_of_bedrooms":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms),
+            "number_of_double_beds":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds),
+            "area":parseInt(sessionStorage.getItem('add-villa-area')),
+            "capacity":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity),
+            "max_capacity":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity),
+            "price_per_night":parseInt(sessionStorage.getItem('add-villa-price')),
+            "number_of_showers":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers),
+            "image_id_list":this.getPhotoList('add-villa-uploaded-photos'),
+            "facilities_list":JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')),
+            "doc_id_list":this.getPhotoList('add-villa-uploaded-doc-residence')
+        });
+        // let FormData = require('form-data');
+        // let data = new FormData();
+        // data.append('type', sessionStorage.getItem('add-villa-selected-category-name'));
+        // console.log('category : ', sessionStorage.getItem('add-villa-selected-category-name'));
+        //
+        // data.append('name', sessionStorage.getItem('add-villa-placeName'));
+        // console.log('place name : ', sessionStorage.getItem('add-villa-placeName'));
+        //
+        // data.append('description', sessionStorage.getItem('add-villa-description'));
+        // console.log('des : ', sessionStorage.getItem('add-villa-description'));
 
-        data.append('name', sessionStorage.getItem('add-villa-placeName'));
-        console.log('place name : ', sessionStorage.getItem('add-villa-placeName'));
+        // data.append('area', sessionStorage.getItem('add-villa-area'));
+        // console.log('area : ', sessionStorage.getItem('add-villa-area'));
+        //
+        // data.append('price_per_night', sessionStorage.getItem('add-villa-price'));
+        // console.log("price : ", sessionStorage.getItem('add-villa-price'));
 
-        data.append('description', sessionStorage.getItem('add-villa-description'));
-        console.log('des : ', sessionStorage.getItem('add-villa-description'));
+        // data.append('capacity', JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity);
+        // console.log('normal : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity);
 
-        data.append('area', sessionStorage.getItem('add-villa-area'));
-        console.log('area : ', sessionStorage.getItem('add-villa-area'));
+        // data.append('max_capacity', JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity);
+        // console.log('max : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity);
 
-        data.append('price_per_night', sessionStorage.getItem('add-villa-price'));
-        console.log("price : ", sessionStorage.getItem('add-villa-price'));
+        // data.append('number_of_bedrooms', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms);
+        // console.log('bedrooms : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms);
 
-        data.append('capacity', JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity);
-        console.log('normal : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).normalCapacity);
+        // data.append('number_of_double_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
+        // console.log('doubleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
+        //
+        // data.append('number_of_single_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
+        // console.log('singleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
+        //
+        // data.append('number_of_bathrooms', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms);
+        // console.log('bathrooms : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms);
+        //
+        // data.append('number_of_showers', JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers);
+        // console.log('showers : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers);
 
-        data.append('max_capacity', JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity);
-        console.log('max : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).maximumCapacity);
+        // data.append('facilities_list', JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')));
+        // console.log('facilities_list : ', JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')));
 
-        data.append('number_of_bedrooms', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms);
-        console.log('bedrooms : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms);
+        // data.append('country', sessionStorage.getItem('add-villa-selected-country'));
+        // console.log('country : ', sessionStorage.getItem('add-villa-selected-country'));
 
-        data.append('number_of_double_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
-        console.log('doubleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).doubleBeds);
+        // data.append('state', sessionStorage.getItem('add-villa-selected-state'));
+        // console.log('state : ', sessionStorage.getItem('add-villa-selected-state'));
 
-        data.append('number_of_single_beds', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
-        console.log('singleBeds : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds);
+        // data.append('city', sessionStorage.getItem('add-villa-selected-city'));
+        // console.log('city : ', sessionStorage.getItem('add-villa-selected-city'));
 
-        data.append('number_of_bathrooms', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms);
-        console.log('bathrooms : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms);
-
-        data.append('number_of_showers', JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers);
-        console.log('showers : ', JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers);
-
-        data.append('facilities_list', JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')));
-        console.log('facilities_list : ', JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')));
-
-        data.append('country', sessionStorage.getItem('add-villa-selected-country'));
-        console.log('country : ', sessionStorage.getItem('add-villa-selected-country'));
-
-        data.append('state', sessionStorage.getItem('add-villa-selected-state'));
-        console.log('state : ', sessionStorage.getItem('add-villa-selected-state'));
-
-        data.append('city', sessionStorage.getItem('add-villa-selected-city'));
-        console.log('city : ', sessionStorage.getItem('add-villa-selected-city'));
-
-        data.append('postal_code', sessionStorage.getItem('add-villa-postalCode'));
-        console.log('postal_code : ', sessionStorage.getItem('add-villa-postalCode'));
-
+        // data.append('postal_code', sessionStorage.getItem('add-villa-postalCode'));
+        // console.log('postal_code : ', sessionStorage.getItem('add-villa-postalCode'));
+        //
         
-        data.append('address', sessionStorage.getItem('add-villa-fullAddress'));
-        console.log('address : ', sessionStorage.getItem('add-villa-fullAddress'));
+        // data.append('address', sessionStorage.getItem('add-villa-fullAddress'));
+        // console.log('address : ', sessionStorage.getItem('add-villa-fullAddress'));
+        //
+        // data.append('latitude', 0);
+        // console.log('latitude : ', 0);
+        //
+        // data.append('longitude', 0);
+        // console.log('longitude : ', 0);
+        //
+        // data.append('image_id_list', this.getPhotoList('add-villa-uploaded-photos'));
+        // console.log('image_id_list : ', this.getPhotoList('add-villa-uploaded-photos'));
 
-        data.append('latitude', 0);
-        console.log('latitude : ', 0);
+        // data.append('doc_id_list', this.getPhotoList('add-villa-uploaded-doc-residence'));
+        // console.log('doc_id_list : ', this.getPhotoList('add-villa-uploaded-doc-residence'));
 
-        data.append('longitude', 0);
-        console.log('longitude : ', 0);
-        
-        data.append('image_id_list', this.getPhotoList('add-villa-uploaded-photos'));
-        console.log('image_id_list : ', this.getPhotoList('add-villa-uploaded-photos'));
 
-        data.append('doc_id_list', this.getPhotoList('add-villa-uploaded-doc-residence'));
-        console.log('doc_id_list : ', this.getPhotoList('add-villa-uploaded-doc-residence'));
+        console.log('data sent:',data)
 
+        // var config = {
+        //     method: 'post',
+        //     url: API_ADD_VILLA_URL,
+        //     headers: {
+        //     'Authorization': 'Token '.concat(getItem('user-token'))
+        //     'Content-Type': 'application/json',
+        //     },
+        //     data : data
+        // };
 
 
         await axios.post(API_ADD_VILLA_URL,data,
         {
             headers: {
-                'Authorization': 'Token '.concat(getItem('user-token'))
+                'Authorization': 'Token '.concat(getItem('user-token')),
+                'Content-Type': 'application/json',
             }
         })                
         .then(res => {
@@ -134,6 +170,7 @@ class Documentations extends Component {
                 console.log("added")
                 // showMemoryVariables()
                 toast.success("Villa added")
+                document.getElementById('go-to-hosting-page-from-add-villa').click()
             }
             else
             {
@@ -310,9 +347,9 @@ class Documentations extends Component {
                         <button onClick={this.handleSubmit} disabled={!this.showSubmit()} className={'ml-auto btn btn-primary'}>Submit</button>
                     </Link>
                     <Link id={'go-to-hosting-page-from-add-villa'} to={'/hosting/'}/>
-                    <button onClick={()=>console.log('doc_id_list : ', this.state.fileList2)}>
-                        fefe
-                    </button>
+                    {/*<button onClick={()=>console.log('doc_id_list : ', this.state.fileList2)}>*/}
+                    {/*    fefe*/}
+                    {/*</button>*/}
                 </Modal.Footer>
             </React.Fragment>
         );
