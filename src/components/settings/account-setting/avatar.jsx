@@ -3,6 +3,7 @@ import editAvatar from '../../../assets/img/man.png';
 import './avatar.css';
 import SelectAvatar from '../../avatarEditor/selectAvatar';
 import {  Modal } from "react-bootstrap";
+import {API_BASE_URL} from '../../constants'
 class Avatar extends Component {
     constructor(props) {
         super(props);
@@ -40,12 +41,12 @@ class Avatar extends Component {
         else{
             this.props.exitModal(this.state.preview)
         }
-            
+      
     }
 
     onClose() {
-        let src = this.state.preview;
-        sessionStorage.setItem("profileAvatar", src)
+        let src = API_BASE_URL + this.state.preview;
+        localStorage.setItem("profileAvatar", src)
         this.setState({preview: null})
     }
 
@@ -61,10 +62,10 @@ class Avatar extends Component {
         this.setState({preview})
     }
     
-      async onSave(){
+    async onSave(){
         console.log("saved");
-        let src = "http://softcheetahs.herokuapp.com/" + this.state.preview;
-        sessionStorage.setItem("profileAvatar", src);
+        let src = this.state.preview;
+        localStorage.setItem("profileAvatar", src);
         this.props.saveAvatar(src);
 
     }

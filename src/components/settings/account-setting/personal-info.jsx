@@ -13,12 +13,13 @@ import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {showMemoryVariables} from "../../util";
-import {API_PROFILE_URL, API_PROFILE_UPDATE_URL, API_PROFILE_UPDATE_AVATAR_URL, API_PROFILE_SHOW_AVATAR_URL} from "../../constants";
+import {API_PROFILE_URL, API_PROFILE_UPDATE_URL, API_PROFILE_UPDATE_AVATAR_URL, API_PROFILE_SHOW_AVATAR_URL, API_BASE_URL} from "../../constants";
 import axios from "axios";
 import AvatarEditor from 'react-avatar-editor';
 import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
 import editAvatar from '../../../assets/img/man.png';
 import Avatar from './avatar';
+import { IoLogoCapacitor } from 'react-icons/io5';
 
 class PersonalInfo extends Component {
     constructor(props) {
@@ -110,8 +111,9 @@ class PersonalInfo extends Component {
 
     loadAvatar = (data) =>{
         if (data.base64_url !== null){
-            this.setState({avatarSrc:"http://softcheetahs.herokuapp.com/" +  data.base64_url})
-            console.log("url: " , data.base64_url)
+            this.setState({avatarSrc: API_BASE_URL +  data.base64_url})
+            localStorage.setItem("profileAvatar", API_BASE_URL +  data.base64_url)
+            console.log("url: " , localStorage.getItem("profileAvatar"))
         }
         else
             this.setState({avatarSrc: sampleProfileImg})
