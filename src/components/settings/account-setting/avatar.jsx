@@ -37,8 +37,10 @@ class Avatar extends Component {
     {
         if (this.state.preview === null)
             this.props.exitModal(this.state.src) 
-        else
+        else{
             this.props.exitModal(this.state.preview)
+        }
+            
     }
 
     onClose() {
@@ -61,7 +63,7 @@ class Avatar extends Component {
     
       async onSave(){
         console.log("saved");
-        let src = this.state.preview;
+        let src = "http://softcheetahs.herokuapp.com/" + this.state.preview;
         sessionStorage.setItem("profileAvatar", src);
         this.props.saveAvatar(src);
 

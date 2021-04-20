@@ -60,7 +60,6 @@ class PersonalInfo extends Component {
         await this.loadDataInit()
         await this.loadAvatarInit()
         console.log("Token ".concat(getItem("user-token")))
-        console.log("your state : " + this.state.dataIsValid)
     }
 
 
@@ -110,8 +109,10 @@ class PersonalInfo extends Component {
     }
 
     loadAvatar = (data) =>{
-        if (data.base64 !== null)
-            this.setState({avatarSrc: data.base64})
+        if (data.base64_url !== null){
+            this.setState({avatarSrc:"http://softcheetahs.herokuapp.com/" +  data.base64_url})
+            console.log("url: " , data.base64_url)
+        }
         else
             this.setState({avatarSrc: sampleProfileImg})
 
@@ -311,7 +312,8 @@ class PersonalInfo extends Component {
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
                             <img alt="profile avatar" src={this.state.avatarSrc}/>
-                            <Avatar saveAvatar={this.saveAvatar} show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ? editAvatar : this.state.avatarSrc}  />
+                            <Avatar saveAvatar={this.saveAvatar} show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ?sampleProfileImg :this.state.avatarSrc}  
+                             />
                             {/* warning check this later!!!!!!!!!!!!!!!!!!!!!!!! */}
                         </div>
                             <div className="w-100 mt-2">
