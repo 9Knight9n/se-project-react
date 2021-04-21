@@ -20,7 +20,7 @@ class Homepage extends Component {
     }
 
     componentDidMount() {
-
+        sessionStorage.setItem("webSite-link", "http://softcheetahs.herokuapp.com/")
     }
 
     componentWillReceiveProps(nextProps) {

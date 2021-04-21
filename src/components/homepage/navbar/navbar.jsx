@@ -9,12 +9,12 @@ import {clearCredentials, getItem} from "../../util";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
 import {Link} from "react-router-dom";
 import Hosting from '../../hosting/hosting';
+import ReactDOM from "react-dom";
 
 
 class Navbar extends Component {
     constructor(props) {
         super(props);
-
         this.changeModal = this.changeModal.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
         this.logOut = this.logOut.bind(this);
@@ -25,15 +25,15 @@ class Navbar extends Component {
         modalOnLogin : true,
         email : null,
         loggedIn:!!getItem("user-token"),
+        src: (localStorage.getItem("profileAvatar") && localStorage.getItem("profileAvatar")!=="null")? localStorage.getItem("profileAvatar"):default_logo,
     }
 
-    // componentWillMount() {
-    //
-    // }
-    //
-    // componentDidMount() {
-    //
-    // }
+    componentWillMount() {
+       
+    }
+    componentDidMount() {
+        document.addEventListener("setting-avatar-change", () => this.setState({src: getItem("profileAvatar")}));
+    }
     //
     // componentWillReceiveProps(nextProps) {
     //
@@ -90,8 +90,7 @@ class Navbar extends Component {
                                 {this.state.loggedIn?
                                 <Dropdown>
                                     <Dropdown.Toggle className={"shadow-none border-0 bg-transparent "} >
-                                        <img src={(getItem("user-image") && getItem("user-image")!=="null")?
-                                                    getItem("user-image"):default_logo}
+                                        <img src={this.state.src}
                                                 height={"50px"} className={"rounded-circle"}/>
                                     </Dropdown.Toggle>
 

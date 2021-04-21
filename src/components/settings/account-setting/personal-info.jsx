@@ -11,8 +11,15 @@ import { isValidPhoneNumber } from 'react-phone-number-input';
 import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {API_PROFILE_URL, API_PROFILE_UPDATE_URL} from "../../constants";
+import {showMemoryVariables} from "../../util";
+import {API_PROFILE_URL, API_PROFILE_UPDATE_URL, API_PROFILE_UPDATE_AVATAR_URL, API_PROFILE_SHOW_AVATAR_URL, API_BASE_URL} from "../../constants";
 import axios from "axios";
+import AvatarEditor from 'react-avatar-editor';
+import default_logo from '../../../assets/img/default-profile-picture.jpg';
+import editAvatar from '../../../assets/img/man.png';
+import Avatar from './avatar';
+import { IoLogoCapacitor } from 'react-icons/io5';
+import ReactDOM from "react-dom";
 
 class PersonalInfo extends Component {
     constructor(props) {
@@ -34,20 +41,32 @@ class PersonalInfo extends Component {
             phonenumber:"",
             emailId:"",
             dateOfBirth:"",
-            phone:""
+            phone:"",
+            avatarSrc: null,
+            showAvatarModal: false,
+            imgHovered: false,
+            authModal : false,
+            modalOnLogin : true,
+            removeAvatar : false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.loadDataInit = this.loadDataInit.bind(this);
+        this.saveAvatar = this.saveAvatar.bind(this);
     }
 
     
     async componentDidMount() {
+
+        console.log("this is avatar url : ",getItem("profileAvatar"))
+
+        this.setState({
+            avatarSrc: (getItem("profileAvatar") && getItem("profileAvatar")!=="null")? getItem("profileAvatar"):default_logo
+        })
         await this.loadDataInit()
+        // await this.loadAvatarInit()
         console.log("Token ".concat(getItem("user-token")))
-        console.log("your state : " + this.state.dataIsValid)
-        // this.baseState = this.state
     }
 
 
@@ -62,18 +81,7 @@ class PersonalInfo extends Component {
             {
                 console.log(res.data)
                 console.log("data is shown")
-                // this.setState({
-                //     firstName: res.data.first_name,
-                //     lastName: res.data.last_name,
-                //     bio: res.data.bio,
-                //     phonenumber: res.data.phone_number,
-                //     gender: res.data.gender,
-                //     nationalId: res.data.national_code,
-                //     dateOfBirth: res.data.birthday,
-                //     emailId: res.data.email
-                // })
                 this.loadData(res.data)
-                // showMemoryVariables()
             }
             else
             {
@@ -83,6 +91,39 @@ class PersonalInfo extends Component {
                 console.log(error)
         })
         window.scrollTo(0, 0)
+    }
+
+    async loadAvatarInit(){
+        await axios.get(API_PROFILE_SHOW_AVATAR_URL,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            }
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log(res.data)
+                console.log("data is shown")
+                this.loadAvatar(res.data)
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+    }
+
+    loadAvatar = (data) =>{
+        if (data.base64_url !== null){
+            this.setState({avatarSrc: API_BASE_URL +  data.base64_url})
+            localStorage.setItem("profileAvatar", API_BASE_URL.substring(0, API_BASE_URL.length -1) +  data.base64_url)
+            console.log("url: " , localStorage.getItem("profileAvatar"))
+        }
+        else
+            this.setState({avatarSrc: default_logo})
+
     }
 
 
@@ -233,6 +274,55 @@ class PersonalInfo extends Component {
         }
    }
 
+   exitModal = (avatarSrc) =>
+   {
+       this.setState({
+        showAvatarModal: false,
+        avatarSrc: avatarSrc
+        })
+
+   }
+
+    async saveAvatar (src){
+        let FormData = require('form-data');
+        let data = new FormData();
+        data.append('base64', src);
+        let res = 
+        await axios.post(API_PROFILE_UPDATE_AVATAR_URL,data,
+        {
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            }
+        })                
+        .then(res => {
+            if (res.status===200)
+            {
+                
+                console.log("edit was ok :", res.data)
+                return true;
+            }
+            else
+            {
+                console.log("unknown status")
+                return true;
+            }   
+        }).catch(error =>{
+            console.log(error)
+            return false;
+        })
+        
+        if (res){
+            localStorage.setItem("profileAvatar", src);
+            toast.success("Changes saved");
+            let avatarChanged = new CustomEvent('setting-avatar-change', {});
+            document.dispatchEvent(avatarChanged);
+        }
+        
+   }   
+   
+
+
+
     render() { 
         return ( 
             <div className="personalInfo-main">
@@ -240,10 +330,15 @@ class PersonalInfo extends Component {
                 <div className="personalInfo-avatar mt-4 mb-4">
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
-                            <BsPeopleCircle />
+                            <img alt="profile avatar" src={this.state.avatarSrc}/>
+                            <Avatar saveAvatar={this.saveAvatar} show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ?default_logo :this.state.avatarSrc}  
+                             />
+                            {/* warning check this later!!!!!!!!!!!!!!!!!!!!!!!! */}
                         </div>
+                            <div className="w-100 mt-2">
+                                <button onClick={() => this.setState({showAvatarModal: true})} className="btn btn-primary">Edit avatar</button>
+                            </div>
                     </IconContext.Provider>
-                
                 </div>
 
                 <form className="row">
