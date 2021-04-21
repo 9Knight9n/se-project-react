@@ -205,7 +205,7 @@ class Login extends Component {
 
                 <Modal.Body>
                     <form>
-                                                {this.state.connectionError?
+                        {this.state.connectionError?
                         <Alert variant="danger" onClick={() => this.setState({connectionError:false})}>
                             <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
                             <p>there was a problem while signing you in!

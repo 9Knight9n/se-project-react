@@ -160,3 +160,12 @@
   min-width: 8%;
   max-width: 76.5%;
 }
+
+.personalInfo-avatar button {
+  margin-left: 3%;
+}
+
+.personalInfo-avatar img {
+  width: 15%;
+  border-radius: 50%;
+}
