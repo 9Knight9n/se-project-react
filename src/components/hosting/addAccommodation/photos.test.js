@@ -1,11 +1,30 @@
 import React from 'react';
-import {render, screen, fireEvent} from '@testing-library/react';
+import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import {BrowserRouter} from "react-router-dom";
 import Photos from "./photos";
-import Categories from "./categories";
+import axios from 'axios';
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import {API_BASE_URL, API_UPLOAD_IMAGE_URL} from "../../constants";
+
+
+const server = setupServer(
+  rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+    console.log("=========================================================")
+    // console.log(req)
+    return res(ctx.status(400))
+  })
+)
+
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
+
+
+jest.mock('axios');
 
 
 describe('photos page test', () => {
@@ -44,55 +63,197 @@ describe('photos page test', () => {
 
 
 
-  test('add file', async () => {
+  test('failed uploading single file ', async () => {
     window.URL.createObjectURL = function() {};
-
+    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+    // axios.post.mockImplementationOnce(() =>
+    //   Promise.reject(new Error())
+    // );
 
     await act(async () => {
-      render(<BrowserRouter><Photos /></BrowserRouter>);
-      const input = screen.getByTestId("hello")
+      const input = screen.getByTestId("image-upload-button-add-villa")
       await fireEvent.change(input, {
         target: {
           files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
         },
       })
+
+
     });
 
-    screen.debug()
+    await waitFor(() => {
+      expect(container.querySelectorAll("div.ant-upload-list-item-error").length===1).toBe(true)
+    })
+
   });
 
 
-  //
-  //
-  //
-  // facilities.map(facility => {
-  //   test('next button render on facility '.concat(facility.label).concat(" selection."), () => {
-  //     render(<BrowserRouter><Facilities /></BrowserRouter>);
-  //       userEvent.click(screen.getAllByText(facility.label)[0])
-  //       expect(screen.getByText('Next')).toBeInTheDocument();
-  //   });
-  // });
-  //
-  //
-  //   facilities.map(facility => {
-  //   test('next button enabled on facility '.concat(facility.label).concat(" selection."), () => {
-  //     render(<BrowserRouter><Facilities /></BrowserRouter>);
-  //       userEvent.click(screen.getAllByText(facility.label)[0])
-  //       expect(screen.getByText('Next')).toBeEnabled();
-  //   });
-  // });
-  //
-  //
-  //   facilities.map(facility => {
-  //   sessionStorage.removeItem('add-villa-selected-facilities-id')
-  //   sessionStorage.removeItem('add-villa-selected-facilities-label')
-  //   test('save selected facility '.concat(facility.label).concat(" on selection."), () => {
-  //     render(<BrowserRouter><Facilities /></BrowserRouter>);
-  //       userEvent.click(screen.getAllByText(facility.label)[0])
-  //       userEvent.click(screen.getByText('Next'))
-  //       expect(sessionStorage.getItem('add-villa-selected-facilities-id') && true).toBe(true);
-  //       expect(sessionStorage.getItem('add-villa-selected-facilities-label') && true).toBe(true);
-  //   });
-  // });
+  test('next disabled after failed uploading single file ', async () => {
+    window.URL.createObjectURL = function() {};
+    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+
+    await act(async () => {
+      const input = screen.getByTestId("image-upload-button-add-villa")
+      await fireEvent.change(input, {
+        target: {
+          files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
+        },
+      })
+
+
+    });
+
+    await waitFor(() => {
+      expect(container.querySelectorAll("div.ant-upload-list-item-error").length===1).toBe(true)
+    })
+
+    expect(screen.getByText('Next')).toBeDisabled();
+  });
+
+
+  test('succeeded uploading single file ', async () => {
+    window.URL.createObjectURL = function() {};
+    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+
+
+    await act(async () => {
+      const input = screen.getByTestId("image-upload-button-add-villa")
+
+      server.use(
+        rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+          return res(ctx.status(200))
+        })
+      )
+
+      await fireEvent.change(input, {
+        target: {
+          files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
+        },
+      })
+
+
+    });
+    await waitFor(() => {
+      expect(container.querySelector("div.ant-upload-list-item-done")).toBeInTheDocument()
+    })
+    // const succeeded = container.querySelectorAll("div.ant-upload-list-item-done")
+    // screen.debug()
+    // expect(succeeded.length===1).toBe(true)
+  });
+
+
+  test('next enabled after succeeded uploading single file ', async () => {
+    window.URL.createObjectURL = function() {};
+    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+
+
+    await act(async () => {
+      const input = screen.getByTestId("image-upload-button-add-villa")
+
+      server.use(
+        rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+          return res(ctx.status(200))
+        })
+      )
+
+      await fireEvent.change(input, {
+        target: {
+          files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
+        },
+      })
+
+
+    });
+    await waitFor(() => {
+      expect(container.querySelector("div.ant-upload-list-item-done")).toBeInTheDocument()
+      expect(screen.getByText('Next')).toBeEnabled();
+    })
+  });
+
+
+  test('failed uploading several files ', async () => {
+    window.URL.createObjectURL = function() {};
+    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+
+
+    for (let k=0;k<10;k++)
+    {
+      await act(async () => {
+        const input = screen.getByTestId("image-upload-button-add-villa")
+
+        await fireEvent.change(input, {
+          target: {
+            files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
+          },
+        })
+
+
+      });
+      await waitFor(() => {
+        expect(container.querySelectorAll("div.ant-upload-list-item-error").length===k+1).toBe(true)
+      })
+    }
+
+  });
+
+
+  test('next button disabled after failed uploading several files ', async () => {
+    window.URL.createObjectURL = function() {};
+    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+
+
+    for (let k=0;k<10;k++)
+    {
+      await act(async () => {
+        const input = screen.getByTestId("image-upload-button-add-villa")
+
+        await fireEvent.change(input, {
+          target: {
+            files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
+          },
+        })
+
+
+      });
+      await waitFor(() => {
+        expect(container.querySelectorAll("div.ant-upload-list-item-error").length===k+1).toBe(true)
+        expect(screen.getByText('Next')).toBeDisabled();
+      })
+    }
+
+  });
+
+  test('upload button removed after uploading 8 files ', async () => {
+    window.URL.createObjectURL = function() {};
+    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+
+    server.use(
+      rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+        return res(ctx.status(200))
+      })
+    )
+
+    for (let k=0;k<8;k++)
+    {
+
+      expect(screen.getByText('Upload')).toBeInTheDocument()
+      await act(async () => {
+        const input = screen.getByTestId("image-upload-button-add-villa")
+        await fireEvent.change(input, {
+          target: {
+            files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
+          },
+        })
+
+
+      });
+      await waitFor(() => {
+        expect(container.querySelectorAll("div.ant-upload-list-item-done").length===k+1).toBe(true)
+      })
+    }
+
+    expect(screen.queryByText('Upload')).toBeNull()
+
+  });
 
 });

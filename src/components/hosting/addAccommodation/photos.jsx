@@ -103,7 +103,7 @@ class Photos extends Component {
                         action={API_BASE_URL+API_UPLOAD_IMAGE_URL}
                         listType="picture-card"
                         fileList={fileList}
-                        data-testid={'hello'}
+                        data-testid={'image-upload-button-add-villa'}
                         // customRequest={(obj)=>this.rename(obj)}
                         // onSuccess={()=>console.log(this.state.fileList)}
                         onRemove={()=>console.log(this.state.fileList)}
