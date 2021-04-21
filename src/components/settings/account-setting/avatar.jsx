@@ -45,7 +45,7 @@ class Avatar extends Component {
     }
 
     onClose() {
-        let src = API_BASE_URL + this.state.preview;
+        let src = API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.preview;
         localStorage.setItem("profileAvatar", src)
         this.setState({preview: null})
     }

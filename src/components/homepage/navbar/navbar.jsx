@@ -87,8 +87,8 @@ class Navbar extends Component {
                                 {this.state.loggedIn?
                                 <Dropdown>
                                     <Dropdown.Toggle className={"shadow-none border-0 bg-transparent "} >
-                                        <img src={(getItem("profileAvatar") && getItem("profileAvatar")!=="null")?
-                                                    getItem("profileAvatar"):default_logo}
+                                        <img src={(localStorage.getItem("profileAvatar") && localStorage.getItem("profileAvatar")!=="null")?
+                                                    localStorage.getItem("profileAvatar"):default_logo}
                                                 height={"50px"} className={"rounded-circle"}/>
                                     </Dropdown.Toggle>
 

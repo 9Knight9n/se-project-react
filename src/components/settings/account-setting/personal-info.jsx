@@ -16,7 +16,7 @@ import {showMemoryVariables} from "../../util";
 import {API_PROFILE_URL, API_PROFILE_UPDATE_URL, API_PROFILE_UPDATE_AVATAR_URL, API_PROFILE_SHOW_AVATAR_URL, API_BASE_URL} from "../../constants";
 import axios from "axios";
 import AvatarEditor from 'react-avatar-editor';
-import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
+import default_logo from '../../../assets/img/default-profile-picture.jpg';
 import editAvatar from '../../../assets/img/man.png';
 import Avatar from './avatar';
 import { IoLogoCapacitor } from 'react-icons/io5';
@@ -58,8 +58,14 @@ class PersonalInfo extends Component {
 
     
     async componentDidMount() {
+
+        console.log("this is avatar url : ",getItem("profileAvatar"))
+
+        this.setState({
+            avatarSrc: (getItem("profileAvatar") && getItem("profileAvatar")!=="null")? getItem("profileAvatar"):default_logo
+        })
         await this.loadDataInit()
-        await this.loadAvatarInit()
+        // await this.loadAvatarInit()
         console.log("Token ".concat(getItem("user-token")))
     }
 
@@ -112,11 +118,11 @@ class PersonalInfo extends Component {
     loadAvatar = (data) =>{
         if (data.base64_url !== null){
             this.setState({avatarSrc: API_BASE_URL +  data.base64_url})
-            localStorage.setItem("profileAvatar", API_BASE_URL +  data.base64_url)
+            localStorage.setItem("profileAvatar", API_BASE_URL.substring(0, API_BASE_URL.length -1) +  data.base64_url)
             console.log("url: " , localStorage.getItem("profileAvatar"))
         }
         else
-            this.setState({avatarSrc: sampleProfileImg})
+            this.setState({avatarSrc: default_logo})
 
     }
 
@@ -290,7 +296,8 @@ class PersonalInfo extends Component {
         .then(res => {
             if (res.status===200)
             {
-                console.log("edit was ok")
+                
+                console.log("edit was ok :", res.data)
             }
             else
             {
@@ -314,7 +321,7 @@ class PersonalInfo extends Component {
                     <IconContext.Provider value={{ color: "black", size:100,  }}>
                         <div>
                             <img alt="profile avatar" src={this.state.avatarSrc}/>
-                            <Avatar saveAvatar={this.saveAvatar} show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ?sampleProfileImg :this.state.avatarSrc}  
+                            <Avatar saveAvatar={this.saveAvatar} show={this.state.showAvatarModal} exitModal={this.exitModal} src={this.state.avatarSrc === '' ?default_logo :this.state.avatarSrc}  
                              />
                             {/* warning check this later!!!!!!!!!!!!!!!!!!!!!!!! */}
                         </div>
