@@ -12,7 +12,7 @@ import {API_BASE_URL, API_UPLOAD_IMAGE_URL} from "../../constants";
 
 
 const server = setupServer(
-  rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+  rest.post(API_BASE_URL+API_UPLOAD_IMAGE_URL, (req, res, ctx) => {
     console.log("=========================================================")
     // console.log(req)
     return res(ctx.status(400))
@@ -23,8 +23,6 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-
-jest.mock('axios');
 
 
 describe('photos page test', () => {
@@ -120,7 +118,7 @@ describe('photos page test', () => {
       const input = screen.getByTestId("image-upload-button-add-villa")
 
       server.use(
-        rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+        rest.post(API_BASE_URL+API_UPLOAD_IMAGE_URL, (req, res, ctx) => {
           return res(ctx.status(200))
         })
       )
@@ -151,7 +149,7 @@ describe('photos page test', () => {
       const input = screen.getByTestId("image-upload-button-add-villa")
 
       server.use(
-        rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+        rest.post(API_BASE_URL+API_UPLOAD_IMAGE_URL, (req, res, ctx) => {
           return res(ctx.status(200))
         })
       )
@@ -228,7 +226,7 @@ describe('photos page test', () => {
     let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
 
     server.use(
-      rest.post('http://127.0.0.1:8000/api/villa/user/images/', (req, res, ctx) => {
+      rest.post(API_BASE_URL+API_UPLOAD_IMAGE_URL, (req, res, ctx) => {
         return res(ctx.status(200))
       })
     )

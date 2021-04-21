@@ -246,13 +246,14 @@ class Documentations extends Component {
                                     action={API_BASE_URL+API_UPLOAD_DOC_URL}
                                     listType="picture-card"
                                     fileList={this.state.fileList1}
+                                    data-testid={'doc-upload-button-add-villa'}
                                     // customRequest={(obj)=>this.rename(obj)}
                                     // onSuccess={()=>console.log(this.state.fileList)}
                                     onRemove={()=>console.log(this.state.fileList)}
                                     onPreview={this.handlePreview}
                                     onChange={this.handleChange1}
                                     >
-                                    {this.state.fileList1.length >= 3 ? null : uploadButton}
+                                    {this.getNumOfUploaded(1) >= 3 ? null : uploadButton}
                                 </Upload>
                             </div>
                         </div>}
@@ -267,13 +268,14 @@ class Documentations extends Component {
                                     action={API_BASE_URL+API_UPLOAD_DOC_RESIDANCE_URL}
                                     listType="picture-card"
                                     fileList={this.state.fileList2}
+                                    data-testid={'residence-doc-upload-button-add-villa'}
                                     // customRequest={(obj)=>this.rename(obj)}
                                     // onSuccess={()=>console.log(this.state.fileList)}
                                     onRemove={()=>console.log(this.state.fileList)}
                                     onPreview={this.handlePreview}
                                     onChange={this.handleChange2}
                                     >
-                                    {this.state.fileList2.length >= 3 ? null : uploadButton}
+                                    {this.getNumOfUploaded(2) >= 3 ? null : uploadButton}
                                 </Upload>
                             </div>
                         </div>
