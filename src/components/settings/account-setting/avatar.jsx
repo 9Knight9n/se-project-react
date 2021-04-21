@@ -65,7 +65,6 @@ class Avatar extends Component {
     async onSave(){
         console.log("saved");
         let src = this.state.preview;
-        localStorage.setItem("profileAvatar", src);
         this.props.saveAvatar(src);
 
     }

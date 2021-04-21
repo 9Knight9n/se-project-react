@@ -20,6 +20,7 @@ import default_logo from '../../../assets/img/default-profile-picture.jpg';
 import editAvatar from '../../../assets/img/man.png';
 import Avatar from './avatar';
 import { IoLogoCapacitor } from 'react-icons/io5';
+import ReactDOM from "react-dom";
 
 class PersonalInfo extends Component {
     constructor(props) {
@@ -287,6 +288,7 @@ class PersonalInfo extends Component {
         let FormData = require('form-data');
         let data = new FormData();
         data.append('base64', src);
+        let res = 
         await axios.post(API_PROFILE_UPDATE_AVATAR_URL,data,
         {
             headers: {
@@ -298,16 +300,25 @@ class PersonalInfo extends Component {
             {
                 
                 console.log("edit was ok :", res.data)
+                return true;
             }
             else
             {
                 console.log("unknown status")
-            }
+                return true;
+            }   
         }).catch(error =>{
             console.log(error)
-            return;
+            return false;
         })
-        toast.success("Changes saved")
+        
+        if (res){
+            localStorage.setItem("profileAvatar", src);
+            toast.success("Changes saved");
+            let avatarChanged = new CustomEvent('setting-avatar-change', {});
+            document.dispatchEvent(avatarChanged);
+        }
+        
    }   
    
 
