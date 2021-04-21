@@ -12,6 +12,8 @@ class Avatar extends Component {
             src : this.props.src,
             editing:false,
             showSelect:false,
+            disableDoneBtn: true,
+            nothingChanged: true,
           }
         this.onCrop = this.onCrop.bind(this)
         this.onClose = this.onClose.bind(this)
@@ -36,7 +38,7 @@ class Avatar extends Component {
 
     exit = () =>
     {
-        if (this.state.preview === null)
+        if (this.state.preview === null || this.state.nothingChanged)
             this.props.exitModal(this.state.src) 
         else{
             this.props.exitModal(this.state.preview)
@@ -64,6 +66,7 @@ class Avatar extends Component {
     
     async onSave(){
         console.log("saved");
+        this.setState({disableDoneBtn:false, nothingChanged: false})
         let src = this.state.preview;
         this.props.saveAvatar(src);
 
@@ -89,7 +92,7 @@ class Avatar extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={()=>this.exit()} className="btn btn-primary">Done</button>
+                    <button onClick={()=>this.exit()} disabled={this.state.disableDoneBtn} className="btn btn-primary">Done</button>
                 </Modal.Footer>
             </Modal> 
          );

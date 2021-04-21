@@ -3,7 +3,7 @@ import './address.css'
 import {Modal} from "react-bootstrap";
 import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import {Form} from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import csc from 'country-state-city';
 
 class Address extends Component {
@@ -204,11 +204,14 @@ class Address extends Component {
         return ( 
             <React.Fragment>
                     <Modal.Header closeButton={true}>
-                        <h4>Place address</h4>
+                        <div>
+                            <h4>Place address</h4>
+                            <p className="subTitle">This information is only for better accessibility of your guests and would be shown only after reservations</p>
+                        </div>
+
                     </Modal.Header>
                     <Modal.Body>
                         <div className="address-main">
-                            <ToastContainer/>
                             <b>Enter your place address details here.</b>
                             <div className="address-form">
                                 <form>

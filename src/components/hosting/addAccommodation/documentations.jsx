@@ -90,7 +90,7 @@ class Documentations extends Component {
             if (res.status===201)
             {
                 console.log("added");
-                toast.success("Your villa added");  
+                toast.success("Your villa added"); 
                 document.getElementById('go-to-hosting-page-from-add-villa').click();
                 return true;
 

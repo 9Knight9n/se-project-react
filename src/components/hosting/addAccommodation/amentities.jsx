@@ -178,7 +178,7 @@ class Amentities extends Component {
         return ( 
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    <h4>Facilities</h4>
+                    <h4>Describe your Place</h4>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="amentities-main">

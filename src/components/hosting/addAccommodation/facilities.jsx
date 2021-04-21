@@ -238,6 +238,7 @@ class Facilities extends Component {
                     <h4>Specify accommodation facilities</h4>
                 </Modal.Header>
                 <Modal.Body>
+                    
                     <div className={'row m-2'} id={'facilities'}>
                         {this.state.facilities.map((facility=>
                         <div key={facility.id} className={'col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-4 d-flex flex-column'}

@@ -34,3 +34,9 @@
 .address-select-control {
   border: 1px solid #dc3545;
 }
+
+.subTitle {
+  color: #6b6b6f;
+  font-size: 13px;
+  margin-left: 0.5rem;
+}

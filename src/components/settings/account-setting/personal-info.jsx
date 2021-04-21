@@ -295,16 +295,14 @@ class PersonalInfo extends Component {
             }
         })                
         .then(res => {
-            if (res.status===200)
+            if (res.status===205)
             {
-                
-                console.log("edit was ok :", res.data)
+                toast.success("Your profile has been image changed");
                 return true;
             }
             else
             {
                 console.log("unknown status")
-                return true;
             }   
         }).catch(error =>{
             console.log(error)
@@ -312,8 +310,8 @@ class PersonalInfo extends Component {
         })
         
         if (res){
+            document.addEventListener("setting-avatar-change", () => this.setState({avatarSrc: getItem("profileAvatar")}));
             localStorage.setItem("profileAvatar", src);
-            toast.success("Changes saved");
             let avatarChanged = new CustomEvent('setting-avatar-change', {});
             document.dispatchEvent(avatarChanged);
         }

@@ -138,10 +138,8 @@ class Details extends Component {
 
                                     <div className="details-description">
                                         <div className="details-input-description">
-                                            <label className="form-label" htmlFor="details-description">Describe your place : <span classNmae="details-optinal">(Optional)</span></label>
-                                            <p>Here you can point to your place's attributs like view, facilities and everything that makes
-                                            your place special.
-                                            </p>
+                                            <label className="form-label" htmlFor="details-description">About Place : <span classNmae="details-optinal">(Optional)</span></label>
+                                            <p>Write about features, sightseeing and anything that makes your place spectacular and unique compared to the others.</p>
                                         </div>
                                         <div className="form-group">
                                             <div className="input-group">
@@ -166,7 +164,7 @@ class Details extends Component {
 
                                     <div className="details-area">
                                         <div className="details-input-description">
-                                            <label className="form-label" htmlFor="details-area">Area (Meter):</label>
+                                            <label className="form-label" htmlFor="details-area">Area (Meters):</label>
                                             {/* <p>Enter the price per day for your place.</p> */}
                                         </div>
                                         <div className="form-group">
@@ -193,7 +191,7 @@ class Details extends Component {
                                         <div className="details-price">
                                             <div className="details-input-price">
                                                 <label className="form-label" htmlFor="details-price">Price : </label>
-                                                <p>Enter the price per day in dollar for your place.</p>
+                                                <p>Enter the price per day in dollars for your place.</p>
                                             </div>
                                             <div className="form-group">
                                                 <div className="input-group">
