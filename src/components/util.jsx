@@ -10,6 +10,11 @@ export function validatePass(pass)
     return (/[a-z]/.test(pass) && /[A-Z]/.test(pass) && /[0-9]/.test(pass) && pass.length>7);
 }
 
+export function valueIsNumber(value)
+{
+    return (/^[0-9\b]*$/.test(value))
+}
+
 export function saveCredentials(userID,email,token,image,rememberMe)
 {
     if(rememberMe)
@@ -78,5 +83,15 @@ export function getBase64(file) {
       reader.onerror = error => reject(error);
     });
   }
+
+
+export function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
 

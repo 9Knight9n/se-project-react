@@ -8,6 +8,7 @@ import Signup from "./auth/signup";
 import {clearCredentials, getItem} from "../../util";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
 import {Link} from "react-router-dom";
+import Hosting from '../../hosting/hosting';
 import ReactDOM from "react-dom";
 
 
@@ -69,6 +70,8 @@ class Navbar extends Component {
         clearCredentials()
         this.setState({loggedIn:false})
     }
+
+
     render() {
         return (
             <Fragment>
@@ -81,7 +84,7 @@ class Navbar extends Component {
                             <ul className="navbar-nav">
                                 <li className="nav-item"><a className="nav-link active" href="#">First Item</a></li>
                                 <li className="nav-item"><a className="nav-link" href="#">Second Item</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Third Item</a></li>
+                                <li className="nav-item"><Link to="/Hosting/" className="nav-link">Become a host</Link></li>
                             </ul>
                             <ul className="navbar-nav ml-auto">
                                 {this.state.loggedIn?
@@ -93,7 +96,7 @@ class Navbar extends Component {
 
                                     <Dropdown.Menu className={"shadow-lg"}>
                                         <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                            <Link to="/settings/personalInfo">
+                                            <Link to="/settings/personalInfo/">
                                                 Settings
                                             </Link>
                                         </Dropdown.Item>
@@ -101,6 +104,12 @@ class Navbar extends Component {
                                         <Dropdown.Item as={'button'} className={"btn-primary"} >
                                             <Link to="/">
                                                 Homepage
+                                            </Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider/>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                            <Link to="/Hosting/">
+                                                Hosting
                                             </Link>
                                         </Dropdown.Item>
                                         <Dropdown.Divider/>
@@ -140,6 +149,7 @@ class Navbar extends Component {
                 {(this.state.authModal && !this.state.modalOnLogin)?
                 <Signup show={true} onSuccess={this.onSuccess}
                         changeModal={this.changeModal} email={this.state.email}/>:""}
+
             </Fragment>
         );
     }

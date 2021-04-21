@@ -7,7 +7,6 @@ import './personal-info.css';
 import "react-datepicker/dist/react-datepicker.css";
 import TextField from '@material-ui/core/TextField';
 import {Form} from "react-bootstrap";
-import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import {getItem, validateEmail} from '../../util';
 import { ToastContainer, toast } from 'react-toastify';
@@ -399,7 +398,9 @@ class PersonalInfo extends Component {
                                             onChange={this.handleChange}
                                             id="personalInfo-nationalId"
                                             className="form-control shadow-none"
-                                            type="text"
+                                            type="number"
+                                            min={0}
+                                            minLength={10}
                                             name="nationalId"
                                             value={this.state.nationalId}
                                             data-testid="personalInfo-nationalId"
