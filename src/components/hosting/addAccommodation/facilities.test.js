@@ -43,7 +43,7 @@ const facilities = [
 
         ]
 
-describe('facility-page-test', () => {
+describe('facility page tests', () => {
   test('render page', () => {
     render(<BrowserRouter><Facilities /></BrowserRouter>);
   });

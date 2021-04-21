@@ -16,7 +16,7 @@ const categories = [
         {id:8,label:'Desert'},
     ];
  
-describe('category-page-test', () => {
+describe('category page tests', () => {
   test('render page', () => {
     render(<BrowserRouter><Categories /></BrowserRouter>);
   });

@@ -12,6 +12,12 @@ import {toast} from "react-toastify";
 class Photos extends Component {
     constructor(props) {
         super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.handlePreview = this.handlePreview.bind(this);
+        this.openBase64 = this.openBase64.bind(this);
+        this.saveFileListToSessionStorage = this.saveFileListToSessionStorage.bind(this);
+        this.loadFileList = this.loadFileList.bind(this);
+        this.getNumOfUploaded = this.getNumOfUploaded.bind(this);
     }
 
     state = {
@@ -29,7 +35,7 @@ class Photos extends Component {
     }
 
 
-    handlePreview = async file => {
+    async handlePreview(file){
     if (file.originFileObj ) {
         try {
             let base46 = await getBase64(file.originFileObj);
@@ -41,9 +47,9 @@ class Photos extends Component {
     }
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange({ fileList }){this.setState({ fileList });}
 
-  openBase64 =(data)=> {
+  openBase64(data){
         let image = new Image();
         image.src = data;
 
@@ -53,16 +59,16 @@ class Photos extends Component {
     
 
 
-    saveFileListToSessionStorage=()=>{
+    saveFileListToSessionStorage(){
       sessionStorage.setItem('add-villa-uploaded-photos', JSON.stringify(this.state.fileList));
     }
 
-    loadFileList=()=>{
+    loadFileList(){
       this.setState({fileList:JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos'))})
         console.log(JSON.parse(sessionStorage.getItem('add-villa-uploaded-photos')))
     }
 
-    getNumOfUploaded=()=>{
+    getNumOfUploaded(){
       let num = 0;
       for (let k = 0;k<this.state.fileList.length;k++)
       {
@@ -97,13 +103,14 @@ class Photos extends Component {
                         action={API_BASE_URL+API_UPLOAD_IMAGE_URL}
                         listType="picture-card"
                         fileList={fileList}
+                        data-testid={'image-upload-button-add-villa'}
                         // customRequest={(obj)=>this.rename(obj)}
                         // onSuccess={()=>console.log(this.state.fileList)}
                         onRemove={()=>console.log(this.state.fileList)}
                         onPreview={this.handlePreview}
                         onChange={this.handleChange}
                         >
-                        {fileList.length >= 8 ? null : uploadButton}
+                        {this.getNumOfUploaded() >= 8 ? null : uploadButton}
                     </Upload>
                 </Modal.Body>
                 <Modal.Footer>
