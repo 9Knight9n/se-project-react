@@ -302,9 +302,11 @@ class PersonalInfo extends Component {
             }
             else
             {
+                toast.error("Somthing went wrong! Try again later.");
                 console.log("unknown status")
             }   
         }).catch(error =>{
+            toast.error("Somthing went wrong! Try again later.");
             console.log(error)
             return false;
         })

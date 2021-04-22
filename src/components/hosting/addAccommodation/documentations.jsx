@@ -98,11 +98,11 @@ class Documentations extends Component {
             else
             {
                 console.log("unknown status")
-                toast.error("Something happened. we couldn't add your villa")
+                toast.error("Something went wrong! Try again later.")
             }
         }).catch(error =>{
                 console.log(error)
-                toast.error("Something happened. we couldn't add your villa")
+                toast.error("Something went wrong! Try again later.")
         })
 
         if (res){
