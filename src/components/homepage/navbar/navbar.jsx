@@ -112,6 +112,11 @@ class Navbar extends Component {
                                                 Hosting
                                             </Link>
                                         </Dropdown.Item>
+                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                            <Link to="/villaProfile/">
+                                                Villa profile
+                                            </Link>
+                                        </Dropdown.Item>
                                         <Dropdown.Divider/>
                                         <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut}>
                                             <Link to="/" style={{color:"red"}}>

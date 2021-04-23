@@ -1,0 +1,33 @@
+.villaProfile-main h6 {
+  color: #6b6b6f;
+  font-size: 18px;
+}
+
+.villaProfile-main p {
+  font-size: 18px;
+}
+
+.villaProfile-gallery img {
+  width: 100% !important;
+  height: 100%;
+}
+
+.villaProfile-gallery img:hover {
+  cursor: pointer;
+  border: 2px black solid;
+  border-radius: 10px;
+  transition: all 0.5s ease;
+  filter: opacity(60%);
+  /* transition: border-width 2s linear; */
+}
+
+.villaProfile-gallery button {
+  position: absolute;
+  bottom: 6%;
+  left: 6%;
+}
+
+.villaProfile-details img {
+  width: 30%;
+  border-radius: 50%;
+}
