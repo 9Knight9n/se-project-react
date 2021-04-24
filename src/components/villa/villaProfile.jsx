@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import './villaProfile.css';
-import sampleImage1 from './img/1.jpg';
-import sampleImage2 from './img/2.jpg';
-import sampleImage3 from './img/3.jpg';
-import sampleImage4 from './img/4.jpg';
+import sampleImage1 from '../villa/img/1.jpg';
+import sampleImage2 from '../villa/img/2.jpg';
+import sampleImage3 from '../villa/img/3.jpg';
+import sampleImage4 from '../villa/img/4.jpg';
 import sampleProfileImg from '../../assets/img/default-profile-picture.jpg';
+import SlideShow from '../slideShow/sildeShow'
+import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 class VillaProfile extends Component {
     constructor(props) {
         super(props);
@@ -22,9 +24,10 @@ class VillaProfile extends Component {
             numOfDoubleBeds: 4,
         }
     }
-    
+   
     render() { 
         return ( 
+
             <div className="villaProfile-main ml-4 mr-4">
                 <div className="villaProfile-header">
                     <div className="villaProfile-title">
@@ -49,15 +52,19 @@ class VillaProfile extends Component {
                             <div className="row">
                                 <div className="img3 col">
                                     <img alt="villa-image3" src={sampleImage3} />
+                                    <Link to="/villa/villaProfile/villaGallery/">
+                                    <button className="btn btn-light">Show all photos</button>
+                                    </Link>
                                 </div>
                                 <div className="img4 col">
                                     <img alt="villa-image4" src={sampleImage4} />
                                 </div>    
                             </div>
-                            <button className="btn btn-light">Show all photos</button>
+                            
                         </div>
 
-                        <div className="villaProfile-details col-xl-6">
+                        <div className="villaProfile-details col-xl-6 mt-2">
+
 
                             <div className="villaProfile-placeDetail row">
                                 <div className="villaProfile-title col-8">
@@ -72,35 +79,35 @@ class VillaProfile extends Component {
                                 </div>
                             </div>
                             
-                            <div className="villaProfile-placeDetail mt-4">
+                            <div className="villaProfile-placeDetail">
                                 <div className="villaProfile-placeDescription">
                                     <h5>About villa </h5>
                                     <p>{this.state.placeDescription}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
+                            <div className="villaProfile-placeDetail">
                                 <div className="villaProfile-placeCapacity">
                                     <h5>Capacity </h5>
                                     <p>Normal : {this.state.placeNormalCapacity} , Maximum : {this.state.placeMaxCapacity}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
+                            <div className="villaProfile-placeDetail">
                                 <div className="villaProfile-placeArea">
                                     <h5>Area </h5>
                                     <p>{this.state.placeArea} Meters</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
+                            <div className="villaProfile-placeDetail">
                                 <div className="villaProfile-placeArea">
                                     <h5>Villa space </h5>
                                     <p>Bedrooms : {this.state.numOfBedrooms} , bathrooms : {this.state.numOfBathrooms} , Showers : {this.state.numOfShowers}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
+                            <div className="villaProfile-placeDetail">
                                 <div className="villaProfile-placeArea">
                                     <h5>Bed set </h5>
                                     <p>DoubleBeds : {this.state.numOfDoubleBeds} , SignleBeds : {this.state.numOfSingleBeds}</p>

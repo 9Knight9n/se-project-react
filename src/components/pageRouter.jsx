@@ -7,6 +7,7 @@ import Settings from "./settings/settings";
 import Hosting from "./hosting/hosting";
 import Homepage from "./homepage/homepage";
 import VillaProfile from './villa/villaProfile';
+import Villa from './villa/villa';
 
 class PageRouter extends Component {
     constructor(props) {
@@ -25,8 +26,8 @@ class PageRouter extends Component {
                     <Route path="/hosting/">
                         <Hosting/>
                     </Route>
-                    <Route path="/villaProfile/">
-                        <VillaProfile/>
+                    <Route path="/villa/">
+                        <Villa/>
                     </Route>
                     <Route path="/">
                         <Homepage/>

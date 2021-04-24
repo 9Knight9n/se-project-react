@@ -25,6 +25,8 @@
     "react-pro-sidebar": "^0.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-simple-image-slider": "^2.1.0",
+    "react-slideshow-image": "^3.4.6",
     "react-test-renderer": "^17.0.2",
     "react-toastify": "^7.0.3",
     "react-window-size": "^1.2.2",

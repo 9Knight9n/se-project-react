@@ -113,7 +113,7 @@ class Navbar extends Component {
                                             </Link>
                                         </Dropdown.Item>
                                         <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                            <Link to="/villaProfile/">
+                                            <Link to="/villa/villaProfile/">
                                                 Villa profile
                                             </Link>
                                         </Dropdown.Item>
