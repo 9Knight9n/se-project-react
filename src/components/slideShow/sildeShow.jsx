@@ -54,7 +54,7 @@ class SlideShow extends Component {
                     </Modal.Body>
                 </div>
                 <ModalFooter>
-                    <button onClick={this.exit()} className="btn btn-primary">Close</button>
+                    <button onClick={this.exit} className="btn btn-primary">Close</button>
                 </ModalFooter>
             </Modal>
          );
