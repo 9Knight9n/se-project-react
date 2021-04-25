@@ -41,9 +41,17 @@ class VillaProfile extends Component {
 
     handleCheckInChange = (e) => {
         if (this.state.checkOut > this.state.checkIn){
+            // To calculate the time difference of two dates
+            console.log("check in1 : "+e)
+            let Difference_In_Time = this.state.checkOut.getTime() - e.getTime();
+
+            // To calculate the no. of days between two dates
+            let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            console.log( Difference_In_Days )
             this.setState({
                 checkIn: e,
                 minCheckOut: e,
+                stayingDays: Difference_In_Days,
             })
             return;
         }
@@ -56,11 +64,27 @@ class VillaProfile extends Component {
     }
 
     handleCheckOutChange = (e) => {
+        // To calculate the time difference of two dates
+        console.log("check in2 : "+this.state.checkIn)
+        let Difference_In_Time = e.getTime() - this.state.checkIn.getTime();
+        
+        // To calculate the no. of days between two dates
+        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        console.log( Difference_In_Days )
         this.setState({
-            checkOut: e
+            checkOut: e.value,
+            stayingDays: Difference_In_Days,
         })
-        console.log("sub : " + (e-this.state.checkIn))
 
+    }
+
+    calculateDaysBetweenDates = (checkIn,checkOut) =>{
+        // To calculate the time difference of two dates
+        let Difference_In_Time = checkOut.getTime() - checkIn.getTime();
+        
+        // To calculate the no. of days between two dates
+        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        return Difference_In_Days;
     }
 
     handleCounter = (select,operator) =>{
