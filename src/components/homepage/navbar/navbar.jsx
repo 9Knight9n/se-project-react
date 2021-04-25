@@ -2,17 +2,16 @@
 import React, {Component} from 'react';
 import './navbar.css'
 import {Fragment} from "react";
-import {Dropdown, Modal} from "react-bootstrap";
+import {Dropdown, Navbar, Nav} from "react-bootstrap";
 import Login from "./auth/login";
 import Signup from "./auth/signup";
-import {clearCredentials, getItem} from "../../util";
+import {clearCredentials, getItem, getViewport} from "../../util";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
 import {Link} from "react-router-dom";
-import Hosting from '../../hosting/hosting';
-import ReactDOM from "react-dom";
+import {STORAGE_KEY} from "../../constants";
 
 
-class Navbar extends Component {
+class Nav_bar extends Component {
     constructor(props) {
         super(props);
         this.changeModal = this.changeModal.bind(this);
@@ -21,6 +20,8 @@ class Navbar extends Component {
     }
 
     state = {
+        size:getViewport(),
+        navExpanded:false,
         authModal : false,
         modalOnLogin : true,
         email : null,
@@ -32,28 +33,10 @@ class Navbar extends Component {
        
     }
     componentDidMount() {
+        console.log(this.state.size)
+        document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
         document.addEventListener("setting-avatar-change", () => this.setState({src: getItem("profileAvatar")}));
     }
-    //
-    // componentWillReceiveProps(nextProps) {
-    //
-    // }
-    //
-    // shouldComponentUpdate(nextProps, nextState) {
-    //
-    // }
-    //
-    // componentWillUpdate(nextProps, nextState) {
-    //
-    // }
-    //
-    // componentDidUpdate(prevProps, prevState) {
-    //
-    // }
-    //
-    // componentWillUnmount() {
-    //
-    // }
 
     changeModal(authModal,modalOnLogin,email)
     {
@@ -75,72 +58,78 @@ class Navbar extends Component {
     render() {
         return (
             <Fragment>
-                <nav className="navbar navbar-light navbar-expand-md sticky-top bg-white border-bottom mb-2">
-                    <div className="container-fluid"><a className="navbar-brand" href="#">Brand</a>
-                        <button data-toggle="collapse" data-target="#navcol-1" className="navbar-toggler"><span
-                            className="sr-only">Toggle navigation</span><span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navcol-1">
-                            <ul className="navbar-nav">
-                                <li className="nav-item"><a className="nav-link active" href="#">First Item</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Second Item</a></li>
-                                <li className="nav-item"><Link to="/Hosting/" className="nav-link">Become a host</Link></li>
-                            </ul>
-                            <ul className="navbar-nav ml-auto">
-                                {this.state.loggedIn?
-                                <Dropdown>
-                                    <Dropdown.Toggle className={"shadow-none border-0 bg-transparent "} >
-                                        <img src={this.state.src}
-                                                height={"50px"} className={"rounded-circle"}/>
-                                    </Dropdown.Toggle>
 
-                                    <Dropdown.Menu className={"shadow-lg"}>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                            <Link to="/settings/personalInfo/">
-                                                Settings
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Divider/>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                            <Link to="/">
-                                                Homepage
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Divider/>
-                                        <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                            <Link to="/Hosting/">
-                                                Hosting
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Divider/>
-                                        <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut}>
-                                            <Link to="/" style={{color:"red"}}>
-                                                Log Out
-                                            </Link>
-                                        </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                                :
-                                <Fragment>
-                                    <li className="nav-item">
-                                        <a className="nav-link active" href="#">
-                                            <button onClick={()=>this.changeModal(true,true,null)} className="btn btn-outline-primary" data-toggle="modal" data-target="#signup"
-                                                    type="button">Log In
-                                            </button>
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link active" href="#">
-                                            <button onClick={()=>this.changeModal(true,false,null)} className="btn btn-primary" data-toggle="modal" data-target="#signin"
-                                                    type="button">Sign Up
-                                            </button>
-                                        </a>
-                                    </li>
-                                </Fragment>}
-                            </ul>
+                <Navbar collapseOnSelect={true} bg="dark" variant="dark" expand="lg" onToggle={(event)=>this.setState({navExpanded:event})}>
+                    <Navbar.Brand href="#home">Sweet Home</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <div className={(this.state.size.toString()==='lg'||this.state.size.toString()==='xl')?'d-flex flex-row w-100':null}>
+                            <Nav className="mr-auto mt-auto mb-auto">
+                                <Nav.Link href="/">Home</Nav.Link>
+                                <Nav.Link href="#features">Features</Nav.Link>
+                                <Nav.Link href="/Hosting/">Become a host</Nav.Link>
+                            </Nav>
+
+
+
+                            <ul className="navbar-nav ml-auto">
+                            {this.state.loggedIn?
+                            <Dropdown drop={(this.state.size.toString()==='lg'||this.state.size.toString()==='xl')?'left':'down'}>
+                                <Dropdown.Toggle className={"shadow-none border-0 bg-transparent "} >
+                                    <img src={this.state.src}
+                                            height={"50px"} className={"rounded-circle"}/>
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className={"shadow-lg"}>
+                                    <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                        <Link to="/settings/personalInfo/">
+                                            Settings
+                                        </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider/>
+                                    <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                        <Link to="/">
+                                            Homepage
+                                        </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider/>
+                                    <Dropdown.Item as={'button'} className={"btn-primary"} >
+                                        <Link to="/Hosting/">
+                                            Hosting
+                                        </Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider/>
+                                    <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut}>
+                                        <Link to="/" style={{color:"red"}}>
+                                            Log Out
+                                        </Link>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            :
+                            <Fragment>
+                                <li className="nav-item">
+                                    <a className="nav-link active" href="#">
+                                        <button onClick={()=>this.changeModal(true,true,null)} className="btn btn-outline-primary" data-toggle="modal" data-target="#signup"
+                                                type="button">Log In
+                                        </button>
+                                    </a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link active" href="#">
+                                        <button onClick={()=>this.changeModal(true,false,null)} className="btn btn-primary" data-toggle="modal" data-target="#signin"
+                                                type="button">Sign Up
+                                        </button>
+                                    </a>
+                                </li>
+                            </Fragment>}
+                        </ul>
                         </div>
-                    </div>
-                </nav>
+
+
+                    </Navbar.Collapse>
+                </Navbar>
+                
 
                 {(this.state.authModal && this.state.modalOnLogin) ?
                 <Login show={true} onSuccess={this.onSuccess}
@@ -156,4 +145,4 @@ class Navbar extends Component {
 }
 
 
-export default Navbar;
+export default Nav_bar;

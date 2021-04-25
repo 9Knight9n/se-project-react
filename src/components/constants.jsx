@@ -19,3 +19,9 @@ export const API_UPLOAD_DOC_RESIDANCE_URL = "api/villa/user/documents/"
 export const API_UPLOAD_IMAGE_URL = "api/villa/user/images/"
 export const API_CHECK_DOC_URL = "api/account/check-document-existence"
 export const API_ADD_VILLA_URL = "api/villa/user/"
+
+
+
+
+
+export const STORAGE_KEY = "sweet-home"
