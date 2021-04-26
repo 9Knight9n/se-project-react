@@ -3,6 +3,14 @@ import React, {Component, Fragment} from 'react';
 import './homepage.css'
 import {Route, Switch} from "react-router-dom";
 import search_bg from '../../assets/img/homepage-bg.jpg'
+import { fromLonLat } from "ol/proj";
+import "ol/ol.css";
+
+import { RMap, ROSM } from "rlayers";
+
+const center = fromLonLat([2.364, 48.82]);
+
+
 
 class Homepage extends Component {
     constructor(props) {
@@ -45,14 +53,9 @@ class Homepage extends Component {
                         </div>
                     </div>
                     <div className={'homepage-div-bg'} style={{backgroundColor:'white'}}>
-                        {/*<div className="section">*/}
-                        {/*    <button onClick={this.onMarkerLocationChange}>Change Marker Location</button>*/}
-                        {/*    <HereMap appId="LbwAgVjJPDIQzSYL5Rmq" appCode="Yav49HRqdAt3t9Kq5dKuVX05R4bnGUET8jmHn-tOVFQ" useHTTPS center={this.state.center}>*/}
-                        {/*      <Marker lat={this.state.position.lat} lng={this.state.position.lng}>*/}
-                        {/*        <div className="custom-marker">Sample marker</div>*/}
-                        {/*      </Marker>*/}
-                        {/*    </HereMap>*/}
-                        {/*  </div>*/}
+                        <RMap width={"100%"} height={"60vh"} initial={{ center: center, zoom: 11 }}>
+                            <ROSM />
+                        </RMap>
                     </div>
                     <div className={'homepage-div-bg'} style={{backgroundColor:'black'}}>
                         <div>
