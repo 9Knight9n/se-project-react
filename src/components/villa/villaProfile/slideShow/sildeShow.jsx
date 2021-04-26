@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import 'react-slideshow-image/dist/styles.css'
 import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import { Modal, ModalFooter, ModalHeader} from "react-bootstrap";
-import sampleImage1 from '../villa/img/1.jpg';
-import sampleImage2 from '../villa/img/2.jpg';
-import sampleImage3 from '../villa/img/3.jpg';
-import sampleImage4 from '../villa/img/4.jpg';
+import sampleImage1 from '../../img/1.jpg';
+import sampleImage2 from '../../img/2.jpg';
+import sampleImage3 from '../../img/3.jpg';
+import sampleImage4 from '../../img/4.jpg';
 import SimpleImageSlider from "react-simple-image-slider";
 
 const images = [
@@ -18,13 +18,18 @@ const images = [
 class SlideShow extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            show: this.props.show
+        }
     }
 
-    exit()
-    {
-        document.getElementById('redirect-to-villa-profile').click()
+    componentDidUpdate (prevProps){
+        if (prevProps.show !== this.props.show){
+            this.setState({show: this.props.show})
+        }
     }
+
+
     render() { 
         return ( 
             <Modal                       
@@ -32,10 +37,9 @@ class SlideShow extends Component {
             size={'md'}
             animation
             height={600}
-            show={true}
-            onHide={this.exit}>
+            show={this.state.show}
+            onHide={this.props.exit}>
                 <div>
-                    <Link className={'display-none'} to="/villa/villaProfile"  id={'redirect-to-villa-profile'}/>
                     <Modal.Header closeButton={true}>
                         <div>
                             <h4>Photo Gallery</h4>
@@ -54,7 +58,7 @@ class SlideShow extends Component {
                     </Modal.Body>
                 </div>
                 <ModalFooter>
-                    <button onClick={this.exit} className="btn btn-primary">Close</button>
+                    <button onClick={this.props.exit} className="btn btn-primary">Close</button>
                 </ModalFooter>
             </Modal>
          );

@@ -7,15 +7,10 @@ import sampleImage4 from '../img/4.jpg';
 import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
 import plusImg from '../../../assets/img/plus.png';
 import minusImg from '../../../assets/img/minus.png';
-import { Link } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import Reserve from '../reservation/reserve';
+import SlideShow from './slideShow/sildeShow';
 
 class VillaProfile extends Component {
     constructor(props) {
@@ -32,10 +27,22 @@ class VillaProfile extends Component {
             numOfShowers: 2,
             numOfSingleBeds: 1,
             numOfDoubleBeds: 4,
-            checkIn: new Date().toLocaleString(),
-            checkOut: new Date().toLocaleString(),
             minCheckOut: '04/25/2021',
+            showGallary: false,
         }
+    }
+
+    exit = () =>
+    {
+        this.setState({
+            showGallary: false,
+        })
+    }
+
+    showGallary = () =>{
+        this.setState({
+            showGallary:true
+        })
     }
 
  
@@ -43,6 +50,7 @@ class VillaProfile extends Component {
         return ( 
 
             <div className="villaProfile-main ml-4 mr-4">
+                <SlideShow show={this.state.showGallary} exit={this.exit} />
                 <div className="villaProfile-header">
                     <div className="villaProfile-title">
                         <h4>Seaside villa</h4>
@@ -57,29 +65,19 @@ class VillaProfile extends Component {
                         <div className="villaProfile-gallery col-xl-6">
                             <div className="mb-4 row">
                                 <div className="img1 col">
-                                    <Link to="/villa/villaProfile/villaGallery/">
-                                        <img alt="villa-image1" src={sampleImage1} />
-                                    </Link>
+                                    <img onClick={this.showGallary} alt="villa-image1" src={sampleImage1} />
                                 </div>
                                 <div className="img2 col">
-                                    <Link to="/villa/villaProfile/villaGallery/">
-                                        <img alt="villa-image2" src={sampleImage2} />
-                                    </Link>
+                                    <img onClick={this.showGallary} alt="villa-image2" src={sampleImage2} />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="img3 col">
-                                    <Link to="/villa/villaProfile/villaGallery/">
-                                        <img alt="villa-image3" src={sampleImage3} />
-                                    </Link>
-                                    <Link to="/villa/villaProfile/villaGallery/">
-                                        <button className="btn btn-light">Show all photos</button>
-                                    </Link>
+                                    <img onClick={this.showGallary} alt="villa-image3" src={sampleImage3} />
+                                    <button onClick={this.showGallary} className="btn btn-light">Show all photos</button>
                                 </div>
                                 <div className="img4 col">
-                                    <Link to="/villa/villaProfile/villaGallery/">
-                                        <img alt="villa-image4" src={sampleImage4} />
-                                    </Link>
+                                    <img onClick={this.showGallary} alt="villa-image4" src={sampleImage4} />
                                 </div>    
                             </div>
                             
@@ -101,38 +99,31 @@ class VillaProfile extends Component {
                                 </div>
                             </div>
                             
-                            <div className="villaProfile-placeDetail">
+                            <div className="villaProfile-placeDetail mt-4">
                                 <div className="villaProfile-placeDescription">
                                     <h5>About villa </h5>
                                     <p>{this.state.placeDescription}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail">
+                            <div className="villaProfile-placeDetail mt-4">
                                 <div className="villaProfile-placeCapacity">
                                     <h5>Capacity </h5>
                                     <p>Normal : {this.state.placeNormalCapacity} , Maximum : {this.state.placeMaxCapacity}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail">
+                            <div className="villaProfile-placeDetail mt-4">
                                 <div className="villaProfile-placeArea">
                                     <h5>Area </h5>
                                     <p>{this.state.placeArea} Meters</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail">
+                            <div className="villaProfile-placeDetail mt-4">
                                 <div className="villaProfile-placeArea">
                                     <h5>Villa space </h5>
                                     <p>Bedrooms : {this.state.numOfBedrooms} , bathrooms : {this.state.numOfBathrooms} , Showers : {this.state.numOfShowers}</p>
-                                </div>
-                            </div>
-
-                            <div className="villaProfile-placeDetail">
-                                <div className="villaProfile-placeArea">
-                                    <h5>Bed set </h5>
-                                    <p>DoubleBeds : {this.state.numOfDoubleBeds} , SignleBeds : {this.state.numOfSingleBeds}</p>
                                 </div>
                             </div>
 
@@ -142,6 +133,7 @@ class VillaProfile extends Component {
                                     <p>DoubleBeds : {this.state.numOfDoubleBeds} , SignleBeds : {this.state.numOfSingleBeds}</p>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -215,11 +207,16 @@ class VillaProfile extends Component {
 
                     <div className="villaProfile-reservation row mt-4">
                         <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-                            <Link to="/villa/reserver/">
+                            <Link to="/villa/villaProfile/reserve/">
                                 <button className="btn btn-primary">Reserve</button>  
                             </Link>
                         </div>
                     </div>
+                    <Switch>
+                        <Route path="/villa/villaProfile/reserve/">
+                            <Reserve placeMaxCapacity={this.state.placeMaxCapacity}/>
+                        </Route>
+                    </Switch>
                 </div>
 
                 <div className="villaProfile-footer">

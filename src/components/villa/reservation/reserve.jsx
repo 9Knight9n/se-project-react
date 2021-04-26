@@ -18,6 +18,8 @@ class SlideShow extends Component {
         super(props);
         this.state = {
             passangers: 1,
+            checkIn: new Date().toLocaleString(),
+            checkOut: new Date().toLocaleString(),
         }
     }
 
