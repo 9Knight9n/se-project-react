@@ -59,7 +59,8 @@ class Nav_bar extends Component {
         return (
             <Fragment>
 
-                <Navbar collapseOnSelect={true} bg="dark" variant="dark" expand="lg" onToggle={(event)=>this.setState({navExpanded:event})}>
+                <Navbar fixed={'top'} collapseOnSelect={true} className={'bg-navbar'}
+                        bg="light" variant="light" expand="lg" >
                     <Navbar.Brand href="#home">Sweet Home</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -75,7 +76,7 @@ class Nav_bar extends Component {
                             <ul className="navbar-nav ml-auto">
                             {this.state.loggedIn?
                             <Dropdown drop={(this.state.size.toString()==='lg'||this.state.size.toString()==='xl')?'left':'down'}>
-                                <Dropdown.Toggle className={"shadow-none border-0 bg-transparent "} >
+                                <Dropdown.Toggle className={"shadow-none border-0 bg-transparent"} style={{color:'black'}}>
                                     <img src={this.state.src}
                                             height={"50px"} className={"rounded-circle"}/>
                                 </Dropdown.Toggle>

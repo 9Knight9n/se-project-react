@@ -1,4 +1,9 @@
 /*@Sajad*/
+
+.bg-navbar{
+  background-color: #f8f9fae0 !important;
+}
+
 .navigation-clean-button {
   background: #fff;
   padding-top: 0.75rem;

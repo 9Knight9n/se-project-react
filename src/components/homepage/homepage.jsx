@@ -1,52 +1,64 @@
 //@Sajad
 import React, {Component, Fragment} from 'react';
 import './homepage.css'
-import Footer from "./footer";
-import Navbar from "./navbar/navbar";
-import SearchUser from "./searchUser/searchUser";
 import {Route, Switch} from "react-router-dom";
-import Settings from "../settings/settings";
-import Hosting from '../hosting/hosting';
+import search_bg from '../../assets/img/homepage-bg.jpg'
 
 class Homepage extends Component {
     constructor(props) {
         super(props);
-        this.state = {}; 
+    }
+
+    state = {
+        numberOfPages:3,
+        position: {
+            lat: 52,
+            lng: 48,
+        },
+        center: {
+            lat: 52,
+            lng: 48,
+        },
 
     }
 
-    componentWillMount() {
+    onMarkerLocationChange = () => {
+        this.setState({
+        position: {
+        lat: 52,
+        lng: 30,
+        },
+        center: {
+        lat: 52,
+        lng: 30,
+        },
+        });
+    };
 
-    }
-
-    componentDidMount() {
-        sessionStorage.setItem("webSite-link", "http://softcheetahs.herokuapp.com/")
-    }
-
-    componentWillReceiveProps(nextProps) {
-
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-
-    }
-
-    componentWillUnmount() {
-
-    }
     render() {
         return (
             <div id='homepage' className="d-flex flex-column">
-                <div className={'w-100'}>
-                    <SearchUser/>
+                <div className={'w-100'} style={{height:this.state.numberOfPages+"00vh"}} >
+                    <div className={'homepage-div-bg'} style={{background:'url('+search_bg+')'}}>
+                        <div>
+
+                        </div>
+                    </div>
+                    <div className={'homepage-div-bg'} style={{backgroundColor:'white'}}>
+                        {/*<div className="section">*/}
+                        {/*    <button onClick={this.onMarkerLocationChange}>Change Marker Location</button>*/}
+                        {/*    <HereMap appId="LbwAgVjJPDIQzSYL5Rmq" appCode="Yav49HRqdAt3t9Kq5dKuVX05R4bnGUET8jmHn-tOVFQ" useHTTPS center={this.state.center}>*/}
+                        {/*      <Marker lat={this.state.position.lat} lng={this.state.position.lng}>*/}
+                        {/*        <div className="custom-marker">Sample marker</div>*/}
+                        {/*      </Marker>*/}
+                        {/*    </HereMap>*/}
+                        {/*  </div>*/}
+                    </div>
+                    <div className={'homepage-div-bg'} style={{backgroundColor:'black'}}>
+                        <div>
+
+                        </div>
+                    </div>
 
                 </div>
             </div>
