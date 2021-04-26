@@ -1,0 +1,10 @@
+.reserve-counter img {
+  max-width: 5%;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 2s;
+}
+.reserve-counter img:hover {
+  transform: scale(1.1);
+  background-color: rgb(127, 127, 221);
+}

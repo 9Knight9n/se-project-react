@@ -42,21 +42,6 @@
   transform: scale(1.1);
   background-color: rgb(127, 127, 221);
 }
-
-.villaProfile-counter label {
-  color: rgba(0, 0, 0, 0.54);
-  font-size: 16px;
-}
-
-.profileVilla-numOfPassanger {
-  font-size: 18px;
-}
-
 .villaProfile-reserveButton button {
   width: 50%;
-}
-
-.villaProfile-counter-number {
-  padding-left: 10% !important;
-  padding-right: 10% !important;
 }

@@ -6,7 +6,6 @@ import SearchUser from "./homepage/searchUser/searchUser";
 import Settings from "./settings/settings";
 import Hosting from "./hosting/hosting";
 import Homepage from "./homepage/homepage";
-import VillaProfile from './villa/villaProfile';
 import Villa from './villa/villa';
 
 class PageRouter extends Component {

@@ -29,7 +29,7 @@ class SlideShow extends Component {
         return ( 
             <Modal                       
             centered
-            size={'lg'}
+            size={'md'}
             animation
             height={600}
             show={true}
@@ -44,8 +44,8 @@ class SlideShow extends Component {
                     <Modal.Body>
                     <div>
                         <SimpleImageSlider
-                            width={750}
-                            height={400}
+                            width={450}
+                            height={350}
                             images={images}
                             showNavs={true}
                             showBullets={true}
