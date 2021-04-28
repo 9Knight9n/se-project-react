@@ -29,11 +29,11 @@ test('Postal code must be more than 5 digits', () =>{
     expect(inputPostalCode).not.toHaveValue('123');
 });
 
-test('Postal code must less than 15 digits', () =>{
+test('Postal code must less than 11 digits', () =>{
     render(<Router><Address /></Router>);
     const inputPostalCode = screen.getByTestId('address-postalCode');
-    userEvent.type(inputPostalCode, '123456789012345678');
-    expect(inputPostalCode).not.toHaveValue('123456789012345678');
+    userEvent.type(inputPostalCode, '123456789090');
+    expect(inputPostalCode).not.toHaveValue('123456789090');
 });
 
 
