@@ -87,8 +87,8 @@ class Homepage extends Component {
                                     </RMap>
                                 </div>
                             </div>
-                            <div className={'w-100 h-100 col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 mt-auto mb-auto'}>
-                                <h1 className={'mr-auto ml-auto'} style={{backgroundColor:'white'}}>Villa card here!</h1>
+                            <div className={'w-100 h-100 col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 d-flex'}>
+                                <h1 className={'mr-auto ml-auto mt-auto mb-auto'} style={{backgroundColor:'white'}}>Villa card here!</h1>
                             </div>
                         </div>
                     </div>
