@@ -1,12 +1,16 @@
-.placeholder-visible::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: red;
   opacity: 1; /* Firefox */
 }
 
-.placeholder-visible:-ms-input-placeholder { /* Internet Explorer 10-11 */
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   color: red;
 }
 
-.placeholder-visible::-ms-input-placeholder { /* Microsoft Edge */
+input::-ms-input-placeholder { /* Microsoft Edge */
   color: red;
+}
+
+.ant-select-selection-placeholder{
+  color: #00000091 !important;
 }

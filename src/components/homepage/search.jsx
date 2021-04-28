@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { Select } from 'antd';
+import {Button, Select, Tooltip} from 'antd';
 import './search.css'
+import {SearchOutlined} from "@ant-design/icons";
 
 
 const { Option } = Select;
@@ -43,6 +44,9 @@ const SearchSelect = () => {
           <Option key={city}>{city}</Option>
         ))}
       </Select>
+        <Tooltip title="search">
+          <Button type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+        </Tooltip>
     </div>
   );
 };
