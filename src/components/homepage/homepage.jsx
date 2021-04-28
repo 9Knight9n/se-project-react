@@ -74,7 +74,7 @@ class Homepage extends Component {
                 <div className={'w-100'} style={{height:this.state.numberOfPages+"00vh"}} >
                     <div className={'homepage-div-bg'}
                              style={{background:'url('+search_1_bg+')',borderRadius:'0 0 3rem 3rem'}}>
-                        <div className={'d-flex pl-5 pr-5'} style={{width:'50%',height:'60%'}}>
+                        <div className={'d-flex pl-5 pr-5'} style={{width:'60%',height:'50%'}}>
                             <Search/>
                         </div>
                     </div>
