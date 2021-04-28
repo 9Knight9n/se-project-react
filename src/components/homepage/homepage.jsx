@@ -66,8 +66,8 @@ class Homepage extends Component {
             <div id='homepage' className="d-flex flex-column">
                 <div style={{position:'fixed',height:'100vh',top:'40%',zIndex:'1000'}}
                         className={'ml-5 d-flex flex-column'}>
-                    {left_option}
                     {left_option_selected}
+                    {left_option}
                     {left_option}
                     {left_option}
                 </div>

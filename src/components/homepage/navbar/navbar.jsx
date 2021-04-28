@@ -66,7 +66,7 @@ class Nav_bar extends Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <div className={(this.state.size.toString()==='lg'||this.state.size.toString()==='xl')?'d-flex flex-row w-100':null}>
                             <Nav className="mr-auto mt-auto mb-auto">
-                                <Nav.Link href="/">Home</Nav.Link>
+                                <Nav.Link href="/" >Home</Nav.Link>
                                 <Nav.Link href="#features">Features</Nav.Link>
                                 <Nav.Link href="/Hosting/">Become a host</Nav.Link>
                             </Nav>
@@ -81,30 +81,32 @@ class Nav_bar extends Component {
                                             height={"50px"} className={"rounded-circle"}/>
                                 </Dropdown.Toggle>
 
-                                <Dropdown.Menu className={"shadow-lg"}>
-                                    <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                        <Link to="/settings/personalInfo/">
-                                            Settings
-                                        </Link>
-                                    </Dropdown.Item>
+                                <Dropdown.Menu className={"shadow-lg"} style={{backgroundColor:"#ffffffcc"}}>
+
+                                    <Link to="/settings/personalInfo/">
+                                        <Dropdown.Item className={"btn-primary shadow-none"} >
+                                        Settings
+                                        </Dropdown.Item>
+                                    </Link>
+
                                     <Dropdown.Divider/>
-                                    <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                        <Link to="/">
+                                    <Link to="/">
+                                        <Dropdown.Item className={"btn-primary shadow-none"} >
                                             Homepage
-                                        </Link>
-                                    </Dropdown.Item>
+                                        </Dropdown.Item>
+                                    </Link>
                                     <Dropdown.Divider/>
-                                    <Dropdown.Item as={'button'} className={"btn-primary"} >
-                                        <Link to="/Hosting/">
+                                    <Link to="/Hosting/">
+                                        <Dropdown.Item className={"btn-primary shadow-none"} >
                                             Hosting
-                                        </Link>
-                                    </Dropdown.Item>
+                                        </Dropdown.Item>
+                                    </Link>
                                     <Dropdown.Divider/>
-                                    <Dropdown.Item as={'button'} className={"btn btn-danger"} onClick={this.logOut}>
-                                        <Link to="/" style={{color:"red"}}>
+                                    <Link to="/" style={{color:"red"}}>
+                                        <Dropdown.Item style={{color:'red'}} className={"btn btn-danger shadow-none"} onClick={this.logOut}>
                                             Log Out
-                                        </Link>
-                                    </Dropdown.Item>
+                                        </Dropdown.Item>
+                                    </Link>
                                 </Dropdown.Menu>
                             </Dropdown>
                             :
