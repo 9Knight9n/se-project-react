@@ -25,11 +25,16 @@
   position: absolute;
   bottom: 6%;
   left: 6%;
+  font: -webkit-mini-control;
 }
 
-.villaProfile-details img {
-  width: 30%;
+.villaProfile-hostAvatar img {
+  max-width: 80%;
   border-radius: 50%;
+}
+
+.villaProfile-detail img {
+  max-width: 80%;
 }
 
 .villaProfile-counter img {

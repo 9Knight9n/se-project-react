@@ -11,6 +11,11 @@ import { Link, Route, Switch } from "react-router-dom";
 import 'date-fns';
 import Reserve from '../reservation/reserve';
 import SlideShow from './slideShow/sildeShow';
+import houseIcon from '../img/house.png';
+import bedIcon from '../img/bed.png';
+import decoratingIcon from '../img/decorating.png';
+import measurementIcon from '../img/measurement.png';
+import peopleIcon from '../img/group.png';
 
 class VillaProfile extends Component {
     constructor(props) {
@@ -87,48 +92,64 @@ class VillaProfile extends Component {
 
 
                             <div className="villaProfile-placeDetail row">
-                                <div className="villaProfile-title col-8">
+                                <div className="villaProfile-hostAvatar col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                                    <img alt="profile-image" src={localStorage.getItem("profileAvatar")? localStorage.getItem("profileAvatar"): sampleProfileImg} />
+                                </div>
+
+                                <div className="villaProfile-title col-xl-11 col-lg-11 col-md-11 col-sm-10 col-10">
                                     <h5>{this.state.placeName}</h5>
                                     <div className="villaProfile-subtitle">
                                         <h6>hosted by {this.state.hostName}</h6>
                                     </div>
                                 </div>
                                 
-                                <div className="villaProfile-hostAvatar col-4">
-                                    <img alt="profile-image" src={localStorage.getItem("profileAvatar")? localStorage.getItem("profileAvatar"): sampleProfileImg} />
-                                </div>
                             </div>
                             
-                            <div className="villaProfile-placeDetail mt-4">
-                                <div className="villaProfile-placeDescription">
+                            <div className="villaProfile-detail mt-2 row">
+                                <div className="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                                    <img alt="house icon" src={houseIcon}></img>
+                                </div>
+                                <div className="villaProfile-placeDescription villaProfile-title col-xl-11 col-lg-11 col-md-11 col-sm-10 col-10">
                                     <h5>About villa </h5>
                                     <p>{this.state.placeDescription}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
-                                <div className="villaProfile-placeCapacity">
+                            <div className="villaProfile-detail mt-2 row">
+                                <div className="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                                    <img alt="people icon" src={peopleIcon}></img>
+                                </div>
+                                <div className="villaProfile-placeCapacity col-xl-11 col-lg-11 col-md-11 col-sm-10 col-10">
                                     <h5>Capacity </h5>
                                     <p>Normal : {this.state.placeNormalCapacity} , Maximum : {this.state.placeMaxCapacity}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
-                                <div className="villaProfile-placeArea">
+                            <div className="villaProfile-detail mt-2 row">
+                                <div className="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                                    <img alt="measurement icon" src={measurementIcon}></img>
+                                </div>
+                                <div className="villaProfile-placeArea col-xl-11 col-lg-11 col-md-11 col-sm-10 col-10">
                                     <h5>Area </h5>
                                     <p>{this.state.placeArea} Meters</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
-                                <div className="villaProfile-placeArea">
+                            <div className="villaProfile-detail mt-2 row">
+                                <div className="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-xs-2 col-2">
+                                    <img alt="decoration icon" src={decoratingIcon}></img>
+                                </div>
+                                <div className="villaProfile-bedrooms col-xl-11 col-lg-11 col-md-11 col-sm-10 col-10">
                                     <h5>Villa space </h5>
                                     <p>Bedrooms : {this.state.numOfBedrooms} , bathrooms : {this.state.numOfBathrooms} , Showers : {this.state.numOfShowers}</p>
                                 </div>
                             </div>
 
-                            <div className="villaProfile-placeDetail mt-4">
-                                <div className="villaProfile-placeArea">
+                            <div className="villaProfile-detail mt-2 row">
+                                <div className="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-2">
+                                    <img alt="bed icon" src={bedIcon}></img>
+                                </div>
+                                <div className="villaProfile-beds col-xl-11 col-lg-11 col-md-11 col-sm-10 col-10">
                                     <h5>Bed set </h5>
                                     <p>DoubleBeds : {this.state.numOfDoubleBeds} , SignleBeds : {this.state.numOfSingleBeds}</p>
                                 </div>
@@ -138,7 +159,7 @@ class VillaProfile extends Component {
                     </div>
 
                     <div className="villaProfile-facilities row mt-4">
-
+                        
                         <div className="col-xl-6">
                             <div className="villaProfile-title col-8">
                                 <h5>Amentities</h5>
