@@ -29,12 +29,12 @@
 }
 
 .villaProfile-hostAvatar img {
-  max-width: 80%;
+  max-width: 100%;
   border-radius: 50%;
 }
 
 .villaProfile-detail img {
-  max-width: 80%;
+  max-width: 100%;
 }
 
 .villaProfile-counter img {
@@ -59,20 +59,58 @@
   .villaProfile-facilityIcons {
     max-width: 24% !important;
   }
+  .villaProfile-detail img {
+    max-width: 100%;
+  }
+  .villaProfile-hostAvatar img {
+    max-width: 100%;
+  }
 }
 
 @media screen and (max-width: 1300px) {
   .villaProfile-facilityIcons {
     max-width: 24% !important;
   }
+  .villaProfile-detail img {
+    max-width: 100% !important;
+  }
+  .villaProfile-hostAvatar img {
+    max-width: 100% !important;
+  }
 }
-@media (max-width: 768px) {
+
+@media (max-width: 767px) {
   .villaProfile-facilityIcons {
     max-width: 15% !important;
   }
+  .villaProfile-detail img {
+    max-width: 100% !important;
+  }
+  .villaProfile-hostAvatar img {
+    max-width: 100% !important;
+  }
 }
-@media (max-width: 425px) {
+
+@media (max-width: 576px) {
   .villaProfile-facilityIcons {
-    max-width: 12% !important;
+    max-width: 15% !important;
+  }
+  .villaProfile-detail img {
+    max-width: 60% !important;
+  }
+  .villaProfile-hostAvatar img {
+    max-width: 60% !important;
+  }
+}
+
+@media (max-width: 427px) {
+  .villaProfile-facilityIcons {
+    max-width: 25% !important;
+  }
+  .villaProfile-detail img {
+    max-width: 70% !important;
+  }
+  .villaProfile-hostAvatar img {
+    max-width: 70% !important;
   }
 }
