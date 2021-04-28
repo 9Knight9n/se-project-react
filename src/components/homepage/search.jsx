@@ -124,7 +124,7 @@ class Search extends Component {
     render() {
         return (
             <div className={'mt-auto mb-auto ml-auto mr-auto'} style={{width:"fit-content"}}>
-                <div className={'ml-4'}>
+                <div className={'p-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem'}}>
                     <h4  style={{fontFamily:'cursive'}}>
                         Tell us where:
                     </h4>
