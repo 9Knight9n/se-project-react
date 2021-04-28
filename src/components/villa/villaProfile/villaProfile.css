@@ -50,3 +50,29 @@
 .villaProfile-reserveButton button {
   width: 50%;
 }
+
+.villaProfile-facilityIcons {
+  max-width: 20% !important;
+}
+
+@media screen and (min-width: 1440px) {
+  .villaProfile-facilityIcons {
+    max-width: 24% !important;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .villaProfile-facilityIcons {
+    max-width: 24% !important;
+  }
+}
+@media (max-width: 768px) {
+  .villaProfile-facilityIcons {
+    max-width: 15% !important;
+  }
+}
+@media (max-width: 425px) {
+  .villaProfile-facilityIcons {
+    max-width: 12% !important;
+  }
+}
