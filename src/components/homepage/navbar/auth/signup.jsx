@@ -455,7 +455,7 @@ class Signup extends Component {
                                 style={{"width": "100%"}}
                                 type="button"
                                 onClick={()=>this.setPage(0)}>
-                                back
+                                Back
                             </button>
                         </div>
                         <div className={"col-6"} style={{paddingRight:"0"}}>
@@ -679,7 +679,7 @@ class Signup extends Component {
                     onHide={()=>this.exit(false,true,null)}>
                 <Modal.Header className={"d-flex w-100"} closeButton>
                     {this.state.pageNum>0?
-                    <button className="btn btn-sm close shadow-none" style={{margin:"-1rem 0 0 -1rem",zIndex:"1000",position:"absolute"}}
+                    <button data-testid={'back-button-signup'} className="btn btn-sm close shadow-none" style={{margin:"-1rem 0 0 -1rem",zIndex:"1000",position:"absolute"}}
                             onClick={()=>this.setPage(0)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                              className="bi bi-arrow-left" viewBox="0 0 16 16">
