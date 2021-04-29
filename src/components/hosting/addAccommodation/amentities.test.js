@@ -69,3 +69,118 @@ test('Number of showers can not be lower than 1', () =>{
 
 });
 
+test('Plus icons is rendered', () =>{
+    render(<Router><Amentities /></Router>);
+    expect(screen.getAllByAltText('plus icon')).toBeInTheDocument;
+});
+
+test('Plus icons is rendered', () =>{
+    render(<Router><Amentities /></Router>);
+    expect(screen.getAllByAltText('minus icon')).toBeInTheDocument;
+});
+
+test('back button is rendered', () =>{
+    render(<Router><Amentities /></Router>);
+    expect(screen.getAllByTestId('back-btn')).toBeInTheDocument;
+});
+
+test('next button is rendered', () =>{
+    render(<Router><Amentities /></Router>);
+    expect(screen.getAllByTestId('next-btn')).toBeInTheDocument;
+});
+
+
+
+
+test('Normal Capacity counter increments', () =>{
+    render(<Router><Amentities /></Router>);
+    userEvent.click(screen.getByTestId('nCapPlus'));
+    expect(screen.getByTestId('amentities-normalCapacity')).toHaveTextContent('2');
+});
+
+// test('Normal Capacity counter decrements', () =>{
+//     render(<Router><Amentities /></Router>);
+//     userEvent.click(screen.getByTestId('nCapMinus'));
+//     expect(screen.getByTestId('amentities-normalCapacity')).not.toHaveTextContent('0');
+// });
+
+test('Maximum Capacity counter increments', () =>{
+    render(<Router><Amentities /></Router>);
+    userEvent.click(screen.getByTestId('mCapPlus'));
+    expect(screen.getByTestId('amentities-maxCapacity')).toHaveTextContent('2');
+});
+
+// test('Maximum Capacity counter decrements', () =>{
+//     render(<Router><Amentities /></Router>);
+//     userEvent.click(screen.getByTestId('mCapMinus'));
+//     expect(screen.getByTestId('amentities-maxCapacity')).not.toHaveTextContent('0');
+// });
+
+test('Bedrooms counter increments', () =>{
+    render(<Router><Amentities /></Router>);
+    userEvent.click(screen.getByTestId('bedroomPlus'));
+    expect(screen.getByTestId('amentities-bedrooms')).toHaveTextContent('1');
+});
+
+// test('Bedrooms counter decrements', () =>{
+//     render(<Router><Amentities /></Router>);
+//     userEvent.click(screen.getByTestId('bedroomMinus'));
+//     expect(screen.getByTestId('amentities-bedrooms')).toHaveTextContent('0');
+// });
+
+test('Double beds counter increments', () =>{
+    render(<Router><Amentities /></Router>);
+    userEvent.click(screen.getByTestId('doubleBedPlus'));
+    expect(screen.getByTestId('amentities-doubleBeds')).toHaveTextContent('1');
+});
+
+// test('Double beds counter decrements', () =>{
+//     render(<Router><Amentities /></Router>);
+//     userEvent.click(screen.getByTestId('doubleBedMinus'));
+//     expect(screen.getByTestId('amentities-doubleBeds')).toHaveTextContent('0');
+// });
+
+test('Single beds counter increments', () =>{
+    render(<Router><Amentities /></Router>);
+    userEvent.click(screen.getByTestId('singleBedPlus'));
+    expect(screen.getByTestId('amentities-singleBeds')).toHaveTextContent('1');
+});
+
+// test('Single beds counter decrements', () =>{
+//     render(<Router><Amentities /></Router>);
+//     userEvent.click(screen.getByTestId('singleBedMinus'));
+//     expect(screen.getByTestId('amentities-singleBeds')).toHaveTextContent('0');
+// });
+
+test('Bathrooms counter increments', () =>{
+    render(<Router><Amentities /></Router>);
+    userEvent.click(screen.getByTestId('bathroomPlus'));
+    expect(screen.getByTestId('amentities-bathrooms')).toHaveTextContent('2');
+});
+
+// test('Bathrooms counter decrements', () =>{
+//     render(<Router><Amentities /></Router>);
+//     userEvent.click(screen.getByTestId('bathroomMinus'));
+//     expect(screen.getByTestId('amentities-bathrooms')).toHaveTextContent('0');
+// });
+
+
+test('Showers counter increments', () =>{
+    render(<Router><Amentities /></Router>);
+    userEvent.click(screen.getByTestId('showerPlus'));
+    expect(screen.getByTestId('amentities-showers')).toHaveTextContent('2');
+});
+
+// test('Showers counter decrements', () =>{
+//     render(<Router><Amentities /></Router>);
+//     userEvent.click(screen.getByTestId('showerMinus'));
+//     expect(screen.getByTestId('amentities-showers')).toHaveTextContent('0');
+// });
+
+
+
+
+// test('Minus icons are rendered', () =>{
+//     render(<Router><Amentities /></Router>);
+//     expect(screen.findAllByAltText('minus icon')).toBeCalled;
+// });
