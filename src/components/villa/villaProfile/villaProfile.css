@@ -20,6 +20,9 @@
   filter: opacity(60%);
   /* transition: border-width 2s linear; */
 }
+#villaProfile-facility-disable {
+  filter: opacity(50%);
+}
 
 .villaProfile-gallery button {
   position: absolute;
