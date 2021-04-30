@@ -1,5 +1,5 @@
 .reserve-counter img {
-  max-width: 5%;
+  max-width: 15%;
   cursor: pointer;
   border-radius: 50%;
   transition: background 2s;
@@ -7,4 +7,9 @@
 .reserve-counter img:hover {
   transform: scale(1.1);
   background-color: rgb(127, 127, 221);
+}
+
+.reserve-counter-cost label {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 16px !important;
 }

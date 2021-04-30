@@ -20,7 +20,17 @@ class SlideShow extends Component {
             passangers: 1,
             checkIn: new Date().toLocaleString(),
             checkOut: new Date().toLocaleString(),
+            price: 100,
+            total: 100+" $",
+            stayingDays:1,
         }
+    }
+
+    componentDidMount = () =>{
+        this.setState({
+            checkIn: document.getElementById("date-picker-checkIn").value,
+            checkOut: document.getElementById("date-picker-checkOut").value
+        })
     }
 
     exit()
@@ -42,6 +52,8 @@ class SlideShow extends Component {
                 minCheckOut: e,
                 stayingDays: Difference_In_Days,
             })
+            this.calculateCost(Difference_In_Days, this.state.price)
+
             return;
         }
         this.setState({
@@ -54,7 +66,7 @@ class SlideShow extends Component {
 
     handleCheckOutChange = (e) => {
         // To calculate the time difference of two dates
-        console.log("check in2 : "+this.state.checkIn)
+        console.log("check in2 : "+ e)
         let Difference_In_Time = e.getTime() - this.state.checkIn.getTime();
         
         // To calculate the no. of days between two dates
@@ -64,7 +76,8 @@ class SlideShow extends Component {
             checkOut: e.value,
             stayingDays: Difference_In_Days,
         })
-
+        console.log('staying days : '+ Difference_In_Days)
+        this.calculateCost(Difference_In_Days, this.state.price)
     }
 
     handleCounter = (select,operator) =>{
@@ -81,6 +94,12 @@ class SlideShow extends Component {
             return;
         }
     }  
+
+    calculateCost = (stayingDays, price) =>{
+        let total = stayingDays * price
+        console.log("total : "+ total)
+        this.setState({total: total+" $"})
+    }
 
     render() { 
         return ( 
@@ -109,7 +128,7 @@ class SlideShow extends Component {
                                     width={50}
                                     disablePast
                                     margin="normal"
-                                    id="date-picker-dialog"
+                                    id="date-picker-checkIn"
                                     label="Check in"
                                     format="MM/dd/yyyy"
                                     value={this.state.checkIn}
@@ -126,7 +145,7 @@ class SlideShow extends Component {
                                     width={50}
                                     disablePast
                                     margin="normal"
-                                    id="date-picker-dialog"
+                                    id="date-picker-checkOut"
                                     label="Check out"
                                     minDate={this.state.minCheckOut}
                                     // openTo={this.state.checkIn}
@@ -142,15 +161,28 @@ class SlideShow extends Component {
                                 </div>
                             </div>
                         </MuiPickersUtilsProvider>
-                        <div className="mt-2">                  
-                            <label className="mt-2" htmlFor="reserve-counter">number of passengers</label>
-                            <div className="reserve-counter col-md-12 justify-content-center">
-                                 <div className="d-flex flex-row justify-content-start w-100">
-                                    <img name="passangers" onClick={(select, operator)=>this.handleCounter(1,"-")} className="" alt="minus icon" src={minusImg} />
-                                    <div data-testid="reserve-passangers" className="reserve-counter-number"><span className="reserve-numOfPassanger pr-4 pl-4">{this.state.passangers}</span></div>
-                                    <img name="passangers" onClick={(select, operator)=>this.handleCounter(1,"+")} className="" alt="plus icon" src={plusImg} />
-                                </div>
-                            </div> 
+                        <div className="row reserve-counter-cost">
+                            <div className="mt-2 col-xl-6">                  
+                                <label className="mt-2" htmlFor="reserve-counter">number of passengers</label>
+                                <div className="reserve-counter col-md-12 justify-content-center">
+                                    <div className="d-flex flex-row justify-content-start w-100">
+                                        <img name="passangers" onClick={(select, operator)=>this.handleCounter(1,"-")} className="" alt="minus icon" src={minusImg} />
+                                        <div data-testid="reserve-passangers" className="reserve-counter-number"><b className="reserve-numOfPassanger pr-4 pl-4">{this.state.passangers}</b></div>
+                                        <img name="passangers" onClick={(select, operator)=>this.handleCounter(1,"+")} className="" alt="plus icon" src={plusImg} />
+                                    </div>
+                                </div> 
+                            </div>
+                            <div className="mt-2 col-xl-6">                  
+                                <label className="mt-2" htmlFor="reserve-cost">Total</label>
+                                <div className="reserve-cost">
+                                    <div className="d-flex flex-row justify-content-start w-100">
+                                        <div data-testid="reserve-cost">
+                                            <b className="reserve-price pr-4 pl-4">{this.state.stayingDays + " * " + this.state.price + " = " + this.state.total}
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
                         </div>
                     </div>
                     </Modal.Body>

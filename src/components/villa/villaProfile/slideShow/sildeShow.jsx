@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './slideShow.css';
 import 'react-slideshow-image/dist/styles.css'
 import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import { Modal, ModalFooter, ModalHeader} from "react-bootstrap";
@@ -34,7 +35,7 @@ class SlideShow extends Component {
         return ( 
             <Modal                       
             centered
-            size={'md'}
+            size={'lg'}
             animation
             height={600}
             show={this.state.show}
@@ -45,11 +46,11 @@ class SlideShow extends Component {
                             <h4>Photo Gallery</h4>
                         </div>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body id="slideShow-modal-body">
                     <div>
                         <SimpleImageSlider
-                            width={450}
-                            height={350}
+                            width={798}
+                            height={500}
                             images={images}
                             showNavs={true}
                             showBullets={true}
@@ -57,9 +58,9 @@ class SlideShow extends Component {
                     </div>
                     </Modal.Body>
                 </div>
-                <ModalFooter>
+                {/* <ModalFooter>
                     <button onClick={this.props.exit} className="btn btn-primary">Close</button>
-                </ModalFooter>
+                </ModalFooter> */}
             </Modal>
          );
     }

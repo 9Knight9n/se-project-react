@@ -28,6 +28,7 @@ class VillaProfile extends Component {
             placeArea: 150 ,
             placeNormalCapacity: 4,
             placeMaxCapacity: 5,
+            placePrice: 100,
             numOfBedrooms: 4,
             numOfBathrooms: 2,
             numOfShowers: 2,
@@ -468,7 +469,7 @@ class VillaProfile extends Component {
                     </div>
                     <Switch>
                         <Route path="/villa/villaProfile/reserve/">
-                            <Reserve placeMaxCapacity={this.state.placeMaxCapacity}/>
+                            <Reserve placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
                         </Route>
                     </Switch>
                 </div>
