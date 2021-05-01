@@ -13,11 +13,11 @@ import Search from "./search";
 import { RightCircleTwoTone  } from '@ant-design/icons';
 
 
-const left_option_selected = <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd"
+const left_option_selected = <svg style={{cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd"
                                   className="bi bi-circle-fill mb-3" viewBox="0 0 16 16">
     <circle cx="8" cy="8" r="8"/>
 </svg>
-const left_option = <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd"
+const left_option = <svg style={{cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd"
                          className="bi bi-circle mb-3" viewBox="0 0 16 16">
     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 </svg>
@@ -36,7 +36,13 @@ class Homepage extends Component {
     }
 
     state = {
-        numberOfPages:3,
+        subPages:[
+            {id:0},
+            {id:1},
+            {id:2},
+            {id:3},
+        ],
+        selectedSubPage:0,
         position: {
             lat: 52,
             lng: 48,
@@ -66,19 +72,21 @@ class Homepage extends Component {
             <div id='homepage' className="d-flex flex-column">
                 <div style={{position:'fixed',height:'100vh',top:'40%',zIndex:'1000'}}
                         className={'ml-5 d-flex flex-column'}>
-                    {left_option_selected}
-                    {left_option}
-                    {left_option}
-                    {left_option}
+                    {this.state.subPages.map(subPage=>
+                        <div key={subPage.id}
+                                onClick={()=>this.setState({selectedSubPage:subPage.id})}>
+                            {subPage.id===this.state.selectedSubPage?left_option_selected:left_option}
+                        </div>
+                    )}
                 </div>
-                <div className={'w-100'} style={{height:this.state.numberOfPages+"00vh"}} >
+                <div className={'w-100'} style={{height:this.state.subPages.length+"00vh"}} >
                     <div className={'homepage-div-bg'}
                              style={{background:'url('+search_1_bg+')',borderRadius:'0 0 3rem 3rem'}}>
                         <div className={'d-flex pl-5 pr-5'} style={{maxWidth:'60%',height:'50%'}}>
                             <Search/>
                         </div>
                     </div>
-                    <div className={'homepage-div-bg'} style={{backgroundColor:"white"}}>
+                    <div className={'homepage-div-bg'} >
                         <div className={'row w-100 d-flex h-100'} >
                             <div className={'col-md-8 col-lg-8 col-xl-8 col-sm-12 col-12 mt-auto mb-auto'}>
                                 <div className={'mr-5 ml-5'}>
