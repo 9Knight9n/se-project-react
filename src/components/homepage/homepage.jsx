@@ -1,9 +1,10 @@
 //@Sajad
 import React, {Component, Fragment} from 'react';
 import './homepage.css'
-import {Route, Switch} from "react-router-dom";
+import {Link, Route, Switch} from "react-router-dom";
 import search_bg from '../../assets/img/homepage-bg.jpg'
 import search_1_bg from '../../assets/img/homepage-bg-4.jpg'
+import host_bg from '../../assets/img/homepage-bg-7.jpg'
 // import map_bg from '../../assets/img/homepage-bg.jpg'
 import { fromLonLat } from "ol/proj";
 import "ol/ol.css";
@@ -13,6 +14,7 @@ import Search from "./search";
 import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
 import {log2} from "ol/math";
+import VillaCard from "../villa/card/villaCard";
 
 
 
@@ -68,8 +70,6 @@ class Homepage extends Component {
         // console.log(document.scrollingElement.scrollTop)
         if (scrolling)
             return
-        else
-            console.log('in!')
         if(document.scrollingElement.scrollTop<window.innerHeight/2)
         {
             if (this.state.selectedSubPage!==0)
@@ -186,7 +186,9 @@ class Homepage extends Component {
                                 </div>
                             </div>
                             <div className={'w-100 h-100 col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 d-flex'}>
-                                <h1 className={'mr-auto ml-auto mt-auto mb-auto'} style={{backgroundColor:'white'}}>Villa card here!</h1>
+                                <h1 className={'mr-auto ml-auto mt-auto mb-auto'} style={{backgroundColor:'white'}}>
+                                    <VillaCard/>
+                                </h1>
                             </div>
                         </div>
                     </SElement>
@@ -195,9 +197,14 @@ class Homepage extends Component {
 
                         </div>
                     </SElement>
-                    <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg'} style={{backgroundColor:"black",borderRadius:'1.5rem'}}>
-                        <div>
-
+                    <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg d-flex m-auto'} >
+                        <div style={{background:'url('+host_bg+')',borderRadius:'1.5rem'}}
+                             className={'d-flex mt-auto mb-auto ml-auto mr-auto become-host-div-bg pr-5'} >
+                            <Link to="/Hosting/" className={'ml-auto  mt-auto mb-auto mr-5'} style={{height:"fit-content"}}>
+                                <button className={'btn btn-primary'}>
+                                    Become a Host
+                                </button>
+                            </Link>
                         </div>
                     </SElement>
 
