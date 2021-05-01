@@ -192,7 +192,7 @@ class Homepage extends Component {
                             </div>
                         </div>
                     </SElement>
-                    <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg'} style={{background:'url('+search_bg+')',borderRadius:'1.5rem'}}>
+                    <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
                         <div>
 
                         </div>
