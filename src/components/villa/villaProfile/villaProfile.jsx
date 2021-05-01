@@ -17,6 +17,12 @@ import decoratingIcon from '../img/decorating.png';
 import measurementIcon from '../img/measurement.png';
 import peopleIcon from '../img/group.png';
 import hairD from "../../../assets/img/hairdryer.png";
+import { fromLonLat } from "ol/proj";
+import { RMap, ROSM } from "rlayers";
+
+
+const center = fromLonLat([2.364, 48.82]);
+let scrolling = false
 
 class VillaProfile extends Component {
     constructor(props) {
@@ -407,6 +413,11 @@ class VillaProfile extends Component {
                                 <h5>Location</h5>
                                 <div className="villaProfile-subtitle">
                                 </div>
+                            </div>
+                            <div className={'mr-5 ml-5'}>
+                                <RMap  width={"100%"} height={"60vh"} initial={{ center: center, zoom: 11 }}>
+                                    <ROSM />
+                                </RMap>
                             </div>
 
                         </div>

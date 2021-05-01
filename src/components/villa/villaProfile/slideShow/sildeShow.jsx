@@ -8,6 +8,8 @@ import sampleImage2 from '../../img/2.jpg';
 import sampleImage3 from '../../img/3.jpg';
 import sampleImage4 from '../../img/4.jpg';
 import SimpleImageSlider from "react-simple-image-slider";
+import {STORAGE_KEY} from "../../../constants";
+import {getViewport} from "../../../util";
 
 const images = [
   { url: sampleImage1 },
@@ -20,7 +22,8 @@ class SlideShow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            show: this.props.show
+            show: this.props.show,
+            size:'',
         }
     }
 
@@ -28,6 +31,10 @@ class SlideShow extends Component {
         if (prevProps.show !== this.props.show){
             this.setState({show: this.props.show})
         }
+    }
+
+    componentDidMount (){
+        document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
     }
 
 
@@ -49,7 +56,7 @@ class SlideShow extends Component {
                     <Modal.Body id="slideShow-modal-body">
                     <div>
                         <SimpleImageSlider
-                            width={798}
+                            width={getViewport === 'md' || getViewport === 'sm'? 498: getViewport === 'xs'? 462: 798}
                             height={500}
                             images={images}
                             showNavs={true}
