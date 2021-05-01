@@ -15,7 +15,7 @@ class PageRouter extends Component {
 
     render() {
         return (
-            <div className={'min-vh-100 d-flex flex-column'}>
+            <div className={'d-flex flex-column'}>
                 <Nav_bar/>
                 <Switch>
                     <Route path="/settings/">

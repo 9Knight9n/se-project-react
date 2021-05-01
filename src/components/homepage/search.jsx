@@ -109,7 +109,7 @@ class Search extends Component {
                     ))}
                   </Select>
                     <Tooltip title="search">
-                      <Button type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+                      <Button style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
                     </Tooltip>
                     </div>
                      </div>
