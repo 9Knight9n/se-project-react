@@ -6,52 +6,7 @@ import csc from 'country-state-city';
 
 
 const { Option } = Select;
-// const provinceData = csc.getAllCountries();
-// const cityData = {
-//   Zhejiang: ['Hangzhou', 'Ningbo', 'Wenzhou'],
-//   Jiangsu: ['Nanjing', 'Suzhou', 'Zhenjiang'],
-// };
-//
-// const SearchSelect = () => {
-//   const [cities, setCities] = React.useState();
-//   const [secondCity, setSecondCity] = React.useState();
-//   const [thirdCity, setThirdCity] = React.useState();
-//
-//   const handleProvinceChange = value => {
-//     setCities(cityData[value]);
-//     setSecondCity(cityData[value][0]);
-//   };
-//
-//   const onSecondCityChange = value => {
-//     setSecondCity(value);
-//   };
-//
-//   return (
-//     <div className={'ml-5'}>
-//         <h4 className={'ml-2'} style={{fontFamily:'cursive'}}>
-//             Tell us where:
-//         </h4>
-//       <Select size={'large'} autoFocus className={'placeholder-visible'} showSearch bordered={false} placeholder={'Country'}  style={{ width: 120 }} onChange={handleProvinceChange}>
-//         {provinceData.map(province => (
-//           <Option key={province}>{province}</Option>
-//         ))}
-//       </Select>
-//       <Select size={'large'} disabled={true} className={'placeholder-visible'} showSearch bordered={false} style={{ width: 120 }} placeholder={'State'}  onChange={onSecondCityChange}>
-//         {cities.map(city => (
-//           <Option key={city}>{city}</Option>
-//         ))}
-//       </Select>
-//         <Select size={'large'} disabled={true} className={'placeholder-visible'} showSearch bordered={false} style={{ width: 120 }} placeholder={'City'}  onChange={onSecondCityChange}>
-//         {cities.map(city => (
-//           <Option key={city}>{city}</Option>
-//         ))}
-//       </Select>
-//         <Tooltip title="search">
-//           <Button type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
-//         </Tooltip>
-//     </div>
-//   );
-// };
+
 
 class Search extends Component {
     constructor(props) {
@@ -124,12 +79,12 @@ class Search extends Component {
     render() {
         return (
             <div className={'mt-auto mb-auto ml-auto mr-auto'} style={{width:"fit-content"}}>
-                <div className={'p-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem'}}>
-                    <h4  style={{fontFamily:'cursive'}}>
+                <div className={'pr-5 pl-4 pt-4 pb-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem'}}>
+                    <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
                         Tell us where:
                     </h4>
-                     <div className={'row'}>
-                      <Select size={'large'} value={this.state.sCountry} autoFocus className={'placeholder-visible'} showSearch bordered={false}
+                     <div className={'row'} >
+                      <Select size={'large'} value={this.state.sCountry} autoFocus className={'placeholder-visible mr-auto ml-auto'} showSearch bordered={false}
                           placeholder={'Country'}  style={{ width: 200 }} notFoundContent={null}
                             onChange={this.handleCountrySelect}>
                     {this.state.countries.map(country => (
@@ -138,13 +93,13 @@ class Search extends Component {
                   </Select>
                   <Select size={'large'} value={this.state.sState}
                           disabled={this.state.states.length===0} notFoundContent={null}
-                          className={'placeholder-visible'} showSearch bordered={false} style={{ width: 200 }}
+                          className={'placeholder-visible mr-auto ml-auto'} showSearch bordered={false} style={{ width: 200 }}
                           placeholder={'State'}  onChange={this.handleStateSelect}>
                     {this.state.states.map(state => (
                       <Option key={state.name} >{state.name}</Option>
                     ))}
                   </Select>
-                    <div className={'d-flex flex-row'}>
+                    <div className={'d-flex flex-row mr-auto ml-auto'} style={{ width: 232,left:'16px',position:'relative'}} >
                         <Select size={'large'} disabled={this.state.cities.length===0} value={this.state.sCity}
                                 notFoundContent={null} className={'placeholder-visible'}
                             showSearch bordered={false} style={{ width: 200 }} placeholder={'City'}
