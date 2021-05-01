@@ -12,6 +12,7 @@ import { Steps, Divider } from 'antd';
 import Search from "./search";
 import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
+import {log2} from "ol/math";
 
 
 
@@ -28,6 +29,7 @@ const left_option = <svg style={{cursor:'pointer'}} xmlns="http://www.w3.org/200
 
 
 const center = fromLonLat([2.364, 48.82]);
+let scrolling = false
 
 
 
@@ -41,30 +43,33 @@ class Homepage extends Component {
     componentDidMount() {
         // const self = this;
         document.addEventListener('scroll', this.leftOptionsSelectedShow)
+        sessionStorage.removeItem('scroll-hp-sub')
     }
 
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     if (this.state.selectedSubPage!==prevState.selectedSubPage)
-    //     {
-    //         if(this.state.selectedSubPage-prevState.selectedSubPage > 1 || prevState.selectedSubPage-this.state.selectedSubPage>1)
-    //             return
-    //         scroller.scrollTo('hp-sub-'.concat(this.state.selectedSubPage)
-    //             , {
-    //             duration: 750,
-    //             delay: 0,
-    //             smooth: true,
-    //             containerId: 'body-tag',
-    //             // offset: 50, // Scrolls to element + 50 pixels down the page
-    //             }
-    //         )
-    //     }
-    // }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (scrolling)
+            return
+        if (this.state.selectedSubPage!==prevState.selectedSubPage)
+        {
+            scroller.scrollTo('hp-sub-'.concat(this.state.selectedSubPage)
+                , {
+                duration: 750,
+                delay: 0,
+                smooth: true,
+                containerId: 'body-tag',
+                // offset: 50, // Scrolls to element + 50 pixels down the page
+                }
+            )
+        }
+    }
 
 
     leftOptionsSelectedShow(){
         // console.log(document.scrollingElement.scrollTop)
-        if (this.state.scrolling)
+        if (scrolling)
             return
+        else
+            console.log('in!')
         if(document.scrollingElement.scrollTop<window.innerHeight/2)
         {
             if (this.state.selectedSubPage!==0)
@@ -101,9 +106,9 @@ class Homepage extends Component {
         // console.log(scrollContainer4.scrollTop)
         // console.log(scrollContainer.scrollHeight)
 
-        // this.setState({selectedSubPage:id})
+        this.setState({selectedSubPage:id})
         // scroll.scrollMore(10, null);
-        this.setState({scrolling:true})
+        scrolling = true
         scroller.scrollTo('hp-sub-'.concat(id)
                 , {
                 duration: 750,
@@ -113,7 +118,8 @@ class Homepage extends Component {
                 // offset: 50, // Scrolls to element + 50 pixels down the page
               }
             )
-        this.setState({scrolling:false})
+        setTimeout(() => {  scrolling = false }, 800);
+
         // scroll.scrollToBottom(null);
         // scroll.scrollTo(window.innerHeight*parseInt(id), null);
     }
