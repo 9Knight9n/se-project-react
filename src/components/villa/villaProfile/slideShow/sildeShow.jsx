@@ -56,7 +56,7 @@ class SlideShow extends Component {
                     <Modal.Body id="slideShow-modal-body">
                     <div>
                         <SimpleImageSlider
-                            width={getViewport === 'md' || getViewport === 'sm'? 498: getViewport === 'xs'? 462: 798}
+                            width={this.state.size === 'md' || this.state.size === 'sm'? 498: this.state.size === 'xs'? 462: 798}
                             height={500}
                             images={images}
                             showNavs={true}

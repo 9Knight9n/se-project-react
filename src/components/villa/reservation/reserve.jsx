@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import './reserve.css';
 import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import { Modal, ModalFooter, ModalHeader} from "react-bootstrap";
-import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 import plusImg from '../../../assets/img/plus.png';
 import minusImg from '../../../assets/img/minus.png';
+import { DatePicker, Space } from 'antd';
+import moment from 'moment';
+import date from 'date-and-time';
+
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY/MM/DD';
+const { size } = 20;
+const now = new Date();
 
 class SlideShow extends Component {
     constructor(props) {
@@ -20,6 +20,7 @@ class SlideShow extends Component {
             passangers: 1,
             checkIn: new Date().toLocaleString(),
             checkOut: new Date().toLocaleString(),
+            currentDate:null,
             price: 100,
             total: 100+" $",
             stayingDays:1,
@@ -28,9 +29,10 @@ class SlideShow extends Component {
 
     componentDidMount = () =>{
         this.setState({
-            checkIn: document.getElementById("date-picker-checkIn").value,
-            checkOut: document.getElementById("date-picker-checkOut").value
+           currentDate: date.format(now, 'YYYY/MM/DD HH:mm:ss'), 
         })
+        console.log("moment : "+ moment(now, dateFormat))
+         
     }
 
     exit()
@@ -38,47 +40,19 @@ class SlideShow extends Component {
         document.getElementById('redirect-to-villa-profile').click()
     }
 
-    handleCheckInChange = (e) => {
-        if (this.state.checkOut > this.state.checkIn){
-            // To calculate the time difference of two dates
-            console.log("check in1 : "+e)
-            let Difference_In_Time = this.state.checkOut.getTime() - e.getTime();
-
-            // To calculate the no. of days between two dates
-            let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            console.log( Difference_In_Days )
-            this.setState({
-                checkIn: e,
-                minCheckOut: e,
-                stayingDays: Difference_In_Days,
-            })
-            this.calculateCost(Difference_In_Days, this.state.price)
-
-            return;
-        }
-        this.setState({
-            checkIn: e,
-            minCheckOut: e,
-            checkOut: e,
-        })
-        console.log(e)
-    }
-
-    handleCheckOutChange = (e) => {
-        // To calculate the time difference of two dates
-        console.log("check in2 : "+ e)
-        let Difference_In_Time = e.getTime() - this.state.checkIn.getTime();
+    onDateChange = (range) =>{
+        let startDate = range[0].format();
+        let endDate = range[1].format();
         
-        // To calculate the no. of days between two dates
-        let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-        console.log( Difference_In_Days )
-        this.setState({
-            checkOut: e.value,
-            stayingDays: Difference_In_Days,
-        })
-        console.log('staying days : '+ Difference_In_Days)
-        this.calculateCost(Difference_In_Days, this.state.price)
+        console.log('start date  ',startDate); 
+        console.log("end date  ",endDate);
     }
+
+    disabledDate = current => {
+        // Can not select days before today and today
+        return current && current < moment().endOf('day');
+    }
+
 
     handleCounter = (select,operator) =>{
         if (select === 1 && operator === "+" && this.state.passangers < this.props.placeMaxCapacity){
@@ -121,46 +95,12 @@ class SlideShow extends Component {
                     </Modal.Header>
                     <Modal.Body>
                     <div>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <div className="row">
-                                <div className="col-xl-6">
-                                    <KeyboardDatePicker
-                                    width={50}
-                                    disablePast
-                                    margin="normal"
-                                    id="date-picker-checkIn"
-                                    label="Check in"
-                                    format="MM/dd/yyyy"
-                                    value={this.state.checkIn}
-                                    onChange={this.handleCheckInChange}
-                                    minDateMessage=""
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                    />
-                                </div>
+                        <div className="reserver-datePicker">
+                            <Space className="w-100" direction="vertical" size={12}>
+                                <RangePicker disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                            </Space>
+                        </div>
 
-                                <div className="col-xl-6">
-                                    <KeyboardDatePicker
-                                    width={50}
-                                    disablePast
-                                    margin="normal"
-                                    id="date-picker-checkOut"
-                                    label="Check out"
-                                    minDate={this.state.minCheckOut}
-                                    // openTo={this.state.checkIn}
-                                    format="MM/dd/yyyy"
-                                    value={this.state.checkOut}
-                                    onChange={this.handleCheckOutChange}
-                                    minDateMessage=""
-                                    strictCompareDates={true}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                    />
-                                </div>
-                            </div>
-                        </MuiPickersUtilsProvider>
                         <div className="row reserve-counter-cost">
                             <div className="mt-2 col-xl-6">                  
                                 <label className="mt-2" htmlFor="reserve-counter">number of passengers</label>
