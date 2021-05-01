@@ -1,4 +1,4 @@
-import {API_BASE_URL} from './constants'
+import {API_BASE_URL, STORAGE_KEY} from './constants'
 export function validateEmail(email)
 {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
@@ -85,3 +85,27 @@ export function getBase64(file) {
   }
 
 
+
+export function getViewport () {
+  // https://stackoverflow.com/a/8876069
+  const width = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  )
+    let size = null;
+    if (width <= 576) size = 'xs'
+    else if (width <= 768) size = 'sm'
+    else if (width <= 992) size = 'md'
+    else if (width <= 1200) size = 'lg'
+    else size = 'xl'
+    // sessionStorage.setItem(STORAGE_KEY+'Viewport',size);
+    return size
+}
+
+
+export function eventViewport () {
+    let size = getViewport()
+    // sessionStorage.setItem(STORAGE_KEY+'Viewport',size);
+    let screen_size_changed_event = new CustomEvent(STORAGE_KEY+'screen-size-changed', {detail:size});
+    document.dispatchEvent(screen_size_changed_event);
+}
