@@ -22,7 +22,7 @@ class VillaCard extends Component {
                 <Card
                     loading={false}
                     hoverable
-                    style={{ width: 300 }}
+                    style={{ width: 320 }}
                     cover={
                             <img
                                 alt="example"

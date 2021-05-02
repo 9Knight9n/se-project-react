@@ -9,12 +9,15 @@ import host_bg from '../../assets/img/homepage-bg-7.jpg'
 import { fromLonLat } from "ol/proj";
 import "ol/ol.css";
 import { RMap, ROSM } from "rlayers";
-import { Steps, Divider } from 'antd';
+import {Steps, Divider} from 'antd';
 import Search from "./search";
 import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
 import {log2} from "ol/math";
 import VillaCard from "../villa/card/villaCard";
+import {STORAGE_KEY} from "../constants";
+import {getViewport} from "../util";
+import {Carousel} from "react-bootstrap";
 
 
 
@@ -40,30 +43,72 @@ class Homepage extends Component {
         super(props);
         this.leftMenuClicked = this.leftMenuClicked.bind(this);
         this.leftOptionsSelectedShow = this.leftOptionsSelectedShow.bind(this);
+        this.handleScreenSizeChange = this.handleScreenSizeChange.bind(this);
     }
 
     componentDidMount() {
         // const self = this;
+        this.handleScreenSizeChange(getViewport())
+        document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.handleScreenSizeChange(event.detail));
         document.addEventListener('scroll', this.leftOptionsSelectedShow)
         sessionStorage.removeItem('scroll-hp-sub')
     }
 
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (scrolling)
-            return
-        if (this.state.selectedSubPage!==prevState.selectedSubPage)
-        {
-            scroller.scrollTo('hp-sub-'.concat(this.state.selectedSubPage)
-                , {
-                duration: 750,
-                delay: 0,
-                smooth: true,
-                containerId: 'body-tag',
-                // offset: 50, // Scrolls to element + 50 pixels down the page
-                }
-            )
-        }
+        // if (scrolling)
+        //     return
+        // if (this.state.selectedSubPage!==prevState.selectedSubPage)
+        // {
+        //     scroller.scrollTo('hp-sub-'.concat(this.state.selectedSubPage)
+        //         , {
+        //             duration: 750,
+        //             delay: 0,
+        //             smooth: true,
+        //             containerId: 'body-tag',
+        //             // offset: 50, // Scrolls to element + 50 pixels down the page
+        //         }
+        //     )
+        // }
     }
+
+
+    state = {
+        cards:1,
+        scrolling:false,
+        subPages:[
+            {id:0},
+            {id:1},
+            {id:2},
+            {id:3},
+        ],
+        selectedSubPage:0,
+        position: {
+            lat: 52,
+            lng: 48,
+        },
+        center: {
+            lat: 52,
+            lng: 48,
+        },
+
+    }
+
+
+    handleScreenSizeChange(size){
+        let cards = 1;
+        if (size==='xl')
+            cards = 8;
+        else if(size === 'lg')
+            cards = 6
+        else if (size ==='md')
+            cards = 4
+        else if (size === 'sm')
+            cards = 2
+        this.setState({cards})
+    }
+
+
 
 
     leftOptionsSelectedShow(){
@@ -124,25 +169,7 @@ class Homepage extends Component {
         // scroll.scrollTo(window.innerHeight*parseInt(id), null);
     }
 
-    state = {
-        scrolling:false,
-        subPages:[
-            {id:0},
-            {id:1},
-            {id:2},
-            {id:3},
-        ],
-        selectedSubPage:0,
-        position: {
-            lat: 52,
-            lng: 48,
-        },
-        center: {
-            lat: 52,
-            lng: 48,
-        },
 
-    }
 
     onMarkerLocationChange = () => {
         this.setState({
@@ -158,6 +185,13 @@ class Homepage extends Component {
     };
 
     render() {
+        const contentStyle = {
+            // height: '400px',
+            // color: '#fff',
+            // lineHeight: '160px',
+            // textAlign: 'center',
+
+        };
         return (
             <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
                 <div style={{position:'fixed',height:'100vh',top:'40%',zIndex:'1000'}}
@@ -176,26 +210,72 @@ class Homepage extends Component {
                             <Search/>
                         </div>
                     </SElement>
-                    <SElement id={'hp-sub-1'} name={'hp-sub-1'} className={'homepage-div-bg'} >
-                        <div className={'row w-100 d-flex h-100'} >
-                            <div className={'col-md-8 col-lg-8 col-xl-8 col-sm-12 col-12 mt-auto mb-auto'}>
-                                <div className={'mr-5 ml-5'}>
-                                    {/*https://www.npmjs.com/package/rlayers*/}
-                                    <RMap className={'ml-5'}  width={"100%"} height={"60vh"} initial={{ center: center, zoom: 11 }}>
-                                        <ROSM />
-                                    </RMap>
-                                </div>
+                    <SElement id={'hp-sub-1'} name={'hp-sub-1'} className={'homepage-div-bg d-flex w-100'} >
+                        <div className={'row w-100 mt-auto mb-auto'} >
+                            <div className={' col-lg-12 col-xl-12 col-md-12 col-sm-12 col-12'} >
+                                <h4 className={'ml-5 mb-3 mt-5'} style={{fontFamily:'cursive'}}>
+                                    Or You can use a map:
+                                </h4>
                             </div>
-                            <div className={'w-100 h-100 col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 d-flex'}>
-                                <h1 className={'mr-auto ml-auto mt-auto mb-auto'} style={{backgroundColor:'white'}}>
-                                    <VillaCard name={'City center apartment with 3 rooms'} addr={"Iran ,Tehran ,Shar-rey"} cost={10000} rate={'4.3 (35 reviews)'}/>
-                                </h1>
+                            <div className={'col-lg-8 col-xl-8 col-md-6 col-sm-12 col-12'}>
+                                {/*<div className={'mr-5 ml-5'}>*/}
+                                    {/*https://www.npmjs.com/package/rlayers*/}
+                                <RMap className={'pl-5'}  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
+                                    <ROSM />
+                                </RMap>
+                                {/*</div>*/}
+                            </div>
+                            <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
+                                <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex mt-3'}>
+                                    <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}>
+                                        {/*<div className={'pb-5'} style={{height:'fit-content',width:'fit-content',backgroundColor:'black'}}>*/}
+                                        {/*    <VillaCard name={'City center apartment with 3 rooms'}*/}
+                                        {/*               addr={"Iran ,Tehran ,Shar-rey"}*/}
+                                        {/*               cost={10000} rate={'4.3 (35 reviews)'}/>*/}
+                                        {/*</div>*/}
+                                        {/*<div className={'pb-4'} style={{height:'fit-content',width:'fit-content',backgroundColor:'black'}}>*/}
+                                        {/*    <VillaCard name={'City center apartment with 3 rooms'}*/}
+                                        {/*               addr={"Iran ,Tehran ,Shar-rey"}*/}
+                                        {/*               cost={10000} rate={'4.3 (35 reviews)'}/>*/}
+                                        {/*</div>*/}
+                                        <Carousel.Item>
+                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
+                                                    <VillaCard name={'City center apartment with 3 rooms'}
+                                                               addr={"Iran ,Tehran ,Shar-rey"}
+                                                               cost={10000} rate={'4.3 (35 reviews)'}/>
+                                            </div>
+                                        </Carousel.Item>
+                                        <Carousel.Item>
+                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
+                                                    <VillaCard name={'City center apartment with 3 rooms'}
+                                                               addr={"Iran ,Tehran ,Shar-rey"}
+                                                               cost={10000} rate={'4.3 (35 reviews)'}/>
+                                            </div>
+                                        </Carousel.Item>
+                                        <Carousel.Item>
+                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
+                                                <VillaCard name={'City center apartment with 3 rooms'}
+                                                           addr={"Iran ,Tehran ,Shar-rey"}
+                                                           cost={10000} rate={'4.3 (35 reviews)'}/>
+                                            </div>
+                                        </Carousel.Item>
+                                        <Carousel.Item>
+                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
+                                                <VillaCard name={'City center apartment with 3 rooms'}
+                                                           addr={"Iran ,Tehran ,Shar-rey"}
+                                                           cost={10000} rate={'4.3 (35 reviews)'}/>
+                                            </div>
+                                        </Carousel.Item>
+
+
+                                    </Carousel>
+                                </div>
                             </div>
                         </div>
                     </SElement>
                     <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
                         <div>
-
+                            {this.state.cards}
                         </div>
                     </SElement>
                     <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg d-flex m-auto'} >
