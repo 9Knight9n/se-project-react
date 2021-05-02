@@ -4,6 +4,7 @@
   border-radius: 50%;
   transition: background 2s;
 }
+
 .reserve-counter img:hover {
   transform: scale(1.1);
   background-color: rgb(127, 127, 221);
@@ -19,3 +20,4 @@
   width: 100% !important;
   height: 6vh;
 }
+

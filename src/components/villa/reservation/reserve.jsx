@@ -7,6 +7,7 @@ import minusImg from '../../../assets/img/minus.png';
 import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import date from 'date-and-time';
+import {STORAGE_KEY} from "../../constants";
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
@@ -24,6 +25,7 @@ class SlideShow extends Component {
             price: 100,
             total: 100+" $",
             stayingDays:1,
+            size:null,
         }
     }
 
@@ -32,7 +34,7 @@ class SlideShow extends Component {
            currentDate: date.format(now, 'YYYY/MM/DD HH:mm:ss'), 
         })
         console.log("moment : "+ moment(now, dateFormat))
-         
+        document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
     }
 
     exit()
@@ -43,7 +45,14 @@ class SlideShow extends Component {
     onDateChange = (range) =>{
         let startDate = range[0].format();
         let endDate = range[1].format();
-        
+        let a = moment(startDate);
+        let b = moment(endDate);
+        b.diff(a, 'days')  // =1
+        console.log('duration  ',b.diff(a, 'days')); 
+        // let Difference_In_Time = endDate.getTime() - startDate.getTime();
+        // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        this.setState({stayingDays: b.diff(a, 'days'),})
+        this.calculateCost(b.diff(a, 'days'))
         console.log('start date  ',startDate); 
         console.log("end date  ",endDate);
     }
@@ -69,8 +78,8 @@ class SlideShow extends Component {
         }
     }  
 
-    calculateCost = (stayingDays, price) =>{
-        let total = stayingDays * price
+    calculateCost = (stayingDays) =>{
+        let total = stayingDays * this.state.price
         console.log("total : "+ total)
         this.setState({total: total+" $"})
     }
