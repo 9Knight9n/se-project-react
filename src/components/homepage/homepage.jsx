@@ -180,6 +180,7 @@ class Homepage extends Component {
                         <div className={'row w-100 d-flex h-100'} >
                             <div className={'col-md-8 col-lg-8 col-xl-8 col-sm-12 col-12 mt-auto mb-auto'}>
                                 <div className={'mr-5 ml-5'}>
+                                    {/*https://www.npmjs.com/package/rlayers*/}
                                     <RMap className={'ml-5'}  width={"100%"} height={"60vh"} initial={{ center: center, zoom: 11 }}>
                                         <ROSM />
                                     </RMap>
@@ -187,7 +188,7 @@ class Homepage extends Component {
                             </div>
                             <div className={'w-100 h-100 col-md-4 col-lg-4 col-xl-4 col-sm-12 col-12 d-flex'}>
                                 <h1 className={'mr-auto ml-auto mt-auto mb-auto'} style={{backgroundColor:'white'}}>
-                                    <VillaCard/>
+                                    <VillaCard name={'City center apartment with 3 rooms'} addr={"Iran ,Tehran ,Shar-rey"} cost={10000} rate={'4.3 (35 reviews)'}/>
                                 </h1>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, Carousel  } from 'antd';
+import {Card, Carousel, Descriptions, Rate} from 'antd';
 import './villacard.css'
 
 
@@ -11,39 +11,38 @@ class VillaCard extends Component {
         super(props);
     }
 
+    state = {
+        loading: false,
+    };
+
 
     render() {
         return (
-            <div>
+            <div >
                 <Card
+                    loading={false}
+                    hoverable
                     style={{ width: 300 }}
                     cover={
-                        <Carousel autoplay>
                             <img
                                 alt="example"
                                 src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
                                 />
-                            <img
-                                alt="example"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                />
-                            <img
-                                alt="example"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                />
-                            <img
-                                alt="example"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                />
-                        </Carousel>
-
                     }
                     >
                     <Meta
                     // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                    title="Card title"
-                    description="This is the description"
+                    // title={this.props.name}
+                    // description="This is the description"
                     />
+                    <Rate disabled defaultValue={1} count={1}/> {this.props.rate}
+                    <Descriptions  column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}>
+                        <Descriptions.Item>{this.props.name}</Descriptions.Item>
+                        <Descriptions.Item>
+                            {this.props.addr}
+                        </Descriptions.Item>
+                        <Descriptions.Item>{this.props.cost} <small>/ dollar per night</small></Descriptions.Item>
+                    </Descriptions>
                 </Card>
             </div>
         );
