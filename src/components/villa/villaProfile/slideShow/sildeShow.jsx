@@ -7,9 +7,17 @@ import sampleImage1 from '../../img/1.jpg';
 import sampleImage2 from '../../img/2.jpg';
 import sampleImage3 from '../../img/3.jpg';
 import sampleImage4 from '../../img/4.jpg';
-import SimpleImageSlider from "react-simple-image-slider";
 import {STORAGE_KEY} from "../../../constants";
 import {getViewport} from "../../../util";
+import { Carousel } from 'antd';
+
+const contentStyle = {
+  height: '160px',
+  color: '#fff',
+  lineHeight: '160px',
+  textAlign: 'center',
+  background: '#364d79',
+};
 
 const images = [
   { url: sampleImage1 },
@@ -44,7 +52,6 @@ class SlideShow extends Component {
             centered
             size={'lg'}
             animation
-            height={600}
             show={this.state.show}
             onHide={this.props.exit}>
                 <div>
@@ -54,14 +61,21 @@ class SlideShow extends Component {
                         </div>
                     </Modal.Header>
                     <Modal.Body id="slideShow-modal-body">
-                    <div>
-                        <SimpleImageSlider
-                            width={this.state.size === 'md' || this.state.size === 'sm'? 498: this.state.size === 'xs'? 462: 798}
-                            height={500}
-                            images={images}
-                            showNavs={true}
-                            showBullets={true}
-                        />
+                    <div className="slideShow">
+                    <Carousel  className="h-100" dotPosition={"bottom"}>
+                        <div>
+                            <h3 style={contentStyle}><img className="w-100" src={sampleImage1}/></h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}><img className="w-100" src={sampleImage2}/></h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}><img className="w-100" src={sampleImage3}/></h3>
+                        </div>
+                        <div>
+                            <h3 style={contentStyle}><img className="w-100" src={sampleImage4}/></h3>
+                        </div>
+                    </Carousel>,
                     </div>
                     </Modal.Body>
                 </div>
