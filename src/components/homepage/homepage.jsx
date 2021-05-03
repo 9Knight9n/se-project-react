@@ -392,7 +392,7 @@ class Homepage extends Component {
                     <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg d-flex m-auto'} >
                         <div className={'w-100 h-100 d-flex flex-column'} >
                             <h4 className={' mt-auto mb-4'} style={{fontFamily:'cursive',marginLeft:'10%'}}>
-                                Maybe try becoming a host yourself
+                                Maybe try becoming a host yourself:
                             </h4>
                             <div style={{background:'url('+host_bg+')',borderRadius:'1.5rem'}}
                                  className={'d-flex  mb-auto ml-auto mr-auto become-host-div-bg pr-5'} >
@@ -404,10 +404,10 @@ class Homepage extends Component {
                             </div>
                         </div>
                     </SElement>
-                    <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg pt-5'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
+                    <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg pt-5 pb-5'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
                         <div className={'pt-5 mb-5 d-flex ml-auto mr-auto d-flex flex-column'} style={{width:'fit-content'}}>
                             <h4 className={' mt-auto mb-4 ml-4'} style={{fontFamily:'cursive'}}>
-                                High rate places :
+                                High rate places:
                             </h4>
                             <Carousel interval={null} slide={false} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
                                 {this.renderList(1).map(card=>card)}
@@ -416,7 +416,7 @@ class Homepage extends Component {
                         </div>
                         <div className={'pt-5 mt-5 d-flex ml-auto mr-auto d-flex flex-column'} style={{width:'fit-content'}}>
                             <h4 className={' mt-auto mb-4 ml-4'} style={{fontFamily:'cursive'}}>
-                                Most reserved places :
+                                Most reserved places:
                             </h4>
                             <Carousel interval={null} slide={false} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
                                 {this.renderList(1).map(card=>card)}
