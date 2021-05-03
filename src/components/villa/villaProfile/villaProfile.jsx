@@ -19,7 +19,9 @@ import peopleIcon from '../img/group.png';
 import hairD from "../../../assets/img/hairdryer.png";
 import { fromLonLat } from "ol/proj";
 import { RMap, ROSM } from "rlayers";
-
+import {getItem, validateEmail} from '../../util';
+import axios from "axios";
+import {API_VILLA_PROFILE_URL, API_BASE_URL} from '../../constants'
 
 const center = fromLonLat([2.364, 48.82]);
 let scrolling = false
@@ -42,6 +44,14 @@ class VillaProfile extends Component {
             numOfDoubleBeds: 4,
             minCheckOut: '04/25/2021',
             showGallary: false,
+            palceCountry:'',
+            placeState:',',
+            placeCity:'',
+            img1:'',
+            img2:'',
+            img3:'',
+            img4:'',
+            images:null,
             facilities : [
                 {
                     src:
@@ -280,17 +290,67 @@ class VillaProfile extends Component {
         })
     }
 
+    async componentDidMount(){
+        await axios.get(API_VILLA_PROFILE_URL,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            },
+            params: {
+                villa_id: 1
+            }
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log(res.data)
+                console.log("data is shown successfuly")
+                this.loadData(res.data)
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+    }
+
+    loadData = (data) =>{
+        this.setState({
+            placeName: data.name,
+            placeDescription:  data.description,
+            placeArea:  data.area ,
+            placeNormalCapacity:  data.capacity,
+            placeMaxCapacity:  data.max_capacity,
+            placePrice: data.price_per_night,
+            numOfBedrooms: data.number_of_bedrooms,
+            numOfBathrooms: data.number_of_bathrooms,
+            numOfShowers: data.number_of_showers,
+            numOfSingleBeds: data.number_of_single_beds,
+            numOfDoubleBeds: data.number_of_double_beds,
+            palceCountry: data.country,
+            placeCity:data.city,
+            placeState:data.state,
+            img1:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[0],
+            img2:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[1],
+            img3:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[2],
+            img4:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[3],
+            images: data.images,
+        })
+
+    }
+
  
     render() { 
         return ( 
 
             <div className="villaProfile-main ml-4 mr-4">
-                <SlideShow show={this.state.showGallary} exit={this.exit} />
+                <SlideShow images={this.state.images} show={this.state.showGallary} exit={this.exit} />
                 <div className="villaProfile-header">
                     <div className="villaProfile-title">
-                        <h4>Seaside villa</h4>
+                        <h4>{this.state.placeName}</h4>
                         <div className="villaProfile-subTitle">
-                            <h6>Iran,Tehran,Tehran</h6>
+                            <h6>{this.state.palceCountry + ", " + this.state.placeState + ", "+ this.state.placeCity}</h6>
                         </div>
                     </div>  
                 </div>
@@ -300,19 +360,19 @@ class VillaProfile extends Component {
                         <div className="villaProfile-gallery col-xl-6">
                             <div className="mb-4 row">
                                 <div className="img1 col">
-                                    <img onClick={this.showGallary} alt="villa-image1" src={sampleImage1} />
+                                    <img onClick={this.showGallary} alt="villa-image1" src={this.state.img1} />
                                 </div>
                                 <div className="img2 col">
-                                    <img onClick={this.showGallary} alt="villa-image2" src={sampleImage2} />
+                                    <img onClick={this.showGallary} alt="villa-image2" src={this.state.img2} />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="img3 col">
-                                    <img onClick={this.showGallary} alt="villa-image3" src={sampleImage3} />
+                                    <img onClick={this.showGallary} alt="villa-image3" src={this.state.img3} />
                                     <button onClick={this.showGallary} className="btn btn-light">Show all photos</button>
                                 </div>
                                 <div className="img4 col">
-                                    <img onClick={this.showGallary} alt="villa-image4" src={sampleImage4} />
+                                    <img onClick={this.showGallary} alt="villa-image4" src={this.state.img4} />
                                 </div>    
                             </div>
                             
