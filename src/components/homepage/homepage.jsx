@@ -30,6 +30,18 @@ const left_option = <svg style={{cursor:'pointer'}} xmlns="http://www.w3.org/200
     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 </svg>
 
+const left_option_arrow = <svg style={{cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd"
+                               className="bi bi-caret-down mb-3" viewBox="0 0 16 16">
+    <path
+        d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+</svg>
+
+const left_option_arrow_selected = <svg style={{cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd"
+                                        className="bi bi-caret-down-fill mb-3" viewBox="0 0 16 16">
+    <path
+        d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+</svg>
+
 
 
 
@@ -220,14 +232,14 @@ class Homepage extends Component {
         // scroll.scrollMore(10, null);
         scrolling = true
         scroller.scrollTo('hp-sub-'.concat(id)
-                , {
+            , {
                 duration: 750,
                 delay: 0,
                 smooth: true,
                 containerId: 'body-tag',
                 // offset: 50, // Scrolls to element + 50 pixels down the page
-              }
-            )
+            }
+        )
         setTimeout(() => {  scrolling = false }, 800);
 
         // scroll.scrollToBottom(null);
@@ -238,14 +250,14 @@ class Homepage extends Component {
 
     onMarkerLocationChange = () => {
         this.setState({
-        position: {
-        lat: 52,
-        lng: 30,
-        },
-        center: {
-        lat: 52,
-        lng: 30,
-        },
+            position: {
+                lat: 52,
+                lng: 30,
+            },
+            center: {
+                lat: 52,
+                lng: 30,
+            },
         });
     };
 
@@ -263,9 +275,9 @@ class Homepage extends Component {
                 if (!card)
                     break
                 cardGroups = [...cardGroups,<VillaCard name={card.name}
-                                                     addr={card.addr}
-                                                     cost={card.cost}
-                                                     rate={card.cost}/>]
+                                                       addr={card.addr}
+                                                       cost={card.cost}
+                                                       rate={card.cost}/>]
             }
             // if (cardGroups[0])
             // console.log(cardGroups[0].toString())
@@ -296,15 +308,17 @@ class Homepage extends Component {
         return (
             <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
                 <div style={{position:'fixed',height:'100vh',top:'40%',zIndex:'1000'}}
-                        className={'ml-3 d-flex flex-column'}>
+                     className={'ml-3 d-flex flex-column'}>
                     {this.state.subPages.map(subPage=>
                         <div key={subPage.id}
-                                onClick={()=>this.leftMenuClicked(subPage.id)}>
-                            {subPage.id===this.state.selectedSubPage?left_option_selected:left_option}
+                             onClick={()=>this.leftMenuClicked(subPage.id)}>
+                            {subPage.id === this.state.subPages.length-1?
+                                (subPage.id===this.state.selectedSubPage?left_option_arrow_selected:left_option_arrow):
+                                (subPage.id===this.state.selectedSubPage?left_option_selected:left_option)}
                         </div>
                     )}
                 </div>
-                <div id={'hp-sub'} className={'w-100'} style={{overflowY: 'auto',height:this.state.subPages.length+"00vh"}} >
+                <div id={'hp-sub'} className={'w-100'} style={{overflowY: 'hidden',height:this.state.subPages.length+"00vh"}} >
                     <SElement id={'hp-sub-0'} name={'hp-sub-0'} className={'homepage-div-bg'}
                              style={{background:'url('+search_1_bg+')',borderRadius:'0 0 3rem 3rem'}}>
                         <div className={'d-flex pl-5 pr-5'} style={{maxWidth:'60%',height:'50%'}}>
@@ -374,7 +388,22 @@ class Homepage extends Component {
                             </div>
                         </div>
                     </SElement>
-                    <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
+                    <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg d-flex m-auto'} >
+                        <div className={'w-100 h-100 d-flex flex-column'} >
+                            <h4 className={' mt-auto mb-4'} style={{fontFamily:'cursive',marginLeft:'10%'}}>
+                                Maybe try becoming a host yourself
+                            </h4>
+                            <div style={{background:'url('+host_bg+')',borderRadius:'1.5rem'}}
+                                 className={'d-flex  mb-auto ml-auto mr-auto become-host-div-bg pr-5'} >
+                                <Link to="/Hosting/" className={'ml-auto  mt-auto mb-auto mr-5'} style={{height:"fit-content"}}>
+                                    <button className={'btn btn-primary'}>
+                                        Become a Host
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </SElement>
+                    <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg pt-5'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
                         <div className={'pt-5 h-100  d-flex ml-auto mr-auto'} style={{width:'fit-content'}}>
                             <Carousel style={{width:'fit-content'}} className={'mt-auto mb-auto'}>
                                 {this.renderList(1).map(card=>card)}
@@ -382,16 +411,7 @@ class Homepage extends Component {
                             {/*{this.state.cards}*/}
                         </div>
                     </SElement>
-                    <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg d-flex m-auto'} >
-                        <div style={{background:'url('+host_bg+')',borderRadius:'1.5rem'}}
-                             className={'d-flex mt-auto mb-auto ml-auto mr-auto become-host-div-bg pr-5'} >
-                            <Link to="/Hosting/" className={'ml-auto  mt-auto mb-auto mr-5'} style={{height:"fit-content"}}>
-                                <button className={'btn btn-primary'}>
-                                    Become a Host
-                                </button>
-                            </Link>
-                        </div>
-                    </SElement>
+
 
                 </div>
             </div>
