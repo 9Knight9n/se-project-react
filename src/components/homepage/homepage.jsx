@@ -306,7 +306,8 @@ class Homepage extends Component {
 
         };
         return (
-            <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
+            // <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
+            <React.Fragment>
                 <div style={{position:'fixed',height:'100vh',top:'40%',zIndex:'1000'}}
                      className={'ml-3 d-flex flex-column'}>
                     {this.state.subPages.map(subPage=>
@@ -318,7 +319,7 @@ class Homepage extends Component {
                         </div>
                     )}
                 </div>
-                <div id={'hp-sub'} className={'w-100'} style={{overflowY: 'hidden',height:this.state.subPages.length+"00vh"}} >
+                <div id={'hp-sub'} className={'w-100'} style={{height:'fit-content',overflowY:'auto'}} >
                     <SElement id={'hp-sub-0'} name={'hp-sub-0'} className={'homepage-div-bg'}
                              style={{background:'url('+search_1_bg+')',borderRadius:'0 0 3rem 3rem'}}>
                         <div className={'d-flex pl-5 pr-5'} style={{maxWidth:'60%',height:'50%'}}>
@@ -404,17 +405,28 @@ class Homepage extends Component {
                         </div>
                     </SElement>
                     <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg pt-5'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
-                        <div className={'pt-5 h-100  d-flex ml-auto mr-auto'} style={{width:'fit-content'}}>
-                            <Carousel style={{width:'fit-content'}} className={'mt-auto mb-auto'}>
+                        <div className={'pt-5 mb-5 d-flex ml-auto mr-auto d-flex flex-column'} style={{width:'fit-content'}}>
+                            <h4 className={' mt-auto mb-4 ml-4'} style={{fontFamily:'cursive'}}>
+                                High rate places :
+                            </h4>
+                            <Carousel interval={null} slide={false} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
+                                {this.renderList(1).map(card=>card)}
+                            </Carousel>
+                            {/*{this.state.cards}*/}
+                        </div>
+                        <div className={'pt-5 mt-5 d-flex ml-auto mr-auto d-flex flex-column'} style={{width:'fit-content'}}>
+                            <h4 className={' mt-auto mb-4 ml-4'} style={{fontFamily:'cursive'}}>
+                                Most reserved places :
+                            </h4>
+                            <Carousel interval={null} slide={false} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
                                 {this.renderList(1).map(card=>card)}
                             </Carousel>
                             {/*{this.state.cards}*/}
                         </div>
                     </SElement>
-
-
                 </div>
-            </div>
+            </React.Fragment>
+            // </div>
         );
     }
 }
