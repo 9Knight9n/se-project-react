@@ -44,6 +44,7 @@ class Homepage extends Component {
         this.leftMenuClicked = this.leftMenuClicked.bind(this);
         this.leftOptionsSelectedShow = this.leftOptionsSelectedShow.bind(this);
         this.handleScreenSizeChange = this.handleScreenSizeChange.bind(this);
+        this.renderList = this.renderList.bind(this)
     }
 
     componentDidMount() {
@@ -74,7 +75,71 @@ class Homepage extends Component {
 
 
     state = {
-        cards:1,
+        cards1:[
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+        ],
+        cards2:[
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+        ],
+        cardsSize:1,
         scrolling:false,
         subPages:[
             {id:0},
@@ -98,14 +163,14 @@ class Homepage extends Component {
     handleScreenSizeChange(size){
         let cards = 1;
         if (size==='xl')
-            cards = 8;
+            cards = 4;
         else if(size === 'lg')
-            cards = 6
+            cards = 4
         else if (size ==='md')
             cards = 4
         else if (size === 'sm')
             cards = 2
-        this.setState({cards})
+        this.setState({cardsSize:cards})
     }
 
 
@@ -184,6 +249,42 @@ class Homepage extends Component {
         });
     };
 
+
+    renderList(id)
+    {
+        const cards = id===1?this.state.cards1:this.state.cards2
+        let arr = []
+        for (let k = 0;k<=(cards.length/this.state.cardsSize);k++)
+        {
+            let cardGroups = []
+            for (let z = 0;z<this.state.cardsSize;z++)
+            {
+                let card = cards[k*this.state.cardsSize+z];
+                if (!card)
+                    break
+                cardGroups = [...cardGroups,<VillaCard name={card.name}
+                                                     addr={card.addr}
+                                                     cost={card.cost}
+                                                     rate={card.cost}/>]
+            }
+            // if (cardGroups[0])
+            // console.log(cardGroups[0].toString())
+            // if (cardGroups[1])
+            // console.log(cardGroups[1].toString())
+            // if (cardGroups[2])
+            // console.log(cardGroups[2].toString())
+            arr = [...arr,
+                <Carousel.Item>
+                    <div style={{background: '#364d79',borderRadius:'0.5rem',width:"fit-content"}} className={'p-5'}>
+                        <div style={{width:320*this.state.cardsSize}} className={'d-flex flex-row'}>
+                            {cardGroups.map(cardGroup=>cardGroup)}
+                        </div>
+                    </div>
+                </Carousel.Item>]
+        }
+        return arr
+    }
+
     render() {
         const contentStyle = {
             // height: '400px',
@@ -214,7 +315,7 @@ class Homepage extends Component {
                         <div className={'row w-100 mt-auto mb-auto'} >
                             <div className={' col-lg-12 col-xl-12 col-md-12 col-sm-12 col-12'} >
                                 <h4 className={'ml-5 mb-3 mt-5'} style={{fontFamily:'cursive'}}>
-                                    Or You can use a map:
+                                    Or You may use a map:
                                 </h4>
                             </div>
                             <div className={'col-lg-8 col-xl-8 col-md-6 col-sm-12 col-12'}>
@@ -274,8 +375,11 @@ class Homepage extends Component {
                         </div>
                     </SElement>
                     <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg'} style={{backgroundColor:'white',borderRadius:'1.5rem'}}>
-                        <div>
-                            {this.state.cards}
+                        <div className={'pt-5 h-100  d-flex ml-auto mr-auto'} style={{width:'fit-content'}}>
+                            <Carousel style={{width:'fit-content'}} className={'mt-auto mb-auto'}>
+                                {this.renderList(1).map(card=>card)}
+                            </Carousel>
+                            {/*{this.state.cards}*/}
                         </div>
                     </SElement>
                     <SElement id={'hp-sub-3'} name={'hp-sub-3'} className={'homepage-div-bg d-flex m-auto'} >

@@ -12,6 +12,12 @@
 }
 
 
+#hp-sub-1{
+    height: auto !important;
+    min-height: 100vh !important;
+}
+
+
 .become-host-div-bg{
     background-repeat: no-repeat !important;
     background-attachment: fixed !important;
@@ -38,6 +44,15 @@ body{
 
 .map-side-Carousel{
 
+}
+
+
+.carousel-control-next{
+    width: 5%;
+}
+
+.carousel-control-prev{
+    width: 5%;
 }
 
 
