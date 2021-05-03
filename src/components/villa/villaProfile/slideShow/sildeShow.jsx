@@ -9,22 +9,9 @@ import sampleImage3 from '../../img/3.jpg';
 import sampleImage4 from '../../img/4.jpg';
 import {STORAGE_KEY} from "../../../constants";
 import {getViewport} from "../../../util";
-import { Carousel } from 'antd';
+import {API_BASE_URL} from '../../../constants'
+import { Carousel } from 'react-bootstrap';
 
-const contentStyle = {
-  height: '160px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
-
-const images = [
-  { url: sampleImage1 },
-  { url: sampleImage2 },
-  { url: sampleImage3 },
-  { url: sampleImage4 },
-];
 
 class SlideShow extends Component {
     constructor(props) {
@@ -32,6 +19,7 @@ class SlideShow extends Component {
         this.state = {
             show: this.props.show,
             size:'',
+            images:this.props.images,
         }
     }
 
@@ -39,9 +27,11 @@ class SlideShow extends Component {
         if (prevProps.show !== this.props.show){
             this.setState({show: this.props.show})
         }
+
     }
 
     componentDidMount (){
+        console.log("images hy: " +API_BASE_URL.substring(0, API_BASE_URL.length -1)  + this.props.images[1])
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
     }
 
@@ -62,20 +52,59 @@ class SlideShow extends Component {
                     </Modal.Header>
                     <Modal.Body id="slideShow-modal-body">
                     <div className="slideShow">
-                    <Carousel  className="h-100" dotPosition={"bottom"}>
-                        <div>
-                            <h3 style={contentStyle}><img className="w-100" src={sampleImage1}/></h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}><img className="w-100" src={sampleImage2}/></h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}><img className="w-100" src={sampleImage3}/></h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}><img className="w-100" src={sampleImage4}/></h3>
-                        </div>
-                    </Carousel>,
+                    <Carousel>
+                        <Carousel.Item>
+                            <img
+                            className="d-block w-100"
+                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[0]}
+                            alt="First slide"
+                            />
+                            <Carousel.Caption>
+
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                            className="d-block w-100"
+                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[2]}
+                            alt="First slide"
+                            />
+                            <Carousel.Caption>
+
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                            className="d-block w-100"
+                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[3]}
+                            alt="First slide"
+                            />
+                            <Carousel.Caption>
+
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                            className="d-block w-100"
+                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[4]}
+                            alt="Second slide"
+                            />
+
+                            <Carousel.Caption>
+
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                            className="d-block w-100"
+                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[5]}
+                            alt="Third slide"
+                            />
+
+                            <Carousel.Caption>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                    </Carousel>
                     </div>
                     </Modal.Body>
                 </div>

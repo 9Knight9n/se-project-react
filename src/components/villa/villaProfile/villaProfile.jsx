@@ -51,7 +51,7 @@ class VillaProfile extends Component {
             img2:'',
             img3:'',
             img4:'',
-            images:null,
+            images:[],
             facilities : [
                 {
                     src:
@@ -360,19 +360,19 @@ class VillaProfile extends Component {
                         <div className="villaProfile-gallery col-xl-6">
                             <div className="mb-4 row">
                                 <div className="img1 col">
-                                    <img onClick={this.showGallary} alt="villa-image1" src={this.state.img1} />
+                                    <img onClick={this.showGallary} alt="villa-image1" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[0]} />
                                 </div>
                                 <div className="img2 col">
-                                    <img onClick={this.showGallary} alt="villa-image2" src={this.state.img2} />
+                                    <img onClick={this.showGallary} alt="villa-image2" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[1]} />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="img3 col">
-                                    <img onClick={this.showGallary} alt="villa-image3" src={this.state.img3} />
+                                    <img onClick={this.showGallary} alt="villa-image3" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[2]} />
                                     <button onClick={this.showGallary} className="btn btn-light">Show all photos</button>
                                 </div>
                                 <div className="img4 col">
-                                    <img onClick={this.showGallary} alt="villa-image4" src={this.state.img4} />
+                                    <img onClick={this.showGallary} alt="villa-image4" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[3]} />
                                 </div>    
                             </div>
                             
