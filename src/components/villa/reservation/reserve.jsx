@@ -22,7 +22,7 @@ class SlideShow extends Component {
             checkIn: new Date().toLocaleString(),
             checkOut: new Date().toLocaleString(),
             currentDate:null,
-            price: 100,
+            price: this.props.PlacePrice,
             total: 100+" $",
             stayingDays:1,
             size:null,

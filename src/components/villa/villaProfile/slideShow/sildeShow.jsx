@@ -27,11 +27,10 @@ class SlideShow extends Component {
         if (prevProps.show !== this.props.show){
             this.setState({show: this.props.show})
         }
-
     }
 
     componentDidMount (){
-        console.log("images hy: " +API_BASE_URL.substring(0, API_BASE_URL.length -1)  + this.props.images[1])
+        console.log("hi")
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
     }
 

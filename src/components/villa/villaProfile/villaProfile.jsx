@@ -36,7 +36,7 @@ class VillaProfile extends Component {
             placeArea: 150 ,
             placeNormalCapacity: 4,
             placeMaxCapacity: 5,
-            placePrice: 100,
+            placePrice: null,
             numOfBedrooms: 4,
             numOfBathrooms: 2,
             numOfShowers: 2,
