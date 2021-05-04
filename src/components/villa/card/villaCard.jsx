@@ -15,6 +15,10 @@ class VillaCard extends Component {
         loading: false,
     };
 
+    componentDidMount() {
+        console.log('src',this.props.src)
+    }
+
 
     render() {
         return (
@@ -24,9 +28,10 @@ class VillaCard extends Component {
                     hoverable
                     style={{ width: 320,height:'100%' }}
                     cover={
-                            <img
+                            <img style={{width:'320px',
+                                        height:'200px',objectFit: 'cover'}}
                                 alt="example"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                                src={this.props.src}
                                 />
                     }
                     >

@@ -75,6 +75,7 @@ class Photos extends Component {
           if(this.state.fileList[k].status==='done')
               num++;
       }
+      // this.forceUpdate()
       return num;
     }
 
@@ -90,7 +91,7 @@ class Photos extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    <h4>Upload at least 1 photo of accommodation.
+                    <h4>Upload at least 4 photo of accommodation.({4-this.getNumOfUploaded()} photos left)
                         {/*{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}*/}
                     </h4>
                 </Modal.Header>
@@ -118,7 +119,7 @@ class Photos extends Component {
                         <button className={'btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/documentations/'}>
-                        <button onClick={this.saveFileListToSessionStorage} disabled={this.getNumOfUploaded()<1} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button onClick={this.saveFileListToSessionStorage} disabled={this.getNumOfUploaded()<4} className={'ml-auto btn btn-outline-primary'}>Next</button>
                     </Link>
                 </Modal.Footer>
             </React.Fragment>

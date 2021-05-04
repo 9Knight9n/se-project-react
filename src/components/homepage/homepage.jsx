@@ -15,7 +15,7 @@ import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
 import {log2} from "ol/math";
 import VillaCard from "../villa/card/villaCard";
-import {API_SEARCH_VILLA, STORAGE_KEY} from "../constants";
+import {API_BASE_URL, API_SEARCH_VILLA, STORAGE_KEY} from "../constants";
 import {getItem, getViewport} from "../util";
 import {Carousel} from "react-bootstrap";
 import axios from "axios";
@@ -76,11 +76,12 @@ class Homepage extends Component {
         let cardList = await axios(config)
             .then(function (response) {
                 // console.log(JSON.stringify(response.data));
+                console.log(response.data.data)
                 return response.data.data
             })
             .catch(function (error) {
                 console.log(error);
-                return null
+                return []
             });
         this.setState({cards1:cardList,cards2:cardList})
     }
@@ -319,6 +320,7 @@ class Homepage extends Component {
                 if (!card)
                     break
                 cardGroups = [...cardGroups,<VillaCard name={card.name}
+                                                       src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                                        addr={card.country+", "+card.state+', '+card.city}
                                                        cost={card.price_per_night}
                                                        rate={'4.5 (35 reviews)'}/>]
@@ -389,10 +391,11 @@ class Homepage extends Component {
                             <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
                                 <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex mt-3'}>
                                     <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}>
-                                        {this.state.cards1.map(card=>
-                                            <Carousel.Item>
+                                        {this.state.cards1.map((card,index)=>
+                                            <Carousel.Item key={index}>
                                                 <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
                                                     <VillaCard name={card.name}
+                                                               src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                                                addr={card.country+", "+card.state+', '+card.city}
                                                                cost={card.price_per_night}
                                                                rate={'4.5 (35 reviews)'}/>
