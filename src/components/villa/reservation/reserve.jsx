@@ -23,7 +23,7 @@ class SlideShow extends Component {
             checkOut: new Date().toLocaleString(),
             currentDate:null,
             price: this.props.PlacePrice,
-            total: 100+" $",
+            total: this.props.PlacePrice+" $",
             stayingDays:1,
             size:null,
         }
@@ -43,18 +43,20 @@ class SlideShow extends Component {
     }
 
     onDateChange = (range) =>{
-        let startDate = range[0].format();
-        let endDate = range[1].format();
-        let a = moment(startDate);
-        let b = moment(endDate);
-        b.diff(a, 'days')  // =1
-        console.log('duration  ',b.diff(a, 'days')); 
-        // let Difference_In_Time = endDate.getTime() - startDate.getTime();
-        // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-        this.setState({stayingDays: b.diff(a, 'days'),})
-        this.calculateCost(b.diff(a, 'days'))
-        console.log('start date  ',startDate); 
-        console.log("end date  ",endDate);
+        if (range !== null){
+            let startDate = range[0].format();
+            let endDate = range[1].format();
+            let a = moment(startDate);
+            let b = moment(endDate);
+            b.diff(a, 'days')  // =1
+            console.log('duration  ',b.diff(a, 'days')); 
+            // let Difference_In_Time = endDate.getTime() - startDate.getTime();
+            // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            this.setState({stayingDays: b.diff(a, 'days'),})
+            this.calculateCost(b.diff(a, 'days'))
+            console.log('start date  ',startDate); 
+            console.log("end date  ",endDate);
+        }
     }
 
     disabledDate = current => {

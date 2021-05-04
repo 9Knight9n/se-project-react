@@ -47,11 +47,8 @@ class VillaProfile extends Component {
             palceCountry:'',
             placeState:',',
             placeCity:'',
-            img1:'',
-            img2:'',
-            img3:'',
-            img4:'',
             images:[],
+            availableFacilities: [],
             facilities : [
                 {
                     src:
@@ -296,7 +293,7 @@ class VillaProfile extends Component {
                 'Authorization': 'Token '.concat(getItem('user-token'))
             },
             params: {
-                villa_id: 1
+                villa_id: 2
             }
         })
         .then(res => {
@@ -331,12 +328,23 @@ class VillaProfile extends Component {
             palceCountry: data.country,
             placeCity:data.city,
             placeState:data.state,
-            img1:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[0],
-            img2:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[1],
-            img3:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[2],
-            img4:API_BASE_URL.substring(0, API_BASE_URL.length -1) + data.images[3],
             images: data.images,
+            availableFacilities: data.facilities
         })
+        let array = []
+        for (let i=0; i < this.state.facilities.length; i++)
+        {
+            if (data.facilities.includes(this.state.facilities[i].label))
+            {
+                array = [this.state.facilities[i],...array]
+                array[0].isAvailable = true
+            }else
+            {
+                array = [...array,this.state.facilities[i]]
+                array[array.length - 1].isAvailable = false
+            }
+        }
+        this.setState({facilities: array})
 
     }
 
@@ -360,19 +368,19 @@ class VillaProfile extends Component {
                         <div className="villaProfile-gallery col-xl-6">
                             <div className="mb-4 row">
                                 <div className="img1 col">
-                                    <img onClick={this.showGallary} alt="villa-image1" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[0]} />
+                                    <img onClick={this.showGallary} alt="villa-image" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[0]} />
                                 </div>
                                 <div className="img2 col">
-                                    <img onClick={this.showGallary} alt="villa-image2" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[1]} />
+                                    <img onClick={this.showGallary} alt="villa-image" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[1]} />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="img3 col">
-                                    <img onClick={this.showGallary} alt="villa-image3" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[2]} />
+                                    <img onClick={this.showGallary} alt="villa-image" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[2]} />
                                     <button onClick={this.showGallary} className="btn btn-light">Show all photos</button>
                                 </div>
                                 <div className="img4 col">
-                                    <img onClick={this.showGallary} alt="villa-image4" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[3]} />
+                                    <img onClick={this.showGallary} alt="villa-image" src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[3]} />
                                 </div>    
                             </div>
                             
@@ -495,14 +503,14 @@ class VillaProfile extends Component {
                                     1. You can not smoke in villa.
                                 </p>
                                 <p>
-                                    2. You can not smoke in villa.
+                                    2. Pets are not allowed in villa.
                                 </p>
                                 <p>
-                                    3. You can not smoke in villa.
+                                    3. The number of passengers must be less than maximum capacity.
                                 </p>
-                                <p>
+                                {/* <p>
                                     4. You can not smoke in villa.
-                                </p>
+                                </p> */}
                             </div>
 
                         </div>
@@ -515,17 +523,17 @@ class VillaProfile extends Component {
                             </div>
                             <div className="ml-2">
                                 <p>
-                                    1. You can not smoke in villa.
+                                    1. 3 days ahead of schedule nothing will be returned.
                                 </p>
                                 <p>
-                                    2. You can not smoke in villa.
+                                    2. 7 days ahead of schedule 30% of price will be returned.
                                 </p>
                                 <p>
-                                    3. You can not smoke in villa.
+                                    3. More than 7 days ahead of schedule 100% of price will be returned.
                                 </p>
-                                <p>
+                                {/* <p>
                                     4. You can not smoke in villa.
-                                </p>
+                                </p> */}
                             </div>
 
                         </div>

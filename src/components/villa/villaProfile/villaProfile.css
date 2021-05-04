@@ -25,7 +25,7 @@
   /* transition: border-width 2s linear; */
 }
 #villaProfile-facility-disable {
-  filter: opacity(50%);
+  filter: opacity(25%);
 }
 
 .villaProfile-gallery button {
