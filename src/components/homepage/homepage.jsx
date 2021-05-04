@@ -15,9 +15,10 @@ import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
 import {log2} from "ol/math";
 import VillaCard from "../villa/card/villaCard";
-import {STORAGE_KEY} from "../constants";
-import {getViewport} from "../util";
+import {API_SEARCH_VILLA, STORAGE_KEY} from "../constants";
+import {getItem, getViewport} from "../util";
 import {Carousel} from "react-bootstrap";
+import axios from "axios";
 
 
 
@@ -59,12 +60,29 @@ class Homepage extends Component {
         this.renderList = this.renderList.bind(this)
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // const self = this;
         this.handleScreenSizeChange(getViewport())
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.handleScreenSizeChange(event.detail));
         document.addEventListener('scroll', this.leftOptionsSelectedShow)
         sessionStorage.removeItem('scroll-hp-sub')
+        let config = {
+            method: 'get',
+            url: API_SEARCH_VILLA+'?page=1&number_of_villa=1',
+            headers: {
+                // 'Authorization': 'Token '.concat(getItem('user-token')),
+            }
+        };
+        let cardList = await axios(config)
+            .then(function (response) {
+                // console.log(JSON.stringify(response.data));
+                return response.data.data
+            })
+            .catch(function (error) {
+                console.log(error);
+                return null
+            });
+        this.setState({cards1:cardList,cards2:cardList})
     }
 
 
@@ -88,6 +106,30 @@ class Homepage extends Component {
 
     state = {
         cards1:[
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
             {
                 name:'City center apartment with 3 rooms',
                 addr:"Iran ,Tehran ,Shar-rey",
@@ -177,12 +219,14 @@ class Homepage extends Component {
         if (size==='xl')
             cards = 4;
         else if(size === 'lg')
-            cards = 4
+            cards = 2
         else if (size ==='md')
-            cards = 4
+            cards = 2
         else if (size === 'sm')
             cards = 2
         this.setState({cardsSize:cards})
+        // console.log('new size ',cards)
+        this.forceUpdate()
     }
 
 
@@ -275,9 +319,9 @@ class Homepage extends Component {
                 if (!card)
                     break
                 cardGroups = [...cardGroups,<VillaCard name={card.name}
-                                                       addr={card.addr}
-                                                       cost={card.cost}
-                                                       rate={card.cost}/>]
+                                                       addr={card.country+", "+card.state+', '+card.city}
+                                                       cost={card.price_per_night}
+                                                       rate={'4.5 (35 reviews)'}/>]
             }
             // if (cardGroups[0])
             // console.log(cardGroups[0].toString())
@@ -285,14 +329,15 @@ class Homepage extends Component {
             // console.log(cardGroups[1].toString())
             // if (cardGroups[2])
             // console.log(cardGroups[2].toString())
-            arr = [...arr,
-                <Carousel.Item>
-                    <div style={{background: '#364d79',borderRadius:'0.5rem',width:"fit-content"}} className={'p-5'}>
-                        <div style={{width:320*this.state.cardsSize}} className={'d-flex flex-row'}>
-                            {cardGroups.map(cardGroup=>cardGroup)}
+            if (cardGroups.length>0)
+                arr = [...arr,
+                    <Carousel.Item>
+                        <div style={{background: '#364d79',borderRadius:'0.5rem',width:"fit-content"}} className={'p-5'}>
+                            <div style={{width:320*this.state.cardsSize}} className={'d-flex flex-row'}>
+                                {cardGroups.map(cardGroup=>cardGroup)}
+                            </div>
                         </div>
-                    </div>
-                </Carousel.Item>]
+                    </Carousel.Item>]
         }
         return arr
     }
@@ -419,7 +464,7 @@ class Homepage extends Component {
                                 Most reserved places:
                             </h4>
                             <Carousel interval={null} slide={false} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
-                                {this.renderList(1).map(card=>card)}
+                                {this.renderList(2).map(card=>card)}
                             </Carousel>
                             {/*{this.state.cards}*/}
                         </div>

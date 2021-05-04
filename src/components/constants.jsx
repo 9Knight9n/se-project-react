@@ -15,10 +15,11 @@ export const API_PROFILE_UPDATE_AVATAR_URL = "api/account/update_account_image"
 export const API_PROFILE_SHOW_AVATAR_URL = "api/account/show_account_image"
 export const API_SEARCH_USER_URL = "api/account/properties/all"
 // export const API_UPLOAD_IMAGE_URL = "api/villa/admin/remove-waste-images/"
-export const API_UPLOAD_DOC_RESIDANCE_URL = "api/villa/user/documents/"
+export const API_UPLOAD_DOC_RESIDANCE_URL = "api/villa/user/documents/" //contains typo we know.
 export const API_UPLOAD_IMAGE_URL = "api/villa/user/images/"
 export const API_CHECK_DOC_URL = "api/account/check-document-existence"
 export const API_ADD_VILLA_URL = "api/villa/user/"
+export const API_SEARCH_VILLA = 'api/villa/search/'
 
 
 
