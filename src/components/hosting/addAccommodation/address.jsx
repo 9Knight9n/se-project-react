@@ -136,10 +136,10 @@ class Address extends Component {
             let unitCount = Math.round(characterCount/charsPerPageCount);
             this.setState({pageCount: unitCount});
         }
-        if (name === "postalCode" && (value.length < 11)){
+        if (name === "postalCode" && (value.length === 10)){
             this.setState({postalCode: value, invalidPostalCode: false})
         }
-        else if(name === "postalCode" && (value.length >= 11)){
+        else if(name === "postalCode" && (value.length > 10 || value.length < 10)){
             this.setState({postalCode: value, invalidPostalCode: true})
         }
     }
@@ -349,7 +349,7 @@ class Address extends Component {
                                                         isInvalid={this.state.invalidPostalCode}
                                                     />
                                                     <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                                        Postal code must be less than 11 digits.
+                                                        Postal code must be 10 digits.
                                                     </Form.Control.Feedback>
                                                 </div>
                                             </div>
