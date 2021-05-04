@@ -68,7 +68,7 @@ class Homepage extends Component {
         sessionStorage.removeItem('scroll-hp-sub')
         let config = {
             method: 'get',
-            url: API_SEARCH_VILLA+'?page=1&number_of_villa=1',
+            url: API_SEARCH_VILLA+'?page=1&number_of_villa=100',
             headers: {
                 // 'Authorization': 'Token '.concat(getItem('user-token')),
             }
@@ -389,46 +389,16 @@ class Homepage extends Component {
                             <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
                                 <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex mt-3'}>
                                     <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}>
-                                        {/*<div className={'pb-5'} style={{height:'fit-content',width:'fit-content',backgroundColor:'black'}}>*/}
-                                        {/*    <VillaCard name={'City center apartment with 3 rooms'}*/}
-                                        {/*               addr={"Iran ,Tehran ,Shar-rey"}*/}
-                                        {/*               cost={10000} rate={'4.3 (35 reviews)'}/>*/}
-                                        {/*</div>*/}
-                                        {/*<div className={'pb-4'} style={{height:'fit-content',width:'fit-content',backgroundColor:'black'}}>*/}
-                                        {/*    <VillaCard name={'City center apartment with 3 rooms'}*/}
-                                        {/*               addr={"Iran ,Tehran ,Shar-rey"}*/}
-                                        {/*               cost={10000} rate={'4.3 (35 reviews)'}/>*/}
-                                        {/*</div>*/}
-                                        <Carousel.Item>
-                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
-                                                    <VillaCard name={'City center apartment with 3 rooms'}
-                                                               addr={"Iran ,Tehran ,Shar-rey"}
-                                                               cost={10000} rate={'4.3 (35 reviews)'}/>
-                                            </div>
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
-                                                    <VillaCard name={'City center apartment with 3 rooms'}
-                                                               addr={"Iran ,Tehran ,Shar-rey"}
-                                                               cost={10000} rate={'4.3 (35 reviews)'}/>
-                                            </div>
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
-                                                <VillaCard name={'City center apartment with 3 rooms'}
-                                                           addr={"Iran ,Tehran ,Shar-rey"}
-                                                           cost={10000} rate={'4.3 (35 reviews)'}/>
-                                            </div>
-                                        </Carousel.Item>
-                                        <Carousel.Item>
-                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
-                                                <VillaCard name={'City center apartment with 3 rooms'}
-                                                           addr={"Iran ,Tehran ,Shar-rey"}
-                                                           cost={10000} rate={'4.3 (35 reviews)'}/>
-                                            </div>
-                                        </Carousel.Item>
-
-
+                                        {this.state.cards1.map(card=>
+                                            <Carousel.Item>
+                                                <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
+                                                    <VillaCard name={card.name}
+                                                               addr={card.country+", "+card.state+', '+card.city}
+                                                               cost={card.price_per_night}
+                                                               rate={'4.5 (35 reviews)'}/>
+                                                </div>
+                                            </Carousel.Item>
+                                        )}
                                     </Carousel>
                                 </div>
                             </div>

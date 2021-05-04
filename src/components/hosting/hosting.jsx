@@ -17,7 +17,7 @@ class Hosting extends Component {
 
     render() { 
         return (
-            <div className={'container-fluid'}>
+            <div className={'container-fluid'} style={{paddingTop:'10%',minHeight:'100vh'}} >
                 <Switch>
                     <Route path="/hosting/addaccommodation/">
                         <AddAccommodation/>
