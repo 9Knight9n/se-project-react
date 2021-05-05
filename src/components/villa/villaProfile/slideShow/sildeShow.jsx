@@ -37,8 +37,9 @@ class SlideShow extends Component {
 
     render() { 
         return ( 
-            <div  id="slideShow">
+            <div id="slideShow">
                 <Modal
+                    ClassName="slideShowModal-custom-css"
                     id="slideShow-Modal"                       
                     centered
                     size={'lg'}
