@@ -51,19 +51,20 @@ class Search extends Component {
     {
         if (this.props.country)
             this.handleCountrySelect(this.props.country)
-        this.setState({searchPage:this.props.country})
+        this.setState({searchPage:this.props.country,newLoad : true})
     }
 
     loadOptions2()
     {
-        if (this.props.state)
+        if (this.props.state && this.state.newLoad)
             this.handleStateSelect(this.props.state)
     }
 
     loadOptions3()
     {
-        if (this.props.city)
+        if (this.props.city && this.state.newLoad)
             this.handleCitySelect(this.props.city)
+        this.setState({newLoad : false})
     }
 
     handleCountrySelect(value){
