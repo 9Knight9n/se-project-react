@@ -6,6 +6,7 @@ import SearchUser from "./homepage/searchUser/searchUser";
 import Settings from "./settings/settings";
 import Hosting from "./hosting/hosting";
 import Homepage from "./homepage/homepage";
+import SearchPage from "./searchpage/searchPage";
 
 class PageRouter extends Component {
     constructor(props) {
@@ -23,6 +24,9 @@ class PageRouter extends Component {
                     </Route>
                     <Route path="/hosting/">
                         <Hosting/>
+                    </Route>
+                    <Route path="/search/">
+                        <SearchPage/>
                     </Route>
                     <Route path="/">
                         <Homepage/>

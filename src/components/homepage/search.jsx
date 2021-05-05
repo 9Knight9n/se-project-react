@@ -3,6 +3,7 @@ import {Button, Select, Tooltip} from 'antd';
 import './search.css'
 import {SearchOutlined} from "@ant-design/icons";
 import csc from 'country-state-city';
+import {Link} from "react-router-dom";
 
 
 const { Option } = Select;
@@ -14,9 +15,14 @@ class Search extends Component {
         this.handleCountrySelect = this.handleCountrySelect.bind(this);
         this.handleStateSelect = this.handleStateSelect.bind(this);
         this.handleCitySelect = this.handleCitySelect.bind(this);
+        this.search = this.search.bind(this);
+        this.loadOptions1 = this.loadOptions1.bind(this);
+        this.loadOptions2 = this.loadOptions2.bind(this);
+        this.loadOptions3 = this.loadOptions3.bind(this);
     }
 
         state = {
+        searchPage:false,
         countries:csc.getAllCountries(),
         sCountry:null,
         sCountryCode:null,
@@ -28,6 +34,37 @@ class Search extends Component {
         sCityCode:null,
     }
 
+    componentDidMount() {
+        this.loadOptions1()
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps !== this.props)
+            this.loadOptions1()
+        if (prevState.states !== this.state.states || prevState.sCountryCode !== this.state.sCountryCode)
+            this.loadOptions2()
+        if (prevState.cities !== this.state.cities)
+            this.loadOptions3()
+    }
+
+
+    loadOptions1()
+    {
+        if (this.props.country)
+            this.handleCountrySelect(this.props.country)
+        this.setState({searchPage:this.props.country})
+    }
+
+    loadOptions2()
+    {
+        if (this.props.state)
+            this.handleStateSelect(this.props.state)
+    }
+
+    loadOptions3()
+    {
+        if (this.props.city)
+            this.handleCitySelect(this.props.city)
+    }
 
     handleCountrySelect(value){
         let sCountryCode = null
@@ -44,8 +81,8 @@ class Search extends Component {
         {
             this.setState({sCountry:value,sCountryCode:sCountryCode,sStatesCode:null,sCity:null,sCityCode:null,states:[],sState:null,cities:csc.getCitiesOfCountry(sCountryCode)})
         }
-    else
-        this.setState({sCountry:value,sCountryCode:sCountryCode,sState:null,sStateCode:null,sCity:null,sCityCode:null,cities:[],states:states});
+        else
+            this.setState({sCountry:value,sCountryCode:sCountryCode,sState:null,sStateCode:null,sCity:null,sCityCode:null,cities:[],states:states});
     }
 
 
@@ -76,12 +113,17 @@ class Search extends Component {
 
     }
 
+    search(){
+        // if (this.state.sCountry)
+            document.getElementById('search-button').click()
+    }
+
     render() {
         return (
             <div className={'mt-auto mb-auto ml-auto mr-auto'} style={{width:"fit-content"}}>
                 <div className={'pr-5 pl-4 pt-4 pb-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem'}}>
                     <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
-                        Tell us where:
+                        {this.state.searchPage?'Showing search results for:':'Tell us where:'}
                     </h4>
                      <div className={'row'} >
                       <Select size={'large'} value={this.state.sCountry} autoFocus className={'placeholder-visible mr-auto ml-auto'} showSearch bordered={false}
@@ -109,11 +151,14 @@ class Search extends Component {
                     ))}
                   </Select>
                     <Tooltip title="search">
-                      <Button style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+                      <Button onClick={this.search} style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
                     </Tooltip>
                     </div>
                      </div>
                 </div>
+                <Link id={'search-button'} to={'/search/?'+(this.state.sCountry?('country='+this.state.sCountry):'')+
+                (this.state.sState?('&state='+this.state.sState):'')+
+                (this.state.sCity?('&city='+this.state.sCity):'')}/>
             </div>
         );
     }

@@ -31,7 +31,7 @@ class VillaCard extends Component {
                             <img style={{width:'320px',
                                         height:'200px',objectFit: 'cover'}}
                                 alt="example"
-                                src={this.props.src}
+                                src={'https://monoloop.com/wp-content/uploads/2017/08/photo-1511367461989-f85a21fda167.jpg'}
                                 />
                     }
                     >
