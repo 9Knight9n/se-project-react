@@ -91,7 +91,7 @@ class Photos extends Component {
         return (
             <React.Fragment>
                 <Modal.Header closeButton={true}>
-                    <h4>Upload at least 4 photo of accommodation.({4-this.getNumOfUploaded()} photos left)
+                    <h4>Upload at least 4 photo of accommodation.({4-this.getNumOfUploaded()>-1?4-this.getNumOfUploaded():'0'} photos left)
                         {/*{this.getNumOfUploaded()<3?'('.concat((3-this.getNumOfUploaded()))+' photos left)':null}*/}
                     </h4>
                 </Modal.Header>

@@ -52,6 +52,7 @@ class Nav_bar extends Component {
     {
         clearCredentials()
         this.setState({loggedIn:false})
+        document.getElementById('nav-drop-homepage').click()
     }
 
 
@@ -83,30 +84,27 @@ class Nav_bar extends Component {
 
                                 <Dropdown.Menu className={"shadow-lg"} style={{backgroundColor:"#ffffffcc"}}>
 
-                                    <Link to="/settings/personalInfo/">
-                                        <Dropdown.Item className={"btn-primary shadow-none"} >
+                                    <Link id={'nav-drop-setting'} to="/settings/personalInfo/"/>
+                                    <Dropdown.Item className={"btn-primary shadow-none"} onClick={()=>document.getElementById('nav-drop-setting').click()}>
                                         Settings
-                                        </Dropdown.Item>
-                                    </Link>
+                                    </Dropdown.Item>
 
                                     <Dropdown.Divider/>
-                                    <Link to="/">
-                                        <Dropdown.Item className={"btn-primary shadow-none"} >
-                                            Homepage
-                                        </Dropdown.Item>
-                                    </Link>
+                                    <Link id={'nav-drop-homepage'} to="/"/>
+                                    <Dropdown.Item className={"btn-primary shadow-none"} onClick={()=>document.getElementById('nav-drop-homepage').click()}>
+                                        Homepage
+                                    </Dropdown.Item>
                                     <Dropdown.Divider/>
-                                    <Link to="/Hosting/">
-                                        <Dropdown.Item className={"btn-primary shadow-none"} >
-                                            Hosting
-                                        </Dropdown.Item>
-                                    </Link>
+
+                                    <Link id={'nav-drop-hosting'} to="/Hosting/"/>
+                                    <Dropdown.Item className={"btn-primary shadow-none"} onClick={()=>document.getElementById('nav-drop-hosting').click()}>
+                                        Hosting
+                                    </Dropdown.Item>
+
                                     <Dropdown.Divider/>
-                                    <Link to="/" style={{color:"red"}}>
-                                        <Dropdown.Item style={{color:'red'}} className={"btn btn-danger shadow-none"} onClick={this.logOut}>
-                                            Log Out
-                                        </Dropdown.Item>
-                                    </Link>
+                                    <Dropdown.Item style={{color:'red'}} className={"btn btn-danger shadow-none"} onClick={this.logOut}>
+                                        Log Out
+                                    </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                             :

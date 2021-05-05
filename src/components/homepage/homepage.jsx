@@ -83,6 +83,7 @@ class Homepage extends Component {
                 console.log(error);
                 return []
             });
+        console.log(cardList)
         this.setState({cards1:cardList,cards2:cardList})
     }
 
@@ -320,6 +321,7 @@ class Homepage extends Component {
                 if (!card)
                     break
                 cardGroups = [...cardGroups,<VillaCard name={card.name}
+                                                       id={card.villa_id}
                                                        src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                                        addr={card.country+", "+card.state+', '+card.city}
                                                        cost={card.price_per_night}
@@ -385,9 +387,15 @@ class Homepage extends Component {
                             <div className={'col-lg-8 col-xl-8 col-md-6 col-sm-12 col-12'}>
                                 {/*<div className={'mr-5 ml-5'}>*/}
                                     {/*https://www.npmjs.com/package/rlayers*/}
-                                <RMap className={'pl-5'}  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
-                                    <ROSM />
-                                </RMap>
+                                <div className={'pl-5'}>
+                                    <div  style={{border: '2px solid #8f8ff8'}}>
+                                        <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
+                                            <ROSM />
+                                        </RMap>
+                                    </div>
+                                </div>
+
+
                                 {/*</div>*/}
                             </div>
                             <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
@@ -397,6 +405,7 @@ class Homepage extends Component {
                                             <Carousel.Item key={index}>
                                                 <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
                                                     <VillaCard name={card.name}
+                                                               id={card.villa_id}
                                                                src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                                                addr={card.country+", "+card.state+', '+card.city}
                                                                cost={card.price_per_night}

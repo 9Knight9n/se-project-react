@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Carousel, Descriptions, Rate} from 'antd';
 import './villacard.css'
+import {Link} from "react-router-dom";
 
 
 const { Meta } = Card;
@@ -22,7 +23,8 @@ class VillaCard extends Component {
 
     render() {
         return (
-            <div >
+            <div onClick={()=>document.getElementById('go-to-villa-id-'.concat(this.props.id)).click()}>
+                <Link id={'go-to-villa-id-'.concat(this.props.id)} to={'/villa/villaProfile/?id='.concat(this.props.id)}/>
                 <Card
                     loading={false}
                     hoverable
@@ -31,7 +33,7 @@ class VillaCard extends Component {
                             <img style={{width:'320px',
                                         height:'200px',objectFit: 'cover'}}
                                 alt="example"
-                                src={'https://monoloop.com/wp-content/uploads/2017/08/photo-1511367461989-f85a21fda167.jpg'}
+                                src={this.props.src}
                                 />
                     }
                     >
