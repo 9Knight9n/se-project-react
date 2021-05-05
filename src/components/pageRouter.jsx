@@ -6,6 +6,9 @@ import SearchUser from "./homepage/searchUser/searchUser";
 import Settings from "./settings/settings";
 import Hosting from "./hosting/hosting";
 import Homepage from "./homepage/homepage";
+import VillaProfile from './villa/villaProfile/villaProfile';
+import SlideShow from './villa/villaProfile/slideShow/sildeShow';
+import Reserve from './villa/reservation/reserve';
 import SearchPage from "./searchpage/searchPage";
 
 class PageRouter extends Component {
@@ -24,6 +27,9 @@ class PageRouter extends Component {
                     </Route>
                     <Route path="/hosting/">
                         <Hosting/>
+                    </Route>
+                    <Route path="/villa/villaProfile/">
+                        <VillaProfile/>
                     </Route>
                     <Route path="/search/">
                         <SearchPage/>
