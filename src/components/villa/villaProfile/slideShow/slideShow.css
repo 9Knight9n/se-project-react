@@ -26,7 +26,7 @@
 
 #slideShow-Modal .modal-content {
   background-color: white !important;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 #slideShow-Modal .modal-header {

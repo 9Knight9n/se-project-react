@@ -299,7 +299,7 @@ class VillaProfile extends Component {
                 'Authorization': 'Token '.concat(getItem('user-token'))
             },
             params: {
-                villa_id: 4
+                villa_id: id
             }
         })
         .then(res => {
