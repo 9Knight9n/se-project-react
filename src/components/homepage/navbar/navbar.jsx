@@ -113,15 +113,15 @@ class Nav_bar extends Component {
                             <Fragment>
                                 <li className="nav-item">
                                     <a className="nav-link active" href="#">
-                                        <button onClick={()=>this.changeModal(true,true,null)} className="btn btn-outline-primary" data-toggle="modal" data-target="#signup"
-                                                type="button">Log In
+                                        <button onClick={()=>this.changeModal(true,false,null)} className="btn btn-light" data-toggle="modal" data-target="#signin"
+                                                type="button">Sign Up
                                         </button>
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link active" href="#">
-                                        <button onClick={()=>this.changeModal(true,false,null)} className="btn btn-primary" data-toggle="modal" data-target="#signin"
-                                                type="button">Sign Up
+                                        <button onClick={()=>this.changeModal(true,true,null)} className="btn btn-primary" data-toggle="modal" data-target="#signup"
+                                                type="button">Log In
                                         </button>
                                     </a>
                                 </li>

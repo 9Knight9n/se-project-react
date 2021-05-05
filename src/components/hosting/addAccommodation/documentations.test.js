@@ -32,7 +32,7 @@ afterAll(() => server.close())
 
 
 
-describe('photos page test', () => {
+describe('documentations page test', () => {
   test('render page', () => {
     render(<BrowserRouter><Documentations/></BrowserRouter>);
   });

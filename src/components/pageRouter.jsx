@@ -9,6 +9,7 @@ import Homepage from "./homepage/homepage";
 import VillaProfile from './villa/villaProfile/villaProfile';
 import SlideShow from './villa/villaProfile/slideShow/sildeShow';
 import Reserve from './villa/reservation/reserve';
+import SearchPage from "./searchpage/searchPage";
 
 class PageRouter extends Component {
     constructor(props) {
@@ -29,6 +30,9 @@ class PageRouter extends Component {
                     </Route>
                     <Route path="/villa/villaProfile/">
                         <VillaProfile/>
+                    </Route>
+                    <Route path="/search/">
+                        <SearchPage/>
                     </Route>
                     <Route path="/">
                         <Homepage/>
