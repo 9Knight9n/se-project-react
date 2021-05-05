@@ -30,7 +30,6 @@ class VillaProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hostName: "Ali Ebadi",
             placeName: "Seaside villa",
             placeDescription: "Seaside luxury villa near the sea and view of jungle.",
             placeArea: 150 ,
@@ -49,6 +48,8 @@ class VillaProfile extends Component {
             placeCity:'',
             images:[],
             availableFacilities: [],
+            placeOwner:'',
+            id: null,
             facilities : [
                 {
                     src:
@@ -288,12 +289,17 @@ class VillaProfile extends Component {
     }
 
     async componentDidMount(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const id= urlParams.get('id')
+        console.log("this is id : " + id)
+        this.setState({id})
         await axios.get(API_VILLA_PROFILE_URL,{
             headers: {
                 'Authorization': 'Token '.concat(getItem('user-token'))
             },
             params: {
-                villa_id: 2
+                villa_id: 1
             }
         })
         .then(res => {
@@ -329,7 +335,8 @@ class VillaProfile extends Component {
             placeCity:data.city,
             placeState:data.state,
             images: data.images,
-            availableFacilities: data.facilities
+            availableFacilities: data.facilities,
+            placeOwner: data.owner
         })
         let array = []
         for (let i=0; i < this.state.facilities.length; i++)
@@ -397,7 +404,7 @@ class VillaProfile extends Component {
                                 <div className="villaProfile-title col-xl-10 col-lg-11 col-md-11 col-sm-10 col-8">
                                     <h5>{this.state.placeName}</h5>
                                     <div className="villaProfile-subtitle">
-                                        <h6>hosted by {this.state.hostName}</h6>
+                                        <h6>hosted by {this.state.placeOwner}</h6>
                                     </div>
                                 </div>
                                 
@@ -482,7 +489,7 @@ class VillaProfile extends Component {
                                 <div className="villaProfile-subtitle">
                                 </div>
                             </div>
-                            <div className={'mr-5 ml-5'}>
+                            <div className={'mr-5 ml-5 villaProfile-map'}>
                                 <RMap  width={"100%"} height={"60vh"} initial={{ center: center, zoom: 11 }}>
                                     <ROSM />
                                 </RMap>

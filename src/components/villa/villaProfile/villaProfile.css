@@ -4,7 +4,7 @@
 }
 
 .villaProfile-main {
-  margin-top: 4rem;
+  margin-top: 6rem;
 }
 
 .villaProfile-main p {
@@ -72,6 +72,10 @@
   .villaProfile-hostAvatar img {
     max-width: 100%;
   }
+}
+
+.villaProfile-map {
+  border: 2px solid #8f8ff8;
 }
 
 @media screen and (max-width: 1300px) {
