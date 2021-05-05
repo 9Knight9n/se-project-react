@@ -136,10 +136,10 @@ class Address extends Component {
             let unitCount = Math.round(characterCount/charsPerPageCount);
             this.setState({pageCount: unitCount});
         }
-        if (name === "postalCode" && ( value.length > 5 && value.length < 11)){
+        if (name === "postalCode" && (value.length === 10)){
             this.setState({postalCode: value, invalidPostalCode: false})
         }
-        else if(name === "postalCode" && ( value.length <= 5 || value.length >= 11)){
+        else if(name === "postalCode" && (value.length > 10 || value.length < 10)){
             this.setState({postalCode: value, invalidPostalCode: true})
         }
     }
@@ -206,7 +206,7 @@ class Address extends Component {
                     <Modal.Header closeButton={true}>
                         <div>
                             <h4>Place address</h4>
-                            <p className="subTitle">This information is only for better accessibility of your guests and would be shown only after reservations</p>
+                            <p className="subTitle">This information is only for better accessibility of your guests and will be shown only after reservations</p>
                         </div>
 
                     </Modal.Header>
@@ -349,7 +349,7 @@ class Address extends Component {
                                                         isInvalid={this.state.invalidPostalCode}
                                                     />
                                                     <Form.Control.Feedback type="invalid" className={"ml-1"}>
-                                                        Postal code must be up to 6 and less than 10 digits.
+                                                        Postal code must be 10 digits.
                                                     </Form.Control.Feedback>
                                                 </div>
                                             </div>

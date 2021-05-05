@@ -187,45 +187,45 @@ class Amentities extends Component {
                             <div className="amentities-option mb-4 row">
                                 <b className="col">Normal capacity</b>
                                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
-                                    <img name="normalCapacity" onClick={(select, operator)=>this.handleCounter(1,"-")} className="" alt="minus icon" src={minusImg} />
+                                    <img data-testid="nCapMinus" name="normalCapacity" onClick={(select, operator)=>this.handleCounter(1,"-")} className="" alt="minus icon" src={minusImg} />
                                     <div data-testid="amentities-normalCapacity" className="amentities-counter-number pl-4 pr-4">{this.state.normalCapacity}</div>
-                                    <img name="normalCapacity" onClick={(select, operator)=>this.handleCounter(1,"+")} className="" alt="plus icon" src={plusImg} />
+                                    <img data-testid="nCapPlus" name="normalCapacity" onClick={(select, operator)=>this.handleCounter(1,"+")} className="" alt="plus icon" src={plusImg} />
                                 </div>
                             </div>
 
                             <div className="amentities-option mb-4 row">
                                 <b className="col">Maximum capacity</b>
                                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
-                                    <img name="maxCapacity" onClick={(select, operator)=>this.handleCounter(2,"-")} className="" alt="minus icon" src={minusImg} />
+                                    <img data-testid="mCapMinus" name="maxCapacity" onClick={(select, operator)=>this.handleCounter(2,"-")} className="" alt="minus icon" src={minusImg} />
                                     <div data-testid="amentities-maxCapacity" className="amentities-counter-number pl-4 pr-4">{this.state.maximumCapacity}</div>
-                                    <img name="maxCapacity" onClick={(select, operator)=>this.handleCounter(2,"+")} className="" alt="plus icon" src={plusImg} />
+                                    <img data-testid="mCapPlus" name="maxCapacity" onClick={(select, operator)=>this.handleCounter(2,"+")} className="" alt="plus icon" src={plusImg} />
                                 </div>
                             </div> 
 
                             <div className="amentities-option mb-4 row">
                                 <b className="col">Number of bedrooms</b>
                                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
-                                    <img name="bedrooms" onClick={(select, operator)=>this.handleCounter(3,"-")} className="" alt="minus icon" src={minusImg} />
+                                    <img data-testid="bedroomMinus" name="bedrooms" onClick={(select, operator)=>this.handleCounter(3,"-")} className="" alt="minus icon" src={minusImg} />
                                     <div data-testid="amentities-bedrooms" className="amentities-counter-number pl-4 pr-4">{this.state.bedrooms}</div>
-                                    <img name="bedrooms" onClick={(select, operator)=>this.handleCounter(3,"+")} className="" alt="plus icon" src={plusImg} />
+                                    <img data-testid="bedroomPlus" name="bedrooms" onClick={(select, operator)=>this.handleCounter(3,"+")} className="" alt="plus icon" src={plusImg} />
                                 </div>
                             </div> 
 
                             <div className="amentities-option mb-4 row">
                                 <b className="col">Number of double beds</b>
                                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
-                                    <img name="doubleBeds" onClick={(select, operator)=>this.handleCounter(4,"-")} className="" alt="minus icon" src={minusImg} />
+                                    <img data-testid="doubleBedMinus" name="doubleBeds" onClick={(select, operator)=>this.handleCounter(4,"-")} className="" alt="minus icon" src={minusImg} />
                                     <div data-testid="amentities-doubleBeds" className="amentities-counter-number pl-4 pr-4">{this.state.doubleBeds}</div>
-                                    <img name="doubleBeds" onClick={(select, operator)=>this.handleCounter(4,"+")} className="" alt="plus icon" src={plusImg} />
+                                    <img data-testid="doubleBedPlus" name="doubleBeds" onClick={(select, operator)=>this.handleCounter(4,"+")} className="" alt="plus icon" src={plusImg} />
                                 </div>
                             </div> 
 
                             <div className="amentities-option mb-4 row">
                                 <b className="col">Number of single beds</b>
                                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
-                                    <img name="singleBeds" onClick={(select, operator)=>this.handleCounter(5,"-")} className="" alt="minus icon" src={minusImg} />
+                                    <img data-testid="singleBedMinus" name="singleBeds" onClick={(select, operator)=>this.handleCounter(5,"-")} className="" alt="minus icon" src={minusImg} />
                                     <div data-testid="amentities-singleBeds" className="amentities-counter-number pl-4 pr-4">{this.state.singleBeds}</div>
-                                    <img name="singleBeds" onClick={(select, operator)=>this.handleCounter(5,"+")} className="" alt="plus icon" src={plusImg} />
+                                    <img data-testid="singleBedPlus" name="singleBeds" onClick={(select, operator)=>this.handleCounter(5,"+")} className="" alt="plus icon" src={plusImg} />
                                 </div>
                             </div>
 
@@ -233,18 +233,18 @@ class Amentities extends Component {
                             <div className="amentities-option mb-4 row">
                                 <b className="col">Number of bathrooms</b>
                                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
-                                    <img name="bathrooms" onClick={(select, operator)=>this.handleCounter(6,"-")} className="" alt="minus icon" src={minusImg} />
+                                    <img data-testid="bathroomMinus" name="bathrooms" onClick={(select, operator)=>this.handleCounter(6,"-")} className="" alt="minus icon" src={minusImg} />
                                     <div data-testid="amentities-bathrooms" className="amentities-counter-number pl-4 pr-4">{this.state.bathrooms}</div>
-                                    <img name="bathrooms" onClick={(select, operator)=>this.handleCounter(6,"+")} className="" alt="plus icon" src={plusImg} />
+                                    <img data-testid="bathroomPlus" name="bathrooms" onClick={(select, operator)=>this.handleCounter(6,"+")} className="" alt="plus icon" src={plusImg} />
                                 </div>
                             </div>   
 
                             <div className="amentities-option mb-4 row">
                                 <b className="col">Numebr of showers</b>
                                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
-                                    <img name="showers" onClick={(select, operator)=>this.handleCounter(7,"-")} className="" alt="minus icon" src={minusImg} />
+                                    <img data-testid="showerMinus" name="showers" onClick={(select, operator)=>this.handleCounter(7,"-")} className="" alt="minus icon" src={minusImg} />
                                     <div data-testid="amentities-showers" className="amentities-counter-number pl-4 pr-4">{this.state.showers}</div>
-                                    <img name="showers" onClick={(select, operator)=>this.handleCounter(7,"+")} className="" alt="plus icon" src={plusImg} />
+                                    <img data-testid="showerPlus" name="showers" onClick={(select, operator)=>this.handleCounter(7,"+")} className="" alt="plus icon" src={plusImg} />
                                 </div>
                             </div> 
 
@@ -254,9 +254,9 @@ class Amentities extends Component {
                 <Modal.Footer>
                     {/* <Router> */}
                         <Link to={'/hosting/addaccommodation/details/'}>
-                            <button className={'btn btn-outline-secondary'}>back</button>
+                            <button data-testid="back-btn" className={'btn btn-outline-secondary'}>back</button>
                         </Link>
-                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>next</button>
+                        <button data-testid="next-btn" onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>next</button>
                         <Link id='goToFacilities' to='/hosting/addaccommodation/facilities/'>
                             
                         </Link>

@@ -42,3 +42,12 @@ test('Price doesn not accept string and null value', () =>{
 });
 
 
+test('villa description does not accept over 120 characters', () =>{
+    render(<Router><Details/></Router>);
+    const inputDescription = screen.getByTestId('details-description');
+    userEvent.type(inputDescription, 'Tehran was first chosen as the capital of Iran by Agha Mohammad Khan of the Qajar dynasty in 1786, in order to remain within close reach of Irans territories  the Caucasus, before being separated from Iran Iranian Wars, and to avoid the vying factions  the previously ruling Iranian dynasties. The capital has been moved several times throughout history, and Tehran is the 32nd national capital of Persia. Large-scale demolition and rebuilding began in the 1920s, and Tehran has been a destination for mass migrations from all over Iran since the 20th century.');
+    expect(inputDescription).not.toHaveValue('Tehran was first chosen as the capital of Iran by Agha Mohammad Khan of the Qajar dynasty in 1786, in order to remain within close reach of Irans territories  the Caucasus, before being separated from Iran Iranian Wars, and to avoid the vying factions  the previously ruling Iranian dynasties. The capital has been moved several times throughout history, and Tehran is the 32nd national capital of Persia. Large-scale demolition and rebuilding began in the 1920s, and Tehran has been a destination for mass migrations from all over Iran since the 20th century.');
+    expect(inputDescription).not.toBeNull;
+
+});
+
