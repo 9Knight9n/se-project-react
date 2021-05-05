@@ -1,4 +1,14 @@
 /*@Sajad*/
+
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
+.bg-navbar{
+    background-color: #8eacbbab !important;
+}
+
 .navigation-clean-button {
   background: #fff;
   padding-top: 0.75rem;

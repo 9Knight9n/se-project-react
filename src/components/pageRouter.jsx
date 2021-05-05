@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import Navbar from "./homepage/navbar/navbar";
+import Nav_bar from "./homepage/navbar/navbar";
 import Footer from "./homepage/footer";
 import {Route, Switch} from "react-router-dom";
 import SearchUser from "./homepage/searchUser/searchUser";
 import Settings from "./settings/settings";
 import Hosting from "./hosting/hosting";
 import Homepage from "./homepage/homepage";
+import SearchPage from "./searchpage/searchPage";
 
 class PageRouter extends Component {
     constructor(props) {
@@ -15,14 +16,17 @@ class PageRouter extends Component {
 
     render() {
         return (
-            <div className={'min-vh-100 d-flex flex-column'}>
-                <Navbar/>
+            <div className={'d-flex flex-column'}>
+                <Nav_bar/>
                 <Switch>
                     <Route path="/settings/">
                         <Settings/>
                     </Route>
                     <Route path="/hosting/">
                         <Hosting/>
+                    </Route>
+                    <Route path="/search/">
+                        <SearchPage/>
                     </Route>
                     <Route path="/">
                         <Homepage/>
