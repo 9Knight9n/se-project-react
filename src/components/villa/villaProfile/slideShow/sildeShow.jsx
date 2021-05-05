@@ -37,80 +37,84 @@ class SlideShow extends Component {
 
     render() { 
         return ( 
-            <Modal                       
-            centered
-            size={'lg'}
-            animation
-            show={this.state.show}
-            onHide={this.props.exit}>
-                <div>
-                    <Modal.Header closeButton={true}>
-                        <div>
-                            <h4>Photo Gallery</h4>
+            <div  id="slideShow">
+                <Modal
+                    id="slideShow-Modal"                       
+                    centered
+                    size={'lg'}
+                    animation
+                    show={this.state.show}
+                    onHide={this.props.exit}>
+                    <div>
+                        <Modal.Header closeButton={true}>
+                            <div>
+                                <h4>Photo Gallery</h4>
+                            </div>
+                        </Modal.Header>
+                        <Modal.Body id="slideShow-modal-body">
+                        <div className="slideShow d-flex justify-content-center align-self-center">
+                        <Carousel>
+                            <Carousel.Item>
+                                <img
+                                className="d-block w-100"
+                                src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[0]}
+                                alt="First slide"
+                                />
+                                <Carousel.Caption>
+
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img
+                                className="d-block w-100"
+                                src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[1]}
+                                alt="First slide"
+                                />
+                                <Carousel.Caption>
+
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img
+                                className="d-block w-100"
+                                src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[2]}
+                                alt="First slide"
+                                />
+                                <Carousel.Caption>
+
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img
+                                className="d-block w-100"
+                                src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[3]}
+                                alt="Second slide"
+                                />
+
+                                <Carousel.Caption>
+
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img
+                                className="d-block w-100"
+                                src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[4]}
+                                alt="Third slide"
+                                />
+
+                                <Carousel.Caption>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                        </Carousel>
                         </div>
-                    </Modal.Header>
-                    <Modal.Body id="slideShow-modal-body">
-                    <div className="slideShow">
-                    <Carousel>
-                        <Carousel.Item>
-                            <img
-                            className="d-block w-100"
-                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[0]}
-                            alt="First slide"
-                            />
-                            <Carousel.Caption>
-
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                            className="d-block w-100"
-                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[1]}
-                            alt="First slide"
-                            />
-                            <Carousel.Caption>
-
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                            className="d-block w-100"
-                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[2]}
-                            alt="First slide"
-                            />
-                            <Carousel.Caption>
-
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                            className="d-block w-100"
-                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[3]}
-                            alt="Second slide"
-                            />
-
-                            <Carousel.Caption>
-
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img
-                            className="d-block w-100"
-                            src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[4]}
-                            alt="Third slide"
-                            />
-
-                            <Carousel.Caption>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    </Carousel>
+                        </Modal.Body>
                     </div>
-                    </Modal.Body>
-                </div>
-                {/* <ModalFooter>
-                    <button onClick={this.props.exit} className="btn btn-primary">Close</button>
-                </ModalFooter> */}
-            </Modal>
+                    {/* <ModalFooter>
+                        <button onClick={this.props.exit} className="btn btn-primary">Close</button>
+                    </ModalFooter> */}
+                </Modal>
+            </div>
+
          );
     }
 }
