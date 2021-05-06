@@ -546,7 +546,7 @@ class VillaProfile extends Component {
                         </div>
                     </div>
 
-                    <div className="villaProfile-reservation row mt-4">
+                    <div className="villaProfile-reservation row mt-4 mb-5">
                         <div className="col-xl-6 mt-4 villaProfile-reserveButton">
                             <Link to="/villa/villaProfile/reserve/">
                                 <button className="btn btn-primary">Reserve</button>  
