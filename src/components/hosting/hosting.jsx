@@ -5,6 +5,7 @@ import Navbar from "../homepage/navbar/navbar";
 import Footer from "../homepage/footer";
 import AddAccommodation from "./addAccommodation/addAccommodation";
 import {Link, Route, Switch} from "react-router-dom";
+import SearchUser from "../homepage/searchUser/searchUser";
 
 class Hosting extends Component {
     constructor(props) {
@@ -29,6 +30,7 @@ class Hosting extends Component {
                                 Add Accommodation
                             </Button>
                         </Link>
+                        <SearchUser/>
                     </Route>
                 </Switch>
             </div>

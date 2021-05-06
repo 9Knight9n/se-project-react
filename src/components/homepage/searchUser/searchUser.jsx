@@ -57,7 +57,7 @@ class SearchUser extends Component {
     handleInputChange=(event)=>{
         let input = event.target.value;
         this.setState({searchInput:input})
-        if (input.length >0)
+        if (input && input.length >0)
         {
             // toast.dismiss()
             this.setState({panelOpened:true})
@@ -121,7 +121,7 @@ class SearchUser extends Component {
                                     </p>)
                                     :""}
                             </div>
-                            <div id='search-sub-panel2' className={"search-result".concat(this.state.suggestions.length>0 && this.state.searchInput !== ""?" active":"")}>
+                            <div id='search-sub-panel2' className={"search-result".concat((this.state.suggestions && this.state.suggestions.length>0 && this.state.searchInput !== "")?" active":"")}>
                                 {this.state.panelOpened?
                                 this.state.suggestions.map(sug =>
                                         <SearchUserResult email={sug.email} profile={sug.image} last_name={sug.last_name}
