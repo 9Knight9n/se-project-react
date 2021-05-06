@@ -96,7 +96,7 @@ class SearchPage extends Component {
                         <CardGroup >
                             {this.state.cards.map((card,index)=>
                                 <VillaCard key={index} name={card.name} id={card.villa_id}
-                                    // src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
+                                            src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                            addr={card.country+", "+card.state+', '+card.city}
                                            cost={card.price_per_night}
                                            rate={'4.5 (35 reviews)'}/>
