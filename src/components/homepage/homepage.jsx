@@ -438,7 +438,7 @@ class Homepage extends Component {
                             <h4 className={' mt-auto mb-4 ml-4'} style={{fontFamily:'cursive'}}>
                                 High rate places:
                             </h4>
-                            <Carousel interval={null} slide={false} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
+                            <Carousel interval={null} slide={true} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
                                 {this.renderList(1).map(card=>card)}
                             </Carousel>
                             {/*{this.state.cards}*/}
@@ -447,7 +447,7 @@ class Homepage extends Component {
                             <h4 className={' mt-auto mb-4 ml-4'} style={{fontFamily:'cursive'}}>
                                 Most reserved places:
                             </h4>
-                            <Carousel interval={null} slide={false} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
+                            <Carousel interval={null} slide={true} indicators={false} style={{width:'fit-content'}} className={' mb-auto'}>
                                 {this.renderList(2).map(card=>card)}
                             </Carousel>
                             {/*{this.state.cards}*/}
