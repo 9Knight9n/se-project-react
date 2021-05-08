@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import EllipsisToolTip from "ellipsis-tooltip-react-chan";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
 import {getItem} from "../../util";
-
+import { API_BASE_URL } from '../../constants'
 const ellipsisToolTipOptions = {
     effect: "solid",
     place: "top",
@@ -18,8 +18,9 @@ class SearchUserResult extends Component {
         return (
             <div className={"container p-2 border-primary m-1  rounded"} style={{border:'2px solid',width:'inherit'}}>
                 <div className={"d-flex flex-row"}>
-                    <img className={"rounded-circle align-self-center mr-3"} src={(getItem("user-image") && getItem("user-image")!=="null")?
-                                                    getItem("user-image"):default_logo} height={"50px"}/>
+                    <img className={"rounded-circle align-self-center mr-3"}
+                     src={this.props.profile ? API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.props.profile:default_logo} height={"50px"}
+                     />
                     <div className={'align-self-center d-flex flex-column'} style={{maxWidth:"calc(100% - 115px)"}}>
                         <div className={'w-100'}>
                             <EllipsisToolTip options={ellipsisToolTipOptions}>

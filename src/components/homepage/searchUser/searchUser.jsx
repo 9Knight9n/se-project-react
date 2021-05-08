@@ -75,7 +75,7 @@ class SearchUser extends Component {
             url: API_SEARCH_USER_URL.concat("?search=").concat(input),
             headers: { }
         };
-
+        
         let response = await axios(config)
             .then(function (response) {
                 return response.data;
@@ -85,6 +85,7 @@ class SearchUser extends Component {
             });
         this.setState({notFound:(response.length===0)})
         this.setState({suggestions:response})
+
         // this.setState({notFound:0})
 
     }

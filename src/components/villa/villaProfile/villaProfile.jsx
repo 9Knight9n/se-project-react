@@ -50,6 +50,7 @@ class VillaProfile extends Component {
             availableFacilities: [],
             placeOwner:'',
             id: null,
+            owner_image:'',
             facilities : [
                 {
                     src:
@@ -289,6 +290,7 @@ class VillaProfile extends Component {
     }
 
     async componentDidMount(){
+        window.scrollTo(0,0)
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const id= urlParams.get('id')
@@ -336,7 +338,8 @@ class VillaProfile extends Component {
             placeState:data.state,
             images: data.images,
             availableFacilities: data.facilities,
-            placeOwner: data.owner
+            placeOwner: data.owner,
+            owner_image: data.owner_image
         })
         let array = []
         for (let i=0; i < this.state.facilities.length; i++)
@@ -398,7 +401,7 @@ class VillaProfile extends Component {
 
                             <div className="villaProfile-placeDetail row">
                                 <div className="villaProfile-hostAvatar col-xl-1 col-lg-1 col-md-1 col-sm-2 col-4">
-                                    <img alt="profile-image" src={localStorage.getItem("profileAvatar")? localStorage.getItem("profileAvatar"): sampleProfileImg} />
+                                    <img alt="profile-image" src={this.state.owner_image? API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.owner_image: sampleProfileImg} />
                                 </div>
 
                                 <div className="villaProfile-title col-xl-10 col-lg-11 col-md-11 col-sm-10 col-8">
