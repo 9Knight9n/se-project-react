@@ -86,11 +86,15 @@ class SearchPage extends Component {
         console.log(this.state.country)
     }
 
+    search = (country,state,city) =>{
+        this.setState({country,state,city},this.loadData)
+    }
+
 
     render() {
         return (
             <div style={{marginTop:'10%'}}>
-                <Search country={this.state.country} state={this.state.state} city={this.state.city} />
+                <Search search={this.search} country={this.state.country} state={this.state.state} city={this.state.city} />
                 <div className={'d-flex w-100 h-100 mt-4'}>
                     <div className={'ml-auto mr-auto'} style={{width:'87%'}}>
                         <CardGroup >

@@ -116,6 +116,9 @@ class Search extends Component {
 
     search(){
         // if (this.state.sCountry)
+        if (this.props.search)
+            this.props.search(this.state.sCountry, this.state.sState, this.state.sCity)
+        else
             document.getElementById('search-button').click()
     }
 
