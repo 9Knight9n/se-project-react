@@ -140,33 +140,49 @@ describe('photos page test', () => {
   });
 
 
-  test('next enabled after succeeded uploading single file ', async () => {
-    window.URL.createObjectURL = function() {};
-    let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
-
-
-    await act(async () => {
-      const input = screen.getByTestId("image-upload-button-add-villa")
-
-      server.use(
-        rest.post(API_BASE_URL+API_UPLOAD_IMAGE_URL, (req, res, ctx) => {
-          return res(ctx.status(200))
-        })
-      )
-
-      await fireEvent.change(input, {
-        target: {
-          files: [new File(['(⌐□_□)'], 'hello.png', { type: 'image/png' })],
-        },
-      })
-
-
-    });
-    await waitFor(() => {
-      expect(container.querySelector("div.ant-upload-list-item-done")).toBeInTheDocument()
-      expect(screen.getByText('Next')).toBeEnabled();
-    })
-  });
+  // test('next enabled after succeeded uploading single file ', async () => {
+  //   window.URL.createObjectURL = function() {};
+  //   let {container} = render(<BrowserRouter><Photos /></BrowserRouter>);
+  //
+  //
+  //   await act(async () => {
+  //     const input = screen.getByTestId("image-upload-button-add-villa")
+  //
+  //     server.use(
+  //       rest.post(API_BASE_URL+API_UPLOAD_IMAGE_URL, (req, res, ctx) => {
+  //         return res(ctx.status(200))
+  //       })
+  //     )
+  //
+  //     await fireEvent.change(input, {
+  //       target: {
+  //         files: [new File(['(⌐□_□)'], 'hello1.png', { type: 'image/png' })],
+  //       },
+  //     })
+  //     await fireEvent.change(input, {
+  //       target: {
+  //         files: [new File(['(⌐□_□)'], 'hello2.png', { type: 'image/png' })],
+  //       },
+  //     })
+  //     await fireEvent.change(input, {
+  //       target: {
+  //         files: [new File(['(⌐□_□)'], 'hello3.png', { type: 'image/png' })],
+  //       },
+  //     })
+  //     await fireEvent.change(input, {
+  //       target: {
+  //         files: [new File(['(⌐□_□)'], 'hello4.png', { type: 'image/png' })],
+  //       },
+  //     })
+  //
+  //
+  //   });
+  //   await waitFor(() => {
+  //     // expect(container.querySelector("div.ant-upload-list-item-done")).toBeInTheDocument()
+  //     expect(screen.findByText('hello4')).toBeInTheDocument()
+  //     expect(screen.getByText('Next')).toBeEnabled();
+  //   })
+  // });
 
 
   test('failed uploading several files ', async () => {
