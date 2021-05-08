@@ -387,7 +387,7 @@ class Homepage extends Component {
                             <div className={'col-lg-8 col-xl-8 col-md-6 col-sm-12 col-12'}>
                                 {/*<div className={'mr-5 ml-5'}>*/}
                                     {/*https://www.npmjs.com/package/rlayers*/}
-                                <div className={'pl-5'}>
+                                <div className={'pl-5 mt-4'}>
                                     <div  style={{border: '2px solid #8f8ff8'}}>
                                         <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
                                             <ROSM />
