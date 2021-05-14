@@ -214,7 +214,7 @@ class Address extends Component {
                         <div className="address-main">
                             <b>Enter your place address details here.</b>
                             <div className="address-form">
-                                <form>
+                                <Form>
                                     <div className="row mb-4 mt-2">
                                         <div className="col-md-12">
                                             <label htmlFor="address-country">Country :</label>
@@ -354,7 +354,7 @@ class Address extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                </form>
+                                </Form>
                             </div>
                         </div>
                 </Modal.Body>
