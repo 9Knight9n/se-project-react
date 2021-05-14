@@ -22,6 +22,7 @@ import { RMap, ROSM } from "rlayers";
 import {getItem, validateEmail} from '../../util';
 import axios from "axios";
 import {API_VILLA_PROFILE_URL, API_BASE_URL} from '../../constants'
+import Reserve1 from '../reservation/reserve1';
 
 const center = fromLonLat([2.364, 48.82]);
 let scrolling = false
@@ -318,9 +319,11 @@ class VillaProfile extends Component {
         }).catch(error =>{
                 console.log(error)
         })
+
     }
 
     loadData = (data) =>{
+        console.log("price = : " + data.price_per_night)
         this.setState({
             placeName: data.name,
             placeDescription:  data.description,
@@ -551,7 +554,7 @@ class VillaProfile extends Component {
 
                     <div className="villaProfile-reservation row mt-4 mb-5">
                         <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-                            <Link to="/villa/villaProfile/reserve/">
+                            <Link to="/villa/villaProfile/reserve/1/">
                                 <button className="btn btn-primary">Reserve</button>  
                             </Link>
                         </div>
@@ -559,6 +562,9 @@ class VillaProfile extends Component {
                     <Switch>
                         <Route path="/villa/villaProfile/reserve/">
                             <Reserve placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
+                        </Route>
+                        <Route path="/villa/villaProfile/reserve/1/">
+                            <Reserve1 placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
                         </Route>
                     </Switch>
                 </div>
