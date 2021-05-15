@@ -17,6 +17,7 @@ class Reserve2 extends Component {
         this.state = {
             invalidNationalCode: false,
             nationalCode:null,
+            disableBtn: true
         }
     }
 
@@ -25,7 +26,14 @@ class Reserve2 extends Component {
     }
 
     handleSubmit = () =>{
-        console.log("hi")
+        let dataIsValid = false;
+        let nationalCode = document.getElementById("reserve-nationalCode").value;
+        if (!nationalCode){
+            this.setState({invalidNationalCode: true});
+        }else if(nationalCode){
+            this.setState({invalidNationalCode: false});
+            dataIsValid = true;
+        }
     }
     exit()
     {
@@ -35,10 +43,10 @@ class Reserve2 extends Component {
     handleChange = (e) =>{
         console.log("hi")
         if (e.target.name === "nationalCode" && (e.target.value.length === 10)){
-            this.setState({nationalCode: e.target.value, invalidNationalCode: false})
+            this.setState({nationalCode: e.target.value, invalidNationalCode: false, disableBtn: false})
         }
         else if(e.target.name === "nationalCode" && (e.target.value.length > 10 || e.target.value.length < 10)){
-            this.setState({nationalCode: e.target.value, invalidNationalCode: true})
+            this.setState({nationalCode: e.target.value, invalidNationalCode: true, disableBtn: true})
         }
     }
     render() { 
@@ -85,7 +93,7 @@ class Reserve2 extends Component {
                         <Link to={'/villa/villaProfile/reserve/1/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
-                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
+                        <button disabled={this.state.disableBtn} onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
                         <Link id="goToReserve3" className="display-none" to={'/villa/villaProfile/reserve/3/'}>
 
                         </Link>

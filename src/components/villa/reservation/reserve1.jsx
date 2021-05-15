@@ -27,6 +27,8 @@ class Reserve1 extends Component {
             total: this.props.PlacePrice+" $",
             stayingDays:1,
             size:null,
+            invalidDate: false,
+            disableBtn:true,
         }
     }
 
@@ -44,6 +46,21 @@ class Reserve1 extends Component {
         document.getElementById('redirect-to-villa-profile').click()
     }
 
+    handleSubmit = () =>{
+        let dataIsValid = false;
+        if (!this.state.invalidDate){
+            dataIsValid = true
+        }else if (this.state.invalidDate){
+            dataIsValid = false
+            return;
+        }
+
+        if (dataIsValid){
+            document.getElementById("goToReserve2").click();
+        }
+
+    }
+
     onDateChange = (range) =>{
         if (range !== null){
             let startDate = range[0].format();
@@ -54,10 +71,19 @@ class Reserve1 extends Component {
             console.log('duration  ',b.diff(a, 'days')); 
             // let Difference_In_Time = endDate.getTime() - startDate.getTime();
             // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            this.setState({stayingDays: b.diff(a, 'days'),})
+            this.setState({
+                disableBtn: false,
+                stayingDays: b.diff(a, 'days'),
+                checkIn: startDate,
+                checkOut: endDate,
+                invalidDate: false
+            })
             this.calculateCost(b.diff(a, 'days'))
             console.log('start date  ',startDate); 
             console.log("end date  ",endDate);
+        }
+        if (range === null){
+            this.setState({invalidDate: true, disableBtn: true})
         }
     }
 
@@ -110,7 +136,8 @@ class Reserve1 extends Component {
                     <div>
                         <div className="reserver-datePicker">
                             <Space className="w-100" direction="vertical" size={12}>
-                                <RangePicker disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                                <RangePicker id="reserve-rangePicker" disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                                {this.state.invalidDate? <p className="ml-2 reserve-invalid-date">You must specify your travel date!</p> : ''}
                             </Space>
                         </div>
 
@@ -141,8 +168,9 @@ class Reserve1 extends Component {
                     </Modal.Body>
                 </div>
                 <ModalFooter>
-                    <Link to="/villa/villaProfile/reserve/2/">
-                        <button className="btn btn-primary">Next</button>
+                    <button disabled={this.state.disableBtn} onClick={this.handleSubmit} className="btn btn-outline-primary">Next</button>
+                    <Link id="goToReserve2" to="/villa/villaProfile/reserve/2/">
+                        
                     </Link>
                     
                 </ModalFooter>
