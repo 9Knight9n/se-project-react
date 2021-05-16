@@ -6,6 +6,7 @@ import {STORAGE_KEY} from "../../constants";
 import Reserve1 from './reserve1';
 import Reserve2 from './reserve2';
 import Reserve3 from './reserve3';
+import Reserve4 from './reserve4';
 class Reserve extends Component {
     constructor(props) {
         super(props);
@@ -51,6 +52,10 @@ class Reserve extends Component {
 
                     <Route path="/villa/villaProfile/reserve/3/">
                         <Reserve3 />
+                    </Route>
+                    
+                    <Route path="/villa/villaProfile/reserve/4/">
+                        <Reserve4 fullAddress={this.props.fullAddress} placeOwner={this.props.placeOwner} ownerPhoneNumber={this.props.ownerPhoneNumber} />
                     </Route>
 
                 </Switch>

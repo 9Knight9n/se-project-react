@@ -52,6 +52,8 @@ class VillaProfile extends Component {
             placeOwner:'',
             id: null,
             owner_image:'',
+            ownerPhoneNumber: "0912",
+            fullAddress: "this is full addr",
             facilities : [
                 {
                     src:
@@ -561,7 +563,7 @@ class VillaProfile extends Component {
                     </div>
                     <Switch>
                         <Route path="/villa/villaProfile/reserve/">
-                            <Reserve placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
+                            <Reserve fullAddress={this.state.fullAddress} ownerPhoneNumber={this.state.ownerPhoneNumber} placeOwner={this.state.placeOwner} placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
                         </Route>
                         <Route path="/villa/villaProfile/reserve/1/">
                             <Reserve1 placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>

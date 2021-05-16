@@ -26,6 +26,7 @@ class Reserve2 extends Component {
 
     handleSubmit = () =>{
         let dataIsValid = false;
+        document.getElementById("goToReserve4").click();
         if (this.state.noteRead){
             dataIsValid = true;
         }
@@ -67,12 +68,17 @@ class Reserve2 extends Component {
                                     <label>Read this : </label>
                                 </div> */}
                                 <p>
-                                    By booking a place, we provide your information to the landlord and the information of the landlord to you 
-                                    which contains : 
+                                    By booking a place, we provide your information to the landlord which contains : 
                                     <br />
                                     <b className="reserve-note-b"> First name </b>, 
                                     <b className="reserve-note-b"> Last name </b>,
                                     <b className="reserve-note-b"> national code </b>,
+                                    <b className="reserve-note-b"> Phone number </b>,
+                                    <br />
+                                    Also, we provide landlord information to you which contains : 
+                                    <br />
+                                    <b className="reserve-note-b"> First name </b>, 
+                                    <b className="reserve-note-b"> Last name </b>,
                                     <b className="reserve-note-b"> Phone number </b>,
                                     <br />
                                     So you can verify each other's identities and make minor adjustments. 
@@ -107,7 +113,7 @@ class Reserve2 extends Component {
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
                         <button disabled={this.state.disableBtn} onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Book</button>
-                        <Link id="goToReserve3" className="display-none" to={'/villa/villaProfile/reserve/4/'}>
+                        <Link id="goToReserve4" className="display-none" to={'/villa/villaProfile/reserve/4/'}>
 
                         </Link>
                 </Modal.Footer>
