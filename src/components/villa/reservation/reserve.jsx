@@ -5,7 +5,7 @@ import { Modal, ModalFooter, ModalHeader} from "react-bootstrap";
 import {STORAGE_KEY} from "../../constants";
 import Reserve1 from './reserve1';
 import Reserve2 from './reserve2';
-
+import Reserve3 from './reserve3';
 class Reserve extends Component {
     constructor(props) {
         super(props);
@@ -44,8 +44,13 @@ class Reserve extends Component {
                     <Route path="/villa/villaProfile/reserve/1/">
                         <Reserve1 placeMaxCapacity={this.props.placeMaxCapacity} PlacePrice={this.props.PlacePrice}/>
                     </Route>
+
                     <Route path="/villa/villaProfile/reserve/2/">
                         <Reserve2/>
+                    </Route>
+
+                    <Route path="/villa/villaProfile/reserve/3/">
+                        <Reserve3 />
                     </Route>
 
                 </Switch>

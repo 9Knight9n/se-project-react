@@ -6,6 +6,7 @@ import {Form} from "react-bootstrap";
 import { DatePicker, Space } from 'antd';
 import {STORAGE_KEY} from "../../constants";
 
+
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
 const { size } = 20;
@@ -26,6 +27,7 @@ class Reserve2 extends Component {
     }
 
     handleSubmit = () =>{
+        document.getElementById("goToReserve3").click();
         let dataIsValid = false;
         let nationalCode = document.getElementById("reserve-nationalCode").value;
         if (!nationalCode){
