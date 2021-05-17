@@ -363,7 +363,7 @@ class Address extends Component {
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
                         <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                        <Link id="goToPhotos" to={'/hosting/addaccommodation/photos/'} >
+                        <Link id="goToPhotos" to={'/hosting/addaccommodation/location/'} >
                         </Link>
                 </Modal.Footer>
             </React.Fragment>
