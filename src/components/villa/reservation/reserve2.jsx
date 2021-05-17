@@ -24,6 +24,10 @@ class Reserve2 extends Component {
 
     componentDidMount = () =>{
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
+        this.setState({
+            nationalCode: sessionStorage.getItem("passanger-national-code"),
+            disableBtn: false,
+        })
     }
 
     handleSubmit = () =>{
@@ -35,6 +39,10 @@ class Reserve2 extends Component {
         }else if(nationalCode){
             this.setState({invalidNationalCode: false});
             dataIsValid = true;
+        }
+
+        if (dataIsValid){
+            sessionStorage.setItem("passanger-national-code", this.state.nationalCode);
         }
     }
     exit()

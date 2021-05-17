@@ -109,7 +109,7 @@ class Reserve2 extends Component {
                     </Modal.Body>
                 </div>
                 <Modal.Footer>
-                        <Link to={'/villa/villaProfile/reserve/1/'} >
+                        <Link to={'/villa/villaProfile/reserve/2/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
                         <button disabled={this.state.disableBtn} onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Book</button>

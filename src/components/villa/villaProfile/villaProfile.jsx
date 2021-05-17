@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import './villaProfile.css';
-import sampleImage1 from '../img/1.jpg';
-import sampleImage2 from '../img/2.jpg';
-import sampleImage3 from '../img/3.jpg';
-import sampleImage4 from '../img/4.jpg';
 import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
 import plusImg from '../../../assets/img/plus.png';
 import minusImg from '../../../assets/img/minus.png';

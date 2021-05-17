@@ -29,6 +29,12 @@ class Reserve extends Component {
 
     exit()
     {
+        sessionStorage.removeItem("travel-startDate");
+        sessionStorage.removeItem("travel-endDate");
+        sessionStorage.removeItem("travel-staying-days");
+        sessionStorage.removeItem("passangers");
+        sessionStorage.removeItem("travel-total-cost");
+        sessionStorage.removeItem("passanger-national-code");
         document.getElementById('redirect-to-villa-profile').click()
     }
 
@@ -43,19 +49,19 @@ class Reserve extends Component {
             onHide={this.exit}>
                 <Switch>
                     <Route path="/villa/villaProfile/reserve/1/">
-                        <Reserve1 placeMaxCapacity={this.props.placeMaxCapacity} PlacePrice={this.props.PlacePrice}/>
+                        <Reserve1 exit={this.exit} placeMaxCapacity={this.props.placeMaxCapacity} PlacePrice={this.props.PlacePrice}/>
                     </Route>
 
                     <Route path="/villa/villaProfile/reserve/2/">
-                        <Reserve2/>
+                        <Reserve2 exit={this.exit} />
                     </Route>
 
                     <Route path="/villa/villaProfile/reserve/3/">
-                        <Reserve3 />
+                        <Reserve3 exit={this.exit} />
                     </Route>
                     
                     <Route path="/villa/villaProfile/reserve/4/">
-                        <Reserve4 fullAddress={this.props.fullAddress} placeOwner={this.props.placeOwner} ownerPhoneNumber={this.props.ownerPhoneNumber} />
+                        <Reserve4 exit={this.exit} fullAddress={this.props.fullAddress} placeOwner={this.props.placeOwner} ownerPhoneNumber={this.props.ownerPhoneNumber} />
                     </Route>
 
                 </Switch>

@@ -29,11 +29,23 @@ class Reserve1 extends Component {
             size:null,
             invalidDate: false,
             disableBtn:true,
+            range:[],
         }
     }
 
     componentDidMount = () =>{
         console.log(this.props.PlacePrice)
+        if (sessionStorage.getItem("travel-startDate")){
+            this.setState({
+                passangers: sessionStorage.getItem("passangers"),
+                stayingDays: sessionStorage.getItem("travel-staying-days"),
+                total: sessionStorage.getItem("travel-total-cost"),
+                range: [moment(sessionStorage.getItem("travel-startDate")),moment(sessionStorage.getItem("travel-endDate"))],
+                disableBtn: false,
+            })
+            let range = [moment(sessionStorage.getItem("travel-startDate")),moment(sessionStorage.getItem("travel-endDate"))];
+            console.log("default valu : ", range)
+        }
         this.setState({
            currentDate: date.format(now, 'YYYY/MM/DD HH:mm:ss'), 
         })
@@ -56,6 +68,11 @@ class Reserve1 extends Component {
         }
 
         if (dataIsValid){
+            sessionStorage.setItem("travel-startDate", this.state.checkIn);
+            sessionStorage.setItem("travel-endDate", this.state.checkOut);
+            sessionStorage.setItem("travel-staying-days", this.state.stayingDays);
+            sessionStorage.setItem("passangers", this.state.passangers);
+            sessionStorage.setItem("travel-total-cost", this.state.total);
             document.getElementById("goToReserve2").click();
         }
 
@@ -63,12 +80,12 @@ class Reserve1 extends Component {
 
     onDateChange = (range) =>{
         if (range !== null){
+            let value = range.value
             let startDate = range[0].format();
             let endDate = range[1].format();
             let a = moment(startDate);
-            let b = moment(endDate);
+            let b = moment(endDate);  
             b.diff(a, 'days')  // =1
-            console.log('duration  ',b.diff(a, 'days')); 
             // let Difference_In_Time = endDate.getTime() - startDate.getTime();
             // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             this.setState({
@@ -76,7 +93,8 @@ class Reserve1 extends Component {
                 stayingDays: b.diff(a, 'days'),
                 checkIn: startDate,
                 checkOut: endDate,
-                invalidDate: false
+                invalidDate: false,
+                range: [moment(range[0].format()), moment(range[1].format())]
             })
             this.calculateCost(b.diff(a, 'days'))
             console.log('start date  ',startDate); 
@@ -136,7 +154,7 @@ class Reserve1 extends Component {
                     <div>
                         <div className="reserver-datePicker">
                             <Space className="w-100" direction="vertical" size={12}>
-                                <RangePicker id="reserve-rangePicker" disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                                <RangePicker value={this.state.range? this.state.range : ''} placeholder={["Check In","Check Out"]} name="Picker" disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
                                 {this.state.invalidDate? <p className="ml-2 reserve-invalid-date">You must specify your travel date!</p> : ''}
                             </Space>
                         </div>

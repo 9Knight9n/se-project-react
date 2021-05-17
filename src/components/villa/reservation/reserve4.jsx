@@ -5,7 +5,7 @@ import { Modal, ModalFooter, ModalHeader} from "react-bootstrap";
 import {Form} from "react-bootstrap";
 import { DatePicker, Space } from 'antd';
 import {STORAGE_KEY} from "../../constants";
-
+import { ToastContainer, toast } from 'react-toastify';
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
@@ -18,7 +18,6 @@ class Reserve2 extends Component {
         this.state = {
             invalidNationalCode: false,
             nationalCode:null,
-            disableBtn: true
         }
     }
 
@@ -27,34 +26,16 @@ class Reserve2 extends Component {
     }
 
     handleSubmit = () =>{
-        document.getElementById("goToReserve3").click();
-        let dataIsValid = false;
-        let nationalCode = document.getElementById("reserve-nationalCode").value;
-        if (!nationalCode){
-            this.setState({invalidNationalCode: true});
-        }else if(nationalCode){
-            this.setState({invalidNationalCode: false});
-            dataIsValid = true;
-        }
-    }
-    exit()
-    {
-        document.getElementById('redirect-to-villa-profile').click()
+        toast.success("you have reserved your villa, we wish you a good trip")
+        this.props.exit();
+
     }
 
-    handleChange = (e) =>{
-        console.log("hi")
-        if (e.target.name === "nationalCode" && (e.target.value.length === 10)){
-            this.setState({nationalCode: e.target.value, invalidNationalCode: false, disableBtn: false})
-        }
-        else if(e.target.name === "nationalCode" && (e.target.value.length > 10 || e.target.value.length < 10)){
-            this.setState({nationalCode: e.target.value, invalidNationalCode: true, disableBtn: true})
-        }
-    }
     render() { 
         return ( 
             <React.Fragment>
                 <div>
+                    <ToastContainer/>
                     <Link className={'display-none'} to="/villa/villaProfile"  id={'redirect-to-villa-profile'}/>
                     <Modal.Header closeButton={true}>
                         <div>
@@ -65,6 +46,9 @@ class Reserve2 extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
+                            <div className="reserve-nationalCode">
+                                <label style={{color: "red"}} className="form-label" htmlFor="reserve-nationalCode">Keep this information </label>
+                            </div>
                             <div className="reserve-nationalCode">
                                 <div>
                                     <div>
@@ -89,11 +73,11 @@ class Reserve2 extends Component {
                     </Modal.Body>
                 </div>
                 <Modal.Footer>
-                        <Link to={'/villa/villaProfile/reserve/1/'} >
+                        <Link to={'/villa/villaProfile/reserve/3/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
-                        <button disabled={this.state.disableBtn} onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                        <Link id="goToReserve3" className="display-none" to={'/villa/villaProfile/reserve/3/'}>
+                        <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>I am keeping this information</button>
+                        <Link id="goToReserve3" className="display-none" to={'/villa/villaProfile/reserve/final/'}>
 
                         </Link>
                 </Modal.Footer>
