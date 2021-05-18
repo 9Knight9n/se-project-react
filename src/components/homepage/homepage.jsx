@@ -397,9 +397,6 @@ class Homepage extends Component {
                                         <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
                                             <ROSM />
                                             <RLayerVector zIndex={10}>
-                                                <RStyle.RStyle>
-                                                    <RStyle.RIcon src={geo_mt}/>
-                                                </RStyle.RStyle>
                                                 <RFeature
                                                     geometry={new Point(fromLonLat([2.295, 48.8737]))}
                                                     onClick={(e) =>
@@ -409,16 +406,9 @@ class Homepage extends Component {
                                                         })
                                                     }
                                                 >
-                                                </RFeature>
-                                                <RFeature
-                                                    geometry={new Point(fromLonLat([2.300, 48.8737]))}
-                                                    onClick={(e) =>
-                                                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
-                                                            duration: 250,
-                                                            maxZoom: 15,
-                                                        })
-                                                    }
-                                                >
+                                                    <RStyle.RStyle>
+                                                        <RStyle.RIcon src={geo_mt}/>
+                                                    </RStyle.RStyle>
                                                 </RFeature>
                                             </RLayerVector>
                                         </RMap>
