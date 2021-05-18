@@ -7,8 +7,10 @@ import search_1_bg from '../../assets/img/homepage-bg-4.jpg'
 import host_bg from '../../assets/img/homepage-bg-7.jpg'
 // import map_bg from '../../assets/img/homepage-bg.jpg'
 import { fromLonLat } from "ol/proj";
+import { Coordinate } from "ol/coordinate";
+import { Point } from "ol/geom";
 import "ol/ol.css";
-import { RMap, ROSM } from "rlayers";
+import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
 import {Steps, Divider} from 'antd';
 import Search from "./search";
 import * as Scroll from 'react-scroll';
@@ -19,6 +21,9 @@ import {API_BASE_URL, API_SEARCH_VILLA, STORAGE_KEY} from "../constants";
 import {getItem, getViewport} from "../util";
 import {Carousel} from "react-bootstrap";
 import axios from "axios";
+import geo_mt from '../../assets/icon/geo_mt.png'
+import geo_fill from '../../assets/icon/geo_fill.png'
+
 
 
 
@@ -391,6 +396,31 @@ class Homepage extends Component {
                                     <div  style={{border: '2px solid #8f8ff8'}}>
                                         <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
                                             <ROSM />
+                                            <RLayerVector zIndex={10}>
+                                                <RStyle.RStyle>
+                                                    <RStyle.RIcon src={geo_mt}/>
+                                                </RStyle.RStyle>
+                                                <RFeature
+                                                    geometry={new Point(fromLonLat([2.295, 48.8737]))}
+                                                    onClick={(e) =>
+                                                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
+                                                            duration: 250,
+                                                            maxZoom: 15,
+                                                        })
+                                                    }
+                                                >
+                                                </RFeature>
+                                                <RFeature
+                                                    geometry={new Point(fromLonLat([2.300, 48.8737]))}
+                                                    onClick={(e) =>
+                                                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
+                                                            duration: 250,
+                                                            maxZoom: 15,
+                                                        })
+                                                    }
+                                                >
+                                                </RFeature>
+                                            </RLayerVector>
                                         </RMap>
                                     </div>
                                 </div>
