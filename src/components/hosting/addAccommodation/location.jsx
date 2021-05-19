@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { fromLonLat } from "ol/proj";
-import { RMap, ROSM } from "rlayers";
+import './location.css'
 import {Modal} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {toast} from "react-toastify";
+import { fromLonLat, toLonLat } from "ol/proj";
+import { Coordinate } from "ol/coordinate";
+import { Point } from "ol/geom";
+import "ol/ol.css";
+import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
+import locationIcon from "../../../assets/location.png";
 
-const center = fromLonLat([2.364, 48.82]);
+// const coords: Record<string, Coordinate> = {
+//     origin: [2.364, 48.82],
+//     Montmartre: [2.342, 48.887],
+// };
 
 class Location extends Component {
     constructor(props) {
@@ -16,15 +24,39 @@ class Location extends Component {
             invalidPlaceName: false,
             invalidDescription: false,
             invalidPrice: false,
-
+            origin: [2.364, 48.82],
+            Montmartre: [2.342, 48.887],
+            loc: [2.342, 48.887],
+            
         };
 
     }
+
+    // handleLocDragStart = (e) =>{
+    //    let newLoc = e.map.getCoordinateFromPixel(e.pixel);
+    //     e.target.setGeometry(new Point(newLoc));
+    //     e.preventDefault();
+    // }
+
+    // handleLocDragEnd = (e) =>{
+    //     let loc = e.map.getCoordinateFromPixel(e.pixel)
+    //     setLoc(toLonLat(loc))
+    //     e.preventDefault();
+    // }
+
+    // handlePointerEnter = (e) =>{
+    //     e.map.getTargetElement().style.cursor = "move") && undefined
+    // }
+
+    // handlePointerLeft = (e) =>{
+        
+    // }
 
     handleSubmit = () =>{
         document.getElementById("goToPhotos").click();
     }
     render() { 
+        // const [loc, setLoc] = React.useState(coords.Montmartre);
         return ( 
             <React.Fragment>
                 <Modal.Header closeButton={true}>
@@ -32,9 +64,46 @@ class Location extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className={'mr-5 ml-5 villaProfile-map'}>
-                            <RMap  width={"100%"} height={"60vh"} initial={{ center: center, zoom: 11 }}>
+                            <RMap  width={"100%"} height={"60vh"} initial={{ center: fromLonLat(this.state.origin), zoom: 11 }}>
                                  <ROSM />
+                                 <RLayerVector>
+                                 <RFeature
+                                    geometry={new Point(fromLonLat(this.state.loc))}
+                                    // useCallback is here for performance reasons
+                                    // without it RFeature will have its props updated at every call
+                                    onPointerDrag={(e) => {
+                                    const coords = e.map.getCoordinateFromPixel(e.pixel);
+                                    e.target.setGeometry(new Point(coords));
+                                    // this stops OpenLayers from interpreting the event to pan the map
+                                    e.preventDefault();
+                                    }}
+                                    onPointerDragEnd={(e) => {
+                                    const coords = e.map.getCoordinateFromPixel(e.pixel);
+                                    this.setState({loc: toLonLat(coords)});
+                                    }}
+                                    onPointerEnter={
+                                        (e) =>
+                                          (e.map.getTargetElement().style.cursor = "move") && undefined
+                                    }
+                                    onPointerLeave={
+                                        (e) =>
+                                          (e.map.getTargetElement().style.cursor = "initial") &&
+                                          undefined
+                                    }
+                                    >
+                                    <RStyle.RStyle>
+                                    <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
+                                    </RStyle.RStyle>
+                                    <ROverlay className="location-move-me">Move me</ROverlay>
+                                </RFeature>
+                                 </RLayerVector>
                             </RMap>
+                            {/* <div className="mx-0 mt-0 mb-3 p-1 w-100 jumbotron shadow shadow">
+                                <p>
+                                Pin location is{" "}
+                                <strong>{`${loc[1].toFixed(3)} : ${loc[0].toFixed(3)}`}</strong>
+                                </p>
+                            </div> */}
                         </div>
                 </Modal.Body>
                 <Modal.Footer>
