@@ -49,9 +49,57 @@ const left_option_arrow_selected = <svg style={{cursor:'pointer'}} xmlns="http:/
 </svg>
 
 
+let cards0=[
+    {
+        id:0,
+        name:'City center apartment with 3 rooms',
+        addr:"Iran ,Tehran ,Shar-rey",
+        cost:10000,
+        rate:'4.3 (35 reviews)',
+        x:2.300,
+        y:48.8737,
+    },
+    {
+        id:1,
+        name:'City center apartment with 3 rooms',
+        addr:"Iran ,Tehran ,Shar-rey",
+        cost:10000,
+        rate:'4.3 (35 reviews)',
+        x:2.295,
+        y:48.8237,
+    },
+    {
+        id:2,
+        name:'City center apartment with 3 rooms',
+        addr:"Iran ,Tehran ,Shar-rey",
+        cost:10000,
+        rate:'4.3 (35 reviews)',
+        x:2.31,
+        y:48.8237,
+    },
+    {
+        id:3,
+        name:'City center apartment with 3 rooms',
+        addr:"Iran ,Tehran ,Shar-rey",
+        cost:10000,
+        rate:'4.3 (35 reviews)',
+        x:2.315,
+        y:48.8437,
+    },
+    {
+        id:4,
+        name:'City center apartment with 3 rooms',
+        addr:"Iran ,Tehran ,Shar-rey",
+        cost:10000,
+        rate:'4.3 (35 reviews)',
+        x:2.285,
+        y:48.8537,
+    },
+]
 
 
-const center = fromLonLat([2.364, 48.82]);
+
+
 let scrolling = false
 
 
@@ -112,6 +160,9 @@ class Homepage extends Component {
 
 
     state = {
+        center:fromLonLat([2.364, 48.86]),
+        mapActiveIndex:0,
+        cards0:[],
         cards1:[
             {
                 name:'City center apartment with 3 rooms',
@@ -170,35 +221,50 @@ class Homepage extends Component {
         ],
         cards2:[
             {
+                id:0,
                 name:'City center apartment with 3 rooms',
                 addr:"Iran ,Tehran ,Shar-rey",
                 cost:10000,
-                rate:'4.3 (35 reviews)'
+                rate:'4.3 (35 reviews)',
+                x:2.300,
+                y:48.8737,
             },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
+            // {
+        //         id:1,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
+            // {
+            //         id:2,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
+            // {
+            //         id:3,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
+            // {
+            //         id:4,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
         ],
         cardsSize:1,
         scrolling:false,
@@ -209,15 +275,6 @@ class Homepage extends Component {
             {id:3},
         ],
         selectedSubPage:0,
-        position: {
-            lat: 52,
-            lng: 48,
-        },
-        center: {
-            lat: 52,
-            lng: 48,
-        },
-
     }
 
 
@@ -352,15 +409,78 @@ class Homepage extends Component {
     }
 
 
+    renderAMap=(card)=>{
+        let fill = this.state.mapActiveIndex===card.id
+        if( fill)
+        {
+            console.log(this.state.center)
+            // if (this.state.center[0] !==card.x && this.state.center[1] !== card.y)
+            // this.state.center = fromLonLat([card.x, card.y])
+            // this.forceUpdate()
+
+            return (
+                <RFeature
+                    geometry={new Point(fromLonLat([card.x, card.y]))}
+                    onClick={(e) =>
+                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
+                            duration: 250,
+                            maxZoom: 12,
+                        })
+                    }
+                >
+                    <RStyle.RStyle>
+                        <RStyle.RIcon src={geo_fill}/>
+                    </RStyle.RStyle>
+                </RFeature>
+            )
+        }
+
+        else
+            return ('')
+    }
+
+
+    renderDMap=(card)=>{
+        console.log(card.id+'-map-pin')
+        let fill = this.state.mapActiveIndex===card.id
+        if( fill)
+            return ('')
+        else
+            return (
+
+                    <RFeature
+
+                        geometry={new Point(fromLonLat([card.x, card.y]))}
+                        onClick={(e) =>
+                            e.map.getView().fit(e.target.getGeometry().getExtent(), {
+                                duration: 250,
+                                maxZoom: 12,
+                            })
+                        }
+                    >
+                        <RStyle.RStyle>
+                            <RStyle.RIcon src={geo_mt} color={'#364d79'}/>
+                        </RStyle.RStyle>
+                    </RFeature>
+            )
+    }
+
+    getMapCenter=()=>{
+        let center = null
+        for (let z=0;z<cards0.length;z++)
+        {
+            if (cards0[z].id===this.state.mapActiveIndex)
+            {
+                center = fromLonLat([cards0[z].x, cards0[z].y])
+                break
+            }
+        }
+        return center
+    }
+
 
     render() {
-        const contentStyle = {
-            // height: '400px',
-            // color: '#fff',
-            // lineHeight: '160px',
-            // textAlign: 'center',
 
-        };
         return (
             // <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
             <React.Fragment>
@@ -394,24 +514,18 @@ class Homepage extends Component {
                                     {/*https://www.npmjs.com/package/rlayers*/}
                                 <div className={'pl-5 mt-4'}>
                                     <div  style={{border: '2px solid #8f8ff8'}}>
-                                        <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
+                                        <RMap  width={"100%"} height={"50vh"} initial={{ center: this.state.mapActiveIndex?this.getMapCenter():this.state.center, zoom: 11 }}>
                                             <ROSM />
                                             <RLayerVector zIndex={10}>
-                                                <RFeature
-                                                    geometry={new Point(fromLonLat([2.295, 48.8737]))}
-                                                    onClick={(e) =>
-                                                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
-                                                            duration: 250,
-                                                            maxZoom: 15,
-                                                        })
-                                                    }
-                                                >
-                                                    <RStyle.RStyle>
-                                                        <RStyle.RIcon src={geo_mt}/>
-                                                    </RStyle.RStyle>
-                                                </RFeature>
+                                                {cards0.map(card=>
+                                                    this.renderAMap(card)
+                                                )}
+                                                {cards0.map(card=>
+                                                    this.renderDMap(card)
+                                                )}
                                             </RLayerVector>
                                         </RMap>
+                                        <button onClick={()=>document.getElementById('2-map-pin').click()}>change</button>
                                     </div>
                                 </div>
 
@@ -420,9 +534,14 @@ class Homepage extends Component {
                             </div>
                             <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
                                 <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex mt-3'}>
-                                    <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}>
-                                        {this.state.cards1.map((card,index)=>
-                                            <Carousel.Item key={index}>
+                                    <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}
+                                              interval={2000}
+                                              // onSlide={()=>this.forceUpdate()}
+                                              activeIndex={this.state.mapActiveIndex}
+                                              onSelect={(selectedIndex, e)=>
+                                                    this.setState({mapActiveIndex:selectedIndex})}>
+                                        {cards0.map(card=>
+                                            <Carousel.Item key={card.id}>
                                                 <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
                                                     <VillaCard name={card.name}
                                                                id={card.villa_id}
