@@ -80,6 +80,7 @@ class Reserve2 extends Component {
                                 <div className="form-group">
                                     <div className="input-group">
                                         <Form.Control
+                                            data-testid="reserve2-nationalCode"
                                             onChange={this.handleChange}
                                             id="reserve-nationalCode"
                                             className="form-control shadow-none"
@@ -87,7 +88,6 @@ class Reserve2 extends Component {
                                             name="nationalCode"
                                             placeholder="Example : 1234567890"
                                             value={this.state.nationalCode}
-                                            data-testid="reserve-nationalCode"
                                             isInvalid={this.state.invalidNationalCode}
                                         />
                                         <Form.Control.Feedback type="invalid" className={"ml-1"}>

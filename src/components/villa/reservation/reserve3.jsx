@@ -100,7 +100,7 @@ class Reserve2 extends Component {
                                 <div className="form-group mt-auto">
                                     <div className="input-group">
                                         <Form.Group controlId="formBasicCheckbox">
-                                            <Form.Check checked={this.state.noteRead} name="noteRead" onChange={this.handleChange} type="checkbox" label="I have read and understood the note." />
+                                            <Form.Check data-testid="reserve3-accept-rules" checked={this.state.noteRead} name="noteRead" onChange={this.handleChange} type="checkbox" label="I have read and understood the note." />
                                         </Form.Group>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@ class Reserve2 extends Component {
                         <Link to={'/villa/villaProfile/reserve/2/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
-                        <button disabled={this.state.disableBtn} onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Book</button>
+                        <button data-testid="reserve3-nextBtn" disabled={this.state.disableBtn} onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Book</button>
                         <Link id="goToReserve4" className="display-none" to={'/villa/villaProfile/reserve/4/'}>
 
                         </Link>

@@ -154,7 +154,7 @@ class Reserve1 extends Component {
                     <div>
                         <div className="reserver-datePicker">
                             <Space className="w-100" direction="vertical" size={12}>
-                                <RangePicker value={this.state.range? this.state.range : ''} placeholder={["Check In","Check Out"]} name="Picker" disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                                <RangePicker data-testid="reserve1-rangePicker" value={this.state.range? this.state.range : ''} placeholder={["Check In","Check Out"]} name="Picker" disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
                                 {this.state.invalidDate? <p className="ml-2 reserve-invalid-date">You must specify your travel date!</p> : ''}
                             </Space>
                         </div>
@@ -186,7 +186,7 @@ class Reserve1 extends Component {
                     </Modal.Body>
                 </div>
                 <ModalFooter>
-                    <button disabled={this.state.disableBtn} onClick={this.handleSubmit} className="btn btn-outline-primary">Next</button>
+                    <button data-testid="reserve1-nextBtn" disabled={this.state.disableBtn} onClick={this.handleSubmit} className="btn btn-outline-primary">Next</button>
                     <Link id="goToReserve2" to="/villa/villaProfile/reserve/2/">
                         
                     </Link>
