@@ -6,16 +6,14 @@ import search_bg from '../../assets/img/homepage-bg.jpg'
 import search_1_bg from '../../assets/img/homepage-bg-4.jpg'
 import host_bg from '../../assets/img/homepage-bg-7.jpg'
 // import map_bg from '../../assets/img/homepage-bg.jpg'
+import { Map, MapBrowserEvent } from "ol";
 import { fromLonLat } from "ol/proj";
 import { Coordinate } from "ol/coordinate";
 import { Point } from "ol/geom";
 import "ol/ol.css";
-import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
-import {Steps, Divider} from 'antd';
+import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle,RMapProps,RContext,RControl  } from "rlayers";
 import Search from "./search";
-import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
-import {log2} from "ol/math";
 import VillaCard from "../villa/card/villaCard";
 import {API_BASE_URL, API_SEARCH_VILLA, STORAGE_KEY} from "../constants";
 import {getItem, getViewport} from "../util";
@@ -23,6 +21,8 @@ import {Carousel} from "react-bootstrap";
 import axios from "axios";
 import geo_mt from '../../assets/icon/geo_mt.png'
 import geo_fill from '../../assets/icon/geo_fill.png'
+import {Select} from "antd";
+import {Option} from "antd/es/mentions";
 
 
 
@@ -48,7 +48,7 @@ const left_option_arrow_selected = <svg style={{cursor:'pointer'}} xmlns="http:/
         d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
 </svg>
 
-
+let center = fromLonLat([2.364, 48.86]);
 let cards0=[
     {
         id:0,
@@ -111,6 +111,8 @@ class Homepage extends Component {
         this.leftOptionsSelectedShow = this.leftOptionsSelectedShow.bind(this);
         this.handleScreenSizeChange = this.handleScreenSizeChange.bind(this);
         this.renderList = this.renderList.bind(this)
+        this.onMapCarouselChange = this.onMapCarouselChange.bind(this);
+        this.mapGoTo = this.mapGoTo.bind(this);
     }
 
     async componentDidMount() {
@@ -160,7 +162,6 @@ class Homepage extends Component {
 
 
     state = {
-        center:fromLonLat([2.364, 48.86]),
         mapActiveIndex:0,
         cards0:[],
         cards1:[
@@ -479,6 +480,17 @@ class Homepage extends Component {
     }
 
 
+    onMapCarouselChange(selectedIndex,e){
+        this.setState({mapActiveIndex:selectedIndex})
+    }
+
+    mapGoTo(x,y)
+    {
+        center=fromLonLat([x, y])
+        document.getElementById('map-go-to').click()
+        // this.setState({})
+    }
+
     render() {
 
         return (
@@ -514,8 +526,21 @@ class Homepage extends Component {
                                     {/*https://www.npmjs.com/package/rlayers*/}
                                 <div className={'pl-5 mt-4'}>
                                     <div  style={{border: '2px solid #8f8ff8'}}>
-                                        <RMap  width={"100%"} height={"50vh"} initial={{ center: this.state.mapActiveIndex?this.getMapCenter():this.state.center, zoom: 11 }}>
+                                        {/*{this.state.center?*/}
+                                        <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
                                             <ROSM />
+                                            <RControl.RCustom >
+                                                <RContext.Consumer>
+                                                    {({ map }) => (
+                                                        <button
+                                                                id={'map-go-to'}
+                                                                className={'display-none'}
+                                                                onClick={() => map.getView().setCenter(center)}>
+                                                            hidden
+                                                        </button>
+                                                    )}
+                                                </RContext.Consumer>
+                                            </RControl.RCustom>
                                             <RLayerVector zIndex={10}>
                                                 {cards0.map(card=>
                                                     this.renderAMap(card)
@@ -524,8 +549,8 @@ class Homepage extends Component {
                                                     this.renderDMap(card)
                                                 )}
                                             </RLayerVector>
-                                        </RMap>
-                                        <button onClick={()=>document.getElementById('2-map-pin').click()}>change</button>
+                                        </RMap>}
+                                        {/*<button onClick={()=>this.mapGoTo(cards0[0].x,cards0[0].y)}>change</button>*/}
                                     </div>
                                 </div>
 
@@ -533,13 +558,24 @@ class Homepage extends Component {
                                 {/*</div>*/}
                             </div>
                             <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
-                                <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex mt-3'}>
+                                <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex flex-column mt-3'}>
+                                    <Select size={'large'}
+                                        // value={this.state.sCity}
+                                            notFoundContent={null} className={'placeholder-visible ml-auto mr-auto'}
+                                            showSearch bordered={false} style={{ width: 200 }} placeholder={'City'}
+                                        // onChange={this.handleCitySelect}
+                                    >
+                                        {/*{this.state.cities.map(city => (*/}
+                                        {/*    <Option key={city.name}>{city.name}</Option>*/}
+                                        {/*))}*/}
+                                        <Option key={'paris'}>paris</Option>
+                                    </Select>
                                     <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}
+                                              activeIndex={this.state.mapActiveIndex}
+                                              onSelect={this.onMapCarouselChange}
                                               interval={2000}
                                               // onSlide={()=>this.forceUpdate()}
-                                              activeIndex={this.state.mapActiveIndex}
-                                              onSelect={(selectedIndex, e)=>
-                                                    this.setState({mapActiveIndex:selectedIndex})}>
+                                    >
                                         {cards0.map(card=>
                                             <Carousel.Item key={card.id}>
                                                 <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
