@@ -30,6 +30,58 @@ class Reserve2 extends Component {
         if (this.state.noteRead){
             dataIsValid = true;
         }
+
+        if (dataIsValid){
+            console.log("send data")
+            // event.preventDefault();
+            // // this.SaveFileListToSessionStorage();
+            // let data = JSON.stringify({
+            //     "travel-startDate":sessionStorage.getItem('travel-startDate'),
+            //     "travel-endDate":sessionStorage.getItem('travel-endDate'),
+            //     "passangers":sessionStorage.getItem('passangers'),
+            //     "travel-total-cost":sessionStorage.getItem('travel-total-cost'),
+            //     "passanger-national-code":sessionStorage.getItem('passanger-national-code'),
+            // });
+    
+    
+            // console.log('data sent:',data)
+    
+            // let res =
+            // await axios.post(API_ADD_VILLA_URL,data,
+            // {
+            //     headers: {
+            //         'Authorization': 'Token '.concat(getItem('user-token')),
+            //         'Content-Type': 'application/json',
+            //     }
+            // })                
+            // .then(res => {
+            //     if (res.status===201)
+            //     {
+            //         console.log("added");
+            //         toast.success("Villa reserved. Have a good travel:D"); 
+            //         document.getElementById('go-to-hosting-page-from-add-villa').click();
+            //         return true;
+    
+            //     }
+            //     else
+            //     {
+            //         console.log("unknown status")
+            //         toast.error("Something went wrong! Try again later.")
+            //     }
+            // }).catch(error =>{
+            //         console.log(error)
+            //         toast.error("Something went wrong! Try again later.")
+            // })
+    
+            // if (res){
+            //     sessionStorage.removeItem('travel-startDate');
+            //     sessionStorage.removeItem('travel-endDate');
+            //     sessionStorage.removeItem('add-villa-description');
+            //     sessionStorage.removeItem('passangers');
+            //     sessionStorage.removeItem('travel-total-cost');
+            //     sessionStorage.removeItem('passanger-national-code');
+            // }
+        }
     }
 
     handleChange = (e) =>{

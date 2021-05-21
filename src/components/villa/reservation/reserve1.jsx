@@ -164,9 +164,9 @@ class Reserve1 extends Component {
                                 <label className="mt-2" htmlFor="reserve-counter">number of passengers</label>
                                 <div className="reserve-counter col-md-12 justify-content-center">
                                     <div className="d-flex flex-row justify-content-start w-100">
-                                        <img name="passangers" onClick={(select, operator)=>this.handleCounter(1,"-")} className="" alt="minus icon" src={minusImg} />
-                                        <div data-testid="reserve-passangers" className="reserve-counter-number"><b className="reserve-numOfPassanger pr-4 pl-4">{this.state.passangers}</b></div>
-                                        <img name="passangers" onClick={(select, operator)=>this.handleCounter(1,"+")} className="" alt="plus icon" src={plusImg} />
+                                        <img data-testid="counter-icon-minus" name="passangers" onClick={(select, operator)=>this.handleCounter(1,"-")} className="" alt="minus icon" src={minusImg} />
+                                        <div data-testid="reserve-passangers" className="reserve-counter-number"><b data-testid="passanger-count" className="reserve-numOfPassanger pr-4 pl-4">{this.state.passangers}</b></div>
+                                        <img data-testid="counter-icon-plus" name="passangers" onClick={(select, operator)=>this.handleCounter(1,"+")} className="" alt="plus icon" src={plusImg} />
                                     </div>
                                 </div> 
                             </div>

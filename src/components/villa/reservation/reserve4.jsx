@@ -23,6 +23,22 @@ class Reserve2 extends Component {
 
     componentDidMount = () =>{
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
+        // let config = {
+        //     method: 'get',
+        //     url: API_CHECK_DOC_URL,
+        //     headers: { 'Authorization': 'Token '.concat(getItem('user-token')),}
+        // };
+
+        // console.log(config)
+
+        // let response = await axios(config)
+        //     .then(function (response) {
+        //         return response.data;
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //         return false
+        //     });
     }
 
     handleSubmit = () =>{

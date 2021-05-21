@@ -33,5 +33,10 @@ test('nationalCode does not accpet less than 10 digits', () =>{
     expect(nationalCode).not.toHaveValue("12345");
 });
 
+test('input is rendered', () =>{
+    render(<Router><Reserve2 /></Router>);
+    const nationalCode = screen.getByTestId('reserve2-nationalCode');
+    expect(nationalCode).toBeInTheDocument();
+});
 
 
