@@ -11,11 +11,13 @@ import {cosh} from "ol/math";
 import axios from "axios";
 import csc from 'country-state-city';
 import {Empty, Spin} from "antd";
+import {Select} from "antd";
+import {Option} from "antd/es/mentions";
 
 const GeoCodio = require('geocodio-library-node');
 const geocoder = new GeoCodio('c616c01cb1104fe0d88ae0b003a06fb0dfdae80');
 let center = fromLonLat([-90.108862, 29.909324]);
-let state = 'Louisiana'
+const states = csc.getAllStates()
 let cards0=[]
 // [
 //     {
@@ -72,11 +74,13 @@ class HPSub1 extends Component {
         this.mapGoTo = this.mapGoTo.bind(this);
         this.setCenterOnMove = this.setCenterOnMove.bind(this);
         this.loadCards = this.loadCards.bind(this);
+        this.handleStateSelect = this.handleStateSelect.bind(this);
     }
 
     state = {
         mapActiveIndex:0,
         loading:false,
+        state : 'Louisiana',
     }
 
     componentDidMount() {
@@ -85,7 +89,7 @@ class HPSub1 extends Component {
 
 
     async loadCards(){
-        let param = '?page=1&number_of_villa=1000&state='+state;
+        let param = '?page=1&number_of_villa=1000&state='+this.state.state;
         let config = {
             method: 'get',
             url: API_SEARCH_VILLA + param,
@@ -192,7 +196,7 @@ class HPSub1 extends Component {
         // this.setState({})
     }
 
-    async setCenterOnMove(e)
+    async setCenterOnMove(e,conf)
     {
         this.setState({loading:true,mapActiveIndex:0})
         center =toLonLat(e.map.getView().getCenter())
@@ -222,11 +226,8 @@ class HPSub1 extends Component {
             for (let z=0;z<states.length;z++)
                 if (states[z].isoCode===code.stateCode)
                 {
-                    state= states[z].name
-                    break
+                    this.setState({state:states[z].name},this.loadCards)
                 }
-            console.log(state)
-            this.loadCards()
         }
 
         this.setState({loading:false})
@@ -241,6 +242,19 @@ class HPSub1 extends Component {
         // this.setState({center},()=>console.log(this.state.center))
     }
 
+    handleStateSelect(value){
+        for(let k=0;k<states.length;k++)
+        {
+            if (states[k].name===value)
+            {
+                this.setState({state:value})
+                this.mapGoTo(states[k].longitude,states[k].latitude)
+                // center = fromLonLat(,states[k].longitude)
+                // this.loadCards()
+                break;
+            }
+        }
+    }
 
     render() {
         return (
@@ -289,14 +303,16 @@ class HPSub1 extends Component {
                 </div>
                 <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
                     <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex flex-column mt-3'}>
-                        {/*<Select size={'large'}*/}
-                        {/*    // value={this.state.sCity}*/}
-                        {/*        notFoundContent={null} className={'placeholder-visible ml-auto mr-auto'}*/}
-                        {/*        showSearch bordered={false} style={{ width: 200,backgroundColor:'#e2e2e2' }} placeholder={'City'}*/}
-                        {/*    // onChange={this.handleCitySelect}*/}
-                        {/*>*/}
-                        {/*    <Option key={'paris'}>paris</Option>*/}
-                        {/*</Select>*/}
+                        <Select size={'large'}
+                                value={this.state.state}
+                                notFoundContent={null} className={'placeholder-visible ml-auto mr-auto'}
+                                showSearch bordered={false} style={{ width: 200,backgroundColor:'#e2e2e2' }} placeholder={'City'}
+                                onChange={this.handleStateSelect}
+                        >
+                            {csc.getAllStates().map(state=>
+                                <Option key={state.name}>{state.name}</Option>
+                            )}
+                        </Select>
                         {this.state.loading?
                             <Spin className={'mt-auto mb-auto ml-auto mr-auto'} tip="Loading..." size="large"/>:
                             (cards0.length>0?
