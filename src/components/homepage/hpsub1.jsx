@@ -310,7 +310,7 @@ class HPSub1 extends Component {
                                 onChange={this.handleStateSelect}
                         >
                             {csc.getAllStates().map(state=>
-                                <Option key={state.name}>{state.name}</Option>
+                                <Option key={state.name+' '+ state.isoCode}>{state.name}</Option>
                             )}
                         </Select>
                         {this.state.loading?
