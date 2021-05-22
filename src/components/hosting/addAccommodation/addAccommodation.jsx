@@ -8,6 +8,7 @@ import Facilities from "./facilities";
 import Address from "./address";
 import Photos from "./photos";
 import Documentations from "./documentations";
+import Rules from "./rules"
 import 'react-toastify/dist/ReactToastify.css';
 import Location from './location';
 
@@ -75,6 +76,9 @@ class AddAccommodation extends Component {
                         </Route>
                         <Route>
                             <Location/>
+                        </Route>
+                        <Route path='/hosting/addaccommodation/rules/'>
+                            <Rules />
                         </Route>
                     </Switch>
                 </Modal>
