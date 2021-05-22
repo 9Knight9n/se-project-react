@@ -23,6 +23,7 @@ import geo_mt from '../../assets/icon/geo_mt.png'
 import geo_fill from '../../assets/icon/geo_fill.png'
 import {Select} from "antd";
 import {Option} from "antd/es/mentions";
+import HPSub1 from "./hpsub1";
 
 
 
@@ -48,54 +49,8 @@ const left_option_arrow_selected = <svg style={{cursor:'pointer'}} xmlns="http:/
         d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
 </svg>
 
-let center = fromLonLat([2.364, 48.86]);
-let cards0=[
-    {
-        id:0,
-        name:'City center apartment with 3 rooms',
-        addr:"Iran ,Tehran ,Shar-rey",
-        cost:10000,
-        rate:'4.3 (35 reviews)',
-        x:2.300,
-        y:48.8737,
-    },
-    {
-        id:1,
-        name:'City center apartment with 3 rooms',
-        addr:"Iran ,Tehran ,Shar-rey",
-        cost:10000,
-        rate:'4.3 (35 reviews)',
-        x:2.295,
-        y:48.8237,
-    },
-    {
-        id:2,
-        name:'City center apartment with 3 rooms',
-        addr:"Iran ,Tehran ,Shar-rey",
-        cost:10000,
-        rate:'4.3 (35 reviews)',
-        x:2.31,
-        y:48.8237,
-    },
-    {
-        id:3,
-        name:'City center apartment with 3 rooms',
-        addr:"Iran ,Tehran ,Shar-rey",
-        cost:10000,
-        rate:'4.3 (35 reviews)',
-        x:2.315,
-        y:48.8437,
-    },
-    {
-        id:4,
-        name:'City center apartment with 3 rooms',
-        addr:"Iran ,Tehran ,Shar-rey",
-        cost:10000,
-        rate:'4.3 (35 reviews)',
-        x:2.285,
-        y:48.8537,
-    },
-]
+
+
 
 
 
@@ -111,8 +66,6 @@ class Homepage extends Component {
         this.leftOptionsSelectedShow = this.leftOptionsSelectedShow.bind(this);
         this.handleScreenSizeChange = this.handleScreenSizeChange.bind(this);
         this.renderList = this.renderList.bind(this)
-        this.onMapCarouselChange = this.onMapCarouselChange.bind(this);
-        this.mapGoTo = this.mapGoTo.bind(this);
     }
 
     async componentDidMount() {
@@ -162,7 +115,7 @@ class Homepage extends Component {
 
 
     state = {
-        mapActiveIndex:0,
+
         cards0:[],
         cards1:[
             {
@@ -410,86 +363,7 @@ class Homepage extends Component {
     }
 
 
-    renderAMap=(card)=>{
-        let fill = this.state.mapActiveIndex===card.id
-        if( fill)
-        {
-            console.log(this.state.center)
-            // if (this.state.center[0] !==card.x && this.state.center[1] !== card.y)
-            // this.state.center = fromLonLat([card.x, card.y])
-            // this.forceUpdate()
 
-            return (
-                <RFeature
-                    geometry={new Point(fromLonLat([card.x, card.y]))}
-                    onClick={(e) =>
-                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
-                            duration: 250,
-                            maxZoom: 12,
-                        })
-                    }
-                >
-                    <RStyle.RStyle>
-                        <RStyle.RIcon src={geo_fill}/>
-                    </RStyle.RStyle>
-                </RFeature>
-            )
-        }
-
-        else
-            return ('')
-    }
-
-
-    renderDMap=(card)=>{
-        console.log(card.id+'-map-pin')
-        let fill = this.state.mapActiveIndex===card.id
-        if( fill)
-            return ('')
-        else
-            return (
-
-                    <RFeature
-
-                        geometry={new Point(fromLonLat([card.x, card.y]))}
-                        onClick={(e) =>
-                            e.map.getView().fit(e.target.getGeometry().getExtent(), {
-                                duration: 250,
-                                maxZoom: 12,
-                            })
-                        }
-                    >
-                        <RStyle.RStyle>
-                            <RStyle.RIcon src={geo_mt} color={'#364d79'}/>
-                        </RStyle.RStyle>
-                    </RFeature>
-            )
-    }
-
-    getMapCenter=()=>{
-        let center = null
-        for (let z=0;z<cards0.length;z++)
-        {
-            if (cards0[z].id===this.state.mapActiveIndex)
-            {
-                center = fromLonLat([cards0[z].x, cards0[z].y])
-                break
-            }
-        }
-        return center
-    }
-
-
-    onMapCarouselChange(selectedIndex,e){
-        this.setState({mapActiveIndex:selectedIndex})
-    }
-
-    mapGoTo(x,y)
-    {
-        center=fromLonLat([x, y])
-        document.getElementById('map-go-to').click()
-        // this.setState({})
-    }
 
     render() {
 
@@ -515,83 +389,7 @@ class Homepage extends Component {
                         </div>
                     </SElement>
                     <SElement id={'hp-sub-1'} name={'hp-sub-1'} className={'homepage-div-bg d-flex w-100'} >
-                        <div className={'row w-100 mt-auto mb-auto'} >
-                            <div className={' col-lg-12 col-xl-12 col-md-12 col-sm-12 col-12'} >
-                                <h4 className={'ml-5 mb-3 mt-5'} style={{fontFamily:'cursive'}}>
-                                    Or You may use a map:
-                                </h4>
-                            </div>
-                            <div className={'col-lg-8 col-xl-8 col-md-6 col-sm-12 col-12'}>
-                                {/*<div className={'mr-5 ml-5'}>*/}
-                                    {/*https://www.npmjs.com/package/rlayers*/}
-                                <div className={'pl-5 mt-4'}>
-                                    <div  style={{border: '2px solid #8f8ff8'}}>
-                                        {/*{this.state.center?*/}
-                                        <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
-                                            <ROSM />
-                                            <RControl.RCustom >
-                                                <RContext.Consumer>
-                                                    {({ map }) => (
-                                                        <button
-                                                                id={'map-go-to'}
-                                                                className={'display-none'}
-                                                                onClick={() => map.getView().setCenter(center)}>
-                                                            hidden
-                                                        </button>
-                                                    )}
-                                                </RContext.Consumer>
-                                            </RControl.RCustom>
-                                            <RLayerVector zIndex={10}>
-                                                {cards0.map(card=>
-                                                    this.renderAMap(card)
-                                                )}
-                                                {cards0.map(card=>
-                                                    this.renderDMap(card)
-                                                )}
-                                            </RLayerVector>
-                                        </RMap>}
-                                        {/*<button onClick={()=>this.mapGoTo(cards0[0].x,cards0[0].y)}>change</button>*/}
-                                    </div>
-                                </div>
-
-
-                                {/*</div>*/}
-                            </div>
-                            <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
-                                <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex flex-column mt-3'}>
-                                    <Select size={'large'}
-                                        // value={this.state.sCity}
-                                            notFoundContent={null} className={'placeholder-visible ml-auto mr-auto'}
-                                            showSearch bordered={false} style={{ width: 200 }} placeholder={'City'}
-                                        // onChange={this.handleCitySelect}
-                                    >
-                                        {/*{this.state.cities.map(city => (*/}
-                                        {/*    <Option key={city.name}>{city.name}</Option>*/}
-                                        {/*))}*/}
-                                        <Option key={'paris'}>paris</Option>
-                                    </Select>
-                                    <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}
-                                              activeIndex={this.state.mapActiveIndex}
-                                              onSelect={this.onMapCarouselChange}
-                                              interval={2000}
-                                              // onSlide={()=>this.forceUpdate()}
-                                    >
-                                        {cards0.map(card=>
-                                            <Carousel.Item key={card.id}>
-                                                <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
-                                                    <VillaCard name={card.name}
-                                                               id={card.villa_id}
-                                                               src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
-                                                               addr={card.country+", "+card.state+', '+card.city}
-                                                               cost={card.price_per_night}
-                                                               rate={'4.5 (35 reviews)'}/>
-                                                </div>
-                                            </Carousel.Item>
-                                        )}
-                                    </Carousel>
-                                </div>
-                            </div>
-                        </div>
+                        <HPSub1/>
                     </SElement>
                     <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg d-flex m-auto'} >
                         <div className={'w-100 h-100 d-flex flex-column'} >
