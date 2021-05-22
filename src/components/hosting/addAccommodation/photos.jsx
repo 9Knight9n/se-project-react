@@ -115,7 +115,7 @@ class Photos extends Component {
                     </Upload>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Link to={'/hosting/addaccommodation/address/'} className={'mr-auto'} >
+                    <Link to={'/hosting/addaccommodation/location/'} className={'mr-auto'} >
                         <button className={'btn btn-outline-secondary'}>Back</button>
                     </Link>
                     <Link to={'/hosting/addaccommodation/documentations/'}>

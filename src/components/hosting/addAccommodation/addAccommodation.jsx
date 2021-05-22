@@ -74,7 +74,7 @@ class AddAccommodation extends Component {
                         <Route path='/hosting/addaccommodation/address/'>
                             <Address />
                         </Route>
-                        <Route>
+                        <Route path='/hosting/addaccommodation/location/'>
                             <Location/>
                         </Route>
                         <Route path='/hosting/addaccommodation/rules/'>

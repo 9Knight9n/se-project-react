@@ -28,6 +28,7 @@ class rules extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        document.getElementById("goToAmentities").click();
         let dataIsValid = true;
 
     }
@@ -87,7 +88,7 @@ class rules extends Component {
                                         <div className="form-group">
                                             <div className="input-group">
                                             <Form.Group controlId="formBasicCheckbox">
-                                                <Form.Check checked={this.state.rule1state} name="rule1" onChange={this.handleChange} type="checkbox" label="Smoking is not allowed in this place" />
+                                                <Form.Check data-testid="rule1" checked={this.state.rule1state} name="rule1" onChange={this.handleChange} type="checkbox" label="Smoking is not allowed in this place" />
                                             </Form.Group>
                                             </div>
                                         </div>
@@ -97,7 +98,7 @@ class rules extends Component {
                                         <div className="form-group">
                                             <div className="input-group">
                                                 <Form.Group controlId="formBasicCheckbox">
-                                                    <Form.Check checked={this.state.rule2state} name="rule2" onChange={this.handleChange} type="checkbox" label="Pets are not allowed in this villa" />
+                                                    <Form.Check data-testid="rule2" checked={this.state.rule2state} name="rule2" onChange={this.handleChange} type="checkbox" label="Pets are not allowed in this villa" />
                                                 </Form.Group>
                                             </div>
                                         </div>
@@ -107,7 +108,7 @@ class rules extends Component {
                                             <div className="form-group">
                                                 <div className="input-group">
                                                     <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check checked={this.state.rule3state} name="rule3" onChange={this.handleChange} type="checkbox" label="You can not invite more people than the maximum capacity" />
+                                                        <Form.Check data-testid="rule3" checked={this.state.rule3state} name="rule3" onChange={this.handleChange} type="checkbox" label="You can not invite more people than the maximum capacity" />
                                                     </Form.Group>
                                                 </div>
                                             </div>
@@ -117,7 +118,7 @@ class rules extends Component {
                                             <div className="form-group">
                                                 <div className="input-group">
                                                     <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check checked={this.state.rule4state} name="rule4" onChange={this.handleChange} type="checkbox" label="We have no responsibility for lost property" />
+                                                        <Form.Check data-testid="rule4" checked={this.state.rule4state} name="rule4" onChange={this.handleChange} type="checkbox" label="We have no responsibility for lost property" />
                                                     </Form.Group>
                                                 </div>
                                             </div>
@@ -127,7 +128,7 @@ class rules extends Component {
                                             <div className="form-group">
                                                 <div className="input-group">
                                                     <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check checked={this.state.rule5state} name="rule5" onChange={this.handleChange} type="checkbox" label="This place is rented only to the family" />
+                                                        <Form.Check data-testid="rule5" checked={this.state.rule5state} name="rule5" onChange={this.handleChange} type="checkbox" label="This place is rented only to the family" />
                                                     </Form.Group>
                                                 </div>
                                             </div>
@@ -137,7 +138,7 @@ class rules extends Component {
                                             <div className="form-group">
                                                 <div className="input-group">
                                                     <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check checked={this.state.rule6state} name="rule6" onChange={this.handleChange} type="checkbox" label="In case of damage to the place, you will be compensated" />
+                                                        <Form.Check data-testid="rule6" checked={this.state.rule6state} name="rule6" onChange={this.handleChange} type="checkbox" label="In case of damage to the place, you will be compensated" />
                                                     </Form.Group>
                                                 </div>
                                             </div>
@@ -147,7 +148,7 @@ class rules extends Component {
                                             <div className="form-group">
                                                 <div className="input-group">
                                                     <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check checked={this.state.rule7state} name="rule7" onChange={this.handleChange} type="checkbox" label="You are only allowed to park a car in the parking lot" />
+                                                        <Form.Check data-testid="rule7" checked={this.state.rule7state} name="rule7" onChange={this.handleChange} type="checkbox" label="You are only allowed to park a car in the parking lot" />
                                                     </Form.Group>
                                                 </div>
                                             </div>
@@ -157,7 +158,7 @@ class rules extends Component {
                                             <div className="form-group">
                                                 <div className="input-group">
                                                     <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check checked={this.state.rule8state} name="rule8" onChange={this.handleChange} type="checkbox" label="You are not allowed to put garbage in the yard or in the alley and it should be put in the trash." />
+                                                        <Form.Check data-testid="rule8" checked={this.state.rule8state} name="rule8" onChange={this.handleChange} type="checkbox" label="You are not allowed to put garbage in the yard or in the alley and it should be put in the trash." />
                                                     </Form.Group>
                                                 </div>
                                             </div>
@@ -167,7 +168,7 @@ class rules extends Component {
                                             <div className="form-group">
                                                 <div className="input-group">
                                                     <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check checked={this.state.rule9state}  name="rule9" onChange={this.handleChange} type="checkbox" label="The responsibility of cleaning the place is with you and no one is intended for this action" />
+                                                        <Form.Check data-testid="rule9" checked={this.state.rule9state}  name="rule9" onChange={this.handleChange} type="checkbox" label="The responsibility of cleaning the place is with you and no one is intended for this action" />
                                                     </Form.Group>
                                                 </div>
                                             </div>
