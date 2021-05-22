@@ -10,6 +10,7 @@ import geo_mt from "../../assets/icon/geo_mt.png";
 import {cosh} from "ol/math";
 import axios from "axios";
 import csc from 'country-state-city';
+import {Empty, Spin} from "antd";
 
 const GeoCodio = require('geocodio-library-node');
 const geocoder = new GeoCodio('c616c01cb1104fe0d88ae0b003a06fb0dfdae80');
@@ -75,6 +76,7 @@ class HPSub1 extends Component {
 
     state = {
         mapActiveIndex:0,
+        loading:false,
     }
 
     componentDidMount() {
@@ -105,6 +107,7 @@ class HPSub1 extends Component {
         cards0 = cardList
         // this.setState({cards:cardList})
         console.log(cards0)
+        this.forceUpdate()
     }
 
 
@@ -191,6 +194,7 @@ class HPSub1 extends Component {
 
     async setCenterOnMove(e)
     {
+        this.setState({loading:true,mapActiveIndex:0})
         center =toLonLat(e.map.getView().getCenter())
         console.log((center))
 
@@ -201,7 +205,7 @@ class HPSub1 extends Component {
         };
         let code = await axios(config)
             .then(function (response) {
-                console.log(response.data.results[0].address_components.state);
+                console.log(response.data.results[0].address_components);
                 if(response.data.results && response.data.results[0] && response.data.results[0].address_components
                         && response.data.results[0].address_components.state && response.data.results[0].address_components.country)
                     return {stateCode:response.data.results[0].address_components.state ,countryCode: response.data.results[0].address_components.country}
@@ -221,9 +225,11 @@ class HPSub1 extends Component {
                     state= states[z].name
                     break
                 }
+            console.log(state)
             this.loadCards()
         }
 
+        this.setState({loading:false})
         // console.log(state)
 
 
@@ -291,25 +297,30 @@ class HPSub1 extends Component {
                         {/*>*/}
                         {/*    <Option key={'paris'}>paris</Option>*/}
                         {/*</Select>*/}
-                        <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}
-                                  activeIndex={this.state.mapActiveIndex}
-                                  onSelect={this.onMapCarouselChange}
-                                  interval={2000}
-                            // onSlide={()=>this.forceUpdate()}
-                        >
-                            {cards0.map(card=>
-                                <Carousel.Item key={card.id}>
-                                    <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
-                                        <VillaCard name={card.name}
-                                                   id={card.villa_id}
-                                                   src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
-                                                   addr={card.country+", "+card.state+', '+card.city}
-                                                   cost={card.price_per_night}
-                                                   rate={'4.5 (35 reviews)'}/>
-                                    </div>
-                                </Carousel.Item>
-                            )}
-                        </Carousel>
+                        {this.state.loading?
+                            <Spin className={'mt-auto mb-auto ml-auto mr-auto'} tip="Loading..." size="large"/>:
+                            (cards0.length>0?
+                                <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}
+                                          activeIndex={this.state.mapActiveIndex}
+                                          onSelect={this.onMapCarouselChange}
+                                          interval={2000}
+                                    // onSlide={()=>this.forceUpdate()}
+                                >
+                                    {cards0.map(card=>
+                                        <Carousel.Item key={card.id}>
+                                            <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
+                                                <VillaCard name={card.name}
+                                                           id={card.villa_id}
+                                                           src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
+                                                           addr={card.country+", "+card.state+', '+card.city}
+                                                           cost={card.price_per_night}
+                                                           rate={'4.5 (35 reviews)'}/>
+                                            </div>
+                                        </Carousel.Item>
+                                    )}
+                                </Carousel>:
+                                <Empty className={'mt-auto mb-auto ml-auto mr-auto'} />)
+                        }
                     </div>
                 </div>
             </div>
