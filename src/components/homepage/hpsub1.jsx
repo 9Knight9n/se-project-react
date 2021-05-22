@@ -305,7 +305,7 @@ class HPSub1 extends Component {
                     <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex flex-column mt-3'}>
                         <Select size={'large'}
                                 value={this.state.state}
-                                notFoundContent={null} className={'placeholder-visible ml-auto mr-auto'}
+                                notFoundContent={null} className={'placeholder-visible ml-auto mr-auto mb-3'}
                                 showSearch bordered={false} style={{ width: 200,backgroundColor:'#e2e2e2' }} placeholder={'City'}
                                 onChange={this.handleStateSelect}
                         >
