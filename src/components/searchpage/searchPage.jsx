@@ -16,6 +16,8 @@ class SearchPage extends Component {
         country:null,
         state:null,
         city:null,
+        startDate:null,
+        endDate: null,
         cards:[
             // {
             //     name:'City center apartment with 3 rooms',
@@ -56,10 +58,13 @@ class SearchPage extends Component {
         const country = urlParams.get('country')
         const state = urlParams.get('state')
         const city = urlParams.get('city')
-        this.setState({country,state,city},this.loadData)
+        const startDate = urlParams.get('start')
+        const endDate = urlParams.get('end')
+        this.setState({country,state,city,startDate,endDate},this.loadData)
     }
 
     async loadData(){
+        console.log(this.state)
         let param = '?page=1&number_of_villa=100&country='+this.state.country
         if (this.state.state)
             param = param + '&state=' + this.state.state
@@ -86,15 +91,15 @@ class SearchPage extends Component {
         console.log(this.state.country)
     }
 
-    search = (country,state,city) =>{
-        this.setState({country,state,city},this.loadData)
+    search = (country,state,city,startDate,endDate) =>{
+        this.setState({country,state,city,startDate,endDate},this.loadData)
     }
 
 
     render() {
         return (
             <div style={{marginTop:'10%'}}>
-                <Search search={this.search} country={this.state.country} state={this.state.state} city={this.state.city} />
+                <Search search={this.search} country={this.state.country} state={this.state.state} city={this.state.city} startDate={this.state.startDate} endDate={this.state.endDate}/>
                 <div className={'d-flex w-100 h-100 mt-4'}>
                     <div className={'ml-auto mr-auto'} style={{width:'87%'}}>
                         <CardGroup >

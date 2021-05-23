@@ -8,7 +8,6 @@ import moment from "moment";
 
 
 const { Option } = Select;
-const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
 const { size } = 20;
 const now = new Date();
@@ -46,6 +45,10 @@ class Search extends Component {
 
     componentDidMount() {
         this.loadOptions1()
+        if (this.props.startDate !== this.state.startDate)
+            this.setState({startDate:this.props.startDate})
+        if (this.props.endDate !== this.state.endDate)
+            this.setState({endDate:this.props.endDate})
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps !== this.props)
@@ -54,6 +57,10 @@ class Search extends Component {
             this.loadOptions2()
         if (prevState.cities !== this.state.cities)
             this.loadOptions3()
+        if (this.props.startDate !== prevProps.startDate)
+            this.setState({startDate:this.props.startDate})
+        if (this.props.endDate !== prevProps.endDate)
+            this.setState({endDate:this.props.endDate})
     }
 
 
@@ -137,26 +144,41 @@ class Search extends Component {
         });
     };
 
-    onDateChange = (range) =>{
-        if (range !== null){
-            let startDate = range[0].format();
-            let endDate = range[1].format();
-            let a = moment(startDate);
-            let b = moment(endDate);
-            b.diff(a, 'days')  // =1
-            console.log('duration  ',b.diff(a, 'days'));
-            // let Difference_In_Time = endDate.getTime() - startDate.getTime();
-            // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            console.log('start date  ',startDate);
-            console.log("end date  ",endDate);
-            this.setState({startDate:startDate.toString().split('T')[0],
-                                endDate:endDate.toString().split('T')[0]})
-        }
+    onStartDateChange = (date,date2) =>{
+        console.log(date,'+',date2)
+        this.setState({startDate:date2===''?null:date2})
+        this.forceUpdate()
     }
 
-    disabledDate = current => {
+    onEndDateChange = (date,date2) =>{
+        console.log(date,'+',date2)
+        this.setState({endDate:date2===''?null:date2})
+    }
+
+    disabledDate = (current,start) => {
         // Can not select days before today and today
-        return current && current < moment().endOf('day');
+        if (start)
+        {
+            if (this.state.endDate)
+            {
+                return  current > moment(this.state.endDate).endOf('day') ||  current < moment().endOf('day');
+            }
+            else
+            {
+                return current && current < moment().endOf('day');
+            }
+        }
+        else
+        {
+            if (this.state.startDate)
+            {
+                return current && current < moment(this.state.startDate).endOf('day')
+            }
+            else
+            {
+                return current && current < moment().endOf('day');
+            }
+        }
     }
 
     search(){
@@ -174,10 +196,29 @@ class Search extends Component {
     render() {
         let drawerContent =
             <div className={'w-100 d-flex'}>
-                <div className={'w-100'}>
-                    <Space className="w-100"  direction="vertical" size={12} bordered={false}>
-                        <RangePicker disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
-                    </Space>
+                <div className={'w-100 row'}>
+                    {/*<Space className="w-100"  direction="horizontal" size={12} >*/}
+                        {/*<DatePicker onChange={onChange} />*/}
+                        <div className={'w-50 d-flex flex-row pr-3'}>
+                            <p className={''} style={{fontFamily:'cursive',width:'fit-content'}}>
+                                Arrival:
+                            </p>
+                            <DatePicker className={''}
+                                value={this.state.startDate?moment(this.state.startDate.replaceAll('/','-'), dateFormat):null}
+                                bordered={false} disabledDate={current => this.disabledDate(current,true)}
+                                format={dateFormat} onChange={this.onStartDateChange}/>
+                        </div>
+                        <div className={'w-50 d-flex flex-row pl-3 pr-2'}>
+                            <p className={''} style={{fontFamily:'cursive',width:'fit-content'}}>
+                                Departure:
+                            </p>
+                            <DatePicker className={''}
+                                value={this.state.endDate?moment(this.state.endDate.replaceAll('/','-'),dateFormat):null}
+                                bordered={false} disabledDate={current => this.disabledDate(current,false)}
+                                format={dateFormat} onChange={this.onEndDateChange}/>
+                        </div>
+
+                    {/*</Space>*/}
                 </div>
                 <Tooltip className={'flex-shrink-1 m-2 mt-auto mb-auto'} title="search">
                     <Button onClick={this.search} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
