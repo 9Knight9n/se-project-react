@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
-import {Button, Select, Tooltip} from 'antd';
+import {Modal, Button, Select, Tooltip, Drawer, DatePicker, Space} from 'antd';
 import './search.css'
 import {SearchOutlined} from "@ant-design/icons";
 import csc from 'country-state-city';
 import {Link} from "react-router-dom";
+import moment from "moment";
 
 
 const { Option } = Select;
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY/MM/DD';
+const { size } = 20;
+const now = new Date();
 
 
 class Search extends Component {
@@ -22,6 +27,11 @@ class Search extends Component {
     }
 
         state = {
+        showDatePicker:true,
+        checkIn: new Date().toLocaleString(),
+        checkOut: new Date().toLocaleString(),
+        currentDate:null,
+        size:null,
         searchPage:false,
         countries:csc.getAllCountries(),
         sCountry:null,
@@ -114,6 +124,38 @@ class Search extends Component {
 
     }
 
+    showDrawer = () => {
+        this.setState({
+            showDatePicker: true,
+        });
+    };
+
+    onClose = () => {
+        this.setState({
+            showDatePicker: false,
+        });
+    };
+
+    onDateChange = (range) =>{
+        if (range !== null){
+            let startDate = range[0].format();
+            let endDate = range[1].format();
+            let a = moment(startDate);
+            let b = moment(endDate);
+            b.diff(a, 'days')  // =1
+            console.log('duration  ',b.diff(a, 'days'));
+            // let Difference_In_Time = endDate.getTime() - startDate.getTime();
+            // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            console.log('start date  ',startDate);
+            console.log("end date  ",endDate);
+        }
+    }
+
+    disabledDate = current => {
+        // Can not select days before today and today
+        return current && current < moment().endOf('day');
+    }
+
     search(){
         // if (this.state.sCountry)
         if (this.props.search)
@@ -125,7 +167,7 @@ class Search extends Component {
     render() {
         return (
             <div className={'mt-auto mb-auto ml-auto mr-auto'} style={{width:"fit-content"}}>
-                <div className={'pr-5 pl-4 pt-4 pb-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem'}}>
+                <div className={'pr-5 pl-4 pt-4 pb-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem',overflow:"hidden",position:"relative"}}>
                     <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
                         {this.state.searchPage?'Showing search results for:':'Tell us where:'}
                     </h4>
@@ -155,10 +197,29 @@ class Search extends Component {
                     ))}
                   </Select>
                     <Tooltip title="search">
-                      <Button onClick={this.search} style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+                      <Button onClick={this.showDrawer} style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
                     </Tooltip>
                     </div>
                      </div>
+                    <Drawer
+                        // title="Basic Drawer"
+                        placement="right"
+                        width={"90%"}
+                        closable={true}
+                        onClose={this.onClose}
+                        visible={this.state.showDatePicker}
+                        getContainer={false}
+                        style={{ position: 'absolute',overflow:"hidden" }}
+                    >
+                        <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
+                            Almost there!
+                        </h4>
+                        <div >
+                            <Space className="w-100" direction="vertical" size={12} bordered={false}>
+                                <RangePicker disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                            </Space>
+                        </div>
+                    </Drawer>
                 </div>
                 <Link id={'search-button'} to={'/search/?'+(this.state.sCountry?('country='+this.state.sCountry):'')+
                 (this.state.sState?('&state='+this.state.sState):'')+
