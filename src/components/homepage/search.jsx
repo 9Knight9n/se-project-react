@@ -26,10 +26,10 @@ class Search extends Component {
         this.loadOptions3 = this.loadOptions3.bind(this);
     }
 
-        state = {
-        showDatePicker:true,
-        checkIn: new Date().toLocaleString(),
-        checkOut: new Date().toLocaleString(),
+    state = {
+        showDatePicker:false,
+        startDate:null,
+        endDate: null,
         currentDate:null,
         size:null,
         searchPage:false,
@@ -125,9 +125,10 @@ class Search extends Component {
     }
 
     showDrawer = () => {
-        this.setState({
-            showDatePicker: true,
-        });
+        if (this.state.sCountry)
+            this.setState({
+                showDatePicker: true,
+            });
     };
 
     onClose = () => {
@@ -148,6 +149,8 @@ class Search extends Component {
             // let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             console.log('start date  ',startDate);
             console.log("end date  ",endDate);
+            this.setState({startDate:startDate.toString().split('T')[0],
+                                endDate:endDate.toString().split('T')[0]})
         }
     }
 
@@ -159,12 +162,27 @@ class Search extends Component {
     search(){
         // if (this.state.sCountry)
         if (this.props.search)
-            this.props.search(this.state.sCountry, this.state.sState, this.state.sCity)
+            this.props.search(this.state.sCountry, this.state.sState, this.state.sCity,this.state.startDate,this.state.endDate)
         else
+        {
+            this.setState({showDatePicker:false})
             document.getElementById('search-button').click()
+        }
+
     }
 
     render() {
+        let drawerContent =
+            <div className={'w-100 d-flex'}>
+                <div className={'w-100'}>
+                    <Space className="w-100"  direction="vertical" size={12} bordered={false}>
+                        <RangePicker disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                    </Space>
+                </div>
+                <Tooltip className={'flex-shrink-1 m-2 mt-auto mb-auto'} title="search">
+                    <Button onClick={this.search} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+                </Tooltip>
+            </div>
         return (
             <div className={'mt-auto mb-auto ml-auto mr-auto'} style={{width:"fit-content"}}>
                 <div className={'pr-5 pl-4 pt-4 pb-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem',overflow:"hidden",position:"relative"}}>
@@ -196,34 +214,37 @@ class Search extends Component {
                       <Option key={city.name}>{city.name}</Option>
                     ))}
                   </Select>
-                    <Tooltip title="search">
-                      <Button onClick={this.showDrawer} style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
-                    </Tooltip>
+                        {this.props.search?
+                        '':
+                            <Tooltip title="search">
+                                <Button onClick={this.showDrawer} style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+                            </Tooltip>
+                        }
                     </div>
                      </div>
-                    <Drawer
-                        // title="Basic Drawer"
-                        placement="right"
-                        width={"90%"}
-                        closable={true}
-                        onClose={this.onClose}
-                        visible={this.state.showDatePicker}
-                        getContainer={false}
-                        style={{ position: 'absolute',overflow:"hidden" }}
-                    >
-                        <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
-                            Almost there!
-                        </h4>
-                        <div >
-                            <Space className="w-100" direction="vertical" size={12} bordered={false}>
-                                <RangePicker disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
-                            </Space>
-                        </div>
-                    </Drawer>
+                    {this.props.search?<div className={'mt-4'}>{drawerContent}</div>:
+                        <Drawer
+                            // title="Basic Drawer"
+                            placement="right"
+                            width={"90%"}
+                            closable={true}
+                            onClose={this.onClose}
+                            visible={this.state.showDatePicker}
+                            getContainer={false}
+                            style={{ position: 'absolute',overflow:"hidden" }}
+                        >
+                            <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
+                                Almost there!
+                            </h4>
+                            {drawerContent}
+                        </Drawer>
+                    }
                 </div>
                 <Link id={'search-button'} to={'/search/?'+(this.state.sCountry?('country='+this.state.sCountry):'')+
                 (this.state.sState?('&state='+this.state.sState):'')+
-                (this.state.sCity?('&city='+this.state.sCity):'')}/>
+                (this.state.sCity?('&city='+this.state.sCity):'')+
+                (this.state.startDate?('&start='+this.state.startDate):'')+
+                (this.state.endDate?('&end='+this.state.endDate):'')}/>
             </div>
         );
     }
