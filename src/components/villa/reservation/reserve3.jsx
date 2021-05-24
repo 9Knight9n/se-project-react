@@ -4,8 +4,10 @@ import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import { Modal, ModalFooter, ModalHeader} from "react-bootstrap";
 import {Form} from "react-bootstrap";
 import { DatePicker, Space } from 'antd';
-import {STORAGE_KEY} from "../../constants";
+import {STORAGE_KEY, API_RESERVE_VILLA} from "../../constants";
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
+import {getItem} from '../../util'
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
@@ -19,65 +21,61 @@ class Reserve2 extends Component {
             disableBtn: true,
             noteRead: false,
         }
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount = () =>{
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
     }
 
-    handleSubmit = () =>{
+    async handleSubmit() {
         let dataIsValid = false;
-        document.getElementById("goToReserve4").click();
         if (this.state.noteRead){
             dataIsValid = true;
         }
 
         if (dataIsValid){
-            console.log("send data")
-            toast.success("you have reserved your villa, we wish you a good trip")
-            this.SaveFileListToSessionStorage();
             let data = JSON.stringify({
-                "travel-startDate":sessionStorage.getItem('travel-startDate'),
-                "travel-endDate":sessionStorage.getItem('travel-endDate'),
-                "passangers":sessionStorage.getItem('passangers'),
-                "travel-total-cost":sessionStorage.getItem('travel-total-cost'),
-                "id": this.props.id,
+                "villa":this.props.place_id,
+                "start_date":sessionStorage.getItem('travel-startDate'),
+                "end_date":sessionStorage.getItem('travel-endDate'),
+                "num_of_passengers": sessionStorage.getItem('passangers'),
+                "total_cost": sessionStorage.getItem('travel-total-cost'),
             });
-            // let res =
-            // await axios.post(API_ADD_VILLA_URL,data,
-            // {
-            //     headers: {
-            //         'Authorization': 'Token '.concat(getItem('user-token')),
-            //         'Content-Type': 'application/json',
-            //     }
-            // })                
-            // .then(res => {
-            //     if (res.status===201)
-            //     {
-            //         console.log("added");
-            //         toast.success("Villa reserved. Have a good travel:D"); 
-            //         document.getElementById('go-to-hosting-page-from-add-villa').click();
-            //         return true;
+            let res =
+            await axios.post(API_RESERVE_VILLA,data,
+            {
+                headers: {
+                    'Authorization': 'Token '.concat(getItem('user-token')),
+                    'Content-Type': 'application/json',
+                }
+            })                
+            .then(res => {
+                if (res.status===201)
+                {
+                    console.log("reserved");
+                    toast.success("you have reserved your villa, we wish you a good trip");
+                    document.getElementById("goToReserve4").click();
+                    return true;
+                }
+                else
+                {
+                    console.log("unknown status")
+                    toast.error("Something went wrong! Try again later.")
+                }
+            }).catch(error =>{
+                    console.log(error)
+                    toast.error("Something went wrong! Try again later.")
+            })
     
-            //     }
-            //     else
-            //     {
-            //         console.log("unknown status")
-            //         toast.error("Something went wrong! Try again later.")
-            //     }
-            // }).catch(error =>{
-            //         console.log(error)
-            //         toast.error("Something went wrong! Try again later.")
-            // })
-    
-            // if (res){
-            //     sessionStorage.removeItem('travel-startDate');
-            //     sessionStorage.removeItem('travel-endDate');
-            //     sessionStorage.removeItem('add-villa-description');
-            //     sessionStorage.removeItem('passangers');
-            //     sessionStorage.removeItem('travel-total-cost');
-            //     sessionStorage.removeItem('passanger-national-code');
-            // }
+            if (res){
+                sessionStorage.removeItem('travel-startDate');
+                sessionStorage.removeItem('travel-endDate');
+                sessionStorage.removeItem('add-villa-description');
+                sessionStorage.removeItem('passangers');
+                sessionStorage.removeItem('travel-total-cost');
+                sessionStorage.removeItem('passanger-national-code');
+            }
         }
     }
 

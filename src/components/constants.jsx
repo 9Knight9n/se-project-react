@@ -22,6 +22,7 @@ export const API_CHECK_DOC_URL = "api/account/check-document-existence"
 export const API_ADD_VILLA_URL = "api/villa/user/"
 export const API_VILLA_PROFILE_URL = "api/villa/user/"
 export const API_SEARCH_VILLA = 'api/villa/search/'
+export const API_RESERVE_VILLA = 'api/villa/user/register/'
 
 
 

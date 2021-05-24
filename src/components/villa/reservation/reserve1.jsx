@@ -12,7 +12,6 @@ import { toast, ToastContainer } from 'react-toastify';
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
-const { size } = 20;
 const now = new Date();
 
 class Reserve1 extends Component {
@@ -91,23 +90,38 @@ class Reserve1 extends Component {
             this.setState({
                 disableBtn: false,
                 stayingDays: b.diff(a, 'days'),
-                checkIn: startDate,
-                checkOut: endDate,
+                checkIn: startDate.slice(0, -15),
+                checkOut: endDate.slice(0, -15),
                 invalidDate: false,
                 range: [moment(range[0].format()), moment(range[1].format())]
             })
             this.calculateCost(b.diff(a, 'days'))
-            console.log('start date  ',startDate); 
-            console.log("end date  ",endDate);
+            console.log('start date  ',startDate.slice(0, -15)); 
+            console.log("end date  ",endDate.slice(0, -15));
         }
         if (range === null){
             this.setState({invalidDate: true, disableBtn: true})
         }
     }
 
+    getDaysBetweenDates = (startDate, endDate) => {
+        let now = startDate.clone(), dates = [];
+  
+        while (now.isSameOrBefore(endDate)) {
+            dates.push(now.format('MM/DD/YYYY'));
+            now.add(1, 'days');
+        }
+        return dates;
+    };
+
+
     disabledDate = current => {
         // Can not select days before today and today
-        return current && current < moment().endOf('day');
+        let disabledDates = ["2020-07-21", "2020-07-23"];
+        return(
+            disabledDates.find(date => date === moment(current).format("YYYY-MM-DD"))
+            // current && current < moment().endOf('day') ||
+        );
     }
 
 
@@ -154,7 +168,10 @@ class Reserve1 extends Component {
                     <div>
                         <div className="reserver-datePicker">
                             <Space className="w-100" direction="vertical" size={12}>
-                                <RangePicker data-testid="reserve1-rangePicker" value={this.state.range? this.state.range : ''} placeholder={["Check In","Check Out"]} name="Picker" disabledDate={current => this.disabledDate(current)} format={dateFormat} onChange={this.onDateChange} size={20} />
+                                <RangePicker allowClear={false} data-testid="reserve1-rangePicker" value={this.state.range? this.state.range : ''}
+                                 placeholder={["Check In","Check Out"]} name="Picker" disabledDate={current => this.disabledDate(current)}
+                                  format={dateFormat} onChange={this.onDateChange} size={20}
+                                />
                                 {this.state.invalidDate? <p className="ml-2 reserve-invalid-date">You must specify your travel date!</p> : ''}
                             </Space>
                         </div>
