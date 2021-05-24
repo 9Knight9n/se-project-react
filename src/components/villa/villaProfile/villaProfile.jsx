@@ -48,8 +48,8 @@ class VillaProfile extends Component {
             placeOwner:'',
             id: null,
             owner_image:'',
-            ownerPhoneNumber: "0912",
-            fullAddress: "this is full addr",
+            place_address: null,
+            owner_phoneNumber: null,
             facilities : [
                 {
                     src:
@@ -336,11 +336,13 @@ class VillaProfile extends Component {
             numOfDoubleBeds: data.number_of_double_beds,
             palceCountry: data.country,
             placeCity:data.city,
-            placeState:data.state,
+            placeState: data.state,
             images: data.images,
             availableFacilities: data.facilities,
             placeOwner: data.owner,
-            owner_image: data.owner_image
+            owner_image: data.owner_image,
+            place_address: data.address,
+            owner_phoneNumber: data.phone_number
         })
         let array = []
         for (let i=0; i < this.state.facilities.length; i++)
@@ -559,7 +561,7 @@ class VillaProfile extends Component {
                     </div>
                     <Switch>
                         <Route path="/villa/villaProfile/reserve/">
-                            <Reserve fullAddress={this.state.fullAddress} ownerPhoneNumber={this.state.ownerPhoneNumber} placeOwner={this.state.placeOwner} placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
+                            <Reserve place_id={this.state.id} place_address={this.state.place_address} owner_phoneNumber={this.state.owner_phoneNumber} placeOwner={this.state.placeOwner} placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
                         </Route>
                         <Route path="/villa/villaProfile/reserve/1/">
                             <Reserve1 placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>

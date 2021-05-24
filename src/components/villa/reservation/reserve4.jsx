@@ -23,6 +23,7 @@ class Reserve2 extends Component {
 
     componentDidMount = () =>{
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
+        console.log("addr : " + this.props.place_address)
         // let config = {
         //     method: 'get',
         //     url: API_CHECK_DOC_URL,
@@ -42,7 +43,6 @@ class Reserve2 extends Component {
     }
 
     handleSubmit = () =>{
-        toast.success("you have reserved your villa, we wish you a good trip")
         this.props.exit();
 
     }
@@ -75,13 +75,13 @@ class Reserve2 extends Component {
                                 <div>
                                     <div>
                                         <label>Phone number : </label>
-                                        <b> {this.props.ownerPhoneNumber}</b>
+                                        <b> {this.props.owner_phoneNumber}</b>
                                     </div>
                                 </div>
                                 <div>
                                     <div>
                                         <label>Place full address : </label>
-                                        <b> {this.props.fullAddress}</b>
+                                        <b> {this.props.place_address}</b>
                                     </div>
                                 </div>
                             </div>
@@ -89,9 +89,9 @@ class Reserve2 extends Component {
                     </Modal.Body>
                 </div>
                 <Modal.Footer>
-                        <Link to={'/villa/villaProfile/reserve/3/'} >
+                        {/* <Link to={'/villa/villaProfile/reserve/3/'} >
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
-                        </Link>
+                        </Link> */}
                         <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>I am keeping this information</button>
                         <Link id="goToReserve3" className="display-none" to={'/villa/villaProfile/reserve/final/'}>
 

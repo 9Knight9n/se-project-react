@@ -19,12 +19,13 @@ class Reserve extends Component {
             total: this.props.PlacePrice+" $",
             stayingDays:1,
             size:null,
+
         }
     }
 
     componentDidMount = () =>{
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
-        console.log(this.props.PlacePrice + " s " + this.props.placeMaxCapacity)
+        console.log("addr : " + this.props.place_address)
     }
 
     exit()
@@ -57,11 +58,11 @@ class Reserve extends Component {
                     </Route>
 
                     <Route path="/villa/villaProfile/reserve/3/">
-                        <Reserve3 exit={this.exit} />
+                        <Reserve3 place_id={this.props.place_id} exit={this.exit} />
                     </Route>
                     
                     <Route path="/villa/villaProfile/reserve/4/">
-                        <Reserve4 exit={this.exit} fullAddress={this.props.fullAddress} placeOwner={this.props.placeOwner} ownerPhoneNumber={this.props.ownerPhoneNumber} />
+                        <Reserve4 place_address={this.props.place_address} owner_phoneNumber={this.props.owner_phoneNumber} exit={this.exit} fullAddress={this.props.fullAddress} placeOwner={this.props.placeOwner} ownerPhoneNumber={this.props.ownerPhoneNumber} />
                     </Route>
 
                 </Switch>

@@ -1,7 +1,7 @@
 import axios from "axios";
 export const VERIFY_LENGTH = 6;
-// export const API_BASE_URL = "http://127.0.0.1:8000/"
-export const API_BASE_URL = "http://softcheetahs.herokuapp.com/"
+export const API_BASE_URL = "http://127.0.0.1:8000/"
+// export const API_BASE_URL = "https://172.17.3.149/"
 axios.defaults.baseURL=API_BASE_URL;
 
 export const API_UPLOAD_DOC_URL = "api/account/upload-documents"

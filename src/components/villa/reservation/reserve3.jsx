@@ -5,6 +5,7 @@ import { Modal, ModalFooter, ModalHeader} from "react-bootstrap";
 import {Form} from "react-bootstrap";
 import { DatePicker, Space } from 'antd';
 import {STORAGE_KEY} from "../../constants";
+import { ToastContainer, toast } from 'react-toastify';
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
@@ -33,19 +34,15 @@ class Reserve2 extends Component {
 
         if (dataIsValid){
             console.log("send data")
-            // event.preventDefault();
-            // // this.SaveFileListToSessionStorage();
-            // let data = JSON.stringify({
-            //     "travel-startDate":sessionStorage.getItem('travel-startDate'),
-            //     "travel-endDate":sessionStorage.getItem('travel-endDate'),
-            //     "passangers":sessionStorage.getItem('passangers'),
-            //     "travel-total-cost":sessionStorage.getItem('travel-total-cost'),
-            //     "passanger-national-code":sessionStorage.getItem('passanger-national-code'),
-            // });
-    
-    
-            // console.log('data sent:',data)
-    
+            toast.success("you have reserved your villa, we wish you a good trip")
+            this.SaveFileListToSessionStorage();
+            let data = JSON.stringify({
+                "travel-startDate":sessionStorage.getItem('travel-startDate'),
+                "travel-endDate":sessionStorage.getItem('travel-endDate'),
+                "passangers":sessionStorage.getItem('passangers'),
+                "travel-total-cost":sessionStorage.getItem('travel-total-cost'),
+                "id": this.props.id,
+            });
             // let res =
             // await axios.post(API_ADD_VILLA_URL,data,
             // {
@@ -104,6 +101,7 @@ class Reserve2 extends Component {
     render() { 
         return ( 
             <React.Fragment>
+                <ToastContainer/>
                 <div>
                     <Link className={'display-none'} to="/villa/villaProfile"  id={'redirect-to-villa-profile'}/>
                     <Modal.Header closeButton={true}>
