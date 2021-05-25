@@ -46,7 +46,7 @@ class Reserve1 extends Component {
             console.log("default valu : ", range)
         }
         this.setState({
-           currentDate: date.format(now, 'YYYY/MM/DD HH:mm:ss'), 
+           currentDate: date.format(now, 'YYYY/MM/DD'), 
         })
         console.log("moment : "+ moment(now, dateFormat))
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
@@ -117,11 +117,7 @@ class Reserve1 extends Component {
 
     disabledDate = current => {
         // Can not select days before today and today
-        let disabledDates = ["2020-07-21", "2020-07-23"];
-        return(
-            disabledDates.find(date => date === moment(current).format("YYYY-MM-DD"))
-            // current && current < moment().endOf('day') ||
-        );
+        return current && current < moment().endOf('day');
     }
 
 

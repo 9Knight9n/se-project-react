@@ -10,7 +10,7 @@ import axios from 'axios';
 import {getItem} from '../../util'
 
 const { RangePicker } = DatePicker;
-const dateFormat = 'YYYY/MM/DD';
+const dateFormat = 'YYYY/DD/MM';
 const { size } = 20;
 const now = new Date();
 
@@ -37,11 +37,13 @@ class Reserve2 extends Component {
         if (dataIsValid){
             let data = JSON.stringify({
                 "villa":this.props.place_id,
-                "start_date":sessionStorage.getItem('travel-startDate'),
-                "end_date":sessionStorage.getItem('travel-endDate'),
-                "num_of_passengers": sessionStorage.getItem('passangers'),
+                "start_date": sessionStorage.getItem('travel-startDate'),
+                "end_date": sessionStorage.getItem('travel-endDate'),
+                "num_of_passengers": parseInt(sessionStorage.getItem('passangers')),
                 "total_cost": sessionStorage.getItem('travel-total-cost'),
             });
+            console.log("start date : " + sessionStorage.getItem('travel-startDate'))
+            console.log('data sent:',data)
             let res =
             await axios.post(API_RESERVE_VILLA,data,
             {
