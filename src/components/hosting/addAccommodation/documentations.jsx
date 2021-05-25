@@ -51,7 +51,9 @@ class Documentations extends Component {
     async handleSubmit (event){
         event.preventDefault();
         this.SaveFileListToSessionStorage();
-        let data = JSON.stringify({"name":sessionStorage.getItem('add-villa-placeName'),
+        console.log("this is rules : " + sessionStorage.getItem("selected-rules"))
+        let data = JSON.stringify({
+            "name":sessionStorage.getItem('add-villa-placeName'),
             "type":sessionStorage.getItem('add-villa-selected-category-name'),
             "description":sessionStorage.getItem('add-villa-description'),
             "state":sessionStorage.getItem('add-villa-selected-state'),
@@ -59,8 +61,9 @@ class Documentations extends Component {
             "city":sessionStorage.getItem('add-villa-selected-city'),
             "address":sessionStorage.getItem('add-villa-fullAddress'),
             "postal_code":sessionStorage.getItem('add-villa-postalCode'),
-            "latitude":2.156,
-            "longitude":3.33,
+            "rule_id_list":JSON.parse("["+sessionStorage.getItem("selected-rules")+"]"),
+            "latitude":parseFloat(sessionStorage.getItem("place-latitude")),
+            "longitude":parseFloat(sessionStorage.getItem("place-longitude")),
             "number_of_bathrooms":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).bathrooms),
             "number_of_single_beds":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).singleBeds),
             "number_of_bedrooms":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).bedrooms),
@@ -72,7 +75,7 @@ class Documentations extends Component {
             "number_of_showers":parseInt(JSON.parse(sessionStorage.getItem('add-villa-amentities')).showers),
             "image_id_list":this.getPhotoList('add-villa-uploaded-photos'),
             "facilities_list":JSON.parse(sessionStorage.getItem('add-villa-selected-facilities-label')),
-            "doc_id_list":this.getPhotoList('add-villa-uploaded-doc-residence')
+            "doc_id_list":this.getPhotoList('add-villa-uploaded-doc-residence'),
         });
 
 
@@ -124,6 +127,9 @@ class Documentations extends Component {
             sessionStorage.removeItem('add-villa-postalCode');
             sessionStorage.removeItem('add-villa-selected-stateCode')
             sessionStorage.removeItem('add-villa-selected-countryCode');
+            sessionStorage.removeItem('place-latitude');
+            sessionStorage.removeItem('place-longitude');
+            sessionStorage.removeItem('selected-rules');
         }
         
     }

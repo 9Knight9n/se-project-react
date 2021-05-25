@@ -10,10 +10,6 @@ import "ol/ol.css";
 import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
 import locationIcon from "../../../assets/location.png";
 
-// const coords: Record<string, Coordinate> = {
-//     origin: [2.364, 48.82],
-//     Montmartre: [2.342, 48.887],
-// };
 
 class Location extends Component {
     constructor(props) {
@@ -25,8 +21,7 @@ class Location extends Component {
             invalidDescription: false,
             invalidPrice: false,
             origin: [2.364, 48.82],
-            Montmartre: [2.342, 48.887],
-            loc: [2.342, 48.887],
+            location: sessionStorage.getItem("place-latitude")? [parseFloat(sessionStorage.getItem("place-latitude")), parseFloat(sessionStorage.getItem("place-longitude"))]: [2.364, 48.82],
             
         };
 
@@ -52,11 +47,21 @@ class Location extends Component {
         
     // }
 
+    // componentDidMount = () =>{
+    //     if (sessionStorage.getItem("place-latitude")){
+    //         this.setState({
+    //             location: [parseFloat(sessionStorage.getItem("place-latitude")), parseFloat(sessionStorage.getItem("place-longitude"))]
+    //         })
+    //     }
+    // }
+
     handleSubmit = () =>{
+        console.log("location : ", this.state.loc)
+        sessionStorage.setItem("place-latitude", this.state.location[0])
+        sessionStorage.setItem("place-longitude", this.state.location[1])
         document.getElementById("goToPhotos").click();
     }
     render() { 
-        // const [loc, setLoc] = React.useState(coords.Montmartre);
         return ( 
             <React.Fragment>
                 <Modal.Header closeButton={true}>
@@ -64,39 +69,43 @@ class Location extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className={'mr-5 ml-5 villaProfile-map'}>
-                            <RMap  width={"100%"} height={"60vh"} initial={{ center: fromLonLat(this.state.origin), zoom: 11 }}>
+                            <RMap  width={"100%"} height={"60vh"} initial={{ center: fromLonLat(this.state.location), zoom: 9 }}>
                                  <ROSM />
                                  <RLayerVector>
-                                 <RFeature
-                                    geometry={new Point(fromLonLat(this.state.loc))}
-                                    // useCallback is here for performance reasons
-                                    // without it RFeature will have its props updated at every call
-                                    onPointerDrag={(e) => {
-                                    const coords = e.map.getCoordinateFromPixel(e.pixel);
-                                    e.target.setGeometry(new Point(coords));
-                                    // this stops OpenLayers from interpreting the event to pan the map
-                                    e.preventDefault();
-                                    }}
-                                    onPointerDragEnd={(e) => {
-                                    const coords = e.map.getCoordinateFromPixel(e.pixel);
-                                    this.setState({loc: toLonLat(coords)});
-                                    }}
-                                    onPointerEnter={
-                                        (e) =>
-                                          (e.map.getTargetElement().style.cursor = "move") && undefined
-                                    }
-                                    onPointerLeave={
-                                        (e) =>
-                                          (e.map.getTargetElement().style.cursor = "initial") &&
-                                          undefined
-                                    }
-                                    >
-                                    <RStyle.RStyle>
-                                    <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
-                                    </RStyle.RStyle>
-                                    <ROverlay className="location-move-me">Move me</ROverlay>
-                                </RFeature>
-                                 </RLayerVector>
+                                    <RFeature
+
+                                        geometry={new Point(fromLonLat(this.state.location))}
+                                        // useCallback is here for performance reasons
+                                        // without it RFeature will have its props updated at every call
+                                        onPointerDrag={(e) => {
+                                        const coords = e.map.getCoordinateFromPixel(e.pixel);
+                                        e.target.setGeometry(new Point(coords));
+                                        // this stops OpenLayers from interpreting the event to pan the map
+                                        e.preventDefault();
+                                        }}
+
+                                        onPointerDragEnd={(e) => {
+                                        const coords = e.map.getCoordinateFromPixel(e.pixel);
+                                        this.setState({location: toLonLat(coords)});
+                                        }}
+
+                                        onPointerEnter={
+                                            (e) =>
+                                            (e.map.getTargetElement().style.cursor = "move") && undefined
+                                        }
+
+                                        onPointerLeave={
+                                            (e) =>
+                                            (e.map.getTargetElement().style.cursor = "initial") &&
+                                            undefined
+                                        }
+                                        >
+                                        <RStyle.RStyle>
+                                        <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
+                                        </RStyle.RStyle>
+                                        <ROverlay className="location-move-me">Move to locate your place</ROverlay>
+                                    </RFeature>
+                                </RLayerVector>
                             </RMap>
                             {/* <div className="mx-0 mt-0 mb-3 p-1 w-100 jumbotron shadow shadow">
                                 <p>

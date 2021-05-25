@@ -41,6 +41,9 @@ class AddAccommodation extends Component {
         sessionStorage.removeItem('add-villa-postalCode');
         sessionStorage.removeItem('add-villa-selected-stateCode')
         sessionStorage.removeItem('add-villa-selected-countryCode');
+        sessionStorage.removeItem('place-latitude');
+        sessionStorage.removeItem('place-longitude');
+        sessionStorage.removeItem('selected-rules');
 
     }
 

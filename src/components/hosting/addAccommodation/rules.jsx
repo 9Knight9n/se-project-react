@@ -5,72 +5,84 @@ import {Modal} from "react-bootstrap";
 import {Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import {Form} from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
-
+import axios from 'axios';
+import {getItem} from '../../util'
+import {API_GET_SPECIAL_RULES} from '../../constants'
 class rules extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rule1state: false,
-            rule2state: false,
-            rule3state: false,
-            rule4state: false,
-            rule5state: false,
-            rule6state: false,
-            rule7state: false,
-            rule8state: false,
-            rule9state: false,
+            checkedRules: [],
+            rules: [],
         };
 
     }
 
-    componentDidMount (){
+    componentDidMount = async () => {
+        await axios.get(API_GET_SPECIAL_RULES,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            }
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log(res.data)
+                console.log("data is shown successfuly")
+                this.loadRules(res.data)
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+
+        if (sessionStorage.getItem("selected-rules")){
+            this.setState({
+                checkedRules: JSON.parse("["+sessionStorage.getItem("selected-rules")+"]")
+            })
+        }
+    }
+
+    loadRules = data =>{
+        console.log("data rules : " , data)
+        this.setState({
+            rules: data
+        })
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         document.getElementById("goToAmentities").click();
-        let dataIsValid = true;
+        sessionStorage.setItem("selected-rules", this.state.checkedRules)
 
     }
 
     handleChange = (e) => {
+        let checked = this.state.checkedRules;
+        console.log("checked rules : " + this.state.checkedRules)
+        console.log("is checked? : " + e.target.checked)
+        if (!e.target.checked){
+            console.log("enter if")
+            let index = checked.indexOf(parseInt(e.target.id))
+            checked = [...checked.slice(0, index) , ...checked.slice(index+1, checked.length)]
+        }else{
+            console.log("enter else : " + e.target.id)
+            checked = [...checked, parseInt(e.target.id)]
+        }
 
-        if (e.target.name === "rule1"){
-            this.setState({rule1state : e.target.checked})
-            console.log("rule 1 : " + e.target.checked)
-        }
-        if (e.target.name === "rule2"){
-            this.setState({rule2state : e.target.checked})
-            console.log("rule 2 : " + e.target.checked)
-        }
-        if (e.target.name === "rule3"){
-            this.setState({rule3state : e.target.checked})
-            console.log("rule 3 : " + e.target.checked)
-        }
-        if (e.target.name === "rule4"){
-            this.setState({rule4state : e.target.checked})
-            console.log("rule 4 : " + e.target.checked)
-        }
-        if (e.target.name === "rule5"){
-            this.setState({rule5state : e.target.checked})
-            console.log("rule 5 : " + e.target.checked)
-        }
-        if (e.target.name === "rule6"){
-            this.setState({rule6state : e.target.checked})
-            console.log("rule 6 : " + e.target.checked)
-        }
-        if (e.target.name === "rule7"){
-            this.setState({rule7state : e.target.checked})
-            console.log("rule 7 : " + e.target.checked)
-        }
-        if (e.target.name === "rule8"){
-            this.setState({rule8state : e.target.checked})
-            console.log("rule 8 : " + e.target.checked)
-        }
-        if (e.target.name === "rule9"){
-            this.setState({rule9state : e.target.checked})
-            console.log("rule 9 : " + e.target.checked)
-        }
+        console.log("checked rules : " + checked)
+
+        this.setState({
+            checkedRules: checked
+        })
+        // this.setState({
+        //     selectedRules: this.state.selectedRules.concat([e.target.id, !this.state.ruleState])
+        // })
+
+
 
     }
     render() { 
@@ -85,94 +97,18 @@ class rules extends Component {
                         <div className="rules-form mt-2">
                                 <Form>
                                     <div className="rules-smoke">
-                                        <div className="form-group">
+                                    {this.state.rules.map(rule => 
+                                        <div key={rule.rule_id} className="form-group">
                                             <div className="input-group">
+                                            
                                             <Form.Group controlId="formBasicCheckbox">
-                                                <Form.Check data-testid="rule1" checked={this.state.rule1state} name="rule1" onChange={this.handleChange} type="checkbox" label="Smoking is not allowed in this place" />
+                                                <Form.Check id={rule.rule_id} checked={this.state.checkedRules.indexOf(rule.rule_id) !== -1} onChange={this.handleChange} data-testid="rule" name="rule" type="checkbox" label={rule.text} />
                                             </Form.Group>
+                                            
                                             </div>
                                         </div>
+                                    )}
                                     </div>
-
-                                    <div className="rules-pet">
-                                        <div className="form-group">
-                                            <div className="input-group">
-                                                <Form.Group controlId="formBasicCheckbox">
-                                                    <Form.Check data-testid="rule2" checked={this.state.rule2state} name="rule2" onChange={this.handleChange} type="checkbox" label="Pets are not allowed in this villa" />
-                                                </Form.Group>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                        <div className="rules-capacity">
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check data-testid="rule3" checked={this.state.rule3state} name="rule3" onChange={this.handleChange} type="checkbox" label="You can not invite more people than the maximum capacity" />
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-lost">
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check data-testid="rule4" checked={this.state.rule4state} name="rule4" onChange={this.handleChange} type="checkbox" label="We have no responsibility for lost property" />
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-family">
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check data-testid="rule5" checked={this.state.rule5state} name="rule5" onChange={this.handleChange} type="checkbox" label="This place is rented only to the family" />
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-damage">
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check data-testid="rule6" checked={this.state.rule6state} name="rule6" onChange={this.handleChange} type="checkbox" label="In case of damage to the place, you will be compensated" />
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-parking">
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check data-testid="rule7" checked={this.state.rule7state} name="rule7" onChange={this.handleChange} type="checkbox" label="You are only allowed to park a car in the parking lot" />
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-garbage">
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check data-testid="rule8" checked={this.state.rule8state} name="rule8" onChange={this.handleChange} type="checkbox" label="You are not allowed to put garbage in the yard or in the alley and it should be put in the trash." />
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rules-cleaning">
-                                            <div className="form-group">
-                                                <div className="input-group">
-                                                    <Form.Group controlId="formBasicCheckbox">
-                                                        <Form.Check data-testid="rule9" checked={this.state.rule9state}  name="rule9" onChange={this.handleChange} type="checkbox" label="The responsibility of cleaning the place is with you and no one is intended for this action" />
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                        </div>
                                 </Form>
                         </div>
                     </div>
