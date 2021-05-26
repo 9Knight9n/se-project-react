@@ -117,7 +117,16 @@ class Reserve1 extends Component {
 
     disabledDate = current => {
         // Can not select days before today and today
-        return current && current < moment().endOf('day');
+        let disabledDate = ["2021-06-22","2021-07-22"]
+        console.log("this is current date : " + current + " this is moment.endof : " + moment(disabledDate).startOf('day'))
+        let result = current && current < moment().endOf('day');
+
+        for (let i=0; i<disabledDate.length; i++){
+            let date = Date.parse(disabledDate[i])
+            result = result || ((moment(date).startOf('day') <= current) && (moment(date).endOf('day') >= current)); 
+        }
+        return result;
+        
     }
 
 
