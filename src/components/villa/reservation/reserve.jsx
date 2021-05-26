@@ -50,7 +50,7 @@ class Reserve extends Component {
             onHide={this.exit}>
                 <Switch>
                     <Route path="/villa/villaProfile/reserve/1/">
-                        <Reserve1 exit={this.exit} placeMaxCapacity={this.props.placeMaxCapacity} PlacePrice={this.props.PlacePrice}/>
+                        <Reserve1 place_id={this.props.place_id} exit={this.exit} placeMaxCapacity={this.props.placeMaxCapacity} PlacePrice={this.props.PlacePrice}/>
                     </Route>
 
                     <Route path="/villa/villaProfile/reserve/2/">

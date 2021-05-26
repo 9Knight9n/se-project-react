@@ -23,6 +23,7 @@ export const API_ADD_VILLA_URL = "api/villa/user/"
 export const API_VILLA_PROFILE_URL = "api/villa/user/"
 export const API_SEARCH_VILLA = 'api/villa/search/'
 export const API_RESERVE_VILLA = 'api/villa/user/register/'
+export const API_GET_RESERVED_DATES = 'api/villa/calendar/show/'
 
 
 

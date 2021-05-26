@@ -7,8 +7,9 @@ import minusImg from '../../../assets/img/minus.png';
 import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import date from 'date-and-time';
-import {STORAGE_KEY} from "../../constants";
+import {STORAGE_KEY, API_GET_RESERVED_DATES} from "../../constants";
 import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios';
 
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
@@ -23,16 +24,17 @@ class Reserve1 extends Component {
             checkOut: new Date().toLocaleString(),
             currentDate:null,
             price: this.props.PlacePrice,
-            total: this.props.PlacePrice+" $",
+            total: this.props.PlacePrice,
             stayingDays:1,
             size:null,
             invalidDate: false,
             disableBtn:true,
             range:[],
+            disabledDates: ["2021-06-22","2021-07-22"],
         }
     }
 
-    componentDidMount = () =>{
+    componentDidMount = async () =>{
         console.log(this.props.PlacePrice)
         if (sessionStorage.getItem("travel-startDate")){
             this.setState({
@@ -43,13 +45,42 @@ class Reserve1 extends Component {
                 disableBtn: false,
             })
             let range = [moment(sessionStorage.getItem("travel-startDate")),moment(sessionStorage.getItem("travel-endDate"))];
-            console.log("default valu : ", range)
         }
         this.setState({
            currentDate: date.format(now, 'YYYY/MM/DD'), 
         })
-        console.log("moment : "+ moment(now, dateFormat))
+
+        console.log("villa_id : ", this.props.place_id)
+        await axios.get(API_GET_RESERVED_DATES,{
+            // headers: {
+            //     'Authorization': 'Token '.concat(getItem('user-token'))
+            // },
+            params: {
+                villa_id: this.props.place_id
+            }
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log(res.data)
+                console.log("data is shown successfuly")
+                this.loadCalendar(res.data)
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.setState({size: event.detail}));
+    }
+
+    loadCalendar = (data) =>{
+        console.log("this is sadegh data : ",data)
+        // this.setState({
+        //     disabledDate: data
+        // })
     }
 
     exit()
@@ -117,7 +148,7 @@ class Reserve1 extends Component {
 
     disabledDate = current => {
         // Can not select days before today and today
-        let disabledDate = ["2021-06-22","2021-07-22"]
+        let disabledDate = this.state.disabledDates
         console.log("this is current date : " + current + " this is moment.endof : " + moment(disabledDate).startOf('day'))
         let result = current && current < moment().endOf('day');
 
@@ -153,7 +184,7 @@ class Reserve1 extends Component {
     calculateCost = (stayingDays) =>{
         let total = stayingDays * this.state.price
         console.log("total : "+ total)
-        this.setState({total: total+" $"})
+        this.setState({total: total})
     }
 
     render() { 
@@ -197,7 +228,7 @@ class Reserve1 extends Component {
                                 <div className="reserve-cost">
                                     <div className="d-flex flex-row justify-content-start w-100">
                                         <div data-testid="reserve-cost">
-                                            <b className="reserve-price pr-4 pl-4">{this.state.stayingDays + " * " + this.state.price + " = " + this.state.total}
+                                            <b className="reserve-price pr-4 pl-4">{this.state.stayingDays + " * " + this.state.price + " = " + this.state.total + "$"}
                                             </b>
                                         </div>
                                     </div>
