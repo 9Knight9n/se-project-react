@@ -67,16 +67,20 @@ class SearchPage extends Component {
         const city = urlParams.get('city')
         const startDate = urlParams.get('start')
         const endDate = urlParams.get('end')
-        // this.setState({country,state,city,startDate,endDate},this.loadData)
+        this.setState({country,state,city,startDate,endDate},this.loadData)
     }
 
     async loadData(){
-        console.log(this.state)
         let param = '?page=1&number_of_villa=100&country='+this.state.country
         if (this.state.state)
             param = param + '&state=' + this.state.state
         if (this.state.city)
             param = param + '&city=' + this.state.city
+        if (this.state.startDate)
+            param = param + '&start_date=' + this.state.startDate.replaceAll('/','-')
+        if (this.state.endDate)
+            param = param + '&end_date=' + this.state.endDate.replaceAll('/','-')
+        console.log(param)
         let config = {
             method: 'get',
             url: API_SEARCH_VILLA + param,
