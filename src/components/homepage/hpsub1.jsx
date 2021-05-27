@@ -333,7 +333,7 @@ class HPSub1 extends Component {
                                                            src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                                            addr={card.country+", "+card.state+', '+card.city}
                                                            cost={card.price_per_night}
-                                                           rate={'4.5 (35 reviews)'}/>
+                                                           rate={card.rate__avg}/>
                                             </div>
                                         </Carousel.Item>
                                     )}

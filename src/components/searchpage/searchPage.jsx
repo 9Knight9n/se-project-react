@@ -5,12 +5,17 @@ import {API_BASE_URL, API_SEARCH_VILLA} from "../constants";
 import axios from "axios";
 import VillaCard from "../villa/card/villaCard";
 import Empty from "antd/es/empty/empty";
-import {RContext, RControl, RLayerVector, RMap, ROSM} from "rlayers";
+import {RContext, RControl, RFeature, RLayerVector, RMap, ROSM, RStyle} from "rlayers";
 import {fromLonLat} from "ol/proj";
 import './searchPage.css'
+import {Point} from "ol/geom";
+import geo_fill from "../../assets/icon/geo_fill.png";
+import geo_mt from "../../assets/icon/geo_mt.png";
 
 
 let center = fromLonLat([-90.108862, 29.909324]);
+
+let cards=[]
 
 
 class SearchPage extends Component {
@@ -20,43 +25,12 @@ class SearchPage extends Component {
 
 
     state = {
+        mapActiveIndex:-1,
         country:null,
         state:null,
         city:null,
         startDate:null,
         endDate: null,
-        cards:[
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-        ],
     }
 
     async componentDidMount() {
@@ -88,7 +62,7 @@ class SearchPage extends Component {
                 // 'Authorization': 'Token '.concat(getItem('user-token')),
             }
         };
-        let cardList = await axios(config)
+        cards = await axios(config)
             .then(function (response) {
                 // console.log(JSON.stringify(response.data));
                 console.log(response.data.data)
@@ -98,12 +72,80 @@ class SearchPage extends Component {
                 console.log(error);
                 return []
             });
-        this.setState({cards:cardList})
-        console.log(this.state.country)
+        // cards = cardList
+        console.log(cards)
+        this.forceUpdate()
+        if (cards.length)
+            this.mapGoTo(cards[0].latitude,cards[0].longitude)
+        // this.setState({cards:cardList})
+        // console.log(this.state.country)
+    }
+    mapGoTo(x,y)
+    {
+        center=fromLonLat([x, y])
+        document.getElementById('map-go-to').click()
+        // this.setState({})
     }
 
     search = (country,state,city,startDate,endDate) =>{
         this.setState({country,state,city,startDate,endDate},this.loadData)
+    }
+    renderAMap=(card,id)=>{
+        let fill = this.state.mapActiveIndex===id
+        if( fill)
+        {
+            // console.log(this.state.center)
+            // if (this.state.center[0] !==card.x && this.state.center[1] !== card.y)
+            // this.state.center = fromLonLat([card.x, card.y])
+            // this.forceUpdate()
+
+            return (
+                <RFeature
+                    geometry={new Point(fromLonLat([card.latitude, card.longitude]))}
+                    onClick={(e) =>
+                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
+                            duration: 250,
+                            maxZoom: 12,
+                        })
+                    }
+                >
+                    <RStyle.RStyle>
+                        <RStyle.RIcon src={geo_fill}/>
+                    </RStyle.RStyle>
+                </RFeature>
+            )
+        }
+
+        else
+            return ('')
+    }
+
+    mapMarkOnClick(e,id){
+        e.map.getView().fit(e.target.getGeometry().getExtent(), {
+            duration: 250,
+            maxZoom: 11,
+        })
+        this.setState({mapActiveIndex:id})
+    }
+
+    renderDMap=(card,id)=>{
+        // console.log(card.id+'-map-pin')
+        let fill = this.state.mapActiveIndex===id
+        if( fill)
+            return ('')
+        else
+            return (
+
+                <RFeature
+
+                    geometry={new Point(fromLonLat([card.latitude, card.longitude]))}
+                    onClick={(e) =>this.mapMarkOnClick(e,id)}
+                >
+                    <RStyle.RStyle>
+                        <RStyle.RIcon src={geo_mt} color={'#364d79'}/>
+                    </RStyle.RStyle>
+                </RFeature>
+            )
     }
 
 
@@ -115,23 +157,43 @@ class SearchPage extends Component {
                 <Search search={this.search} country={this.state.country} state={this.state.state} city={this.state.city} startDate={this.state.startDate} endDate={this.state.endDate}/>
                 <div className={'d-flex w-100 h-100 mt-4 row pl-5 pr-5'} style={{}} >
                     <div className={'ml-auto mr-auto mb-5'}>
-                        <RMap  width={"60vw"} height={"50vh"} initial={{ center: center, zoom: 10 }}
+                        <RMap  width={"60vw"} height={"50vh"} initial={{ center: center, zoom: 7 }}
                                onMoveEnd={this.setCenterOnMove}>
                             <ROSM />
+                            <RControl.RCustom >
+                                <RContext.Consumer>
+                                    {({ map }) => (
+                                        <button
+                                            id={'map-go-to'}
+                                            className={'display-none'}
+                                            onClick={() => map.getView().setCenter(center)}>
+                                            hidden
+                                        </button>
+                                    )}
+                                </RContext.Consumer>
+                            </RControl.RCustom>
+                            <RLayerVector zIndex={10}>
+                                {cards.map((card,index)=>
+                                    this.renderAMap(card,index)
+                                )}
+                                {cards.map((card,index)=>
+                                    this.renderDMap(card,index)
+                                )}
+                            </RLayerVector>
                         </RMap>
                     </div>
                     <div className={'pr-5 pl-5 w-100'} >
                         <CardGroup style={{minWidth:'300px'}} >
-                            {this.state.cards.map((card,index)=>
+                            {cards.map((card,index)=>
                                 <VillaCard key={index} name={card.name} id={card.villa_id}
                                             src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                            addr={card.country+", "+card.state+', '+card.city}
                                            cost={card.price_per_night}
-                                           rate={'4.5 (35 reviews)'}/>
+                                           rate={card.rate__avg}/>
                             )}
                         </CardGroup>
-                        <div className={'ml-auto mr-auto mb-5'} style={{width:'fit-content'}}>{this.state.cards.length===0?<Empty description={'Nothing found!'}/>:null}</div>
-                        <div className={'ml-auto mr-auto mb-5'} style={{width:'fit-content'}}>{this.state.cards.length===0?<text> Nothing found!</text>:null}</div>
+                        <div className={'ml-auto mr-auto mb-5'} style={{width:'fit-content'}}>{cards.length===0?<Empty description={'Nothing found!'}/>:null}</div>
+                        <div className={'ml-auto mr-auto mb-5'} style={{width:'fit-content'}}>{cards.length===0?<text> Nothing found!</text>:null}</div>
                     </div>
 
                 </div>
