@@ -75,6 +75,7 @@ class HPSub1 extends Component {
         this.setCenterOnMove = this.setCenterOnMove.bind(this);
         this.loadCards = this.loadCards.bind(this);
         this.handleStateSelect = this.handleStateSelect.bind(this);
+        this.mapMarkOnClick = this.mapMarkOnClick.bind(this);
     }
 
     state = {
@@ -98,7 +99,7 @@ class HPSub1 extends Component {
             }
         };
         console.log(config)
-        let cardList = await axios(config)
+        cards0 = await axios(config)
             .then(function (response) {
                 // console.log(JSON.stringify(response.data));
                 console.log(response.data.data)
@@ -108,15 +109,14 @@ class HPSub1 extends Component {
                 console.log(error);
                 return []
             });
-        cards0 = cardList
         // this.setState({cards:cardList})
         console.log(cards0)
         this.forceUpdate()
     }
 
 
-    renderAMap=(card)=>{
-        let fill = this.state.mapActiveIndex===card.id
+    renderAMap=(card,id)=>{
+        let fill = this.state.mapActiveIndex===id
         if( fill)
         {
             // console.log(this.state.center)
@@ -126,7 +126,7 @@ class HPSub1 extends Component {
 
             return (
                 <RFeature
-                    geometry={new Point(fromLonLat([card.x, card.y]))}
+                    geometry={new Point(fromLonLat([card.latitude, card.longitude]))}
                     onClick={(e) =>
                         e.map.getView().fit(e.target.getGeometry().getExtent(), {
                             duration: 250,
@@ -145,10 +145,17 @@ class HPSub1 extends Component {
             return ('')
     }
 
+    mapMarkOnClick(e,id){
+        e.map.getView().fit(e.target.getGeometry().getExtent(), {
+            duration: 250,
+            maxZoom: 11,
+        })
+        this.setState({mapActiveIndex:id})
+    }
 
-    renderDMap=(card)=>{
+    renderDMap=(card,id)=>{
         // console.log(card.id+'-map-pin')
-        let fill = this.state.mapActiveIndex===card.id
+        let fill = this.state.mapActiveIndex===id
         if( fill)
             return ('')
         else
@@ -156,13 +163,8 @@ class HPSub1 extends Component {
 
                 <RFeature
 
-                    geometry={new Point(fromLonLat([card.x, card.y]))}
-                    onClick={(e) =>
-                        e.map.getView().fit(e.target.getGeometry().getExtent(), {
-                            duration: 250,
-                            maxZoom: 12,
-                        })
-                    }
+                    geometry={new Point(fromLonLat([card.latitude, card.longitude]))}
+                    onClick={(e) =>this.mapMarkOnClick(e,id)}
                 >
                     <RStyle.RStyle>
                         <RStyle.RIcon src={geo_mt} color={'#364d79'}/>
@@ -198,13 +200,12 @@ class HPSub1 extends Component {
 
     async setCenterOnMove(e,conf)
     {
-        this.setState({loading:true,mapActiveIndex:0})
-        center =toLonLat(e.map.getView().getCenter())
-        console.log((center))
+        let newCenter =toLonLat(e.map.getView().getCenter())
+        console.log((newCenter))
 
         var config = {
             method: 'get',
-            url: 'https://api.geocod.io/v1.6/reverse?q='+center[1]+','+center[0]+'&api_key=c616c01cb1104fe0d88ae0b003a06fb0dfdae80',
+            url: 'https://api.geocod.io/v1.6/reverse?q='+newCenter[1]+','+newCenter[0]+'&api_key=c616c01cb1104fe0d88ae0b003a06fb0dfdae80',
             headers: { }
         };
         let code = await axios(config)
@@ -226,7 +227,8 @@ class HPSub1 extends Component {
             for (let z=0;z<states.length;z++)
                 if (states[z].isoCode===code.stateCode)
                 {
-                    this.setState({state:states[z].name},this.loadCards)
+                    if (this.state.state !== states[z].name)
+                        this.setState({state:states[z].name,loading:true,mapActiveIndex:0},this.loadCards)
                 }
         }
 
@@ -247,10 +249,11 @@ class HPSub1 extends Component {
         {
             if (value.toString().startsWith(states[k].name))
             {
-                this.setState({state:value})
+                console.log('========>',states[k].name)
+                this.setState({state:states[k].name},this.loadCards)
                 this.mapGoTo(states[k].longitude,states[k].latitude)
+                console.log(states[k].longitude,states[k].latitude)
                 // center = fromLonLat(,states[k].longitude)
-                this.loadCards()
                 break;
             }
         }
@@ -286,11 +289,11 @@ class HPSub1 extends Component {
                                     </RContext.Consumer>
                                 </RControl.RCustom>
                                 <RLayerVector zIndex={10}>
-                                    {cards0.map(card=>
-                                        this.renderAMap(card)
+                                    {cards0.map((card,index)=>
+                                        this.renderAMap(card,index)
                                     )}
-                                    {cards0.map(card=>
-                                        this.renderDMap(card)
+                                    {cards0.map((card,index)=>
+                                        this.renderDMap(card,index)
                                     )}
                                 </RLayerVector>
                             </RMap>
