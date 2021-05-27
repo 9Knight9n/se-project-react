@@ -21,11 +21,12 @@ let cards=[]
 class SearchPage extends Component {
     constructor(props) {
         super(props);
+        this.mapGoTo = this.mapGoTo.bind(this);
     }
 
 
     state = {
-        mapActiveIndex:-1,
+        mapActiveIndex:0,
         country:null,
         state:null,
         city:null,
@@ -80,8 +81,12 @@ class SearchPage extends Component {
         // this.setState({cards:cardList})
         // console.log(this.state.country)
     }
-    mapGoTo(x,y)
+    mapGoTo(x,y,index)
     {
+        console.log(index)
+        if(index !== null)
+            this.setState({mapActiveIndex:index})
+
         center=fromLonLat([x, y])
         document.getElementById('map-go-to').click()
         // this.setState({})
@@ -185,11 +190,14 @@ class SearchPage extends Component {
                     <div className={'pr-5 pl-5 w-100'} >
                         <CardGroup style={{minWidth:'300px'}} >
                             {cards.map((card,index)=>
-                                <VillaCard key={index} name={card.name} id={card.villa_id}
-                                            src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
-                                           addr={card.country+", "+card.state+', '+card.city}
-                                           cost={card.price_per_night}
-                                           rate={card.rate__avg}/>
+                                <div className={this.state.mapActiveIndex === index ?'active-villa-card mr-4 ml-4 mb-4':'mb-4'} >
+                                    <VillaCard key={index} index={index} name={card.name} id={card.villa_id} mapGoTo={this.mapGoTo} lan={card.latitude} lon={card.longitude}
+                                               src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
+                                               addr={card.country+", "+card.state+', '+card.city}
+                                               cost={card.price_per_night}
+                                               rate={card.rate__avg}/>
+                                </div>
+
                             )}
                         </CardGroup>
                         <div className={'ml-auto mr-auto mb-5'} style={{width:'fit-content'}}>{cards.length===0?<Empty description={'Nothing found!'}/>:null}</div>
