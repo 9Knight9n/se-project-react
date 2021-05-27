@@ -5,6 +5,13 @@ import {API_BASE_URL, API_SEARCH_VILLA} from "../constants";
 import axios from "axios";
 import VillaCard from "../villa/card/villaCard";
 import Empty from "antd/es/empty/empty";
+import {RContext, RControl, RLayerVector, RMap, ROSM} from "rlayers";
+import {fromLonLat} from "ol/proj";
+import './searchPage.css'
+
+
+let center = fromLonLat([-90.108862, 29.909324]);
+
 
 class SearchPage extends Component {
     constructor(props) {
@@ -19,36 +26,36 @@ class SearchPage extends Component {
         startDate:null,
         endDate: null,
         cards:[
-            // {
-            //     name:'City center apartment with 3 rooms',
-            //     addr:"Iran ,Tehran ,Shar-rey",
-            //     cost:10000,
-            //     rate:'4.3 (35 reviews)'
-            // },
-            // {
-            //     name:'City center apartment with 3 rooms',
-            //     addr:"Iran ,Tehran ,Shar-rey",
-            //     cost:10000,
-            //     rate:'4.3 (35 reviews)'
-            // },
-            // {
-            //     name:'City center apartment with 3 rooms',
-            //     addr:"Iran ,Tehran ,Shar-rey",
-            //     cost:10000,
-            //     rate:'4.3 (35 reviews)'
-            // },
-            // {
-            //     name:'City center apartment with 3 rooms',
-            //     addr:"Iran ,Tehran ,Shar-rey",
-            //     cost:10000,
-            //     rate:'4.3 (35 reviews)'
-            // },
-            // {
-            //     name:'City center apartment with 3 rooms',
-            //     addr:"Iran ,Tehran ,Shar-rey",
-            //     cost:10000,
-            //     rate:'4.3 (35 reviews)'
-            // },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
+            {
+                name:'City center apartment with 3 rooms',
+                addr:"Iran ,Tehran ,Shar-rey",
+                cost:10000,
+                rate:'4.3 (35 reviews)'
+            },
         ],
     }
 
@@ -60,7 +67,7 @@ class SearchPage extends Component {
         const city = urlParams.get('city')
         const startDate = urlParams.get('start')
         const endDate = urlParams.get('end')
-        this.setState({country,state,city,startDate,endDate},this.loadData)
+        // this.setState({country,state,city,startDate,endDate},this.loadData)
     }
 
     async loadData(){
@@ -97,12 +104,20 @@ class SearchPage extends Component {
 
 
     render() {
+
+
         return (
             <div style={{marginTop:'10%'}}>
                 <Search search={this.search} country={this.state.country} state={this.state.state} city={this.state.city} startDate={this.state.startDate} endDate={this.state.endDate}/>
-                <div className={'d-flex w-100 h-100 mt-4'}>
-                    <div className={'ml-auto mr-auto'} style={{width:'87%'}}>
-                        <CardGroup >
+                <div className={'d-flex w-100 h-100 mt-4 row pl-5 pr-5'} style={{}} >
+                    <div className={'ml-auto mr-auto mb-5'}>
+                        <RMap  width={"60vw"} height={"50vh"} initial={{ center: center, zoom: 10 }}
+                               onMoveEnd={this.setCenterOnMove}>
+                            <ROSM />
+                        </RMap>
+                    </div>
+                    <div className={'pr-5 pl-5 w-100'} >
+                        <CardGroup style={{minWidth:'300px'}} >
                             {this.state.cards.map((card,index)=>
                                 <VillaCard key={index} name={card.name} id={card.villa_id}
                                             src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}

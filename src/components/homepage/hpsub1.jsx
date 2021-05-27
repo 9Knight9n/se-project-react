@@ -245,12 +245,12 @@ class HPSub1 extends Component {
     handleStateSelect(value){
         for(let k=0;k<states.length;k++)
         {
-            if (states[k].name===value)
+            if (value.toString().startsWith(states[k].name))
             {
                 this.setState({state:value})
                 this.mapGoTo(states[k].longitude,states[k].latitude)
                 // center = fromLonLat(,states[k].longitude)
-                // this.loadCards()
+                this.loadCards()
                 break;
             }
         }

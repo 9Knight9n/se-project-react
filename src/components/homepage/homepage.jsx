@@ -15,7 +15,13 @@ import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle,RMapProps,RContext
 import Search from "./search";
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
 import VillaCard from "../villa/card/villaCard";
-import {API_BASE_URL, API_SEARCH_VILLA, STORAGE_KEY} from "../constants";
+import {
+    API_BASE_URL,
+    API_MOST_REGISTERED_VILLA,
+    API_SEARCH_VILLA,
+    API_TOP_RATED_VILLA,
+    STORAGE_KEY
+} from "../constants";
 import {getItem, getViewport} from "../util";
 import {Carousel} from "react-bootstrap";
 import axios from "axios";
@@ -66,6 +72,7 @@ class Homepage extends Component {
         this.leftOptionsSelectedShow = this.leftOptionsSelectedShow.bind(this);
         this.handleScreenSizeChange = this.handleScreenSizeChange.bind(this);
         this.renderList = this.renderList.bind(this)
+        this.loadCardList = this.loadCardList.bind(this);
     }
 
     async componentDidMount() {
@@ -74,25 +81,27 @@ class Homepage extends Component {
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.handleScreenSizeChange(event.detail));
         document.addEventListener('scroll', this.leftOptionsSelectedShow)
         sessionStorage.removeItem('scroll-hp-sub')
-        let config = {
-            method: 'get',
-            url: API_SEARCH_VILLA+'?page=1&number_of_villa=100',
-            headers: {
-                // 'Authorization': 'Token '.concat(getItem('user-token')),
-            }
-        };
-        let cardList = await axios(config)
-            .then(function (response) {
-                // console.log(JSON.stringify(response.data));
-                console.log(response.data.data)
-                return response.data.data
-            })
-            .catch(function (error) {
-                console.log(error);
-                return []
-            });
-        console.log(cardList)
-        this.setState({cards1:cardList,cards2:cardList})
+        await this.loadCardList(API_TOP_RATED_VILLA)
+        await this.loadCardList(API_MOST_REGISTERED_VILLA)
+        // let config = {
+        //     method: 'get',
+        //     url: API_SEARCH_VILLA+'?page=1&number_of_villa=100',
+        //     headers: {
+        //         // 'Authorization': 'Token '.concat(getItem('user-token')),
+        //     }
+        // };
+        // let cardList = await axios(config)
+        //     .then(function (response) {
+        //         // console.log(JSON.stringify(response.data));
+        //         console.log(response.data.data)
+        //         return response.data.data
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //         return []
+        //     });
+        // console.log(cardList)
+        // this.setState({cards1:cardList,cards2:cardList})
     }
 
 
@@ -232,6 +241,30 @@ class Homepage extends Component {
     }
 
 
+    async loadCardList(url)
+    {
+        let config = {
+            method: 'get',
+            url: url+ '?number_of_villa=100',
+            headers: {
+                'Authorization': 'Token ' + getItem('user-token'),
+            }
+        };
+        let response = await axios(config)
+            .then(function (response) {
+                // console.log(JSON.stringify(response.data));
+                return response.data.data
+            })
+            .catch(function (error) {
+                console.log(error);
+                return []
+            });
+        if (url === API_TOP_RATED_VILLA)
+            this.setState({cards1:response})
+        else if (url === API_MOST_REGISTERED_VILLA)
+            this.setState({cards2:response})
+    }
+
     handleScreenSizeChange(size){
         let cards = 1;
         if (size==='xl')
@@ -341,7 +374,7 @@ class Homepage extends Component {
                                                        src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                                        addr={card.country+", "+card.state+', '+card.city}
                                                        cost={card.price_per_night}
-                                                       rate={'4.5 (35 reviews)'}/>]
+                                                       rate={card.rate__avg}/>]
             }
             // if (cardGroups[0])
             // console.log(cardGroups[0].toString())

@@ -1,7 +1,8 @@
 import axios from "axios";
 export const VERIFY_LENGTH = 6;
-// export const API_BASE_URL = "http://127.0.0.1:8000/"
-export const API_BASE_URL = "http://softcheetahs.herokuapp.com/"
+export const API_BASE_URL = "http://127.0.0.1:8000/"
+// export const API_BASE_URL = "http://softcheetahs.herokuapp.com/"
+// export const API_BASE_URL = "https://172.17.3.149/"
 axios.defaults.baseURL=API_BASE_URL;
 
 export const API_UPLOAD_DOC_URL = "api/account/upload-documents"
@@ -22,6 +23,8 @@ export const API_CHECK_DOC_URL = "api/account/check-document-existence"
 export const API_ADD_VILLA_URL = "api/villa/user/"
 export const API_VILLA_PROFILE_URL = "api/villa/user/"
 export const API_SEARCH_VILLA = 'api/villa/search/'
+export const API_TOP_RATED_VILLA = 'api/villa/most-rated/show/'
+export const API_MOST_REGISTERED_VILLA = 'api/villa/most-registered/show/'
 
 
 
