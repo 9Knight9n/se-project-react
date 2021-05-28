@@ -27,8 +27,6 @@ import {getItem, validateEmail} from '../../util';
 import axios from "axios";
 import {API_VILLA_PROFILE_URL, API_BASE_URL, API_GET_FIXED_RULES} from '../../constants'
 
-let scrolling = false
-
 class VillaProfile extends Component {
     constructor(props) {
         super(props);
@@ -56,8 +54,7 @@ class VillaProfile extends Component {
             owner_image:'',
             fixed_rules: [],
             host_rules: [],
-            location: [2.364, 48.82],
-            center: [2.364, 48.82],
+            location: [0,0],
             facilities : [
                 {
                     src:
@@ -355,7 +352,6 @@ class VillaProfile extends Component {
     }
 
     loadData = (data) =>{
-        console.log("lati : " + data.latitude + " langi : " + data.longitude)
         this.setState({
             placeName: data.name,
             placeDescription:  data.description,
@@ -378,7 +374,7 @@ class VillaProfile extends Component {
             host_rules: data.rules,
             location: [data.latitude, data.longitude]
         })
-
+        
         let array = []
         for (let i=0; i < this.state.facilities.length; i++)
         {
@@ -393,7 +389,6 @@ class VillaProfile extends Component {
             }
         }
         this.setState({facilities: array})
-
     }
 
  
