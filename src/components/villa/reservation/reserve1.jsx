@@ -8,6 +8,7 @@ import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import date from 'date-and-time';
 import {STORAGE_KEY, API_GET_RESERVED_DATES} from "../../constants";
+import {getItem} from "../../util"
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 
@@ -30,7 +31,7 @@ class Reserve1 extends Component {
             invalidDate: false,
             disableBtn:true,
             range:[],
-            disabledDates: ["2021-06-22","2021-07-22"],
+            disabledDates: [],
         }
     }
 
@@ -52,9 +53,9 @@ class Reserve1 extends Component {
 
         console.log("villa_id : ", this.props.place_id)
         await axios.get(API_GET_RESERVED_DATES,{
-            // headers: {
-            //     'Authorization': 'Token '.concat(getItem('user-token'))
-            // },
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            },
             params: {
                 villa_id: this.props.place_id
             }
@@ -77,10 +78,10 @@ class Reserve1 extends Component {
     }
 
     loadCalendar = (data) =>{
-        console.log("this is sadegh data : ",data)
-        // this.setState({
-        //     disabledDate: data
-        // })
+        console.log("this is sadegh data : ",data.dates)
+        this.setState({
+            disabledDates: data.dates
+        })
     }
 
     exit()
@@ -149,7 +150,6 @@ class Reserve1 extends Component {
     disabledDate = current => {
         // Can not select days before today and today
         let disabledDate = this.state.disabledDates
-        console.log("this is current date : " + current + " this is moment.endof : " + moment(disabledDate).startOf('day'))
         let result = current && current < moment().endOf('day');
 
         for (let i=0; i<disabledDate.length; i++){
