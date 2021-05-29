@@ -253,7 +253,7 @@ class Amentities extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     {/* <Router> */}
-                        <Link to={'/hosting/addaccommodation/details/'}>
+                        <Link to={'/hosting/addaccommodation/rules/'}>
                             <button data-testid="back-btn" className={'btn btn-outline-secondary'}>back</button>
                         </Link>
                         <button data-testid="next-btn" onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>next</button>

@@ -1,1 +1,0 @@
-npm test categories.test.js facilities.test.js photos.test.js documentations.test.js

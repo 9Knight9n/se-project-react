@@ -8,7 +8,9 @@ import Facilities from "./facilities";
 import Address from "./address";
 import Photos from "./photos";
 import Documentations from "./documentations";
+import Rules from "./rules"
 import 'react-toastify/dist/ReactToastify.css';
+import Location from './location';
 
 class AddAccommodation extends Component {
     constructor(props) {
@@ -39,6 +41,9 @@ class AddAccommodation extends Component {
         sessionStorage.removeItem('add-villa-postalCode');
         sessionStorage.removeItem('add-villa-selected-stateCode')
         sessionStorage.removeItem('add-villa-selected-countryCode');
+        sessionStorage.removeItem('place-latitude');
+        sessionStorage.removeItem('place-longitude');
+        sessionStorage.removeItem('selected-rules');
 
     }
 
@@ -71,6 +76,12 @@ class AddAccommodation extends Component {
                         </Route>
                         <Route path='/hosting/addaccommodation/address/'>
                             <Address />
+                        </Route>
+                        <Route path='/hosting/addaccommodation/location/'>
+                            <Location/>
+                        </Route>
+                        <Route path='/hosting/addaccommodation/rules/'>
+                            <Rules />
                         </Route>
                     </Switch>
                 </Modal>
