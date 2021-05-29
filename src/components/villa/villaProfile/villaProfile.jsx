@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import './villaProfile.css';
-import sampleImage1 from '../img/1.jpg';
-import sampleImage2 from '../img/2.jpg';
-import sampleImage3 from '../img/3.jpg';
-import sampleImage4 from '../img/4.jpg';
 import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
 import plusImg from '../../../assets/img/plus.png';
 import minusImg from '../../../assets/img/minus.png';
@@ -17,11 +13,16 @@ import decoratingIcon from '../img/decorating.png';
 import measurementIcon from '../img/measurement.png';
 import peopleIcon from '../img/group.png';
 import hairD from "../../../assets/img/hairdryer.png";
-import { fromLonLat } from "ol/proj";
-import { RMap, ROSM } from "rlayers";
+import { fromLonLat, toLonLat } from "ol/proj";
+import { Coordinate } from "ol/coordinate";
+import { Point } from "ol/geom";
+import "ol/ol.css";
+import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
+import locationIcon from "../../../assets/location.png";
 import {getItem, validateEmail} from '../../util';
 import axios from "axios";
-import {API_VILLA_PROFILE_URL, API_BASE_URL} from '../../constants'
+import {API_VILLA_PROFILE_URL, API_BASE_URL, API_GET_FIXED_RULES} from '../../constants'
+import Reserve1 from '../reservation/reserve1';
 
 const center = fromLonLat([2.364, 48.82]);
 let scrolling = false
@@ -51,6 +52,11 @@ class VillaProfile extends Component {
             placeOwner:'',
             id: null,
             owner_image:'',
+            fixed_rules: [],
+            host_rules: [],
+            location: [0,0],
+            place_address: null,
+            owner_phoneNumber: null,
             facilities : [
                 {
                     src:
@@ -318,9 +324,37 @@ class VillaProfile extends Component {
         }).catch(error =>{
                 console.log(error)
         })
+
+        await axios.get(API_GET_FIXED_RULES,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            }
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log(res.data)
+                console.log("data is shown successfuly")
+                this.loadRules(res.data)
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+    }
+
+    loadRules = (data) =>{
+        this.setState({
+            fixed_rules: data
+        })
+        console.log("rules : " , data)
     }
 
     loadData = (data) =>{
+        console.log("price = : " + data.price_per_night)
         this.setState({
             placeName: data.name,
             placeDescription:  data.description,
@@ -335,12 +369,17 @@ class VillaProfile extends Component {
             numOfDoubleBeds: data.number_of_double_beds,
             palceCountry: data.country,
             placeCity:data.city,
-            placeState:data.state,
+            placeState: data.state,
             images: data.images,
             availableFacilities: data.facilities,
             placeOwner: data.owner,
-            owner_image: data.owner_image
+            owner_image: data.owner_image,
+            host_rules: data.rules,
+            location: [data.latitude, data.longitude],
+            place_address: data.address,
+            owner_phoneNumber: data.phone_number
         })
+        
         let array = []
         for (let i=0; i < this.state.facilities.length; i++)
         {
@@ -355,7 +394,6 @@ class VillaProfile extends Component {
             }
         }
         this.setState({facilities: array})
-
     }
 
  
@@ -493,8 +531,24 @@ class VillaProfile extends Component {
                                 </div>
                             </div>
                             <div className={'mr-5 ml-5 villaProfile-map'}>
-                                <RMap  width={"100%"} height={"60vh"} initial={{ center: center, zoom: 11 }}>
+                                {console.log("location : "+ this.state.location)}
+                                <RMap  width={"100%"} height={"60vh"} initial={{ center: fromLonLat(this.state.location), zoom: 9 }}>
                                     <ROSM />
+                                    <RLayerVector zIndex={10}>
+                                        <RStyle.RStyle>
+                                        <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
+                                        </RStyle.RStyle>
+                                        <RFeature
+                                        geometry={new Point(fromLonLat(this.state.location))}
+                                        onClick={(e) =>
+                                            e.map.getView().fit(e.target.getGeometry().getExtent(), {
+                                            duration: 250,
+                                            maxZoom: 15,
+                                            })
+                                        }
+                                        >
+                                        </RFeature>
+                                    </RLayerVector>
                                 </RMap>
                             </div>
 
@@ -509,18 +563,11 @@ class VillaProfile extends Component {
                                 </div>
                             </div>
                             <div className="ml-2">
-                                <p>
-                                    1. You can not smoke in villa.
-                                </p>
-                                <p>
-                                    2. Pets are not allowed in villa.
-                                </p>
-                                <p>
-                                    3. The number of passengers must be less than maximum capacity.
-                                </p>
-                                {/* <p>
-                                    4. You can not smoke in villa.
-                                </p> */}
+                                {this.state.host_rules.map(rule =>
+                                    <p>
+                                       {this.state.host_rules.indexOf(rule) + 1}. {rule}
+                                    </p>
+                                )}
                             </div>
 
                         </div>
@@ -532,18 +579,11 @@ class VillaProfile extends Component {
                                 </div>
                             </div>
                             <div className="ml-2">
-                                <p>
-                                    1. 3 days ahead of schedule nothing will be returned.
-                                </p>
-                                <p>
-                                    2. 7 days ahead of schedule 30% of price will be returned.
-                                </p>
-                                <p>
-                                    3. More than 7 days ahead of schedule 100% of price will be returned.
-                                </p>
-                                {/* <p>
-                                    4. You can not smoke in villa.
-                                </p> */}
+                                {this.state.fixed_rules.map(rule =>
+                                    <p>
+                                       {this.state.fixed_rules.indexOf(rule) + 1}. {rule}
+                                    </p>
+                                )}
                             </div>
 
                         </div>
@@ -551,14 +591,17 @@ class VillaProfile extends Component {
 
                     <div className="villaProfile-reservation row mt-4 mb-5">
                         <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-                            <Link to="/villa/villaProfile/reserve/">
+                            <Link to="/villa/villaProfile/reserve/1/">
                                 <button className="btn btn-primary">Reserve</button>  
                             </Link>
                         </div>
                     </div>
                     <Switch>
                         <Route path="/villa/villaProfile/reserve/">
-                            <Reserve placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
+                            <Reserve place_id={this.state.id} place_address={this.state.place_address} owner_phoneNumber={this.state.owner_phoneNumber} placeOwner={this.state.placeOwner} placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
+                        </Route>
+                        <Route path="/villa/villaProfile/reserve/1/">
+                            <Reserve1 placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
                         </Route>
                     </Switch>
                 </div>

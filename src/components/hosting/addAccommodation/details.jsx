@@ -77,7 +77,7 @@ class Details extends Component {
             sessionStorage.setItem('add-villa-area', area);
             sessionStorage.setItem('add-villa-price', price);
             console.log("set")
-            document.getElementById("goToAmentities").click();    
+            document.getElementById("goToRules").click();    
         }else{
             toast.error("You may entered invalid amounts!")
         }  
@@ -110,7 +110,7 @@ class Details extends Component {
                     <div className="details-main">
                         <b>Describe your place for guests.</b>
                         <div className="details-form">
-                                <form>
+                                <Form>
                                     <div className="details-placeName">
                                         <div className="details-input-description">
                                             <label className="form-label" htmlFor="details-placeName">Place name:</label>
@@ -212,7 +212,7 @@ class Details extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                </form>
+                                </Form>
                         </div>
                     </div>
                     
@@ -222,7 +222,7 @@ class Details extends Component {
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
                         <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                        <Link id="goToAmentities" className="display-none" to={'/hosting/addaccommodation/amentities/'}>
+                        <Link id="goToRules" className="display-none" to={'/hosting/addaccommodation/rules/'}>
 
                         </Link>
                 </Modal.Footer>

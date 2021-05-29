@@ -214,7 +214,7 @@ class Address extends Component {
                         <div className="address-main">
                             <b>Enter your place address details here.</b>
                             <div className="address-form">
-                                <form>
+                                <Form>
                                     <div className="row mb-4 mt-2">
                                         <div className="col-md-12">
                                             <label htmlFor="address-country">Country :</label>
@@ -354,7 +354,7 @@ class Address extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                </form>
+                                </Form>
                             </div>
                         </div>
                 </Modal.Body>
@@ -363,7 +363,7 @@ class Address extends Component {
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
                         <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                        <Link id="goToPhotos" to={'/hosting/addaccommodation/photos/'} >
+                        <Link id="goToPhotos" to={'/hosting/addaccommodation/location/'} >
                         </Link>
                 </Modal.Footer>
             </React.Fragment>
