@@ -6,19 +6,31 @@ import search_bg from '../../assets/img/homepage-bg.jpg'
 import search_1_bg from '../../assets/img/homepage-bg-4.jpg'
 import host_bg from '../../assets/img/homepage-bg-7.jpg'
 // import map_bg from '../../assets/img/homepage-bg.jpg'
+import { Map, MapBrowserEvent } from "ol";
 import { fromLonLat } from "ol/proj";
+import { Coordinate } from "ol/coordinate";
+import { Point } from "ol/geom";
 import "ol/ol.css";
-import { RMap, ROSM } from "rlayers";
-import {Steps, Divider} from 'antd';
+import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle,RMapProps,RContext,RControl  } from "rlayers";
 import Search from "./search";
-import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll,scroller } from 'react-scroll'
-import {log2} from "ol/math";
 import VillaCard from "../villa/card/villaCard";
-import {API_BASE_URL, API_SEARCH_VILLA, STORAGE_KEY} from "../constants";
+import {
+    API_BASE_URL,
+    API_MOST_REGISTERED_VILLA,
+    API_SEARCH_VILLA,
+    API_TOP_RATED_VILLA,
+    STORAGE_KEY
+} from "../constants";
 import {getItem, getViewport} from "../util";
 import {Carousel} from "react-bootstrap";
 import axios from "axios";
+import geo_mt from '../../assets/icon/geo_mt.png'
+import geo_fill from '../../assets/icon/geo_fill.png'
+import {Select} from "antd";
+import {Option} from "antd/es/mentions";
+import HPSub1 from "./hpsub1";
+
 
 
 
@@ -46,7 +58,9 @@ const left_option_arrow_selected = <svg style={{cursor:'pointer'}} xmlns="http:/
 
 
 
-const center = fromLonLat([2.364, 48.82]);
+
+
+
 let scrolling = false
 
 
@@ -58,6 +72,7 @@ class Homepage extends Component {
         this.leftOptionsSelectedShow = this.leftOptionsSelectedShow.bind(this);
         this.handleScreenSizeChange = this.handleScreenSizeChange.bind(this);
         this.renderList = this.renderList.bind(this)
+        this.loadCardList = this.loadCardList.bind(this);
     }
 
     async componentDidMount() {
@@ -66,25 +81,27 @@ class Homepage extends Component {
         document.addEventListener(STORAGE_KEY+'screen-size-changed', (event) => this.handleScreenSizeChange(event.detail));
         document.addEventListener('scroll', this.leftOptionsSelectedShow)
         sessionStorage.removeItem('scroll-hp-sub')
-        let config = {
-            method: 'get',
-            url: API_SEARCH_VILLA+'?page=1&number_of_villa=100',
-            headers: {
-                // 'Authorization': 'Token '.concat(getItem('user-token')),
-            }
-        };
-        let cardList = await axios(config)
-            .then(function (response) {
-                // console.log(JSON.stringify(response.data));
-                console.log(response.data.data)
-                return response.data.data
-            })
-            .catch(function (error) {
-                console.log(error);
-                return []
-            });
-        console.log(cardList)
-        this.setState({cards1:cardList,cards2:cardList})
+        await this.loadCardList(API_TOP_RATED_VILLA)
+        await this.loadCardList(API_MOST_REGISTERED_VILLA)
+        // let config = {
+        //     method: 'get',
+        //     url: API_SEARCH_VILLA+'?page=1&number_of_villa=100',
+        //     headers: {
+        //         // 'Authorization': 'Token '.concat(getItem('user-token')),
+        //     }
+        // };
+        // let cardList = await axios(config)
+        //     .then(function (response) {
+        //         // console.log(JSON.stringify(response.data));
+        //         console.log(response.data.data)
+        //         return response.data.data
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //         return []
+        //     });
+        // console.log(cardList)
+        // this.setState({cards1:cardList,cards2:cardList})
     }
 
 
@@ -107,6 +124,8 @@ class Homepage extends Component {
 
 
     state = {
+
+        cards0:[],
         cards1:[
             {
                 name:'City center apartment with 3 rooms',
@@ -165,35 +184,50 @@ class Homepage extends Component {
         ],
         cards2:[
             {
+                id:0,
                 name:'City center apartment with 3 rooms',
                 addr:"Iran ,Tehran ,Shar-rey",
                 cost:10000,
-                rate:'4.3 (35 reviews)'
+                rate:'4.3 (35 reviews)',
+                x:2.300,
+                y:48.8737,
             },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
-            {
-                name:'City center apartment with 3 rooms',
-                addr:"Iran ,Tehran ,Shar-rey",
-                cost:10000,
-                rate:'4.3 (35 reviews)'
-            },
+            // {
+        //         id:1,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
+            // {
+            //         id:2,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
+            // {
+            //         id:3,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
+            // {
+            //         id:4,
+            //     name:'City center apartment with 3 rooms',
+            //     addr:"Iran ,Tehran ,Shar-rey",
+            //     cost:10000,
+            //     rate:'4.3 (35 reviews)',
+            //     x:2.295,
+            //     y:48.8737,
+            // },
         ],
         cardsSize:1,
         scrolling:false,
@@ -204,17 +238,32 @@ class Homepage extends Component {
             {id:3},
         ],
         selectedSubPage:0,
-        position: {
-            lat: 52,
-            lng: 48,
-        },
-        center: {
-            lat: 52,
-            lng: 48,
-        },
-
     }
 
+
+    async loadCardList(url)
+    {
+        let config = {
+            method: 'get',
+            url: url+ '?number_of_villa=100',
+            headers: {
+                'Authorization': 'Token ' + getItem('user-token'),
+            }
+        };
+        let response = await axios(config)
+            .then(function (response) {
+                // console.log(JSON.stringify(response.data));
+                return response.data.data
+            })
+            .catch(function (error) {
+                console.log(error);
+                return []
+            });
+        if (url === API_TOP_RATED_VILLA)
+            this.setState({cards1:response})
+        else if (url === API_MOST_REGISTERED_VILLA)
+            this.setState({cards2:response})
+    }
 
     handleScreenSizeChange(size){
         let cards = 1;
@@ -325,7 +374,7 @@ class Homepage extends Component {
                                                        src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
                                                        addr={card.country+", "+card.state+', '+card.city}
                                                        cost={card.price_per_night}
-                                                       rate={'4.5 (35 reviews)'}/>]
+                                                       rate={card.rate__avg}/>]
             }
             // if (cardGroups[0])
             // console.log(cardGroups[0].toString())
@@ -348,14 +397,9 @@ class Homepage extends Component {
 
 
 
-    render() {
-        const contentStyle = {
-            // height: '400px',
-            // color: '#fff',
-            // lineHeight: '160px',
-            // textAlign: 'center',
 
-        };
+    render() {
+
         return (
             // <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
             <React.Fragment>
@@ -378,45 +422,7 @@ class Homepage extends Component {
                         </div>
                     </SElement>
                     <SElement id={'hp-sub-1'} name={'hp-sub-1'} className={'homepage-div-bg d-flex w-100'} >
-                        <div className={'row w-100 mt-auto mb-auto'} >
-                            <div className={' col-lg-12 col-xl-12 col-md-12 col-sm-12 col-12'} >
-                                <h4 className={'ml-5 mb-3 mt-5'} style={{fontFamily:'cursive'}}>
-                                    Or You may use a map:
-                                </h4>
-                            </div>
-                            <div className={'col-lg-8 col-xl-8 col-md-6 col-sm-12 col-12'}>
-                                {/*<div className={'mr-5 ml-5'}>*/}
-                                    {/*https://www.npmjs.com/package/rlayers*/}
-                                <div className={'pl-5 mt-4'}>
-                                    <div  style={{border: '2px solid #8f8ff8'}}>
-                                        <RMap  width={"100%"} height={"50vh"} initial={{ center: center, zoom: 11 }}>
-                                            <ROSM />
-                                        </RMap>
-                                    </div>
-                                </div>
-
-
-                                {/*</div>*/}
-                            </div>
-                            <div className={'col-md-5 col-lg-4 col-xl-4 col-sm-12 col-12'}>
-                                <div style={{width:'320px'}} className={'h-100 ml-auto mr-auto d-flex mt-3'}>
-                                    <Carousel className={'map-side-Carousel d-flex mt-auto mb-auto ml-auto mr-auto'}>
-                                        {this.state.cards1.map((card,index)=>
-                                            <Carousel.Item key={index}>
-                                                <div style={{background: '#364d79',borderRadius:'0.5rem'}} className={'pb-5'}>
-                                                    <VillaCard name={card.name}
-                                                               id={card.villa_id}
-                                                               src={API_BASE_URL.substr(0,API_BASE_URL.length-1).concat(card.default_image_url)}
-                                                               addr={card.country+", "+card.state+', '+card.city}
-                                                               cost={card.price_per_night}
-                                                               rate={'4.5 (35 reviews)'}/>
-                                                </div>
-                                            </Carousel.Item>
-                                        )}
-                                    </Carousel>
-                                </div>
-                            </div>
-                        </div>
+                        <HPSub1/>
                     </SElement>
                     <SElement id={'hp-sub-2'} name={'hp-sub-2'} className={'homepage-div-bg d-flex m-auto'} >
                         <div className={'w-100 h-100 d-flex flex-column'} >

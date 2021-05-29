@@ -10,6 +10,7 @@ const { Meta } = Card;
 class VillaCard extends Component {
     constructor(props) {
         super(props);
+        this.showOnMap = this.showOnMap.bind(this);
     }
 
     state = {
@@ -18,6 +19,12 @@ class VillaCard extends Component {
 
     componentDidMount() {
         console.log('src',this.props.src)
+    }
+
+    showOnMap(e)
+    {
+        e.stopPropagation()
+        this.props.mapGoTo(this.props.lan,this.props.lon,this.props.index)
     }
 
 
@@ -42,7 +49,7 @@ class VillaCard extends Component {
                     // title={this.props.name}
                     // description="This is the description"
                     />
-                    <Rate disabled defaultValue={1} count={1}/> {this.props.rate}
+                    <div className={'w-100 d-flex'}> <Rate disabled defaultValue={1} count={1}/> {this.props.rate} {this.props.mapGoTo?<button onClick={(event)=>this.showOnMap(event)} className={'btn btn-sm ml-auto btn-outline-primary'}>Map</button>:null}</div>
                     <Descriptions  column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}>
                         <Descriptions.Item>{this.props.name}</Descriptions.Item>
                         <Descriptions.Item>

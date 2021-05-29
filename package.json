@@ -14,6 +14,7 @@
     "country-state-city": "^2.0.0",
     "date-and-time": "^1.0.0",
     "ellipsis-tooltip-react-chan": "^1.2.0",
+    "geocodio-library-node": "^1.3.3",
     "ol": "^6.5.0",
     "react": "^17.0.2",
     "react-avatar-edit": "^1.0.0",

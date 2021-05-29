@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import {Button, Select, Tooltip} from 'antd';
+import {Modal, Button, Select, Tooltip, Drawer, DatePicker, Space} from 'antd';
 import './search.css'
 import {SearchOutlined} from "@ant-design/icons";
 import csc from 'country-state-city';
 import {Link} from "react-router-dom";
+import moment from "moment";
 
 
 const { Option } = Select;
+const dateFormat = 'YYYY/MM/DD';
+const { size } = 20;
+const now = new Date();
 
 
 class Search extends Component {
@@ -21,7 +25,12 @@ class Search extends Component {
         this.loadOptions3 = this.loadOptions3.bind(this);
     }
 
-        state = {
+    state = {
+        showDatePicker:false,
+        startDate:null,
+        endDate: null,
+        currentDate:null,
+        size:null,
         searchPage:false,
         countries:csc.getAllCountries(),
         sCountry:null,
@@ -36,6 +45,10 @@ class Search extends Component {
 
     componentDidMount() {
         this.loadOptions1()
+        if (this.props.startDate !== this.state.startDate)
+            this.setState({startDate:this.props.startDate})
+        if (this.props.endDate !== this.state.endDate)
+            this.setState({endDate:this.props.endDate})
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps !== this.props)
@@ -44,6 +57,10 @@ class Search extends Component {
             this.loadOptions2()
         if (prevState.cities !== this.state.cities)
             this.loadOptions3()
+        if (this.props.startDate !== prevProps.startDate)
+            this.setState({startDate:this.props.startDate})
+        if (this.props.endDate !== prevProps.endDate)
+            this.setState({endDate:this.props.endDate})
     }
 
 
@@ -114,18 +131,102 @@ class Search extends Component {
 
     }
 
+    showDrawer = () => {
+        if (this.state.sCountry)
+            this.setState({
+                showDatePicker: true,
+            });
+    };
+
+    onClose = () => {
+        this.setState({
+            showDatePicker: false,
+        });
+    };
+
+    onStartDateChange = (date,date2) =>{
+        console.log(date,'+',date2)
+        this.setState({startDate:date2===''?null:date2})
+        this.forceUpdate()
+    }
+
+    onEndDateChange = (date,date2) =>{
+        console.log(date,'+',date2)
+        this.setState({endDate:date2===''?null:date2})
+    }
+
+    disabledDate = (current,start) => {
+        // Can not select days before today and today
+        if (start)
+        {
+            if (this.state.endDate)
+            {
+                return  current > moment(this.state.endDate).endOf('day') ||  current < moment().endOf('day');
+            }
+            else
+            {
+                return current && current < moment().endOf('day');
+            }
+        }
+        else
+        {
+            if (this.state.startDate)
+            {
+                return current && current < moment(this.state.startDate).endOf('day')
+            }
+            else
+            {
+                return current && current < moment().endOf('day');
+            }
+        }
+    }
+
     search(){
         // if (this.state.sCountry)
         if (this.props.search)
-            this.props.search(this.state.sCountry, this.state.sState, this.state.sCity)
+            this.props.search(this.state.sCountry, this.state.sState, this.state.sCity,this.state.startDate,this.state.endDate)
         else
+        {
+            this.setState({showDatePicker:false})
             document.getElementById('search-button').click()
+        }
+
     }
 
     render() {
+        let drawerContent =
+            <div className={'w-100 d-flex'}>
+                <div className={'w-100 row'}>
+                    {/*<Space className="w-100"  direction="horizontal" size={12} >*/}
+                        {/*<DatePicker onChange={onChange} />*/}
+                        <div className={'w-50 d-flex flex-row pr-3'}>
+                            <p className={''} style={{fontFamily:'cursive',width:'fit-content'}}>
+                                Arrival:
+                            </p>
+                            <DatePicker className={''}
+                                value={this.state.startDate?moment(this.state.startDate.replaceAll('/','-'), dateFormat):null}
+                                bordered={false} disabledDate={current => this.disabledDate(current,true)}
+                                format={dateFormat} onChange={this.onStartDateChange}/>
+                        </div>
+                        <div className={'w-50 d-flex flex-row pl-3 pr-2'}>
+                            <p className={''} style={{fontFamily:'cursive',width:'fit-content'}}>
+                                Departure:
+                            </p>
+                            <DatePicker className={''}
+                                value={this.state.endDate?moment(this.state.endDate.replaceAll('/','-'),dateFormat):null}
+                                bordered={false} disabledDate={current => this.disabledDate(current,false)}
+                                format={dateFormat} onChange={this.onEndDateChange}/>
+                        </div>
+
+                    {/*</Space>*/}
+                </div>
+                <Tooltip className={'flex-shrink-1 m-2 mt-auto mb-auto'} title="search">
+                    <Button onClick={this.search} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+                </Tooltip>
+            </div>
         return (
             <div className={'mt-auto mb-auto ml-auto mr-auto'} style={{width:"fit-content"}}>
-                <div className={'pr-5 pl-4 pt-4 pb-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem'}}>
+                <div className={'pr-5 pl-4 pt-4 pb-4'} style={{backgroundColor:'#ffffff70',borderRadius:'1rem',overflow:"hidden",position:"relative"}}>
                     <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
                         {this.state.searchPage?'Showing search results for:':'Tell us where:'}
                     </h4>
@@ -154,15 +255,37 @@ class Search extends Component {
                       <Option key={city.name}>{city.name}</Option>
                     ))}
                   </Select>
-                    <Tooltip title="search">
-                      <Button onClick={this.search} style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
-                    </Tooltip>
+                        {this.props.search?
+                        '':
+                            <Tooltip title="search">
+                                <Button onClick={this.showDrawer} style={this.state.sCountry?null:{cursor:'not-allowed'}} type="primary" shape="circle"><SearchOutlined style={{verticalAlign: '0'}}/></Button>
+                            </Tooltip>
+                        }
                     </div>
                      </div>
+                    {this.props.search?<div className={'mt-4'}>{drawerContent}</div>:
+                        <Drawer
+                            // title="Basic Drawer"
+                            placement="right"
+                            width={"90%"}
+                            closable={true}
+                            onClose={this.onClose}
+                            visible={this.state.showDatePicker}
+                            getContainer={false}
+                            style={{ position: 'absolute',overflow:"hidden" }}
+                        >
+                            <h4  style={{fontFamily:'cursive',width:'fit-content'}}>
+                                Almost there!
+                            </h4>
+                            {drawerContent}
+                        </Drawer>
+                    }
                 </div>
                 <Link id={'search-button'} to={'/search/?'+(this.state.sCountry?('country='+this.state.sCountry):'')+
                 (this.state.sState?('&state='+this.state.sState):'')+
-                (this.state.sCity?('&city='+this.state.sCity):'')}/>
+                (this.state.sCity?('&city='+this.state.sCity):'')+
+                (this.state.startDate?('&start='+this.state.startDate):'')+
+                (this.state.endDate?('&end='+this.state.endDate):'')}/>
             </div>
         );
     }
