@@ -21,7 +21,7 @@ class Location extends Component {
             invalidDescription: false,
             invalidPrice: false,
             origin: [2.364, 48.82],
-            location: sessionStorage.getItem("place-latitude")? [parseFloat(sessionStorage.getItem("place-latitude")), parseFloat(sessionStorage.getItem("place-longitude"))]: [2.364, 48.82],
+            location: sessionStorage.getItem("place-latitude")? [parseFloat(sessionStorage.getItem("place-longitude")), parseFloat(sessionStorage.getItem("place-latitude"))]: [2.364, 48.82],
             
         };
 
@@ -57,8 +57,8 @@ class Location extends Component {
 
     handleSubmit = () =>{
         console.log("location : ", this.state.loc)
-        sessionStorage.setItem("place-latitude", this.state.location[0])
-        sessionStorage.setItem("place-longitude", this.state.location[1])
+        sessionStorage.setItem("place-latitude", this.state.location[1])
+        sessionStorage.setItem("place-longitude", this.state.location[0])
         document.getElementById("goToPhotos").click();
     }
     render() { 
@@ -103,7 +103,7 @@ class Location extends Component {
                                         <RStyle.RStyle>
                                         <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
                                         </RStyle.RStyle>
-                                        <ROverlay className="location-move-me">Move to locate your place</ROverlay>
+                                        <ROverlay className="location-move-me">Move me</ROverlay>
                                     </RFeature>
                                 </RLayerVector>
                             </RMap>

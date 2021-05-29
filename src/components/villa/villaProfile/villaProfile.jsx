@@ -24,8 +24,7 @@ import axios from "axios";
 import {API_VILLA_PROFILE_URL, API_BASE_URL, API_GET_FIXED_RULES} from '../../constants'
 import Reserve1 from '../reservation/reserve1';
 
-const center = fromLonLat([2.364, 48.82]);
-let scrolling = false
+let center = fromLonLat([-90.108862, 29.909324]);
 
 class VillaProfile extends Component {
     constructor(props) {
