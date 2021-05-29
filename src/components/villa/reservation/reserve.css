@@ -21,3 +21,16 @@
   height: 6vh;
 }
 
+.reserve-invalid-date {
+  color: red;
+  font-size: 80%;
+}
+
+/* .reserve-note-b {
+  color: rgb(238, 224, 104);
+} */
+
+.reserve-important-note label {
+  color: red;
+  font-weight: bold;
+}

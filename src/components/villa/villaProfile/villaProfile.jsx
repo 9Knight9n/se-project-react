@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import './villaProfile.css';
-import sampleImage1 from '../img/1.jpg';
-import sampleImage2 from '../img/2.jpg';
-import sampleImage3 from '../img/3.jpg';
-import sampleImage4 from '../img/4.jpg';
 import sampleProfileImg from '../../../assets/img/default-profile-picture.jpg';
 import plusImg from '../../../assets/img/plus.png';
 import minusImg from '../../../assets/img/minus.png';
@@ -22,6 +18,7 @@ import { RMap, ROSM } from "rlayers";
 import {getItem, validateEmail} from '../../util';
 import axios from "axios";
 import {API_VILLA_PROFILE_URL, API_BASE_URL} from '../../constants'
+import Reserve1 from '../reservation/reserve1';
 
 const center = fromLonLat([2.364, 48.82]);
 let scrolling = false
@@ -51,6 +48,8 @@ class VillaProfile extends Component {
             placeOwner:'',
             id: null,
             owner_image:'',
+            place_address: null,
+            owner_phoneNumber: null,
             facilities : [
                 {
                     src:
@@ -318,9 +317,11 @@ class VillaProfile extends Component {
         }).catch(error =>{
                 console.log(error)
         })
+
     }
 
     loadData = (data) =>{
+        console.log("price = : " + data.price_per_night)
         this.setState({
             placeName: data.name,
             placeDescription:  data.description,
@@ -335,11 +336,13 @@ class VillaProfile extends Component {
             numOfDoubleBeds: data.number_of_double_beds,
             palceCountry: data.country,
             placeCity:data.city,
-            placeState:data.state,
+            placeState: data.state,
             images: data.images,
             availableFacilities: data.facilities,
             placeOwner: data.owner,
-            owner_image: data.owner_image
+            owner_image: data.owner_image,
+            place_address: data.address,
+            owner_phoneNumber: data.phone_number
         })
         let array = []
         for (let i=0; i < this.state.facilities.length; i++)
@@ -551,14 +554,17 @@ class VillaProfile extends Component {
 
                     <div className="villaProfile-reservation row mt-4 mb-5">
                         <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-                            <Link to="/villa/villaProfile/reserve/">
+                            <Link to="/villa/villaProfile/reserve/1/">
                                 <button className="btn btn-primary">Reserve</button>  
                             </Link>
                         </div>
                     </div>
                     <Switch>
                         <Route path="/villa/villaProfile/reserve/">
-                            <Reserve placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
+                            <Reserve place_id={this.state.id} place_address={this.state.place_address} owner_phoneNumber={this.state.owner_phoneNumber} placeOwner={this.state.placeOwner} placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
+                        </Route>
+                        <Route path="/villa/villaProfile/reserve/1/">
+                            <Reserve1 placeMaxCapacity={this.state.placeMaxCapacity} PlacePrice={this.state.placePrice}/>
                         </Route>
                     </Switch>
                 </div>
