@@ -17,7 +17,7 @@ import { fromLonLat, toLonLat } from "ol/proj";
 import { Coordinate } from "ol/coordinate";
 import { Point } from "ol/geom";
 import "ol/ol.css";
-import { RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
+import { RContext, RControl, RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle } from "rlayers";
 import locationIcon from "../../../assets/location.png";
 import {getItem, validateEmail} from '../../util';
 import axios from "axios";
@@ -280,6 +280,7 @@ class VillaProfile extends Component {
             ],
     
         }
+        this.mapGoTo = this.mapGoTo.bind(this);
     }
 
     exit = () =>
@@ -379,6 +380,8 @@ class VillaProfile extends Component {
             place_address: data.address,
             owner_phoneNumber: data.phone_number
         })
+
+        this.mapGoTo(data.latitude, data.longitude)
         
         let array = []
         for (let i=0; i < this.state.facilities.length; i++)
@@ -394,6 +397,13 @@ class VillaProfile extends Component {
             }
         }
         this.setState({facilities: array})
+    }
+
+    mapGoTo(x,y)
+    {
+        console.log("lat : " + x + " long : " + y)
+        center=fromLonLat([x, y])
+        document.getElementById('map-go-to-villaProfile').click()
     }
 
  
@@ -531,9 +541,21 @@ class VillaProfile extends Component {
                                 </div>
                             </div>
                             <div className={'mr-5 ml-5 villaProfile-map'}>
-                                {console.log("location : "+ this.state.location)}
-                                <RMap  width={"100%"} height={"60vh"} initial={{ center: fromLonLat(this.state.location), zoom: 9 }}>
+                                <RMap  width={"100%"} height={"60vh"} initial={{ center: center, zoom: 9 }}>
                                     <ROSM />
+                                    <RControl.RCustom >
+                                        <RContext.Consumer>
+                                            {({ map }) => (
+                                                <button
+                                                    id={'map-go-to-villaProfile'}
+                                                    className={'display-none'}
+                                                    onClick={() => map.getView().setCenter(center)}>
+                                                    hidden
+                                                </button>
+                                            )}
+                                        </RContext.Consumer>
+                                    </RControl.RCustom>
+
                                     <RLayerVector zIndex={10}>
                                         <RStyle.RStyle>
                                         <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
