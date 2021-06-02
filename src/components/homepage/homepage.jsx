@@ -416,7 +416,7 @@ class Homepage extends Component {
                 </div>
                 <div id={'hp-sub'} className={'w-100'} style={{height:'fit-content',overflowY:'auto'}} >
                     <SElement id={'hp-sub-0'} name={'hp-sub-0'} className={'homepage-div-bg'}
-                             style={{background:'url('+search_1_bg+')',borderRadius:'0 0 3rem 3rem'}}>
+                             style={{background:'url('+search_1_bg+')'}}>
                         <div className={'d-flex pl-5 pr-5'} style={{maxWidth:'60%',height:'50%'}}>
                             <Search/>
                         </div>

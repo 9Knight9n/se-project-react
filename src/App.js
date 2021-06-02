@@ -5,6 +5,7 @@ import {BrowserRouter} from "react-router-dom";
 import PageRouter from "./components/pageRouter";
 import {ToastContainer} from "react-toastify";
 import {eventViewport} from "./components/util";
+import Chat from "./components/chat/chat";
 
 class App extends Component {
 
@@ -20,6 +21,7 @@ class App extends Component {
                 <BrowserRouter>
                     <PageRouter/>
                 </BrowserRouter>
+                <Chat/>
             </Fragment>
         );
     }
