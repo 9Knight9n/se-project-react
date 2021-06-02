@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Drawer,Affix } from 'antd';
 import './chat.css'
+import ChatCard from "./chatCard";
 
 
 class Chat extends Component {
@@ -49,19 +50,36 @@ class Chat extends Component {
                     </button>
                 </Affix>
                 <Drawer
-                    title="Multi-level drawer"
-                    width={520}
-                    closable={false}
+                    title="Chats"
+                    width={500}
+                    closable={true}
                     onClose={this.onClose}
                     visible={this.state.visible}
                 >
-                    <button type="primary" onClick={this.showChildrenDrawer}>
-                        Two-level drawer
-                    </button>
+                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
+                        <ChatCard/>
+                    </div>
+                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
+                        <ChatCard/>
+                    </div>
+                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
+                        <ChatCard/>
+                    </div>
+                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
+                        <ChatCard/>
+                    </div>
+                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
+                        <ChatCard/>
+                    </div>
+
+
+                    {/*<button type="primary" >*/}
+                    {/*    Two-level drawer*/}
+                    {/*</button>*/}
                     <Drawer
-                        title="Two-level Drawer"
-                        width={320}
-                        closable={false}
+                        title="chatroom"
+                        width={500}
+                        closable={true}
                         onClose={this.onChildrenDrawerClose}
                         visible={this.state.childrenDrawer}
                     >
