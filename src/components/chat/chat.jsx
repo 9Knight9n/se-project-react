@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Drawer,Affix } from 'antd';
 import './chat.css'
 import ChatCard from "./chatCard";
+import Chatroom from "./chatroom/chatroom";
 
 
 class Chat extends Component {
@@ -9,7 +10,7 @@ class Chat extends Component {
         super(props);
     }
 
-    state = { visible: false, childrenDrawer: false };
+    state = { visible: false, childrenDrawer: true };
 
     showDrawer = () => {
         this.setState({
@@ -83,7 +84,7 @@ class Chat extends Component {
                         onClose={this.onChildrenDrawerClose}
                         visible={this.state.childrenDrawer}
                     >
-                        This is two-level drawer
+                        <Chatroom/>
                     </Drawer>
                 </Drawer>
             </div>
