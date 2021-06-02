@@ -8,6 +8,7 @@ import { Dropdown } from 'react-bootstrap';
 import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import './chatroom.css';
+import ChatroomInfo from "./chatroomInfo";
 
 
 
@@ -279,10 +280,8 @@ class Chatroom extends Component {
             <React.Fragment>
                 <div className="w-100 h-100 p-2 mt-3">
                     <div id="question-page" className="d-flex flex-column h-100 w-100">
-                        <div id="chatroom-info" className=" d-flex flex-row" style={{border:'solid 2px'}}>
-                            <h1>
-                                chatroom info goes here
-                            </h1>
+                        <div id="chatroom-info" style={{backgroundColor:'#ebebeb'}}>
+                            <ChatroomInfo chat_id={5}/>
                         </div>
                         <div className="d-flex flex-row" style={{height:"calc(100% - ".concat(this.state.chatroomInfoHeight).concat("px)")}}>
                             <div className="d-flex flex-column w-100">
