@@ -403,7 +403,7 @@ class Homepage extends Component {
         return (
             // <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
             <React.Fragment>
-                <div style={{position:'fixed',height:'100vh',top:'40%',zIndex:'1000'}}
+                <div style={{position:'fixed',height:'100vh',top:'40%',zIndex:'400'}}
                      className={'ml-3 d-flex flex-column'}>
                     {this.state.subPages.map(subPage=>
                         <div key={subPage.id}
