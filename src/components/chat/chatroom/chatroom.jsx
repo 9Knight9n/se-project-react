@@ -338,7 +338,7 @@ class Chatroom extends Component {
                                                     width:'100%',
                                                     padding:'5px',
                                                     paddingLeft:'10px',
-                                                    paddingRight:'10px',
+                                                    paddingRight:'45px',
                                                     resize:'none',
                                                     overflowY:this.state.inputHeight<200?'hidden':'auto',
                                                     border: 'none',
@@ -387,7 +387,7 @@ class Chatroom extends Component {
                                                 </div>
                                             }
                                             leftButtons={this.state.replying?
-                                                <div className="black-text">
+                                                <div className="black-text input-buttons">
                                                     <button className="p-2 rounded replyToButton">
                                                         Replying to {this.state.replyingTo}
                                                     </button>
