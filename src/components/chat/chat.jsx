@@ -55,7 +55,7 @@ class Chat extends Component {
                 <Drawer
                     title={
                         <div className={'mt-4'} style={{width:'100%',position:'relative'}}>
-                            <div style={{position:'absolute',width:'100%',zIndex:'501'}}>
+                            <div style={{position:'absolute',width:'100%'}}>
                                 <SearchUser/>
                             </div>
                             <h4 style={{fontFamily: 'cursive'}}>Chats:</h4>
