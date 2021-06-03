@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import { ChatItem } from 'react-chat-elements'
+import './chatCard.css'
+
 
 class ChatCard extends Component {
     constructor(props) {
@@ -9,9 +12,15 @@ class ChatCard extends Component {
     render() {
         return (
             <div>
-                <h1>
-                    chat 1
-                </h1>
+                <ChatItem
+                    onClick={this.props.onClick}
+                    className={'m-2'}
+                    avatar={this.props.avatar}
+                    // alt={'Reactjs'}
+                    title={this.props.name}
+                    subtitle={this.props.lastMessage}
+                    date={this.props.date}
+                    unread={this.props.unread} />
             </div>
         );
     }

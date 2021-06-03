@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Drawer,Affix } from 'antd';
+import 'react-chat-elements/dist/main.css';
 import './chat.css'
 import ChatCard from "./chatCard";
 import Chatroom from "./chatroom/chatroom";
@@ -10,7 +11,7 @@ class Chat extends Component {
         super(props);
     }
 
-    state = { visible: false, childrenDrawer: true };
+    state = { visible: false, childrenDrawer: false };
 
     showDrawer = () => {
         this.setState({
@@ -66,21 +67,27 @@ class Chat extends Component {
                     onClose={this.onClose}
                     visible={this.state.visible}
                 >
-                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
-                        <ChatCard/>
-                    </div>
-                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
-                        <ChatCard/>
-                    </div>
-                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
-                        <ChatCard/>
-                    </div>
-                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
-                        <ChatCard/>
-                    </div>
-                    <div style={{border:'solid 2px'}} onClick={this.showChildrenDrawer}>
-                        <ChatCard/>
-                    </div>
+                    <ChatCard
+                        onClick={this.showChildrenDrawer}
+                        avatar={'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'}
+                        name={'Sajad'}
+                        lastMessage={'some really ducking long message goes here to check whether it would collapse it or not!'}
+                        date={new Date()}
+                        unread={parseInt('5')}/>
+                    <ChatCard
+                        onClick={this.showChildrenDrawer}
+                        avatar={'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'}
+                        name={'Sajad'}
+                        lastMessage={'some really ducking long message goes here to check whether it would collapse it or not!'}
+                        date={new Date()}
+                        unread={parseInt()}/>
+                    <ChatCard
+                        onClick={this.showChildrenDrawer}
+                        avatar={'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'}
+                        name={'Sajad'}
+                        lastMessage={'some really ducking long message goes here to check whether it would collapse it or not!'}
+                        date={new Date()}
+                        unread={parseInt('2')}/>
 
 
                     {/*<button type="primary" >*/}
