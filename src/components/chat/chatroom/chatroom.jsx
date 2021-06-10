@@ -9,6 +9,7 @@ import * as Scroll from 'react-scroll';
 import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import './chatroom.css';
 import ChatroomInfo from "./chatroomInfo";
+import {toSize} from "ol/size";
 
 
 
@@ -27,7 +28,72 @@ class Chatroom extends Component {
             loading:false,
             inputRef:React.createRef(),
             chats:[
-
+                {
+                    message_id:1,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?,dwihdidhqwiodqw qwdhqw qw dqwd qdqwdpqwdqwd' +
+                        'qwdqwdi qwpdpqwdupqwdpqwud oqw[dqw' +
+                        'dq dqwi[d[oqwd pqwduqwiduqwdiuqoidwoduwidiwdw\nodwodwoduuwdowu',
+                    time:'20:48:23',
+                    replyTo:null,
+                },
+                {
+                    message_id:2,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?',
+                    time:'20:48:23',
+                    replyTo:1,
+                },
+                {
+                    message_id:3,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?',
+                    time:'20:48:23',
+                    replyTo:null,
+                },
+                {
+                    message_id:4,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?',
+                    time:'20:48:23',
+                    replyTo:null,
+                },
+                {
+                    message_id:5,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?',
+                    time:'20:48:23',
+                    replyTo:null,
+                },
+                {
+                    message_id:6,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?',
+                    time:'20:48:23',
+                    replyTo:null,
+                },
+                {
+                    message_id:7,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?',
+                    time:'20:48:23',
+                    replyTo:null,
+                },
+                {
+                    message_id:8,
+                    user_id:1,
+                    username:'Sajad',
+                    text:'Hi how you doin?',
+                    time:'20:48:23',
+                    replyTo:null,
+                },
             ],
             inputHeight:37,
             ChatroomID:1,
@@ -255,23 +321,23 @@ class Chatroom extends Component {
     //     })
     // }
     //
-    // reply=(id,username)=>{
-    //     // console.log("replying")
-    //     this.setState({replying:id,replyingTo:username})
-    // }
-    //
-    // onReplyMessageClick=(id)=>{
-    //     // console.log(this.state.chats.find(chat => chat.message_id === id))
-    //     scroller.scrollTo("chat".concat(this.state.chats.find(chat => chat.message_id === id).replyTo)
-    //         , {
-    //             duration: 750,
-    //             delay: 100,
-    //             smooth: true,
-    //             containerId: 'scroll-container-discussion',
-    //             // offset: 50, // Scrolls to element + 50 pixels down the page
-    //         }
-    //     )
-    // }
+    reply=(id,username)=>{
+        // console.log("replying")
+        this.setState({replying:id,replyingTo:username})
+    }
+
+    onReplyMessageClick=(id)=>{
+        // console.log(this.state.chats.find(chat => chat.message_id === id))
+        scroller.scrollTo("chat".concat(this.state.chats.find(chat => chat.message_id === id).replyTo)
+            , {
+                duration: 750,
+                delay: 100,
+                smooth: true,
+                containerId: 'scroll-container-discussion',
+                // offset: 50, // Scrolls to element + 50 pixels down the page
+            }
+        )
+    }
 
 
 
@@ -285,20 +351,20 @@ class Chatroom extends Component {
                         </div>
                         <div className="d-flex flex-row" style={{height:"calc(100% - ".concat(this.state.chatroomInfoHeight).concat("px)")}}>
                             <div className="d-flex flex-column w-100">
-                                <div id="scroll-container-discussion" className="messages-box" style={{height: "calc(83vh - 58px - ".concat(this.state.inputHeight).concat("px)")}}>
-                                    <div className="mr-5 mb-2" id="generalChatroomOptionsHover"
-                                        // style={{
-                                        //     height: '100%',
-                                        //     overflow: 'scroll',
-                                        //   }}
+                                <div id="scroll-container-discussion" className="messages-box" style={{height: "calc(100% - ".concat(this.state.inputHeight).concat("px)")}}>
+                                    <div className="mb-2" id="generalChatroomOptionsHover"
+                                        style={{
+                                            height: '100%',
+                                            overflowY: 'scroll',
+                                          }}
                                     >
                                         {this.state.chats.map(chat =>
                                             <SElement name={"chat".concat(chat.message_id)} key={chat.message_id} className="mb-3 d-flex flex-row w-100">
-                                                <div className={chat.user===parseInt(sessionStorage.getItem("id"))?"ml-auto d-flex flex-row-reverse":"d-flex flex-row"}>
+                                                <div className={chat.user_id===parseInt(sessionStorage.getItem("id"))?"ml-auto d-flex flex-row-reverse":"d-flex flex-row"}>
                                                     <MessageBox
                                                         reply={this.reply}
                                                         message_id={chat.message_id}
-                                                        userid={chat.user}
+                                                        userid={chat.user_id}
                                                         title={chat.username}
                                                         onReplyMessageClick={this.onReplyMessageClick}
                                                         text={<span style={{whiteSpace: "pre-line"}}>
@@ -310,8 +376,8 @@ class Chatroom extends Component {
                                                         messageRep={chat.replyTo?this.state.chats.find(reply => reply.message_id === chat.replyTo).text:null}/>
                                                     <div id="options" className={chat.user===parseInt(sessionStorage.getItem("id"))?"option-right":"option-left"}>
                                                         <Dropdown>
-                                                            <Dropdown.Toggle className="" id="dropdown-basic">
-                                                                <svg width="15px" height="15px" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                            <Dropdown.Toggle className={'btn shadow-none transparent-button'} id="dropdown-basic">
+                                                                <svg width="15px" height="15px" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="black" xmlns="http://www.w3.org/2000/svg">
                                                                     <path fillRule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                                                 </svg>
                                                             </Dropdown.Toggle>
@@ -357,7 +423,7 @@ class Chatroom extends Component {
                                             autoHeight={true}
                                             autofocus={true}
                                             rightButtons={
-                                                <div className={'d-flex flex-column'}>
+                                                <div className={'d-flex flex-column mr-3'}>
                                                     <button
                                                         className="btn btn-primary transparent-button mt-auto shadow-none ml-2 mb-2"
                                                         // {this.state.inputValue.length===0?disabled:""}
