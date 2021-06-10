@@ -10,6 +10,7 @@ import { Link as SLink, Element as SElement, Events as SEvents, animateScroll as
 import './chatroom.css';
 import ChatroomInfo from "./chatroomInfo";
 import {toSize} from "ol/size";
+import {getItem} from "../../util";
 
 
 
@@ -40,7 +41,7 @@ class Chatroom extends Component {
                 },
                 {
                     message_id:2,
-                    user_id:1,
+                    user_id:2,
                     username:'Sajad',
                     text:'Hi how you doin?',
                     time:'20:48:23',
@@ -360,7 +361,7 @@ class Chatroom extends Component {
                                     >
                                         {this.state.chats.map(chat =>
                                             <SElement name={"chat".concat(chat.message_id)} key={chat.message_id} className="mb-3 d-flex flex-row w-100">
-                                                <div className={chat.user_id===parseInt(sessionStorage.getItem("id"))?"ml-auto d-flex flex-row-reverse":"d-flex flex-row"}>
+                                                <div className={chat.user_id===parseInt(getItem("user-id"))?"ml-auto d-flex flex-row-reverse":"d-flex flex-row"}>
                                                     <MessageBox
                                                         reply={this.reply}
                                                         message_id={chat.message_id}
@@ -374,7 +375,7 @@ class Chatroom extends Component {
                                                         isReply={chat.replyTo}
                                                         titleRep={chat.replyTo?this.state.chats.find(reply => reply.message_id === chat.replyTo).username:null}
                                                         messageRep={chat.replyTo?this.state.chats.find(reply => reply.message_id === chat.replyTo).text:null}/>
-                                                    <div id="options" className={chat.user===parseInt(sessionStorage.getItem("id"))?"option-right":"option-left"}>
+                                                    <div id="options" className={chat.user===parseInt(getItem("user-id"))?"option-right":"option-left"}>
                                                         <Dropdown>
                                                             <Dropdown.Toggle className={'btn shadow-none transparent-button'} id="dropdown-basic">
                                                                 <svg width="15px" height="15px" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="black" xmlns="http://www.w3.org/2000/svg">

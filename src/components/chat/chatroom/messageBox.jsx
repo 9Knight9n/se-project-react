@@ -7,13 +7,14 @@ import { Dropdown } from 'react-bootstrap';
 import 'react-chat-elements/dist/main.css';
 // MessageBox component
 import './messageBox.css';
+import {getItem} from "../../util";
 // import ProfilePreview from './ProfilePreview';
 
 
 class MessageBox extends React.Component {
     state={
         showProfilePreview:false,
-        isOwner:this.props.userid===parseInt(sessionStorage.getItem("id")),
+        isOwner:this.props.userid===parseInt(getItem("user-id")),
         message_id:this.props.message_id,
         userid:this.props.userid,
         title:this.props.title,
