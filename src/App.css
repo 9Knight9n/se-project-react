@@ -1,20 +1,21 @@
-.button-hover:hover{
-  color: #0085A1 !important;
+.button-hover:hover {
+  color: #0085a1 !important;
 }
 
 .list-inline {
   text-align: center;
 }
-a:focus, a:hover {
-  color: #0085A1 !important;
+a:focus,
+a:hover {
+  color: #0085a1 !important;
   text-decoration-line: none !important;
 }
 
-button.hover-effect:hover{
-  background-color: #0085A1 !important;;
+button.hover-effect:hover {
+  background-color: #0085a1 !important;
 }
 
-.fade-in-overlay{
+.fade-in-overlay {
   position: relative;
 }
 
@@ -36,12 +37,12 @@ button.hover-effect:hover{
   height: 100%;
   width: 100%;
   opacity: 0;
-  transition: .5s ease;
+  transition: 0.5s ease;
   background-color: #000000;
 }
 .fade-in-overlay .selected {
   opacity: 0.85 !important;
-  border:solid 5px;
+  border: solid 5px;
 }
 
 .fade-in-overlay .text {

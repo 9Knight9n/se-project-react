@@ -1,15 +1,15 @@
 /*@Sajad*/
 
-.fixed-top{
+.fixed-top {
   z-index: 400 !important;
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: black;
+  color: black;
 }
 
-.bg-navbar{
-    background-color: #8eacbbab !important;
+.bg-navbar {
+  background-color: #8eacbbab !important;
 }
 
 .navigation-clean-button {

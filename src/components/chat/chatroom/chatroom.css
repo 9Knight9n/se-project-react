@@ -14,10 +14,41 @@
 .rce-container-input {
   flex-direction: row !important;
   display: flex !important;
+  background-color: transparent;
+}
+
+.rce-input-textarea {
+  border-radius: 30px;
+  padding: 10px 10px !important;
 }
 .rce-input-buttons {
-  display: flex !important;
-  position: absolute;
-  right: 30px;
-  bottom: 26px;
+  background-color: #ebebeb;
+  margin: 0px;
+  padding-right: 9px;
+  padding-top: 5px;
+}
+
+.chat-chatroomInfo {
+  background-color: transparent;
+  -webkit-box-shadow: 0px 11px 5px -12px #000000;
+  box-shadow: 0px 11px 5px -12px #000000;
+}
+
+.chat-input-div {
+  background-color: #ebebeb;
+  padding: 10px;
+}
+
+.ant-drawer-body {
+  padding: 0 !important;
+}
+.input-buttons {
+  padding-left: 10%;
+  transition: height 1s linear 1s;
+}
+
+.input-buttons button {
+  outline: none;
+  background-color: transparent;
+  border: 0;
 }
