@@ -21,7 +21,7 @@ import { RContext, RControl, RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyl
 import locationIcon from "../../../assets/location.png";
 import {getItem, validateEmail} from '../../util';
 import axios from "axios";
-import {API_VILLA_PROFILE_URL, API_BASE_URL, API_GET_FIXED_RULES} from '../../constants'
+import {API_VILLA_PROFILE_URL, API_BASE_URL, API_GET_FIXED_RULES, API_GET_show_chat_info_and_list} from '../../constants'
 import Reserve1 from '../reservation/reserve1';
 
 let center = fromLonLat([-90.108862, 29.909324]);
@@ -407,7 +407,25 @@ class VillaProfile extends Component {
     }
 
     async startChat() {
-        
+        await axios.get(API_GET_show_chat_info_and_list,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            },
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log("chat responde : " , res.data)
+                console.log("data is shown successfuly")
+                // this.loadData(res.data)
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
     }
 
  
