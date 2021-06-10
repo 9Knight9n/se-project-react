@@ -5,6 +5,9 @@ import './chat.css'
 import ChatCard from "./chatCard";
 import Chatroom from "./chatroom/chatroom";
 import SearchUser from "../homepage/searchUser/searchUser";
+import axios from "axios";
+import {API_GET_SHOW_CHAT_INFO_AND_LIST} from "../constants";
+import {getItem} from "../util";
 
 
 class Chat extends Component {
@@ -12,13 +15,57 @@ class Chat extends Component {
         super(props);
     }
 
-    state = { visible: false, childrenDrawer: false };
+    componentDidMount() {
+        this.loadChatList()
+    }
+
+
+    state = { visible: false, childrenDrawer: false, chatList:[] };
+
+    loadChatList = async ()  =>{
+        let chatList = await axios.get(API_GET_SHOW_CHAT_INFO_AND_LIST,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            },
+        })
+            .then(res => {
+                if (res.status===200)
+                {
+                    console.log("chat responde : " , res.data.data)
+                    return res.data.data
+                    // this.loadData(res.data)
+                }
+                else
+                {
+                    console.log("unknown status")
+                    return []
+                }
+            }).catch(error =>{
+                console.log(error)
+                return []
+            })
+        this.setState({chatList})
+    }
 
     showDrawer = () => {
         this.setState({
             visible: true,
-        });
+        },()=>setTimeout(() => this.openChat(), 100));
+
     };
+
+    openChat = () =>{
+        if (sessionStorage.getItem('goToChat'))
+        {
+            if (document.getElementById(sessionStorage.getItem('goToChat')))
+            {
+                document.getElementById(sessionStorage.getItem('goToChat')).click()
+                sessionStorage.removeItem('goToChat')
+            }
+        }
+
+    }
+
 
     onClose = () => {
         this.setState({
@@ -26,8 +73,9 @@ class Chat extends Component {
         });
     };
 
-    showChildrenDrawer = () => {
+    showChildrenDrawer = (chatID) => {
         this.setState({
+            chatID,
             childrenDrawer: true,
         });
     };
@@ -42,7 +90,8 @@ class Chat extends Component {
         return (
             <div>
                 <Affix offsetBottom={70} style={{height:0}}  >
-                    <button style={{right:0,height:'55px',width:'55px'}} className={'btn btn-primary rounded-circle d-flex'} type="primary" onClick={this.showDrawer} >
+                    <button id={'open-chat-button'}
+                        style={{right:0,height:'55px',width:'55px'}} className={'btn btn-primary rounded-circle d-flex'} type="primary" onClick={this.showDrawer} >
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                              className="bi bi-chat-text m-auto" viewBox="0 0 16 16">
                             <path
@@ -74,27 +123,18 @@ class Chat extends Component {
                     onClose={this.onClose}
                     visible={this.state.visible}
                 >
-                    <ChatCard
-                        onClick={this.showChildrenDrawer}
-                        avatar={'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'}
-                        name={'Sajad'}
-                        lastMessage={'some really ducking long message goes here to check whether it would collapse it or not!'}
-                        date={new Date()}
-                        unread={parseInt('5')}/>
-                    <ChatCard
-                        onClick={this.showChildrenDrawer}
-                        avatar={'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'}
-                        name={'Sajad'}
-                        lastMessage={'some really ducking long message goes here to check whether it would collapse it or not!'}
-                        date={new Date()}
-                        unread={parseInt()}/>
-                    <ChatCard
-                        onClick={this.showChildrenDrawer}
-                        avatar={'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'}
-                        name={'Sajad'}
-                        lastMessage={'some really ducking long message goes here to check whether it would collapse it or not!'}
-                        date={new Date()}
-                        unread={parseInt('2')}/>
+                    {this.state.chatList.map(chat =>
+                        <div  id={'chat-item-'+chat.chat_id} onClick={()=>this.showChildrenDrawer(chat.chat_id)}>
+                            <ChatCard
+                                chat_id={chat.chat_id}
+                                avatar={chat.image?chat.image:'https://homepages.cae.wisc.edu/~ece533/images/zelda.png'}
+                                name={chat.first_name+" "+chat.last_name}
+                                lastMessage={'some really ducking long message goes here to check whether it would collapse it or not!'}
+                                date={new Date()}
+                                unread={parseInt('5')}/>
+                        </div>
+                    )}
+
 
 
                     {/*<button type="primary" >*/}
@@ -114,7 +154,7 @@ class Chat extends Component {
                         onClose={this.onChildrenDrawerClose}
                         visible={this.state.childrenDrawer}
                     >
-                        <Chatroom/>
+                        <Chatroom chatID={this.state.chatID} />
                     </Drawer>
                 </Drawer>
             </div>

@@ -30,7 +30,8 @@ export const API_GET_FIXED_RULES = 'api/villa/fixed-rules/'
 export const API_GET_SPECIAL_RULES = 'api/villa/special-rules/'
 export const API_RESERVE_VILLA = 'api/villa/user/register/'
 export const API_GET_RESERVED_DATES = 'api/villa/calendar/show/'
-export const API_GET_show_chat_info_and_list = 'api/chat/show/'
+export const API_GET_SHOW_CHAT_INFO_AND_LIST = 'api/chat/show/'
+export const API_START_CHAT = 'api/chat/add/'
 
 
 
