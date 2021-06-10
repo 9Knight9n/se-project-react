@@ -21,7 +21,7 @@ import { RContext, RControl, RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyl
 import locationIcon from "../../../assets/location.png";
 import {getItem, validateEmail} from '../../util';
 import axios from "axios";
-import {API_VILLA_PROFILE_URL, API_BASE_URL, API_GET_FIXED_RULES} from '../../constants'
+import {API_VILLA_PROFILE_URL, API_BASE_URL, API_GET_FIXED_RULES, API_GET_show_chat_info_and_list} from '../../constants'
 import Reserve1 from '../reservation/reserve1';
 
 let center = fromLonLat([-90.108862, 29.909324]);
@@ -280,6 +280,7 @@ class VillaProfile extends Component {
     
         }
         this.mapGoTo = this.mapGoTo.bind(this);
+        this.startChat = this.startChat.bind(this);
     }
 
     exit = () =>
@@ -405,6 +406,28 @@ class VillaProfile extends Component {
         document.getElementById('map-go-to-villaProfile').click()
     }
 
+    async startChat() {
+        await axios.get(API_GET_show_chat_info_and_list,{
+            headers: {
+                'Authorization': 'Token '.concat(getItem('user-token'))
+            },
+        })
+        .then(res => {
+            if (res.status===200)
+            {
+                console.log("chat responde : " , res.data)
+                console.log("data is shown successfuly")
+                // this.loadData(res.data)
+            }
+            else
+            {
+                console.log("unknown status")
+            }
+        }).catch(error =>{
+                console.log(error)
+        })
+    }
+
  
     render() { 
         return ( 
@@ -447,15 +470,19 @@ class VillaProfile extends Component {
 
 
                             <div className="villaProfile-placeDetail row">
-                                <div className="villaProfile-hostAvatar col-xl-1 col-lg-1 col-md-1 col-sm-2 col-4">
+                                <div className="villaProfile-hostAvatar col-xl-1 col-lg-1 col-md-1 col-sm-2 col-3">
                                     <img alt="profile-image" src={this.state.owner_image? API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.owner_image: sampleProfileImg} />
                                 </div>
 
-                                <div className="villaProfile-title col-xl-10 col-lg-11 col-md-11 col-sm-10 col-8">
+                                <div className="villaProfile-title col-xl-8 col-lg-9 col-md-9 col-sm-7 col-7">
                                     <h5>{this.state.placeName}</h5>
                                     <div className="villaProfile-subtitle">
                                         <h6>hosted by {this.state.placeOwner}</h6>
                                     </div>
+                                </div>
+
+                                <div className="col-xl-3 col-lg-2 col-md-2 col-sm-3 col-xs-2">
+                                    <button onClick={this.startChat} className="btn btn-primary">Start chat</button>
                                 </div>
                                 
                             </div>

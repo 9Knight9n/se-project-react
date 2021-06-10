@@ -96,16 +96,6 @@ class SlideShow extends Component {
 
                                 </Carousel.Caption>
                             </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                className="d-block w-100"
-                                src={API_BASE_URL.substring(0, API_BASE_URL.length -1) + this.state.images[4]}
-                                alt="Third slide"
-                                />
-
-                                <Carousel.Caption>
-                                </Carousel.Caption>
-                            </Carousel.Item>
                         </Carousel>
                         </div>
                         </Modal.Body>
