@@ -3,7 +3,7 @@
   background-color: #191154;
 }
 .rce-mbox {
-  background: #4158c269 !important;
+  background: #cfebfc !important;
 
   min-width: 200px;
 }
@@ -11,15 +11,16 @@
   line-height: normal !important;
 }
 .rce-mbox-left-notch {
-  fill: #4158c269;
   left: -15px;
 }
 
 .rce-mbox-left-notch {
-  fill: #6f89ff4d !important;
+  fill: #cfebfc !important;
 }
 .rce-mbox-right-notch {
-  fill: #4158c269;
+  fill: #cfebfc !important;
+}
+.rce-mbox-right-notch {
   right: -15px;
 }
 .rce-mbox-text {
