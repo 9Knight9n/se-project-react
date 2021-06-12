@@ -8,6 +8,7 @@ import SearchUser from "../homepage/searchUser/searchUser";
 import axios from "axios";
 import { API_GET_SHOW_CHAT_INFO_AND_LIST } from "../constants";
 import { getItem } from "../util";
+import {toast} from "react-toastify";
 
 class Chat extends Component {
   constructor(props) {
@@ -50,6 +51,8 @@ class Chat extends Component {
   };
 
   showDrawer = () => {
+    if(!getItem('user-token'))
+      return toast.error("you should login first. ")
     this.setState(
       {
         visible: true,
