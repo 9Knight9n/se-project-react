@@ -22,8 +22,10 @@ import "./chatroom.css";
 import ChatroomInfo from "./chatroomInfo";
 import {toSize} from "ol/size";
 import {getItem} from "../../util";
-import {connect, listen, send} from "./socket";
+import {connect, disConnect, listen, send, unListen} from "./socket";
 import {WS_BASE_URL, WS_CHAT_URL} from "../../constants";
+
+let rws = null;
 
 class Chatroom extends Component {
     constructor(props) {
@@ -32,7 +34,6 @@ class Chatroom extends Component {
             chatID: this.props.chatID,
             chatroomInfoHeight: 0,
             isOwner: false,
-            isJoin: true,
             replying: null,
             replyingTo: null,
             inputValue: "",
@@ -40,9 +41,25 @@ class Chatroom extends Component {
             inputRef: React.createRef(),
             chats: [],
             inputHeight: 37,
-            ChatroomID: 1,
         };
         // this.loadQuestions=this.loadQuestions.bind(this)
+    }
+
+    async componentDidMount() {
+        this.setState({
+            chatroomInfoHeight: document.getElementById("chatroom-info").offsetHeight,
+        });
+
+
+        let button = document.getElementById("generalChatroomSendButton");
+        let textBox = document.getElementById("sendOnEnter");
+        textBox.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13 && event.shiftKey) {
+                button.click();
+            }
+        });
+
+        this.connectSocket();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,48 +67,49 @@ class Chatroom extends Component {
             this.setState({chatID: this.props.chatID})
     }
 
-    async componentWillMount() {
-        this.connectSocket();
+
+    async componentWillUnmount() {
+        await disConnect()
     }
 
     connectSocket = async () => {
-        await connect(WS_BASE_URL + WS_CHAT_URL + this.state.chatID + '/');
-        await listen("message", this.newMessage);
-        await send(
-        {
-                "type":"authenticate",
+        if (rws)
+            return
+        rws = await connect(WS_BASE_URL + WS_CHAT_URL + this.state.chatID + '/');
+        await listen(rws,'message', this.newMessage);
+        await send(rws,
+            {
+                "type": "authenticate",
                 "Authorization": getItem('user-token')
             }
         )
-        await send(
-            {
-                'type':'fetch'
+        await send(rws,
+        {
+                'type': 'fetch'
             }
         )
-        // this.setState({chats:[]},async()=> )
     }
 
 
-    newMessage = (obj) => {
+    newMessage = async (obj) => {
         console.log(obj)
-        if (obj.message === "delete_message") {
-            // let temp = this.state.chats.filter(function (item) {
-            //     return item.message_id !== message.message_id;
-            // });
-
-            // this.setState({chats: temp});
-            // for (let i = 0;i<temp.length;i++)
-            // {
-            //     if (temp[i].message_id === message.message_id)
-            //     {
-            //         temp.remo
-            //     }
-            // }
-        }
-        else if (obj.message === "fetch successfully") {
+        if (obj.message === "delete message successfully") {
+            console.log('inisde')
+            let temp = this.state.chats.filter(function (item) {
+                return item.message_id !== obj.data.message_id;
+            });
+            this.setState({chats: temp});
+        } else if (obj.message === "fetch successfully") {
             this.setState({chats: obj.data});
-        }
-        else if (obj.message === "create message successfully") {
+            console.log(obj.data)
+        } else if (obj.message === "authenticate needed.") {
+            await send(rws,
+                {
+                    "type": "authenticate",
+                    "Authorization": getItem('user-token')
+                }
+            )
+        } else if (obj.message === "create message successfully") {
             // scroll.scrollToTop();
             // scroll.scrollToTop( {
             //     duration: 1500,
@@ -115,166 +133,50 @@ class Chatroom extends Component {
                     containerId: "scroll-container-discussion",
                     offset: 50,
                 });
-            } else {
-                this.setState({chats: [...this.state.chats, obj.data]});
             }
+            this.setState({chats: [...this.state.chats, obj.data]});
         }
-        // console.log(message);
-        // this.setState({chats:[...this.state.chats,message]})
-        // console.log("received info:",message.data)
-        // console.log("old chats:",this.state.chats)
-        // console.log("new chats:",this.state.chats)
-        // let data = JSON.parse(message.data);
-        //   console.log(data);
-        //   if (data.message)
-        // this.setState({time:data.message})
     };
 
 
-    componentDidMount() {
-    this.setState({
-        chatroomInfoHeight: document.getElementById("chatroom-info").offsetHeight,
-    });
-        // sessionStorage.removeItem("search")
-        // // var msg = document.getElementById("message");
-        // let button = document.getElementById("generalChatroomSendButton");
-        // let textBox = document.getElementById("sendOnEnter");
-
-        // This event is fired when button is clicked
-        // if(this.state.ChatroomID!==-1)
-        //     textBox.addEventListener("keyup", function (event) {
-        //         if (event.keyCode === 13 && event.shiftKey) {
-        //             button.click();
-        //         }
-        //     });
-
-        // this.loadChats()
-    }
-
-    // changeJoinState=(state)=>
-    // {
-    //     this.setState({isJoin:state})
-    //     if(state)
-    //     {
-    //         this.setState({inputHeight:37})
-    //     }
-    //     else
-    //         this.setState({inputHeight:0,})
-    // }
-    //
-    // loadChats=async()=>{
-    //     if(this.props.match.params.chatroomid ==="-1")
-    //         return false
-    //     this.setState({loading:true})
-    //     console.log("fetching Questions")
-    //     let config ={
-    //         url:"http://127.0.0.1:8000/api/show_Message/",
-    //         needToken:true,
-    //         type:"post",
-    //         formKey:[
-    //             "chatroomId",
-    //         ],
-    //         formValue:[
-    //             this.props.match.params.chatroomid,
-    //         ]
-    //     }
-    //     let data = []
-    //     // console.log("outside 0",data)
-    //     data = await request(config)
-    //     // console.log(await request(config))
-    //     console.log("outside",data)
-    //     if (data)
-    //     {
-    //         this.setState({chats:data})
-    //         console.log("state set")
-    //     }
-    //     this.loadData()
-    //     this.setState({loading:false})
-    //     // console.log(data)
-    // }
-    //
-    // loadData = async () => {
-    //     // this.setState({loading:true})
-    //
-    //     let config = {
-    //         url:"http://127.0.0.1:8000/api/ShowChatroomProfile/",
-    //         needToken:true,
-    //         type:"post",
-    //         formKey:[
-    //             "chatroomId",
-    //         ],
-    //         formValue:[
-    //             this.state.ChatroomID
-    //         ]
-    //     };
-    //     let data = [];
-    //     data = await request(config);
-    //     if (data) {
-    //         this.setState({
-    //             isOwner: parseInt(sessionStorage.getItem("id")) === data.owner,
-    //         });
-    //     }
-    //     // let objDiv = document.getElementById("scroll-container-discussion");
-    //     // objDiv.scrollTop = objDiv.scrollHeight;
-    //     // var elem = document.getElementById('scroll-container-discussion');
-    //     // elem.scrollTop = elem.scrollHeight;
-    //     scroll.scrollToBottom( {
-    //         duration: 0,
-    //         delay: 0,
-    //         smooth: false,
-    //         containerId: 'scroll-container-discussion',
-    //         offset: 50});
-    //     // console.log(data)
-    //     // this.setState({loading:false})
-    // }
-    //
-    // inputOnChange=(e)=>{
-    //     let target = e.target;
-    //     // let value = target.value;
-    //
-    //     this.setState({inputHeight:target.offsetHeight})
-    //     // this.forceUpdate()
-    //     // console.log(target.offsetHeight)
-    // }
-
-
-    sendMessage=async()=>{
-        if (this.state.inputRef.input.value===""){
+    sendMessage = async () => {
+        if (this.state.inputRef.input.value === "") {
             toast.dark("Message is empty!");
             return 0
         }
-        // if (this.state.replying)
-        //     await send({
-        //         'order_type': 'create_message',
-        //         'chatroom_id': this.state.ChatroomID,
-        //         'token': token,
-        //         'message': this.state.inputRef.input.value,
-        //         'replyTo': this.state.replying
-        //     })
-        // else
-            await send(
-                {
-                        'message': this.state.inputRef.input.value, 'type':'create'
-                    }
-                )
+        if (this.state.replying)
+            await send(rws,
+            {
+                    'message': this.state.inputRef.input.value, 'type': 'create','parent_message':String(this.state.replying)
+                }
+            )
+        else
+        await send(rws,
+        {
+                'message': this.state.inputRef.input.value, 'type': 'create'
+            }
+        )
         this.state.inputRef.clear();
-        this.setState({inputRef:"",replying:null,replyingTo:null})
+        this.setState({inputRef: "", replying: null, replyingTo: null})
     }
 
 
-    // handleDelete=async(message_id)=>{
-    //     let token = sessionStorage.getItem
-    //     if(isExpired(sessionStorage.getItem('id'))){
-    //         token=await renewToken()
-    //     }
-    //     send({
-    //         'order_type' : 'delete_message',
-    //         'chatroom_id':this.state.ChatroomID,
-    //         'token': token,
-    //         'message_id': message_id,
-    //     })
-    // }
-    //
+    handleDelete = async (message_id) => {
+        await send(rws,
+            {
+                'message_id': message_id, 'type': 'delete'
+            }
+        )
+    }
+    handleEdit = async (message_id) => {
+        await send(rws,
+            {
+                'message_id': message_id, 'type': 'delete'
+            }
+        )
+    }
+
+
     reply = (id, username) => {
         // console.log("replying")
         this.setState({replying: id, replyingTo: username});
@@ -370,9 +272,9 @@ class Chatroom extends Component {
                                                         messageRep={
                                                             chat.parent_message
                                                                 ? () => {
-                                                                let chat = this.state.chats.find(
-                                                                    (reply) => reply.message_id === chat.parent_message
-                                                                )
+                                                                    let chat = this.state.chats.find(
+                                                                        (reply) => reply.message_id === chat.parent_message
+                                                                    )
                                                                     if (chat)
                                                                         return chat.text
                                                                     return null
@@ -417,7 +319,7 @@ class Chatroom extends Component {
                                                                 >
                                                                     Reply
                                                                 </Dropdown.Item>
-                                                                {this.state.isOwner ? (
+                                                                {chat.owner === parseInt(getItem("user-id")) ? (
                                                                     <Dropdown.Item
                                                                         as="button"
                                                                         onClick={() =>
@@ -425,6 +327,18 @@ class Chatroom extends Component {
                                                                         }
                                                                     >
                                                                         Delete
+                                                                    </Dropdown.Item>
+                                                                ) : (
+                                                                    ""
+                                                                )}
+                                                                {chat.owner === parseInt(getItem("user-id")) ? (
+                                                                    <Dropdown.Item
+                                                                        as="button"
+                                                                        onClick={() =>
+                                                                            this.handleEdit(chat.message_id)
+                                                                        }
+                                                                    >
+                                                                        Edit
                                                                     </Dropdown.Item>
                                                                 ) : (
                                                                     ""
@@ -521,7 +435,6 @@ class Chatroom extends Component {
                                                         className="btn btn-primary transparent-button mt-auto shadow-none ml-2 mb-2"
                                                         // {this.state.inputValue.length===0?disabled:""}
                                                         // onClick={this.sendMessage}
-                                                        // id="generalChatroomSendButton"
                                                         style={{color: "white", padding: "0"}}
                                                     >
                                                         <svg
