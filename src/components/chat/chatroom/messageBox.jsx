@@ -17,8 +17,8 @@ import EllipsisToolTip from "ellipsis-tooltip-react-chan";
 class MessageBox extends React.Component {
     state = {
         data: this.props.data,
-        isPhoto: ((String(this.props.data).match(/\.(jpeg|jpg|gif|png)$/) !== null) & (this.props.data !== null)),
-        isFile: ((String(this.props.data).match(/\.(jpeg|jpg|gif|png)$/) == null) & (this.props.data !== null)),
+        isPhoto: ((String(this.props.data).match(/\.(jpeg|jpg|gif|png)$/) !== null) && (this.props.data !== null)),
+        isFile: ((String(this.props.data).match(/\.(jpeg|jpg|gif|png)$/) == null) && (this.props.data !== null)),
         showProfilePreview: false,
         isOwner: this.props.userid === parseInt(getItem("user-id")),
         message_id: this.props.message_id,
