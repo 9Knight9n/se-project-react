@@ -24,7 +24,9 @@ class MessageBox extends React.Component {
     messageRep: this.props.messageRep,
   };
 
-  async componentDidMount() {}
+  async componentDidMount() {
+      // console.log(this.props.messageRep)
+  }
 
   render() {
     return (
@@ -52,7 +54,7 @@ class MessageBox extends React.Component {
               reply={
                 this.state.isReply
                   ? {
-                      title: this.state.titleRep,
+                      title: ' ',
                       titleColor: "#8717ae",
                       message: this.state.messageRep,
                     }

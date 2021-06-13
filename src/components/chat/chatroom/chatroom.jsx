@@ -202,6 +202,18 @@ class Chatroom extends Component {
         );
     };
 
+    getRepliedMessageText=(chat) => {
+        console.log(chat.parent_message )
+        console.log('===' )
+        console.log(this.state.chats[0].message_id )
+        let RepliedMessage = this.state.chats.find(
+            (reply) => reply.message_id === chat.parent_message
+        )
+        if (RepliedMessage)
+        return RepliedMessage.text
+        return null
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -275,14 +287,7 @@ class Chatroom extends Component {
                                                         // }
                                                         messageRep={
                                                             chat.parent_message
-                                                                ? () => {
-                                                                    let chat = this.state.chats.find(
-                                                                        (reply) => reply.message_id === chat.parent_message
-                                                                    )
-                                                                    if (chat)
-                                                                        return chat.text
-                                                                    return null
-                                                                }
+                                                                ? this.getRepliedMessageText(chat)
                                                                 : null
                                                         }
                                                     />
