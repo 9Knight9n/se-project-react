@@ -76,7 +76,7 @@ class Chatroom extends Component {
         if (rws)
             return
         rws = await connect(WS_BASE_URL + WS_CHAT_URL + this.state.chatID + '/');
-        await listen(rws,'message', this.newMessage);
+        await listen(rws, 'message', this.newMessage);
         await send(rws,
             {
                 "type": "authenticate",
@@ -84,7 +84,7 @@ class Chatroom extends Component {
             }
         )
         await send(rws,
-        {
+            {
                 'type': 'fetch'
             }
         )
@@ -143,16 +143,15 @@ class Chatroom extends Component {
             toast.dark("Message is empty!");
             return 0
         }
-        if (this.state.replying)
-        {
+        if (this.state.replying) {
             await send(rws,
                 {
-                    'message': this.state.inputRef.input.value, 'type': 'create','parent_message':String(this.state.replying)
+                    'message': this.state.inputRef.input.value,
+                    'type': 'create',
+                    'parent_message': String(this.state.replying)
                 }
             )
-        }
-        else
-        {
+        } else {
             await send(rws,
                 {
                     'message': this.state.inputRef.input.value, 'type': 'create'
@@ -202,17 +201,18 @@ class Chatroom extends Component {
         );
     };
 
-    getRepliedMessageText=(chat) => {
-        console.log(chat.parent_message )
-        console.log('===' )
-        console.log(this.state.chats[0].message_id )
+    getRepliedMessageText = (chat) => {
+        console.log(chat.parent_message)
+        console.log('===')
+        console.log(this.state.chats[0].message_id)
         let RepliedMessage = this.state.chats.find(
             (reply) => reply.message_id === chat.parent_message
         )
         if (RepliedMessage)
-        return RepliedMessage.text
+            return RepliedMessage.text
         return null
     }
+
 
     render() {
         return (
@@ -266,16 +266,13 @@ class Chatroom extends Component {
                                                     }
                                                 >
                                                     <MessageBox
+                                                        data={'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
                                                         reply={this.reply}
                                                         message_id={chat.message_id}
                                                         userid={chat.owner}
                                                         // title={chat.username}
                                                         onReplyMessageClick={this.onReplyMessageClick}
-                                                        text={
-                                                            <span style={{whiteSpace: "pre-line"}}>
-                                                                {ReactHtmlParser(chat.text)}
-                                                            </span>
-                                                        }
+                                                        text={chat.text}
                                                         dateString={chat.ctime}
                                                         isReply={chat.parent_message}
                                                         // titleRep={
