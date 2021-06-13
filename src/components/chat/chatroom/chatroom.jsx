@@ -125,7 +125,6 @@ class Chatroom extends Component {
                 Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop) <=
                 scrollContainer.clientHeight
             ) {
-                this.setState({chats: [...this.state.chats, obj.data]});
                 scroll.scrollToBottom({
                     duration: 750,
                     delay: 100,
@@ -145,17 +144,22 @@ class Chatroom extends Component {
             return 0
         }
         if (this.state.replying)
+        {
             await send(rws,
-            {
+                {
                     'message': this.state.inputRef.input.value, 'type': 'create','parent_message':String(this.state.replying)
                 }
             )
+        }
         else
-        await send(rws,
         {
-                'message': this.state.inputRef.input.value, 'type': 'create'
-            }
-        )
+            await send(rws,
+                {
+                    'message': this.state.inputRef.input.value, 'type': 'create'
+                }
+            )
+        }
+
         this.state.inputRef.clear();
         this.setState({inputRef: "", replying: null, replyingTo: null})
     }
