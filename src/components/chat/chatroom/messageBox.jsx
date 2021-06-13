@@ -44,7 +44,8 @@ class MessageBox extends React.Component {
                         this.state.isOwner ? "-reverse" : ""
                     )}
                 >
-                    <div className="w-100">
+                    <div className="w-100"
+                         onClick={() => window.open(this.state.data, '_blank')}>
                         <MB
                             id={this.state.id}
                             position={this.state.isOwner ? "right" : "left"}
@@ -62,8 +63,8 @@ class MessageBox extends React.Component {
                                     />
                                     : null}
                                 {this.state.isFile ?
-                                    <div style={{maxWidth:'250px'}}>
-                                        <EllipsisToolTip >
+                                    <div style={{maxWidth: '250px', color: "black"}}>
+                                        <EllipsisToolTip>
                                             {String(this.state.data).split('/')[String(this.state.data).split('/').length - 1]}
                                         </EllipsisToolTip>
                                     </div> :

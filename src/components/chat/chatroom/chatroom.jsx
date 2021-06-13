@@ -266,7 +266,7 @@ class Chatroom extends Component {
                                                     }
                                                 >
                                                     <MessageBox
-                                                        data={null}
+                                                        data={'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.zip'}
                                                         reply={this.reply}
                                                         message_id={chat.message_id}
                                                         userid={chat.owner}
