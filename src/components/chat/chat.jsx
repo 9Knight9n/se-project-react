@@ -8,14 +8,32 @@ import SearchUser from "../homepage/searchUser/searchUser";
 import axios from "axios";
 import { API_GET_SHOW_CHAT_INFO_AND_LIST } from "../constants";
 import { getItem } from "../util";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import firebase from "firebase/app";
+import "firebase/auth";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBPkNtNdBHnjC-QJ9dbrnFQO3rcf1rwYRk",
+  authDomain: "sweet-home-773bb.firebaseapp.com",
+  projectId: "sweet-home-773bb",
+  storageBucket: "sweet-home-773bb.appspot.com",
+  messagingSenderId: "872929672242",
+  appId: "1:872929672242:web:2b04bc0040f91495c6d02b",
+  measurementId: "G-5RQ6W8YPE5",
+};
+const messaging = firebase.messaging();
 class Chat extends Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    messaging.onMessage((payload) => {
+      console.log("Message received. ", payload);
+      // ...
+    });
     this.loadChatList();
   }
 
@@ -51,8 +69,7 @@ class Chat extends Component {
   };
 
   showDrawer = () => {
-    if(!getItem('user-token'))
-      return toast.error("you should login first. ")
+    if (!getItem("user-token")) return toast.error("you should login first. ");
     this.setState(
       {
         visible: true,
