@@ -22,10 +22,15 @@ class ChatroomInfo extends Component {
                 className="ml-2 mb-2"
                 src={this.state.src}
                 alt="user-profile-image"
+                data-testid="chatInfo-profile-avatar"
               />
               <div className="col-9">
-                <h4>{this.state.firstName + " " + this.state.lastname}</h4>
-                <medium>Last seen in 10-03-2021 at 09:09</medium>
+                <h4 data-testid="chatInfo-name">
+                  {this.state.firstName + " " + this.state.lastname}
+                </h4>
+                <medium data-testid="chatInfo-lastSeen">
+                  Last seen in 10-03-2021 at 09:09
+                </medium>
               </div>
             </div>
           </div>
