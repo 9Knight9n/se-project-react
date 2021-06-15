@@ -37,6 +37,8 @@ export const API_START_CHAT = "api/chat/add/";
 export const WS_BASE_URL = "ws://localhost:8000/";
 export const WS_CHAT_URL = "ws/api/chat/";
 
+export const WEB_PUSH_CERTIFICATE = 'BPMnplC3Ef7aPJoRSQ9qUW5kvtpPIWOYTMqFJdy5Pod-h3v3aaRo5qFJts746LRY_709ZiTZ9TgQgViATLucIqQ'
+
 
 
 export const STORAGE_KEY = "sweet-home";
