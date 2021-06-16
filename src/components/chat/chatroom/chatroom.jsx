@@ -35,7 +35,9 @@ class Chatroom extends Component {
             chatroomInfoHeight: 0,
             isOwner: false,
             replying: null,
+            editing: null,
             replyingTo: null,
+            editingTo: null,
             inputValue: "",
             loading: false,
             inputRef: React.createRef(),
@@ -86,7 +88,6 @@ class Chatroom extends Component {
     newMessage = async (obj) => {
         console.log(obj);
         if (obj.message === "delete message successfully") {
-            console.log("inisde");
             let temp = this.state.chats.filter(function (item) {
                 return item.message_id !== obj.data.message_id;
             });
@@ -94,6 +95,18 @@ class Chatroom extends Component {
         } else if (obj.message === "fetch successfully") {
             this.setState({chats: obj.data});
             console.log(obj.data);
+        }else if (obj.message === "update message successfully") {
+            for (let k=0;k<this.state.chats.length;k++)
+            {
+                if (this.state.chats[k].message_id === obj.data.message_id)
+                {
+                    // temp[k] = obj.data
+                    this.setState({chats: [...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length-1)]});
+                    // console.log('test:'+[...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length-1)])
+                    // console.log(temp)
+                    break;
+                }
+            }
         } else if (obj.message === "authenticate needed.") {
             await send(rws, {
                 type: "authenticate",
@@ -138,6 +151,14 @@ class Chatroom extends Component {
                 type: "create",
                 parent_message: String(this.state.replying),
             });
+        } else if (this.state.editing)
+        {
+            await send(rws, {
+                text:this.state.inputRef.input.value,
+                message_id: this.state.editingTo,
+                type: "update",
+            });
+            await this.handleEdit(null, null)
         } else {
             await send(rws, {
                 message: this.state.inputRef.input.value,
@@ -155,11 +176,19 @@ class Chatroom extends Component {
             type: "delete",
         });
     };
-    handleEdit = async (message_id) => {
-        await send(rws, {
-            message_id: message_id,
-            type: "delete",
-        });
+    handleEdit = async (editing,message_id) => {
+        if (editing)
+        {
+            let temp = this.state.chats.filter(function (item) {
+                return item.message_id === message_id;
+            });
+            this.state.inputRef.input.value = temp[0].text;
+            this.state.inputRef.input.focus()
+            // this.setState({inputRef:temp[0].text})
+        }
+        else
+            this.state.inputRef.clear();
+        this.setState({editing,editingTo:message_id})
     };
 
     reply = (id, username) => {
@@ -247,7 +276,8 @@ class Chatroom extends Component {
                                                 >
                                                     <MessageBox
                                                         data={
-                                                            "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.zip"
+                                                            // "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.zip"
+                                                            null
                                                         }
                                                         reply={this.reply}
                                                         message_id={chat.message_id}
@@ -323,7 +353,7 @@ class Chatroom extends Component {
                                                                     <Dropdown.Item
                                                                         as="button"
                                                                         onClick={() =>
-                                                                            this.handleEdit(chat.message_id)
+                                                                            this.handleEdit(true,chat.message_id)
                                                                         }
                                                                     >
                                                                         Edit
@@ -346,12 +376,15 @@ class Chatroom extends Component {
                                 >
                                     <div id="sendOnEnter">
                                         <div className="chat-input-div pb-4">
-                                            {this.state.replying ? (
+                                            {this.state.replying || this.state.editing ? (
                                                 <div className="black-text input-buttons w-100">
                                                     <button
                                                         className="p-1"
                                                         style={{backgroundColor: "transparent"}}
-                                                        onClick={() => this.reply(null, null)}
+                                                        onClick={this.state.editing?
+                                                            () => this.handleEdit(null,null):
+                                                            () => this.reply(null, null)
+                                                        }
                                                     >
                                                         <svg
                                                             width="2em"
@@ -367,7 +400,11 @@ class Chatroom extends Component {
                                                             />
                                                         </svg>
                                                     </button>
-                                                    <b>Replying to {this.state.replyingTo}</b>
+                                                    <b>
+                                                        {this.state.replying?
+                                                        'Replying to '+this.state.replyingTo:
+                                                        'Editing'}
+                                                    </b>
                                                 </div>
                                             ) : (
                                                 ""

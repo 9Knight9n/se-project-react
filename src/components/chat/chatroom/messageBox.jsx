@@ -36,6 +36,13 @@ class MessageBox extends React.Component {
         console.log(String(this.state.text))
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.text !== this.props.text)
+        {
+            this.setState({text: this.props.text})
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
