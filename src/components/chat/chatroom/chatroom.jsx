@@ -99,7 +99,12 @@ class Chatroom extends Component {
             });
             this.setState({chats: temp});
         } else if (obj.message === "fetch successfully") {
-            this.setState({chats: obj.data});
+            this.setState({chats: obj.data},()=>scroll.scrollToBottom( {
+                duration: 0,
+                delay: 0,
+                smooth: false,
+                containerId: 'generalChatroomOptionsHover',
+                offset: 50}));
             console.log(obj.data);
         }else if (obj.message === "update message successfully") {
             for (let k=0;k<this.state.chats.length;k++)
@@ -126,23 +131,27 @@ class Chatroom extends Component {
             //     smooth: true,
             //     containerId: 'scroll-container-discussion',
             //     offset: 50});
+            this.setState({chats: [...this.state.chats, obj.data]});
             let scrollContainer = document.getElementById(
-                "scroll-container-discussion"
+                "generalChatroomOptionsHover"
             );
             // get scroll position in px
+
+            console.log(Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop -100) +'<='+scrollContainer.clientHeight)
             if (
-                Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop) <=
+                Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop - 150) <=
                 scrollContainer.clientHeight
-            ) {
+            )
+            {
                 scroll.scrollToBottom({
                     duration: 750,
                     delay: 100,
                     smooth: true,
-                    containerId: "scroll-container-discussion",
+                    containerId: "generalChatroomOptionsHover",
                     offset: 50,
                 });
             }
-            this.setState({chats: [...this.state.chats, obj.data]});
+
         }
     };
 
@@ -219,9 +228,6 @@ class Chatroom extends Component {
     };
 
     getRepliedMessageText = (chat) => {
-        console.log(chat.parent_message);
-        console.log("===");
-        console.log(this.state.chats[0].message_id);
         let RepliedMessage = this.state.chats.find(
             (reply) => reply.message_id === chat.parent_message
         );
@@ -233,6 +239,14 @@ class Chatroom extends Component {
         return (
             <React.Fragment>
                 <div className="w-100 h-100 p-0 mt-3">
+                    {/*<button onClick={()=>scroll.scrollToBottom( {*/}
+                    {/*    duration: 0,*/}
+                    {/*    delay: 0,*/}
+                    {/*    smooth: false,*/}
+                    {/*    containerId: 'generalChatroomOptionsHover',*/}
+                    {/*    offset: 50})}>*/}
+                    {/*    scroll*/}
+                    {/*</button>*/}
                     <div id="question-page" className="d-flex flex-column h-100 w-100">
                         <div
                             id="chatroom-info"
@@ -260,7 +274,7 @@ class Chatroom extends Component {
                                     }}
                                 >
                                     <div
-                                        className="mb-2"
+                                        className="mb-2 h-100"
                                         id="generalChatroomOptionsHover"
                                         style={{
                                             height: "100%",
@@ -408,7 +422,7 @@ class Chatroom extends Component {
                                                     </button>
                                                     <b>
                                                         {this.state.replying?
-                                                        'Replying to '+this.state.replyingTo:
+                                                        'Replying ':
                                                         'Editing'}
                                                     </b>
                                                 </div>
