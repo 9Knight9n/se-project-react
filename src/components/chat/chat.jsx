@@ -9,7 +9,7 @@ import axios from "axios";
 import {API_GET_SHOW_CHAT_INFO_AND_LIST} from "../constants";
 import {getItem} from "../util";
 import {toast} from "react-toastify";
-import {getToken} from "../firebase";
+import {getMessaging, getToken, onMessageListener} from "../firebase";
 
 
 
@@ -19,12 +19,20 @@ class Chat extends Component {
         super(props);
     }
 
+
     componentDidMount() {
+
+        onMessageListener().then(payload => {
+            // setShow(true);
+            // setNotification({title: payload.notification.title, body: payload.notification.body})
+            console.log(payload);
+        }).catch(err => console.log('failed: ', err));
         // toast.error('firebase ro back naresoond,')
         // toast.error('file saat 9 shab ghable eraee resid')
         // toast.error('last seen ke aslan naresid')
         // const [isTokenFound, setTokenFound] = useState(false);
         getToken((input) => this.setState({ isTokenFound: input }));
+        // getMessaging().onMessage((obj)=>console.log(obj))
         // firebase.initializeApp(firebaseConfig);
         // firebase.analytics();
         // messaging = firebase.messaging();
