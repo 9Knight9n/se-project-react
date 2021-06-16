@@ -211,7 +211,8 @@ class Chatroom extends Component {
         this.setState({replying: id, replyingTo: username});
     };
 
-    onReplyMessageClick = (id) => {
+    onReplyMessageClick = (e,id) => {
+        e.stopPropagation()
         // console.log(this.state.chats.find(chat => chat.message_id === id))
         scroller.scrollTo(
             "chat".concat(
@@ -221,7 +222,7 @@ class Chatroom extends Component {
                 duration: 750,
                 delay: 100,
                 smooth: true,
-                containerId: "scroll-container-discussion",
+                containerId: "generalChatroomOptionsHover",
                 // offset: 50, // Scrolls to element + 50 pixels down the page
             }
         );
