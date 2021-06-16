@@ -88,12 +88,14 @@ class Chat extends Component {
         );
     };
 
-    openChat = () => {
+    openChat = async () => {
         if (sessionStorage.getItem("goToChat")) {
-            if (document.getElementById(sessionStorage.getItem("goToChat"))) {
-                document.getElementById(sessionStorage.getItem("goToChat")).click();
-                sessionStorage.removeItem("goToChat");
+            while (!document.getElementById(sessionStorage.getItem("goToChat")))
+            {
+                await this.loadChatList()
             }
+            document.getElementById(sessionStorage.getItem("goToChat")).click();
+            sessionStorage.removeItem("goToChat");
         }
     };
 
