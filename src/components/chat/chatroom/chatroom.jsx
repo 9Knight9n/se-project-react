@@ -115,7 +115,7 @@ class Chatroom extends Component {
                 if (this.state.chats[k].message_id === obj.data.message_id)
                 {
                     // temp[k] = obj.data
-                    this.setState({chats: [...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length-1)]});
+                    this.setState({chats: [...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length)]});
                     // console.log('test:'+[...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length-1)])
                     // console.log(temp)
                     break;

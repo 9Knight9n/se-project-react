@@ -6,7 +6,7 @@ import ChatCard from "./chatCard";
 import Chatroom from "./chatroom/chatroom";
 import SearchUser from "../homepage/searchUser/searchUser";
 import axios from "axios";
-import {API_GET_SHOW_CHAT_INFO_AND_LIST} from "../constants";
+import {API_BASE_URL, API_GET_SHOW_CHAT_INFO_AND_LIST} from "../constants";
 import {getItem} from "../util";
 import {toast} from "react-toastify";
 import {getMessaging, getToken, onMessageListener} from "../firebase";
@@ -186,7 +186,7 @@ class Chat extends Component {
                             id={"chat-item-" + chat.chat_id}
                             onClick={() => this.showChildrenDrawer(
                                 chat.chat_id,chat.first_name + " " + chat.last_name,chat.image
-                                ? chat.image
+                                ? API_BASE_URL.substr(0,API_BASE_URL.length-1)+chat.image
                                 : "https://homepages.cae.wisc.edu/~ece533/images/zelda.png"
                             )}
                         >
@@ -194,7 +194,7 @@ class Chat extends Component {
                                 chat_id={chat.chat_id}
                                 avatar={
                                     chat.image
-                                        ? chat.image
+                                        ? API_BASE_URL.substr(0,API_BASE_URL.length-1)+chat.image
                                         : "https://homepages.cae.wisc.edu/~ece533/images/zelda.png"
                                 }
                                 name={chat.first_name + " " + chat.last_name}
