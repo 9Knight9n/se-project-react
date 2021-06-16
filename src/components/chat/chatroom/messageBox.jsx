@@ -52,7 +52,7 @@ class MessageBox extends React.Component {
                     )}
                 >
                     <div className="w-100"
-                         onClick={() =>{if (this.state.data) window.open(this.state.data, '_blank')}}>
+                         onClick={() =>{if (this.state.isFile) window.open(this.state.data, '_blank')}}>
                         <MB
                             id={this.state.id}
                             position={this.state.isOwner ? "right" : "left"}
