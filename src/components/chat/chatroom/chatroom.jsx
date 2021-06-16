@@ -50,9 +50,6 @@ class Chatroom extends Component {
     }
 
     async componentDidMount() {
-        console.log(this.props.chatName)
-        console.log(this.props.chatAvatar)
-        console.log(this.props.chatID)
         this.setState({
             chatroomInfoHeight: document.getElementById("chatroom-info").offsetHeight,
         });

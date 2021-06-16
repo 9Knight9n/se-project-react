@@ -20,6 +20,9 @@ class Chat extends Component {
     }
 
     componentDidMount() {
+        // toast.error('firebase ro back naresoond,')
+        // toast.error('file saat 9 shab ghable eraee resid')
+        // toast.error('last seen ke aslan naresid')
         // const [isTokenFound, setTokenFound] = useState(false);
         getToken((input) => this.setState({ isTokenFound: input }));
         // firebase.initializeApp(firebaseConfig);

@@ -38,8 +38,8 @@ class ChatroomInfo extends Component {
                 <h4 data-testid="chatInfo-name">
                   {this.props.chatName}
                 </h4>
-                <medium data-testid="chatInfo-lastSeen">
-                  Last seen in 10-03-2021 at 09:09
+                <medium className={'ml-3'} data-testid="chatInfo-lastSeen">
+                  Last seen in Back Naresond
                 </medium>
               </div>
             </div>
