@@ -212,18 +212,19 @@ class Chatroom extends Component {
     };
 
     onReplyMessageClick = (e,id) => {
+        console.log('ran :',id,' to ',this.state.chats.find((chat) => chat.message_id === id).parent_message)
         e.stopPropagation()
         // console.log(this.state.chats.find(chat => chat.message_id === id))
         scroller.scrollTo(
             "chat".concat(
-                this.state.chats.find((chat) => chat.message_id === id).replyTo
+                this.state.chats.find((chat) => chat.message_id === id).parent_message
             ),
             {
                 duration: 750,
                 delay: 100,
                 smooth: true,
                 containerId: "generalChatroomOptionsHover",
-                // offset: 50, // Scrolls to element + 50 pixels down the page
+                offset: -20, // Scrolls to element + 50 pixels down the page
             }
         );
     };
