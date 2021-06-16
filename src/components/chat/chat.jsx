@@ -19,10 +19,6 @@ class Chat extends Component {
         super(props);
     }
 
-    state = {
-        isTokenFound:false,
-    }
-
     componentDidMount() {
         // const [isTokenFound, setTokenFound] = useState(false);
         getToken((input) => this.setState({ isTokenFound: input }));
@@ -37,6 +33,10 @@ class Chat extends Component {
     }
 
     state = {
+        chatID:null,
+        chatName:null,
+        chatAvatar:null,
+        isTokenFound:false,
         visible: false,
         childrenDrawer: false,
         chatList: [],
@@ -92,9 +92,11 @@ class Chat extends Component {
         });
     };
 
-    showChildrenDrawer = (chatID) => {
+    showChildrenDrawer = (chatID,chatName,chatAvatar) => {
         this.setState({
             chatID,
+            chatName,
+            chatAvatar,
             childrenDrawer: true,
         });
     };
@@ -169,7 +171,11 @@ class Chat extends Component {
                     {this.state.chatList.map((chat) => (
                         <div
                             id={"chat-item-" + chat.chat_id}
-                            onClick={() => this.showChildrenDrawer(chat.chat_id)}
+                            onClick={() => this.showChildrenDrawer(
+                                chat.chat_id,chat.first_name + " " + chat.last_name,chat.image
+                                ? chat.image
+                                : "https://homepages.cae.wisc.edu/~ece533/images/zelda.png"
+                            )}
                         >
                             <ChatCard
                                 chat_id={chat.chat_id}
@@ -211,7 +217,7 @@ class Chat extends Component {
                         onClose={this.onChildrenDrawerClose}
                         visible={this.state.childrenDrawer}
                     >
-                        <Chatroom chatID={this.state.chatID}/>
+                        <Chatroom chatName={this.state.chatName} chatAvatar={this.state.chatAvatar} chatID={this.state.chatID}/>
                     </Drawer>
                 </Drawer>
             </div>

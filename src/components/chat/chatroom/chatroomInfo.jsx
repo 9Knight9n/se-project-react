@@ -6,10 +6,20 @@ class ChatroomInfo extends Component {
     super(props);
     this.state = {
       chat_id: this.props.chat_id,
-      src: userImg,
-      firstName: "Ali",
-      lastname: "Ebadi",
+      src: this.props.chatAvatar,
+      chatName: this.props.chatName,
+      // firstName: "Ali",
+      // lastname: "Ebadi",
     };
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.chat_id !== this.props.chat_id)
+      this.setState({chat_id: this.props.chat_id});
+    if (prevProps.chatName !== this.props.chatName)
+      this.setState({chatName: this.props.chatName});
+    if (prevProps.chatAvatar !== this.props.chatAvatar)
+      this.setState({src: this.props.chatAvatar});
   }
 
   render() {
@@ -26,7 +36,7 @@ class ChatroomInfo extends Component {
               />
               <div className="col-9">
                 <h4 data-testid="chatInfo-name">
-                  {this.state.firstName + " " + this.state.lastname}
+                  {this.props.chatName}
                 </h4>
                 <medium data-testid="chatInfo-lastSeen">
                   Last seen in 10-03-2021 at 09:09

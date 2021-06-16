@@ -32,6 +32,8 @@ class Chatroom extends Component {
         super(props);
         this.state = {
             chatID: this.props.chatID,
+            chatName: this.props.chatName,
+            chatAvatar: this.props.chatAvatar,
             chatroomInfoHeight: 0,
             isOwner: false,
             replying: null,
@@ -48,6 +50,9 @@ class Chatroom extends Component {
     }
 
     async componentDidMount() {
+        console.log(this.props.chatName)
+        console.log(this.props.chatAvatar)
+        console.log(this.props.chatID)
         this.setState({
             chatroomInfoHeight: document.getElementById("chatroom-info").offsetHeight,
         });
@@ -66,6 +71,10 @@ class Chatroom extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.chatID !== this.props.chatID)
             this.setState({chatID: this.props.chatID});
+        if (prevProps.chatName !== this.props.chatName)
+            this.setState({chatName: this.props.chatName});
+        if (prevProps.chatAvatar !== this.props.chatAvatar)
+            this.setState({chatAvatar: this.props.chatAvatar});
     }
 
     async componentWillUnmount() {
@@ -233,7 +242,7 @@ class Chatroom extends Component {
                             className="chat-chatroomInfo"
                             style={{backgroundColor: "transparent"}}
                         >
-                            <ChatroomInfo data-testid="chat-chatInfo" chat_id={5}/>
+                            <ChatroomInfo chat_id={this.state.chatID} chatName={this.state.chatName} chatAvatar={this.state.chatAvatar} data-testid="chat-chatInfo"/>
                         </div>
                         <div
                             className="d-flex flex-row"
