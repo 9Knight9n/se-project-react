@@ -2,10 +2,11 @@
 /*    background-color: #31404f !important;*/
 /*}*/
 
-.ant-descriptions-row > th, .ant-descriptions-row > td{
-    padding-bottom : 5px !important;
+.ant-descriptions-row > th,
+.ant-descriptions-row > td {
+  padding-bottom: 5px !important;
 }
 
-.ant-card-body{
-    padding: 15px !important;
+.ant-card-body {
+  padding: 15px !important;
 }

@@ -1,50 +1,78 @@
-import React from 'react';
-import {render, screen} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import {BrowserRouter} from "react-router-dom";
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import { BrowserRouter } from "react-router-dom";
 import Search from "./search";
 
+describe("search component test", () => {
+  test("render component", () => {
+    render(
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    );
+  });
 
+  test("Title 1 render", () => {
+    render(
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    );
+    expect(screen.getByText("Tell us where:")).toBeInTheDocument();
+  });
 
+  test("Title 2 render", () => {
+    render(
+      <BrowserRouter>
+        <Search country={true} />
+      </BrowserRouter>
+    );
+    expect(screen.getByText("Showing search results for:")).toBeInTheDocument();
+  });
 
-describe('search component test', () => {
-    test('render component', () => {
-        render(<BrowserRouter><Search /></BrowserRouter>);
-    });
+  test("Title 3 render", () => {
+    render(
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    );
+    expect(screen.getByText("Almost there!")).toBeInTheDocument();
+  });
 
-    test('Title 1 render', () => {
-        render(<BrowserRouter><Search /></BrowserRouter>);
-        expect(screen.getByText('Tell us where:')).toBeInTheDocument();
-    });
+  test("Country select render", () => {
+    render(
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    );
+    expect(screen.getByText("Country")).toBeInTheDocument();
+  });
 
-    test('Title 2 render', () => {
-        render(<BrowserRouter><Search country={true}/></BrowserRouter>);
-        expect(screen.getByText('Showing search results for:')).toBeInTheDocument();
-    });
+  test("State select render", () => {
+    render(
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    );
+    expect(screen.getByText("State")).toBeInTheDocument();
+  });
 
-    test('Title 3 render', () => {
-        render(<BrowserRouter><Search /></BrowserRouter>);
-        expect(screen.getByText('Almost there!')).toBeInTheDocument();
-    });
+  test("City select render", () => {
+    render(
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    );
+    expect(screen.getByText("City")).toBeInTheDocument();
+  });
 
-    test('Country select render', () => {
-        render(<BrowserRouter><Search /></BrowserRouter>);
-        expect(screen.getByText('Country')).toBeInTheDocument();
-    });
-
-    test('State select render', () => {
-        render(<BrowserRouter><Search /></BrowserRouter>);
-        expect(screen.getByText('State')).toBeInTheDocument();
-    });
-
-    test('City select render', () => {
-        render(<BrowserRouter><Search /></BrowserRouter>);
-        expect(screen.getByText('City')).toBeInTheDocument();
-    });
-
-    test('City select render', () => {
-        render(<BrowserRouter><Search /></BrowserRouter>);
-        expect(screen.getAllByPlaceholderText('Select date').length).toBe(2);
-    });
-
+  test("City select render", () => {
+    render(
+      <BrowserRouter>
+        <Search />
+      </BrowserRouter>
+    );
+    expect(screen.getAllByPlaceholderText("Select date").length).toBe(2);
+  });
 });

@@ -1,6 +1,7 @@
 /*#search-user{*/
 /*    width: 300px;*/
 /*}*/
+
 #search-user div#bar{
     overflow-x: hidden;
     overflow-y: hidden;
@@ -73,4 +74,10 @@
 }
 #search-sub-panel2{
     overflow-x: hidden;
+}
+
+#search-user #panel{
+    z-index: 600;
+    position: absolute;
+    background-color: white;
 }
