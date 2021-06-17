@@ -20,7 +20,6 @@ import {
 } from "react-scroll";
 import "./chatroom.css";
 import ChatroomInfo from "./chatroomInfo";
-import {toSize} from "ol/size";
 import {getItem} from "../../util";
 import {connect, disConnect, listen, send} from "./socket";
 import {API_BASE_URL, API_CHAT_UPLOAD_FILE, WS_BASE_URL, WS_CHAT_URL} from "../../constants";
