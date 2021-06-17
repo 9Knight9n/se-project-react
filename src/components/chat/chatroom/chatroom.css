@@ -66,3 +66,7 @@
 .dropdown-item:hover{
     background-color: #bfbfbf;
 }
+
+#chat-upload-button .ant-upload-list-text{
+    display: none;
+}

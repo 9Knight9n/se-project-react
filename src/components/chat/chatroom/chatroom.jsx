@@ -20,10 +20,10 @@ import {
 } from "react-scroll";
 import "./chatroom.css";
 import ChatroomInfo from "./chatroomInfo";
-import {toSize} from "ol/size";
 import {getItem} from "../../util";
-import {connect, disConnect, listen, send, unListen} from "./socket";
-import {WS_BASE_URL, WS_CHAT_URL} from "../../constants";
+import {connect, disConnect, listen, send} from "./socket";
+import {API_BASE_URL, API_CHAT_UPLOAD_FILE, WS_BASE_URL, WS_CHAT_URL} from "../../constants";
+import {Progress, Upload} from "antd";
 
 let rws = null;
 
@@ -31,6 +31,7 @@ class Chatroom extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            uploading:false,
             chatID: this.props.chatID,
             chatName: this.props.chatName,
             chatAvatar: this.props.chatAvatar,
@@ -45,6 +46,7 @@ class Chatroom extends Component {
             inputRef: React.createRef(),
             chats: [],
             inputHeight: 37,
+            file:null,
         };
         // this.loadQuestions=this.loadQuestions.bind(this)
     }
@@ -99,7 +101,12 @@ class Chatroom extends Component {
             });
             this.setState({chats: temp});
         } else if (obj.message === "fetch successfully") {
-            this.setState({chats: obj.data});
+            this.setState({chats: obj.data},()=>scroll.scrollToBottom( {
+                duration: 0,
+                delay: 0,
+                smooth: false,
+                containerId: 'generalChatroomOptionsHover',
+                offset: 50}));
             console.log(obj.data);
         }else if (obj.message === "update message successfully") {
             for (let k=0;k<this.state.chats.length;k++)
@@ -107,10 +114,30 @@ class Chatroom extends Component {
                 if (this.state.chats[k].message_id === obj.data.message_id)
                 {
                     // temp[k] = obj.data
-                    this.setState({chats: [...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length-1)]});
+                    this.setState({chats: [...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length)]});
                     // console.log('test:'+[...this.state.chats.slice(0,k),obj.data,...this.state.chats.slice(k+1,this.state.chats.length-1)])
                     // console.log(temp)
                     break;
+                }
+                if(k===this.state.chats.length-1)
+                {
+                    this.setState({chats:[...this.state.chats,obj.data]})
+                    let scrollContainer = document.getElementById(
+                        "generalChatroomOptionsHover"
+                    );
+                    if (
+                        Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop - 150) <=
+                        scrollContainer.clientHeight
+                    )
+                    {
+                        scroll.scrollToBottom({
+                            duration: 750,
+                            delay: 100,
+                            smooth: true,
+                            containerId: "generalChatroomOptionsHover",
+                            offset: 50,
+                        });
+                    }
                 }
             }
         } else if (obj.message === "authenticate needed.") {
@@ -126,25 +153,36 @@ class Chatroom extends Component {
             //     smooth: true,
             //     containerId: 'scroll-container-discussion',
             //     offset: 50});
+            this.setState({chats: [...this.state.chats, obj.data]});
             let scrollContainer = document.getElementById(
-                "scroll-container-discussion"
+                "generalChatroomOptionsHover"
             );
             // get scroll position in px
+
+            // console.log(Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop -100) +'<='+scrollContainer.clientHeight)
             if (
-                Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop) <=
+                Math.floor(scrollContainer.scrollHeight - scrollContainer.scrollTop - 150) <=
                 scrollContainer.clientHeight
-            ) {
+            )
+            {
                 scroll.scrollToBottom({
                     duration: 750,
                     delay: 100,
                     smooth: true,
-                    containerId: "scroll-container-discussion",
+                    containerId: "generalChatroomOptionsHover",
                     offset: 50,
                 });
             }
-            this.setState({chats: [...this.state.chats, obj.data]});
         }
     };
+
+    sendFile = async (id) =>{
+        await send(rws, {
+            // text:this.state.inputRef.input.value,
+            message_id: id,
+            type: "update",
+        });
+    }
 
     sendMessage = async () => {
         if (this.state.inputRef.input.value === "") {
@@ -202,26 +240,25 @@ class Chatroom extends Component {
         this.setState({replying: id, replyingTo: username});
     };
 
-    onReplyMessageClick = (id) => {
+    onReplyMessageClick = (e,id) => {
+        console.log('ran :',id,' to ',this.state.chats.find((chat) => chat.message_id === id).parent_message)
+        e.stopPropagation()
         // console.log(this.state.chats.find(chat => chat.message_id === id))
         scroller.scrollTo(
             "chat".concat(
-                this.state.chats.find((chat) => chat.message_id === id).replyTo
+                this.state.chats.find((chat) => chat.message_id === id).parent_message
             ),
             {
                 duration: 750,
                 delay: 100,
                 smooth: true,
-                containerId: "scroll-container-discussion",
-                // offset: 50, // Scrolls to element + 50 pixels down the page
+                containerId: "generalChatroomOptionsHover",
+                offset: -20, // Scrolls to element + 50 pixels down the page
             }
         );
     };
 
     getRepliedMessageText = (chat) => {
-        console.log(chat.parent_message);
-        console.log("===");
-        console.log(this.state.chats[0].message_id);
         let RepliedMessage = this.state.chats.find(
             (reply) => reply.message_id === chat.parent_message
         );
@@ -229,7 +266,29 @@ class Chatroom extends Component {
         return null;
     };
 
+    onChange= (info) => {
+        console.log(info)
+        this.setState({uploading:(info.file.status === 'uploading'),file:info.file})
+        if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+            toast.success(`${info.file.name} file uploaded successfully`);
+            console.log(info.file)
+            this.sendFile(info.file.response.data.message_id)
+        } else if (info.file.status === 'error') {
+            toast.error(`${info.file.name} file upload failed.`);
+        }
+    }
+
     render() {
+        const props = {
+            name: 'file',
+            action: API_BASE_URL+API_CHAT_UPLOAD_FILE,
+            headers: {
+                Authorization: "Token ".concat(getItem("user-token")),
+            },
+        };
         return (
             <React.Fragment>
                 <div className="w-100 h-100 p-0 mt-3">
@@ -260,7 +319,7 @@ class Chatroom extends Component {
                                     }}
                                 >
                                     <div
-                                        className="mb-2"
+                                        className="mb-2 h-100"
                                         id="generalChatroomOptionsHover"
                                         style={{
                                             height: "100%",
@@ -283,7 +342,8 @@ class Chatroom extends Component {
                                                     <MessageBox
                                                         data={
                                                             // "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.zip"
-                                                            null
+                                                            // null
+                                                            chat.file?API_BASE_URL.substr(0,API_BASE_URL.length-1)+chat.file:null
                                                         }
                                                         reply={this.reply}
                                                         message_id={chat.message_id}
@@ -408,7 +468,7 @@ class Chatroom extends Component {
                                                     </button>
                                                     <b>
                                                         {this.state.replying?
-                                                        'Replying to '+this.state.replyingTo:
+                                                        'Replying ':
                                                         'Editing'}
                                                     </b>
                                                 </div>
@@ -464,25 +524,32 @@ class Chatroom extends Component {
                                                     </div>
                                                 }
                                                 leftButtons={
-                                                    <button
-                                                        data-testid="chat-fileButton"
-                                                        className="btn btn-primary transparent-button mt-auto shadow-none ml-2 mb-2"
-                                                        // {this.state.inputValue.length===0?disabled:""}
-                                                        // onClick={this.sendMessage}
-                                                        style={{color: "white", padding: "0"}}
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width="35"
-                                                            height="35"
-                                                            fill="lightseagreen"
-                                                            className="bi bi-plus-circle-fill"
-                                                            viewBox="0 0 16 16"
-                                                        >
-                                                            <path
-                                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-                                                        </svg>
-                                                    </button>
+                                                    <React.Fragment>
+                                                    <Progress onClick={()=>console.log(this.state)} className={'ml-2 mb-2'} style={{fontSize:'12px',display:this.state.uploading?null:'none'}} width={'35px'} type="circle" percent={this.state.file?Math.floor(this.state.file.percent):0}  />
+                                                    <div id={'chat-upload-button'} style={{display:this.state.uploading?'none':null}}>
+                                                        <Upload onChange={this.onChange} data={{'chat_id':this.state.chatID}} {...props}>
+                                                            <button
+                                                                data-testid="chat-fileButton"
+                                                                className="btn btn-primary transparent-button mt-auto shadow-none ml-2 mb-2"
+                                                                // {this.state.inputValue.length===0?disabled:""}
+                                                                // onClick={this.sendMessage}
+                                                                style={{color: "white", padding: "0"}}
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    width="35"
+                                                                    height="35"
+                                                                    fill="lightseagreen"
+                                                                    className="bi bi-plus-circle-fill"
+                                                                    viewBox="0 0 16 16"
+                                                                >
+                                                                    <path
+                                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                                                                </svg>
+                                                            </button>
+                                                        </Upload>
+                                                    </div>
+                                                    </React.Fragment>
                                                 }
                                             />
                                         </div>

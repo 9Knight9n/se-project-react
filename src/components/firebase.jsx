@@ -13,8 +13,20 @@ const firebaseConfig = {
     measurementId: "G-5RQ6W8YPE5",
 };
 
-firebase.initializeApp(firebaseConfig);
+// if (!firebase)
+    firebase.initializeApp(firebaseConfig);
+
 const messaging = firebase.messaging();
+
+
+export const onMessageListener = () =>
+    new Promise((resolve) => {
+        messaging.onMessage((payload) => {
+            console.log(payload)
+            resolve(payload);
+        });
+    });
+
 
 export const getToken = (setTokenFound) => {
     return messaging.getToken({vapidKey: WEB_PUSH_CERTIFICATE}).then((currentToken) => {

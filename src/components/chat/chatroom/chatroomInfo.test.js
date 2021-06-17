@@ -38,12 +38,12 @@ test("name is available", () => {
   expect(name).toBeInTheDocument();
 });
 
-test("name is available", () => {
-  render(
-    <Router>
-      <ChatroomInfo />
-    </Router>
-  );
-  const lastSeen = screen.getByTestId("chatInfo-lastSeen");
-  expect(lastSeen).toBeInTheDocument();
-});
+// test("lastSeen is available", () => {
+//   render(
+//     <Router>
+//       <ChatroomInfo />
+//     </Router>
+//   );
+//   const lastSeen = screen.getByTestId("chatInfo-lastSeen");
+//   expect(lastSeen).toBeInTheDocument();
+// });

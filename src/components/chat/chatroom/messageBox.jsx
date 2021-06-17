@@ -52,7 +52,7 @@ class MessageBox extends React.Component {
                     )}
                 >
                     <div className="w-100"
-                         onClick={() => window.open(this.state.data, '_blank')}>
+                         onClick={() =>{if (this.state.isFile) window.open(this.state.data, '_blank')}}>
                         <MB
                             id={this.state.id}
                             position={this.state.isOwner ? "right" : "left"}
@@ -83,8 +83,8 @@ class MessageBox extends React.Component {
                             dateString={this.state.dateString}
                             // onReplyClick={()=>this.props.reply(this.state.message_id,this.state.title)}
                             // onClick
-                            onReplyMessageClick={() =>
-                                this.props.onReplyMessageClick(this.state.message_id)
+                            onReplyMessageClick={(event) =>
+                                this.props.onReplyMessageClick(event,this.state.message_id)
                             }
 
                             data={

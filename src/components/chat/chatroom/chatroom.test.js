@@ -8,51 +8,31 @@ import Chatroom from "./chatroom";
 import { BrowserRouter as Router } from "react-router-dom";
 afterEach(cleanup);
 
-it("Renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDom.render(
-    <Router>
-      <Chatroom />
-    </Router>,
-    div
-  );
-});
+// test("Input is available", () => {
+//   render(
+//     <Router>
+//       <Chatroom />
+//     </Router>
+//   );
+//   const input = screen.getByTestId("chat-input");
+//   expect(input).toBeInTheDocument();
+// });
 
-test("Chat info is available", () => {
-  render(
-    <Router>
-      <Chatroom />
-    </Router>
-  );
-  const chatInfo = screen.getByTestId("chat-chatInfo");
-  expect(chatInfo).toBeInTheDocument();
-});
+// test("Input is handling long text", () => {
+//   render(
+//     <Router>
+//       <Chatroom />
+//     </Router>
+//   );
+//   const input = screen.getByTestId("chat-input");
+//   userEvent.type(
+//     "aaaa assaaacmkvz?<|(&^&%\nflpg\n5n5n5\n5\n5n5\n5n5gaaaaaaa xas#@)#O_^TI#@K$@<#!$)#!()WDKWS(DKWSDsaas23!@~@~"
+//   );
+//   expect(input).toBeValid();
+//   expect(input).toBeVisible();
+// });
 
-test("Input is available", () => {
-  render(
-    <Router>
-      <Chatroom />
-    </Router>
-  );
-  const input = screen.getByTestId("chat-input");
-  expect(input).toBeInTheDocument();
-});
-
-test("Input is handling long text", () => {
-  render(
-    <Router>
-      <Chatroom />
-    </Router>
-  );
-  const input = screen.getByTestId("chat-input");
-  userEvent.type(
-    "aaaa assaaacmkvz?<|(&^&%\nflpg\n5n5n5\n5\n5n5\n5n5gaaaaaaa xas#@)#O_^TI#@K$@<#!$)#!()WDKWS(DKWSDsaas23!@~@~"
-  );
-  expect(input).toBeValid();
-  expect(input).toBeVisible();
-});
-
-test("Input is available", () => {
+test("Input button 1 is available", () => {
   render(
     <Router>
       <Chatroom />
@@ -62,7 +42,7 @@ test("Input is available", () => {
   expect(sendButton).toBeInTheDocument();
 });
 
-test("Input is available", () => {
+test("Input button 2 is available", () => {
   render(
     <Router>
       <Chatroom />

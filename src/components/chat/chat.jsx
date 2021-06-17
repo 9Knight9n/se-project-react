@@ -6,10 +6,10 @@ import ChatCard from "./chatCard";
 import Chatroom from "./chatroom/chatroom";
 import SearchUser from "../homepage/searchUser/searchUser";
 import axios from "axios";
-import {API_GET_SHOW_CHAT_INFO_AND_LIST} from "../constants";
+import {API_BASE_URL, API_GET_SHOW_CHAT_INFO_AND_LIST} from "../constants";
 import {getItem} from "../util";
 import {toast} from "react-toastify";
-import {getToken} from "../firebase";
+import {getMessaging, getToken, onMessageListener} from "../firebase";
 
 
 
@@ -19,12 +19,20 @@ class Chat extends Component {
         super(props);
     }
 
+
     componentDidMount() {
+
+        onMessageListener().then(payload => {
+            // setShow(true);
+            // setNotification({title: payload.notification.title, body: payload.notification.body})
+            console.log(payload);
+        }).catch(err => console.log('failed: ', err));
         // toast.error('firebase ro back naresoond,')
         // toast.error('file saat 9 shab ghable eraee resid')
         // toast.error('last seen ke aslan naresid')
         // const [isTokenFound, setTokenFound] = useState(false);
         getToken((input) => this.setState({ isTokenFound: input }));
+        // getMessaging().onMessage((obj)=>console.log(obj))
         // firebase.initializeApp(firebaseConfig);
         // firebase.analytics();
         // messaging = firebase.messaging();
@@ -80,12 +88,14 @@ class Chat extends Component {
         );
     };
 
-    openChat = () => {
+    openChat = async () => {
         if (sessionStorage.getItem("goToChat")) {
-            if (document.getElementById(sessionStorage.getItem("goToChat"))) {
-                document.getElementById(sessionStorage.getItem("goToChat")).click();
-                sessionStorage.removeItem("goToChat");
+            while (!document.getElementById(sessionStorage.getItem("goToChat")))
+            {
+                await this.loadChatList()
             }
+            document.getElementById(sessionStorage.getItem("goToChat")).click();
+            sessionStorage.removeItem("goToChat");
         }
     };
 
@@ -176,7 +186,7 @@ class Chat extends Component {
                             id={"chat-item-" + chat.chat_id}
                             onClick={() => this.showChildrenDrawer(
                                 chat.chat_id,chat.first_name + " " + chat.last_name,chat.image
-                                ? chat.image
+                                ? API_BASE_URL.substr(0,API_BASE_URL.length-1)+chat.image
                                 : "https://homepages.cae.wisc.edu/~ece533/images/zelda.png"
                             )}
                         >
@@ -184,7 +194,7 @@ class Chat extends Component {
                                 chat_id={chat.chat_id}
                                 avatar={
                                     chat.image
-                                        ? chat.image
+                                        ? API_BASE_URL.substr(0,API_BASE_URL.length-1)+chat.image
                                         : "https://homepages.cae.wisc.edu/~ece533/images/zelda.png"
                                 }
                                 name={chat.first_name + " " + chat.last_name}
