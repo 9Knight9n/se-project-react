@@ -933,6 +933,9 @@ class VillaProfile extends Component {
           <Switch>
             <Route path="/villa/villaProfile/reserve/">
               <Reserve
+                mapWidth={"100%"}
+                mapHeight={"60vh"}
+                mapInitial={{ center: center, zoom: 11 }}
                 place_id={this.state.id}
                 place_address={this.state.place_address}
                 owner_phoneNumber={this.state.owner_phoneNumber}
