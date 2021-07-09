@@ -1,12 +1,15 @@
 /*@Sajad*/
 
-
-.navbar-light .navbar-nav .nav-link {
-    color: black;
+.fixed-top {
+  z-index: 400 !important;
 }
 
-.bg-navbar{
-    background-color: #8eacbbab !important;
+.navbar-light .navbar-nav .nav-link {
+  color: black;
+}
+
+.bg-navbar {
+  background-color: #8eacbbab !important;
 }
 
 .navigation-clean-button {

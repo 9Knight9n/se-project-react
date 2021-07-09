@@ -193,11 +193,21 @@ class Address extends Component {
     onCitySelect = (e) =>{
         let selectedindex = e.target.options.selectedIndex;
         let cityCode = e.target.options[selectedindex].getAttribute("cityCode");
+        let citiesOfCountry = csc.getCitiesOfCountry(this.state.countryCode)
+        for (let i=0; i<citiesOfCountry.length ;i++)
+        {
+            console.log("citycode : " + e.target.value + " cities of country : " + citiesOfCountry[i].name)
+            if (e.target.value === citiesOfCountry[i].name)
+            {
+                sessionStorage.setItem("place-latitude", citiesOfCountry[i].latitude)
+                sessionStorage.setItem("place-longitude", citiesOfCountry[i].longitude)
+                console.log("location :    " + sessionStorage.getItem("place-latitude") + " "+sessionStorage.getItem("place-longitude"))
+            }
+        }
         this.setState({
             city: e.target.value,
             cityCode: cityCode,
         })
-
     }
 
     render() { 
@@ -214,7 +224,7 @@ class Address extends Component {
                         <div className="address-main">
                             <b>Enter your place address details here.</b>
                             <div className="address-form">
-                                <form>
+                                <Form>
                                     <div className="row mb-4 mt-2">
                                         <div className="col-md-12">
                                             <label htmlFor="address-country">Country :</label>
@@ -354,7 +364,7 @@ class Address extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                </form>
+                                </Form>
                             </div>
                         </div>
                 </Modal.Body>
@@ -363,7 +373,7 @@ class Address extends Component {
                             <button className={'ml-auto btn btn-outline-secondary'}>Back</button>
                         </Link>
                         <button onClick={this.handleSubmit} className={'ml-auto btn btn-outline-primary'}>Next</button>
-                        <Link id="goToPhotos" to={'/hosting/addaccommodation/photos/'} >
+                        <Link id="goToPhotos" to={'/hosting/addaccommodation/location/'} >
                         </Link>
                 </Modal.Footer>
             </React.Fragment>

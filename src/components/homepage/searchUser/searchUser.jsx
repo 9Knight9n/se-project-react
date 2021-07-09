@@ -48,7 +48,7 @@ class SearchUser extends Component {
             input.select();
         }
         else
-            this.setState({panelOpened:false,searchInput:""})
+            this.setState({panelOpened:false,searchInput:"",notFound:false})
         this.setState({focused:!this.state.focused})
 
     }
@@ -56,7 +56,7 @@ class SearchUser extends Component {
 
     handleInputChange=(event)=>{
         let input = event.target.value;
-        this.setState({searchInput:input})
+        this.setState({searchInput:input,notFound:false})
         if (input && input.length >0)
         {
             // toast.dismiss()
@@ -83,7 +83,7 @@ class SearchUser extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-        this.setState({notFound:(response.length===0)})
+        this.setState({notFound:(!response || response.length===0)})
         this.setState({suggestions:response})
 
         // this.setState({notFound:0})
@@ -94,21 +94,21 @@ class SearchUser extends Component {
     render() {
         return (
             <Fragment>
-                <div id='search-user' className="d-flex flex-row col-xl-4 col-lg-6 col-md-8 col-sm-12">
-                    <div style={{width:'inherit'}}>
+                <div id='search-user' className="d-flex flex-row w-100">
+                    <div style={{width:'inherit',position:'relative'}}>
                         <div id='bar' className={"ml-auto d-flex flex-row-reverse".concat(this.state.focused?" active ":"")}>
                             <input value={this.state.searchInput}
                                    onChange={this.handleInputChange}
                                    className=" form-control shadow-none" placeholder="Search" id="search-input-field"/>
                         </div>
-                        <div id='panel' className={"mt-2 ".concat(this.state.panelOpened?" active":"")}>
+                        <div id='panel' className={"mt-2 w-100".concat(this.state.panelOpened?" active":"")}>
                             <div id='search-sub-panel1' className={"ml-3 mr-3 mt-3".concat(this.state.panelOpened?" ":" display-none")}>
                                 {/*<EllipsisToolTip options={ellipsisToolTipOptions}>*/}
                                 {/*    {this.state.suggestions.length>0?*/}
                                 {/*    "users matching ".concat(this.state.searchInput)*/}
                                 {/*    :"can't find any user matching ".concat(this.state.searchInput)}*/}
                                 {/*</EllipsisToolTip>*/}
-                                {this.state.suggestions.length===0 ?
+                                {!this.state.suggestions || this.state.suggestions.length===0 ?
                                     (this.state.notFound?
                                     <p>
                                         No user found.
@@ -123,7 +123,7 @@ class SearchUser extends Component {
                                     :""}
                             </div>
                             <div id='search-sub-panel2' className={"search-result".concat((this.state.suggestions && this.state.suggestions.length>0 && this.state.searchInput !== "")?" active":"")}>
-                                {this.state.panelOpened?
+                                {this.state.panelOpened && this.state.suggestions?
                                 this.state.suggestions.map(sug =>
                                         <SearchUserResult email={sug.email} profile={sug.image} last_name={sug.last_name}
                                                           isFriend={sug.isFriend} first_name={sug.first_name}/>
@@ -134,7 +134,7 @@ class SearchUser extends Component {
                     </div>
 
                     <button onClick={this.handleSearch}
-                            className="shadow-none rounded-circle d-flex flex-row
+                            className="shadow-none rounded-circle d-flex flex-row button-hover
                                     transparent-button btn-outline-primary">
                         {this.state.focused?
                         <svg xmlns="http://www.w3.org/2000/svg" width="27px" height="27px" fill="currentColor"
