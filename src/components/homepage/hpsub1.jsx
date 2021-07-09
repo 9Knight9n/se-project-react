@@ -280,8 +280,9 @@ class HPSub1 extends Component {
               <RMap
                 width={"100%"}
                 height={"50vh"}
-                initial={{ center: center, zoom: 10 }}
+                initial={{ center: center, zoom: 11 }}
                 onMoveEnd={this.setCenterOnMove}
+                maxZoom={11}
               >
                 <ROSM />
                 <RControl.RCustom>

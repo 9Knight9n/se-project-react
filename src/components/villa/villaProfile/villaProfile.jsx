@@ -16,6 +16,7 @@ import hairD from "../../../assets/img/hairdryer.png";
 import { fromLonLat, toLonLat } from "ol/proj";
 import { Coordinate } from "ol/coordinate";
 import { Point } from "ol/geom";
+import { Dropdown } from "react-bootstrap";
 import "ol/ol.css";
 import {
   RContext,
@@ -75,6 +76,7 @@ class VillaProfile extends Component {
       owner_phoneNumber: null,
       owner_id: 0,
       isFavorite: false,
+      isOwner: false,
       facilities: [
         {
           src: (
@@ -562,8 +564,9 @@ class VillaProfile extends Component {
       place_address: data.address,
       owner_phoneNumber: data.phone_number,
       owner_id: data.user_id,
+      isOwner:
+        parseInt(data.user_id) === parseInt(getItem("user-id")) ? true : false,
     });
-
     this.mapGoTo(data.latitude, data.longitude);
 
     let array = [];
@@ -586,7 +589,11 @@ class VillaProfile extends Component {
   }
 
   handleFavorite = (action) => {
-    console.log("action : " + action);
+    if (action === "add") {
+      console.log("add");
+    } else if (action === "remove") {
+      console.log("remove");
+    }
   };
 
   async startChat() {
@@ -620,6 +627,22 @@ class VillaProfile extends Component {
     }
   }
 
+  handleReserve = (action) => {
+    if (action === "reserve") {
+      document.getElementById("reserve-component").click();
+    } else if (action === "cancel") {
+      console.log("canceled");
+    }
+  };
+
+  handleHide = (action) => {
+    if (action === "hide") {
+      console.log("hide");
+    } else if (action === "unhide") {
+      console.log("unhide");
+    }
+  };
+
   render() {
     return (
       <div className="villaProfile-main ml-4 mr-4">
@@ -639,6 +662,66 @@ class VillaProfile extends Component {
                   ", " +
                   this.state.placeCity}
               </h6>
+              <Dropdown>
+                <Dropdown.Toggle
+                  className={"btn shadow-none transparent-button"}
+                  id="dropdown-basic"
+                >
+                  <svg
+                    width="15px"
+                    height="15px"
+                    viewBox="0 0 16 16"
+                    class="bi bi-three-dots-vertical"
+                    fill="black"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+                    />
+                  </svg>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="dropDown">
+                  {this.state.isOwner ? (
+                    <Dropdown.Item
+                      as="button"
+                      onClick={() =>
+                        this.handleHide(this.state.isHide ? "unhide" : "hide")
+                      }
+                    >
+                      {this.state.isHide ? "Unhide" : "Hide place"}
+                      Hide
+                    </Dropdown.Item>
+                  ) : (
+                    ""
+                  )}
+
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() =>
+                      this.handleReserve(
+                        this.state.isReserved ? "cancel" : "reserve"
+                      )
+                    }
+                  >
+                    {this.state.isReserved ? "Cancel trip" : "Reserve place"}
+                  </Dropdown.Item>
+
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() =>
+                      this.handleFavorite(
+                        this.state.isFavorite ? "remove" : "add"
+                      )
+                    }
+                  >
+                    {this.state.isFavorite
+                      ? "Add to favorites"
+                      : "Remove from favorites"}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </div>
         </div>
@@ -717,8 +800,7 @@ class VillaProfile extends Component {
                 </div>
 
                 <div className="col-xl-3 col-lg-2 col-md-2 col-sm-3 col-xs-2">
-                  {parseInt(this.state.owner_id) ===
-                  parseInt(getItem("user-id")) ? null : (
+                  {this.state.isOwner ? null : (
                     <button
                       onClick={this.startChat}
                       className="btn btn-primary"
@@ -913,14 +995,25 @@ class VillaProfile extends Component {
 
           <div className="villaProfile-reservation row mt-4 mb-5">
             <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-              {parseInt(this.state.owner_id) ===
-              parseInt(getItem("user-id")) ? (
-                ""
-              ) : (
-                <Link to="/villa/villaProfile/reserve/1/">
-                  <button className="btn btn-primary">Reserve</button>
-                </Link>
-              )}
+              <button
+                disabled={this.state.isOwner ? true : false}
+                className="btn btn-primary"
+                onClick={() =>
+                  this.handleReserve(
+                    this.state.isReserved ? "cancel" : "reserve"
+                  )
+                }
+              >
+                {this.state.isReserved && !this.state.isOwner
+                  ? "Reserve"
+                  : this.state.isReserved && !this.state.isOwner
+                  ? "Cancel"
+                  : "Reserve"}
+              </button>
+              <Link
+                id="reserve-component"
+                to="/villa/villaProfile/reserve/1/"
+              ></Link>
               <button
                 onClick={() =>
                   this.handleFavorite(!this.state.isFavorite ? "add" : "remove")
