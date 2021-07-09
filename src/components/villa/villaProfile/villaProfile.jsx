@@ -843,8 +843,7 @@ class VillaProfile extends Component {
                     center: center,
                     zoom: 11,
                   }}
-                  noDefaultControls={this.state.isReserved ? false : true}
-                  noDefaultInteractions={this.state.isReserved ? false : true}
+                  maxZoom={11}
                 >
                   <ROSM />
                   <RControl.RCustom>
