@@ -914,10 +914,14 @@ class VillaProfile extends Component {
 
           <div className="villaProfile-reservation row mt-4 mb-5">
             <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-              <Link to="/villa/villaProfile/reserve/1/">
-                <button className="btn btn-primary">Reserve</button>
-              </Link>
-
+              {parseInt(this.state.owner_id) ===
+              parseInt(getItem("user-id")) ? (
+                ""
+              ) : (
+                <Link to="/villa/villaProfile/reserve/1/">
+                  <button className="btn btn-primary">Reserve</button>
+                </Link>
+              )}
               <button
                 onClick={() =>
                   this.handleFavorite(!this.state.isFavorite ? "add" : "remove")
