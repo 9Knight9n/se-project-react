@@ -66,12 +66,11 @@ class VillaProfile extends Component {
       availableFacilities: [],
       placeOwner: "",
       id: null,
-      isReserved: true,
       owner_image: "",
       fixed_rules: [],
       host_rules: [],
       location: [0, 0],
-      isReserved: true,
+      isReserved: false,
       place_address: null,
       owner_phoneNumber: null,
       owner_id: 0,
@@ -842,9 +841,10 @@ class VillaProfile extends Component {
                   height={"60vh"}
                   initial={{
                     center: center,
-                    zoom: 5,
-                    maxZoom: 10,
+                    zoom: 11,
                   }}
+                  noDefaultControls={this.state.isReserved ? false : true}
+                  noDefaultInteractions={this.state.isReserved ? false : true}
                 >
                   <ROSM />
                   <RControl.RCustom>
