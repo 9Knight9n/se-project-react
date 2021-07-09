@@ -69,9 +69,6 @@ class Reserve extends Component {
 
           <Route path="/villa/villaProfile/reserve/4/">
             <Reserve4
-              mapWidth={this.props.mapWidth}
-              mapHeight={this.props.mapHeight}
-              mapInitial={this.props.mapInitial}
               place_address={this.props.place_address}
               owner_phoneNumber={this.props.owner_phoneNumber}
               exit={this.exit}

@@ -6,8 +6,7 @@ import { Form } from "react-bootstrap";
 import { DatePicker, Space } from "antd";
 import { STORAGE_KEY } from "../../constants";
 import { ToastContainer, toast } from "react-toastify";
-import { fromLonLat } from "ol/proj";
-import { RMap, ROSM } from "rlayers";
+
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
 const { size } = 20;
@@ -94,15 +93,6 @@ class Reserve2 extends Component {
                     <b> {this.props.place_address}</b>
                   </div>
                 </div>
-              </div>
-              <div className={"mr-5 ml-5 villaProfile-map"}>
-                <RMap
-                  width={this.props.mapWidth}
-                  height={this.props.mapHeight}
-                  initial={this.props.mapInitial}
-                >
-                  <ROSM />
-                </RMap>
               </div>
             </Form>
           </Modal.Body>
