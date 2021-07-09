@@ -67,6 +67,19 @@
   font-size: 16px;
 }
 
+.location-address {
+  background-color: #ffffff;
+  font-size: 14px;
+  padding-inline-end: 0.5rem;
+  padding-inline-start: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  /* padding: 4%; */
+  /* padding-right: 10%; */
+  width: 100%;
+  border-radius: 10%;
+}
+
 @media screen and (min-width: 1440px) {
   .villaProfile-facilityIcons {
     max-width: 24% !important;
