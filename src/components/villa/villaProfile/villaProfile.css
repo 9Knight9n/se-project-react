@@ -54,8 +54,11 @@
   transform: scale(1.1);
   background-color: rgb(127, 127, 221);
 }
+/* .villaProfile-favorite-btn {
+  width: 40%;
+} */
 .villaProfile-reserveButton button {
-  width: 50%;
+  width: 40%;
 }
 
 .villaProfile-facilityIcons {

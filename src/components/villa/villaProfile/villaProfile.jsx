@@ -38,6 +38,7 @@ import {
   API_START_CHAT,
 } from "../../constants";
 import Reserve1 from "../reservation/reserve1";
+import { none } from "ol/centerconstraint";
 
 let center = fromLonLat([-90.108862, 29.909324]);
 
@@ -70,8 +71,11 @@ class VillaProfile extends Component {
       fixed_rules: [],
       host_rules: [],
       location: [0, 0],
+      isReserved: true,
       place_address: null,
       owner_phoneNumber: null,
+      owner_id: 0,
+      isFavorite: false,
       facilities: [
         {
           src: (
@@ -558,6 +562,7 @@ class VillaProfile extends Component {
       location: [data.latitude, data.longitude],
       place_address: data.address,
       owner_phoneNumber: data.phone_number,
+      owner_id: data.user_id,
     });
 
     this.mapGoTo(data.latitude, data.longitude);
@@ -580,6 +585,10 @@ class VillaProfile extends Component {
     center = fromLonLat([x, y]);
     document.getElementById("map-go-to-villaProfile").click();
   }
+
+  handleFavorite = (action) => {
+    console.log("action : " + action);
+  };
 
   async startChat() {
     let FormData = require("form-data");
@@ -709,9 +718,15 @@ class VillaProfile extends Component {
                 </div>
 
                 <div className="col-xl-3 col-lg-2 col-md-2 col-sm-3 col-xs-2">
-                  <button onClick={this.startChat} className="btn btn-primary">
-                    Start chat
-                  </button>
+                  {parseInt(this.state.owner_id) ===
+                  parseInt(getItem("user-id")) ? null : (
+                    <button
+                      onClick={this.startChat}
+                      className="btn btn-primary"
+                    >
+                      Start chat
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -825,7 +840,11 @@ class VillaProfile extends Component {
                 <RMap
                   width={"100%"}
                   height={"60vh"}
-                  initial={{ center: center, zoom: 9 }}
+                  initial={{
+                    center: center,
+                    zoom: 5,
+                    maxZoom: 10,
+                  }}
                 >
                   <ROSM />
                   <RControl.RCustom>
@@ -853,18 +872,10 @@ class VillaProfile extends Component {
                           .getView()
                           .fit(e.target.getGeometry().getExtent(), {
                             duration: 250,
-                            maxZoom: 15,
+                            maxZoom: 10,
                           })
                       }
-                    >
-                      {this.state.isReserved ? (
-                        <ROverlay className="location-address">
-                          {this.state.place_address}
-                        </ROverlay>
-                      ) : (
-                        ""
-                      )}
-                    </RFeature>
+                    ></RFeature>
                   </RLayerVector>
                 </RMap>
               </div>
@@ -906,6 +917,17 @@ class VillaProfile extends Component {
               <Link to="/villa/villaProfile/reserve/1/">
                 <button className="btn btn-primary">Reserve</button>
               </Link>
+
+              <button
+                onClick={() =>
+                  this.handleFavorite(!this.state.isFavorite ? "add" : "remove")
+                }
+                className="btn btn-outline-secondary villaProfile-favorite-btn ml-5"
+              >
+                {!this.state.isFavorite
+                  ? "Add to favorites"
+                  : "Remove from favorites"}
+              </button>
             </div>
           </div>
           <Switch>
