@@ -17,6 +17,7 @@ import { fromLonLat, toLonLat } from "ol/proj";
 import { Coordinate } from "ol/coordinate";
 import { Point } from "ol/geom";
 import { Dropdown } from "react-bootstrap";
+import { FiMenu } from "react-icons/fi";
 import "ol/ol.css";
 import {
   RContext,
@@ -74,7 +75,7 @@ class VillaProfile extends Component {
       isReserved: false,
       place_address: null,
       owner_phoneNumber: null,
-      owner_id: 0,
+      owner_id: null,
       isFavorite: false,
       isOwner: false,
       facilities: [
@@ -566,6 +567,7 @@ class VillaProfile extends Component {
       owner_id: data.user_id,
       isOwner:
         parseInt(data.user_id) === parseInt(getItem("user-id")) ? true : false,
+      visible: data.visible,
     });
     this.mapGoTo(data.latitude, data.longitude);
 
@@ -591,8 +593,10 @@ class VillaProfile extends Component {
   handleFavorite = (action) => {
     if (action === "add") {
       console.log("add");
+      this.setState({ isFavorite: !this.state.isFavorite });
     } else if (action === "remove") {
       console.log("remove");
+      this.setState({ isFavorite: !this.state.isFavorite });
     }
   };
 
@@ -632,17 +636,22 @@ class VillaProfile extends Component {
       document.getElementById("reserve-component").click();
     } else if (action === "cancel") {
       console.log("canceled");
+      this.setState({ isReserved: !this.state.isReserved });
     }
   };
 
   handleHide = (action) => {
     if (action === "hide") {
       console.log("hide");
+      this.setState({ visible: !this.state.visible });
     } else if (action === "unhide") {
       console.log("unhide");
+      this.setState({ visible: !this.state.visible });
     }
   };
-
+  handleReservationBtn = () => {
+    this.setState({ isReserved: !this.state.isReserved });
+  };
   render() {
     return (
       <div className="villaProfile-main ml-4 mr-4">
@@ -651,8 +660,8 @@ class VillaProfile extends Component {
           show={this.state.showGallary}
           exit={this.exit}
         />
-        <div className="villaProfile-header">
-          <div className="villaProfile-title">
+        <div className="villaProfile-header row">
+          <div className="villaProfile-title col-10">
             <h4>{this.state.placeName}</h4>
             <div className="villaProfile-subTitle">
               <h6>
@@ -662,41 +671,31 @@ class VillaProfile extends Component {
                   ", " +
                   this.state.placeCity}
               </h6>
-              <Dropdown>
-                <Dropdown.Toggle
-                  className={"btn shadow-none transparent-button"}
-                  id="dropdown-basic"
-                >
-                  <svg
-                    width="15px"
-                    height="15px"
-                    viewBox="0 0 16 16"
-                    class="bi bi-three-dots-vertical"
-                    fill="black"
-                    xmlns="http://www.w3.org/2000/svg"
+            </div>
+          </div>
+          <div className="col-2 d-flex justify-content-center">
+            <Dropdown>
+              <Dropdown.Toggle
+                className={"btn shadow-none d-flex justify-content-center"}
+                id="dropdown-basic"
+              >
+                <FiMenu color="black" />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className="dropDown">
+                {this.state.isOwner ? (
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() =>
+                      this.handleHide(this.state.visible ? "hide" : "unhide")
+                    }
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
-                    />
-                  </svg>
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu className="dropDown">
-                  {this.state.isOwner ? (
-                    <Dropdown.Item
-                      as="button"
-                      onClick={() =>
-                        this.handleHide(this.state.isHide ? "unhide" : "hide")
-                      }
-                    >
-                      {this.state.isHide ? "Unhide" : "Hide place"}
-                      Hide
-                    </Dropdown.Item>
-                  ) : (
-                    ""
-                  )}
-
+                    {this.state.visible ? "Hide place" : "Unhide place"}
+                  </Dropdown.Item>
+                ) : (
+                  ""
+                )}
+                {!this.state.isOwner ? (
                   <Dropdown.Item
                     as="button"
                     onClick={() =>
@@ -707,22 +706,24 @@ class VillaProfile extends Component {
                   >
                     {this.state.isReserved ? "Cancel trip" : "Reserve place"}
                   </Dropdown.Item>
+                ) : (
+                  ""
+                )}
 
-                  <Dropdown.Item
-                    as="button"
-                    onClick={() =>
-                      this.handleFavorite(
-                        this.state.isFavorite ? "remove" : "add"
-                      )
-                    }
-                  >
-                    {this.state.isFavorite
-                      ? "Add to favorites"
-                      : "Remove from favorites"}
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
+                <Dropdown.Item
+                  as="button"
+                  onClick={() =>
+                    this.handleFavorite(
+                      this.state.isFavorite ? "remove" : "add"
+                    )
+                  }
+                >
+                  {this.state.isFavorite
+                    ? "Add to favorites"
+                    : "Remove from favorites"}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
 
@@ -800,14 +801,13 @@ class VillaProfile extends Component {
                 </div>
 
                 <div className="col-xl-3 col-lg-2 col-md-2 col-sm-3 col-xs-2">
-                  {this.state.isOwner ? null : (
-                    <button
-                      onClick={this.startChat}
-                      className="btn btn-primary"
-                    >
-                      Start chat
-                    </button>
-                  )}
+                  <button
+                    onClick={this.startChat}
+                    className="btn btn-primary"
+                    disabled={this.state.isOwner}
+                  >
+                    Start chat
+                  </button>
                 </div>
               </div>
 
@@ -1038,6 +1038,7 @@ class VillaProfile extends Component {
                 placeOwner={this.state.placeOwner}
                 placeMaxCapacity={this.state.placeMaxCapacity}
                 PlacePrice={this.state.placePrice}
+                handleReservationBtn={this.handleReservationBtn}
               />
             </Route>
             <Route path="/villa/villaProfile/reserve/1/">

@@ -72,6 +72,7 @@ class Reserve2 extends Component {
         });
 
       if (res) {
+        this.props.handleReservationBtn();
         sessionStorage.removeItem("travel-startDate");
         sessionStorage.removeItem("travel-endDate");
         sessionStorage.removeItem("add-villa-description");
