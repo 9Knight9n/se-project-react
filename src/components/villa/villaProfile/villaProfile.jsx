@@ -38,9 +38,11 @@ import {
   API_GET_FIXED_RULES,
   API_GET_show_chat_info_and_list,
   API_START_CHAT,
+  API_ADD_REMOVE_FAVORITE_VILLA,
 } from "../../constants";
 import Reserve1 from "../reservation/reserve1";
 import { none } from "ol/centerconstraint";
+import { toast } from "react-toastify";
 
 let center = fromLonLat([-90.108862, 29.909324]);
 
@@ -72,12 +74,12 @@ class VillaProfile extends Component {
       fixed_rules: [],
       host_rules: [],
       location: [0, 0],
-      isReserved: false,
+      isReserved: null,
       place_address: null,
       owner_phoneNumber: null,
       owner_id: null,
-      isFavorite: false,
-      isOwner: false,
+      isFavorite: null,
+      isOwner: null,
       facilities: [
         {
           src: (
@@ -568,6 +570,8 @@ class VillaProfile extends Component {
       isOwner:
         parseInt(data.user_id) === parseInt(getItem("user-id")) ? true : false,
       visible: data.visible,
+      isReserved: data.reserved,
+      isFavorite: data.like,
     });
     this.mapGoTo(data.latitude, data.longitude);
 
@@ -590,13 +594,60 @@ class VillaProfile extends Component {
     document.getElementById("map-go-to-villaProfile").click();
   }
 
-  handleFavorite = (action) => {
+  handleFavorite = async (action) => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("id");
     if (action === "add") {
       console.log("add");
       this.setState({ isFavorite: !this.state.isFavorite });
+      let FormData = require("form-data");
+      let data = new FormData();
+      data.append("villa_id", id);
+      data.append("like", true);
+
+      await axios
+        .post(API_ADD_REMOVE_FAVORITE_VILLA, data, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("added to favorite");
+            toast.success("Villa added to your favorites");
+          } else {
+            console.log("unknown status");
+            toast.info("A problem happened");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else if (action === "remove") {
-      console.log("remove");
       this.setState({ isFavorite: !this.state.isFavorite });
+      let FormData = require("form-data");
+      let data = new FormData();
+      data.append("villa_id", id);
+      data.append("like", false);
+      await axios
+        .post(API_ADD_REMOVE_FAVORITE_VILLA, data, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("removed from favorite");
+            toast.info("Villa removed from your favorites");
+          } else {
+            console.log("unknown status");
+            toast.info("A problem happened");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -631,7 +682,7 @@ class VillaProfile extends Component {
     }
   }
 
-  handleReserve = (action) => {
+  handleReserve = async (action) => {
     if (action === "reserve") {
       document.getElementById("reserve-component").click();
     } else if (action === "cancel") {
@@ -640,13 +691,58 @@ class VillaProfile extends Component {
     }
   };
 
-  handleHide = (action) => {
+  handleHide = async (action) => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("id");
     if (action === "hide") {
-      console.log("hide");
       this.setState({ visible: !this.state.visible });
+
+      await axios
+        .get(API_VILLA_PROFILE_URL, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+          params: {
+            villa_id: id,
+            visible: false,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("villa hidded");
+            toast.success("Villa is not hided anymore");
+          } else {
+            console.log("unknown status");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else if (action === "unhide") {
-      console.log("unhide");
       this.setState({ visible: !this.state.visible });
+
+      await axios
+        .get(API_VILLA_PROFILE_URL, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+          params: {
+            villa_id: id,
+            visible: true,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("villa unhidded");
+            toast.success("Villa is not hided anymore");
+          } else {
+            console.log("unknown status");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
   handleReservationBtn = () => {
@@ -714,11 +810,11 @@ class VillaProfile extends Component {
                   as="button"
                   onClick={() =>
                     this.handleFavorite(
-                      this.state.isFavorite ? "remove" : "add"
+                      !this.state.isFavorite ? "add" : "remove"
                     )
                   }
                 >
-                  {this.state.isFavorite
+                  {!this.state.isFavorite
                     ? "Add to favorites"
                     : "Remove from favorites"}
                 </Dropdown.Item>
