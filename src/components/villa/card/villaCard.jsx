@@ -26,7 +26,7 @@ class VillaCard extends Component {
 
   render() {
     return (
-      <div
+      <div className={'ml-1 mr-1'}
         onClick={() =>
           document
             .getElementById("go-to-villa-id-".concat(this.props.id))

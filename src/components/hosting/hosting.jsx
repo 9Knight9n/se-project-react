@@ -9,12 +9,35 @@ import SearchUser from "../homepage/searchUser/searchUser";
 import host_bg from "../../assets/img/homepage-bg-5.jpg";
 import {Element as SElement} from "react-scroll";
 import VillaCarousel from "../villa/card/villaCarousel";
-import { API_USER_HOSTED, API_USER_RESERVED} from "../constants";
+import {API_USER_HOSTED, API_USER_RESERVED, STORAGE_KEY} from "../constants";
+import {getViewport} from "../util";
 
 class Hosting extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.handleScreenSizeChange = this.handleScreenSizeChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.handleScreenSizeChange(getViewport());
+        document.addEventListener(STORAGE_KEY + "screen-size-changed", (event) =>
+            this.handleScreenSizeChange(event.detail)
+        );
+    }
+
+    state = {
+        cardsSize: 1,
+    }
+    handleScreenSizeChange(size) {
+        let cards = 1;
+        if (size === "xl") cards = 4;
+        else if (size === "lg") cards = 2;
+        else if (size === "md") cards = 2;
+        else if (size === "sm") cards = 2;
+        this.setState({cardsSize: cards});
+        // console.log('new size ',cards)
+        this.forceUpdate();
     }
 
     render() {
@@ -61,8 +84,8 @@ class Hosting extends Component {
                             </div>
                         </div>
 
-                        <VillaCarousel url={API_USER_HOSTED} cardSize={parseInt(this.state.cardsSize)} title={'Hosting places:'} noNum={true}/>
-                        <VillaCarousel url={API_USER_RESERVED} cardSize={parseInt(this.state.cardsSize)} title={'Reserved places:'} noNum={true}/>
+                        <VillaCarousel url={API_USER_HOSTED} cardSize={parseInt(this.state.cardsSize)} title={'Hosting places:'}/>
+                        <VillaCarousel url={API_USER_RESERVED} cardSize={parseInt(this.state.cardsSize)} title={'Reserved places:'}/>
 
                     </Route>
                 </Switch>

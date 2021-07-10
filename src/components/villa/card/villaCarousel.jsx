@@ -30,7 +30,8 @@ class VillaCarousel extends Component {
         if (prevProps.cardSize !== this.props.cardSize)
         {
             cardSize = this.props.cardSize;
-            this.renderList();
+            // if(this.state.cards.length>0)
+            //     this.renderList();
             // this.setState({cardSize:2},this.renderList)
         }
     }
@@ -52,18 +53,17 @@ class VillaCarousel extends Component {
         let response = await axios(config)
             .then(function (response) {
                 // console.log(JSON.stringify(response.data));
-                console.log(response.data)
                 return response.data.data;
             })
             .catch(function (error) {
                 console.log(error);
                 return [];
             });
-        if (response.length>0)
-            this.setState({cards: response,empty:false},this.renderList);
-        else
-            this.setState({empty:true})
         console.log("============",url,response)
+        // if (response.length>0)
+            this.setState({cards: response});
+        // else
+        //     this.setState({cards:[]})
     }
 
 
@@ -79,10 +79,13 @@ class VillaCarousel extends Component {
             // console.log(typeof this.state.cardSize)
             // console.log(this.state.cardSize)
             // console.log(-5 < parseInt(this.state.cardsSize))
+            console.log(cardSize)
             for (let z = 0; z < cardSize; z++) {
-                // console.log('inside2')
+                console.log('inside2')
+                console.log(this.state.cards)
                 let card = this.state.cards[k * cardSize + z];
-                if (!card) break;
+                if (!card) continue;
+                console.log('passed')
                 // console.log(card)
                 cardGroups = [
                     ...cardGroups,
@@ -108,7 +111,7 @@ class VillaCarousel extends Component {
                                 borderRadius: "0.5rem",
                                 width: "fit-content",
                             }}
-                            className={"pr-5 pl-5 pb-5 pt-4"}
+                            className={"pr-5 pl-5 pb-5 pt-4 mr-auto ml-auto"}
                         >
                             <div
                                 style={{width: 320 * this.state.cardsSize}}
@@ -121,8 +124,8 @@ class VillaCarousel extends Component {
                 ];
         }
         console.log("++++",arr)
-        this.setState({arr})
-        // return arr;
+        // this.setState({arr})
+        return arr;
     }
 
 
@@ -139,17 +142,31 @@ class VillaCarousel extends Component {
                 >
                     {this.props.title}
                 </h4>
-                {this.state.empty?
+                {this.state.cards.length===0?
                     <Empty className={"mt-4 mb-5 ml-auto mr-auto"} style={{color:"black"}} />:
                     <Carousel
+                        nextIcon={
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                 className="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                            </svg>
+                        }
+                        prevIcon={
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="black"
+                                 className="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                            </svg>
+                        }
                         interval={null}
                         slide={true}
                         indicators={false}
                         style={{width: "100%"}}
                         className={" mb-auto"}
                     >
-                        {this.state.arr.map((card) => card)}
-                        {/*{this.renderList().map((card) => card)}*/}
+                        {/*{this.state.arr.map((card) => card)}*/}
+                        {this.renderList().map((card) => card)}
                     </Carousel>
                 }
             </div>
