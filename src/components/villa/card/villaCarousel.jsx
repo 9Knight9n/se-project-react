@@ -44,7 +44,7 @@ class VillaCarousel extends Component {
     async loadCardList(url) {
         let config = {
             method: "get",
-            url: url,
+            url: url.toString().concat(this.props.addNum?"?number_of_villa=100":"") ,
             headers: {
                 Authorization: "Token " + getItem("user-token"),
             },
@@ -52,6 +52,7 @@ class VillaCarousel extends Component {
         let response = await axios(config)
             .then(function (response) {
                 // console.log(JSON.stringify(response.data));
+                console.log(response.data)
                 return response.data.data;
             })
             .catch(function (error) {
@@ -62,7 +63,7 @@ class VillaCarousel extends Component {
             this.setState({cards: response,empty:false},this.renderList);
         else
             this.setState({empty:true})
-        console.log("============",response)
+        console.log("============",url,response)
     }
 
 
@@ -129,17 +130,17 @@ class VillaCarousel extends Component {
         return (
             <div
                 className={"w-100 pt-4 mb-5 d-flex ml-auto mr-auto d-flex flex-column"}
-                style={{background: "#364d79",}}
+                style={{background: "#f4f4f4"}}
                 // style={{width: "fit-content"}}
             >
                 <h4
                     className={" mt-auto ml-4"}
-                    style={{fontFamily: "cursive",color:"white"}}
+                    style={{fontFamily: "cursive",color:"black"}}
                 >
                     {this.props.title}
                 </h4>
                 {this.state.empty?
-                    <Empty className={"mt-4 mb-5 ml-auto mr-auto"} style={{color:"white"}} />:
+                    <Empty className={"mt-4 mb-5 ml-auto mr-auto"} style={{color:"black"}} />:
                     <Carousel
                         interval={null}
                         slide={true}
