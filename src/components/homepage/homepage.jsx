@@ -122,8 +122,8 @@ class Homepage extends Component {
         document.addEventListener(STORAGE_KEY + "screen-size-changed", (event) =>
             this.handleScreenSizeChange(event.detail)
         );
-        document.addEventListener("scroll", this.leftOptionsSelectedShow);
-        sessionStorage.removeItem("scroll-hp-sub");
+        // document.addEventListener("scroll", this.leftOptionsSelectedShow);
+        // sessionStorage.removeItem("scroll-hp-sub");
         // await this.loadCardList(API_TOP_RATED_VILLA);
         // await this.loadCardList(API_MOST_REGISTERED_VILLA);
         // let config = {
@@ -412,30 +412,30 @@ class Homepage extends Component {
         return (
             // <div id='homepage' className="d-flex flex-column" style={{overflowY: 'auto'}}>
             <React.Fragment>
-                {/*<div*/}
-                {/*    style={{*/}
-                {/*        position: "fixed",*/}
-                {/*        height: "100vh",*/}
-                {/*        top: "40%",*/}
-                {/*        zIndex: "400",*/}
-                {/*    }}*/}
-                {/*    className={"ml-3 d-flex flex-column"}*/}
-                {/*>*/}
-                {/*    {this.state.subPages.map((subPage) => (*/}
-                {/*        <div*/}
-                {/*            key={subPage.id}*/}
-                {/*            onClick={() => this.leftMenuClicked(subPage.id)}*/}
-                {/*        >*/}
-                {/*            {subPage.id === this.state.subPages.length - 1*/}
-                {/*                ? subPage.id === this.state.selectedSubPage*/}
-                {/*                    ? left_option_arrow_selected*/}
-                {/*                    : left_option_arrow*/}
-                {/*                : subPage.id === this.state.selectedSubPage*/}
-                {/*                    ? left_option_selected*/}
-                {/*                    : left_option}*/}
-                {/*        </div>*/}
-                {/*    ))}*/}
-                {/*</div>*/}
+                <div
+                    style={{
+                        position: "fixed",
+                        height: "100vh",
+                        top: "40%",
+                        zIndex: "400",
+                    }}
+                    className={"ml-3 d-flex flex-column"}
+                >
+                    {this.state.subPages.map((subPage) => (
+                        <div
+                            key={subPage.id}
+                            onClick={() => this.leftMenuClicked(subPage.id)}
+                        >
+                            {subPage.id === this.state.subPages.length - 1
+                                ? subPage.id === this.state.selectedSubPage
+                                    ? left_option_arrow_selected
+                                    : left_option_arrow
+                                : subPage.id === this.state.selectedSubPage
+                                    ? left_option_selected
+                                    : left_option}
+                        </div>
+                    ))}
+                </div>
                 <div
                     id={"hp-sub"}
                     className={"w-100"}
@@ -454,13 +454,13 @@ class Homepage extends Component {
                             <Search/>
                         </div>
                     </SElement>
-                    {/*<SElement*/}
-                    {/*    id={"hp-sub-1"}*/}
-                    {/*    name={"hp-sub-1"}*/}
-                    {/*    className={"homepage-div-bg d-flex w-100"}*/}
-                    {/*>*/}
-                    {/*    <HPSub1/>*/}
-                    {/*</SElement>*/}
+                    <SElement
+                        id={"hp-sub-1"}
+                        name={"hp-sub-1"}
+                        className={"homepage-div-bg d-flex w-100"}
+                    >
+                        <HPSub1/>
+                    </SElement>
                     <SElement
                         id={"hp-sub-2"}
                         name={"hp-sub-2"}

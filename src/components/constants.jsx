@@ -36,8 +36,8 @@ export const API_START_CHAT = "api/chat/add/";
 export const API_CHAT_UPLOAD_FILE = "api/chat/upload/";
 export const API_REGISTER_FIREBASE_TOKEN = "device/add/";
 
-export const WS_BASE_URL = "ws://172.17.3.149:3000/";
-// export const WS_BASE_URL = "ws://localhost:8000/";
+// export const WS_BASE_URL = "ws://172.17.3.149:3000/";
+export const WS_BASE_URL = "ws://localhost:8000/";
 export const WS_CHAT_URL = "ws/api/chat/";
 
 export const WEB_PUSH_CERTIFICATE =
