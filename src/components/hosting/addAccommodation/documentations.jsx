@@ -201,10 +201,10 @@ class Documentations extends Component {
   SaveFileListToSessionStorage = () => {
     sessionStorage.setItem(
       "add-villa-uploaded-doc-residence",
-      JSON.stringify(this.state.fileList1)
+      JSON.stringify(this.state.fileList2)
     );
     console.log(sessionStorage.getItem("add-villa-uploaded-doc-residence"));
-    // sessionStorage.setItem('add-villa-uploaded-doc-person', JSON.stringify(this.state.fileList2));
+    sessionStorage.setItem('add-villa-uploaded-doc-person', JSON.stringify(this.state.fileList1));
   };
 
   // loadFileList=()=>{

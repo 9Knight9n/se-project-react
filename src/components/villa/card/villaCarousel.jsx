@@ -44,7 +44,7 @@ class VillaCarousel extends Component {
     async loadCardList(url) {
         let config = {
             method: "get",
-            url: url + "?number_of_villa=100",
+            url: url,
             headers: {
                 Authorization: "Token " + getItem("user-token"),
             },

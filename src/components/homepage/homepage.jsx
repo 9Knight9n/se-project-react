@@ -475,7 +475,7 @@ class Homepage extends Component {
                             </h4>
                             <div
                                 style={{
-                                    background: "url(" + host_bg + ")",
+                                    backgroundImage: "url(" + host_bg + ")",
                                     borderRadius: "1.5rem",
                                 }}
                                 className={
