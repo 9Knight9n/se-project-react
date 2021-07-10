@@ -1,5 +1,10 @@
 /*@Sajad*/
 
+.dropdown-divider{
+  background-color: gray;
+  height: 2px;
+}
+
 .fixed-top {
   z-index: 400 !important;
 }
