@@ -6,6 +6,7 @@ import "./auth.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import {
+  getItem,
   saveCredentials,
   showMemoryVariables,
   validateEmail,
@@ -13,8 +14,8 @@ import {
 } from "../../../util";
 import {
   API_EMAIL_CHECK_URL,
-  API_EMAIL_VERIFY_URL,
-  API_SIGNUP_URL,
+  API_EMAIL_VERIFY_URL, API_REGISTER_FIREBASE_TOKEN,
+  API_SIGNUP_URL, STORAGE_KEY,
   VERIFY_LENGTH,
 } from "../../../constants";
 import axios from "axios";
@@ -729,6 +730,28 @@ class Signup extends Component {
         // console.log(error)
         // return this.setState({connectionError:true,loading:false})
       });
+    if(getItem('user-token'))
+    {
+      let data = new FormData();
+      data.append('token', sessionStorage.getItem(STORAGE_KEY+'firebase-token'));
+
+      var config = {
+        method: 'post',
+        url: API_REGISTER_FIREBASE_TOKEN,
+        headers: {
+          Authorization: "Token ".concat(getItem("user-token")),
+        },
+        data : data
+      };
+
+      axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
   }
 
   checkPass() {

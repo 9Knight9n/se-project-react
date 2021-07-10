@@ -12,7 +12,7 @@ class Footer extends Component {
     return (
       <footer className="mt-auto">
         <div className="container">
-          <h1 className="text-center">Footer</h1>
+          <h1 style={{color:'white'}} className="text-center">Footer</h1>
           <hr />
           <ul className="list-inline" id="text_decoration">
             <li>
@@ -71,7 +71,7 @@ class Footer extends Component {
               </svg>
             </a>
           </p>
-          <p className="text-center company-name">Project name @ 2021</p>
+          <p className="text-center company-name">Sweet Home 2021</p>
         </div>
       </footer>
     );

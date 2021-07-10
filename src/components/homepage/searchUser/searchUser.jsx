@@ -27,13 +27,14 @@ class SearchUser extends Component {
     }
 
     componentDidMount(){
-        document.addEventListener("mousedown",this.handleClick,false)
+        // document.addEventListener("mousedown",this.handleClick,true)
     }
     componentWillUnmount(){
-        document.removeEventListener("mousedown",this.handleClick,false)
+        // document.removeEventListener("mousedown",this.handleClick,false)
     }
 
     handleClick=(e)=>{
+        console.log(e.target)
         if(!document.getElementById("search-user").contains(e.target))
         {
             this.setState({focused:false,panelOpened:false,searchInput:""})
@@ -43,7 +44,7 @@ class SearchUser extends Component {
     handleSearch=()=>{
         if(!this.state.focused)
         {
-            let input = document.getElementById('search-input-field');
+            let input = document.getElementById('search-input-field-chat');
             input.focus();
             input.select();
         }
@@ -85,6 +86,7 @@ class SearchUser extends Component {
             });
         this.setState({notFound:(!response || response.length===0)})
         this.setState({suggestions:response})
+        console.log(response)
 
         // this.setState({notFound:0})
 
@@ -99,7 +101,7 @@ class SearchUser extends Component {
                         <div id='bar' className={"ml-auto d-flex flex-row-reverse".concat(this.state.focused?" active ":"")}>
                             <input value={this.state.searchInput}
                                    onChange={this.handleInputChange}
-                                   className=" form-control shadow-none" placeholder="Search" id="search-input-field"/>
+                                   className=" form-control shadow-none search-user" placeholder="Search" id="search-input-field-chat"/>
                         </div>
                         <div id='panel' className={"mt-2 w-100".concat(this.state.panelOpened?" active":"")}>
                             <div id='search-sub-panel1' className={"ml-3 mr-3 mt-3".concat(this.state.panelOpened?" ":" display-none")}>
@@ -125,7 +127,7 @@ class SearchUser extends Component {
                             <div id='search-sub-panel2' className={"search-result".concat((this.state.suggestions && this.state.suggestions.length>0 && this.state.searchInput !== "")?" active":"")}>
                                 {this.state.panelOpened && this.state.suggestions?
                                 this.state.suggestions.map(sug =>
-                                        <SearchUserResult email={sug.email} profile={sug.image} last_name={sug.last_name}
+                                        <SearchUserResult userid={sug.user_id} email={sug.email} profile={sug.image} last_name={sug.last_name}
                                                           isFriend={sug.isFriend} first_name={sug.first_name}/>
                                     ):""}
 
