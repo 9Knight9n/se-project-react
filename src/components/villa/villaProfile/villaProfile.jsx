@@ -962,7 +962,7 @@ class VillaProfile extends Component {
                     center: center,
                     zoom: 11,
                   }}
-                  maxZoom={11}
+                  maxZoom={this.state.isReserved ? "" : 11}
                 >
                   <ROSM />
                   <RControl.RCustom>
@@ -993,7 +993,17 @@ class VillaProfile extends Component {
                             maxZoom: 10,
                           })
                       }
-                    ></RFeature>
+                    >
+                      {this.state.isReserved ? (
+                        <ROverlay className="villaProfile-fullAddress-onMap">
+                          {/* hi, this is, along, full address, for a villa, in
+                          overlay */}
+                          {this.state.place_address}
+                        </ROverlay>
+                      ) : (
+                        ""
+                      )}
+                    </RFeature>
                   </RLayerVector>
                 </RMap>
               </div>
