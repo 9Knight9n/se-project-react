@@ -123,7 +123,7 @@ class Nav_bar extends Component {
                         Settings
                       </Dropdown.Item>
 
-                      <Dropdown.Divider />
+                      <Dropdown.Divider/>
                       <Link id={"nav-drop-homepage"} to="/" />
                       <Dropdown.Item
                         className={"btn-primary shadow-none"}
@@ -133,7 +133,7 @@ class Nav_bar extends Component {
                       >
                         Homepage
                       </Dropdown.Item>
-                      <Dropdown.Divider />
+                      <Dropdown.Divider/>
 
                       <Link id={"nav-drop-hosting"} to="/Hosting/" />
                       <Dropdown.Item
@@ -145,7 +145,7 @@ class Nav_bar extends Component {
                         Hosting
                       </Dropdown.Item>
 
-                      <Dropdown.Divider />
+                      <Dropdown.Divider/>
                       <Dropdown.Item
                         style={{ color: "red" }}
                         className={"btn btn-danger shadow-none"}

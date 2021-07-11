@@ -3,13 +3,14 @@ import "./auth.css";
 import { Alert, Form, Modal, Spinner } from "react-bootstrap";
 import { Fragment } from "react";
 import {
+  getItem,
   saveCredentials,
   showMemoryVariables,
   validateEmail,
   validatePass,
 } from "../../../util";
 import axios from "axios";
-import { API_EMAIL_CHECK_URL, API_LOGIN_URL } from "../../../constants";
+import {API_EMAIL_CHECK_URL, API_LOGIN_URL, API_REGISTER_FIREBASE_TOKEN, STORAGE_KEY} from "../../../constants";
 
 class Login extends Component {
   constructor(props) {
@@ -132,6 +133,29 @@ class Login extends Component {
         // console.log(error)
         // return this.setState({connectionError:true,loading:false})
       });
+
+    if(getItem('user-token'))
+    {
+      let data = new FormData();
+      data.append('token', sessionStorage.getItem(STORAGE_KEY+'firebase-token'));
+
+      var config = {
+        method: 'post',
+        url: API_REGISTER_FIREBASE_TOKEN,
+        headers: {
+          Authorization: "Token ".concat(getItem("user-token")),
+        },
+        data : data
+      };
+
+      axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
 
     // return setTimeout(() => , 500);
   }

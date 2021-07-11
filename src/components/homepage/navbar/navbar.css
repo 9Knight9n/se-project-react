@@ -1,5 +1,10 @@
 /*@Sajad*/
 
+.dropdown-divider{
+  background-color: gray;
+  height: 2px;
+}
+
 .fixed-top {
   z-index: 400 !important;
 }
@@ -9,7 +14,7 @@
 }
 
 .bg-navbar {
-  background-color: #8eacbbab !important;
+  background-color: #8eacbbf7 !important;
 }
 
 .navigation-clean-button {

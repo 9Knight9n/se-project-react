@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import EllipsisToolTip from "ellipsis-tooltip-react-chan";
 import default_logo from '../../../assets/img/default-profile-picture.jpg'
 import {getItem} from "../../util";
-import { API_BASE_URL } from '../../constants'
+import {API_BASE_URL, API_START_CHAT} from '../../constants'
+import axios from "axios";
 const ellipsisToolTipOptions = {
     effect: "solid",
     place: "top",
@@ -11,6 +12,40 @@ const ellipsisToolTipOptions = {
 class SearchUserResult extends Component {
     constructor(props) {
         super(props);
+        console.log(getItem('user-id'))
+        console.log(this.props.userid)
+    }
+
+
+    async startChat() {
+        let FormData = require("form-data");
+        let data = new FormData();
+        data.append("contact", "1");
+        let config = {
+            method: "post",
+            url: API_START_CHAT,
+            headers: {
+                Authorization: "Token ".concat(getItem("user-token")),
+            },
+            data: data,
+        };
+
+        let chat = await axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+                return response.data.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+                return null;
+            });
+        if (chat) {
+            sessionStorage.setItem("goToChat", "chat-item-" + chat.chat_id);
+            document.getElementById("open-chat-button").click();
+            // console.log('chat-item-' + chat.chat_id)
+
+            // document.getElementById('chat-item-' + chat.chat_id).click()
+        }
     }
 
 
@@ -34,23 +69,16 @@ class SearchUserResult extends Component {
                         </small>
                     </div>
                     <div className={'ml-auto'}>
-                        <button className={'ml-auto btn transparent-button'}>
-                            {this.props.isFriend?
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                 className="bi bi-person-check" viewBox="0 0 16 16">
-                                <path
-                                    d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                                <path fill-rule="evenodd"
-                                      d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                            </svg>:
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                 className="bi bi-person-plus" viewBox="0 0 16 16">
-                                <path
-                                    d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                                <path fill-rule="evenodd"
-                                      d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-                            </svg>}
-                        </button>
+                        {parseInt(getItem('user-id'))===this.props.userid?"":
+                        <button onClick={this.startChat} className={'ml-auto btn transparent-button shadow-none'}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            className="bi bi-chat-text mt-2" viewBox="0 0 16 16">
+                            <path
+                            d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+                            <path
+                            d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8zm0 2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </button>}
                     </div>
                 </div>
             </div>

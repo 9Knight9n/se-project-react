@@ -213,7 +213,7 @@ class Search extends Component {
         <div className={"w-100 row"}>
           {/*<Space className="w-100"  direction="horizontal" size={12} >*/}
           {/*<DatePicker onChange={onChange} />*/}
-          <div className={"w-50 d-flex flex-row pr-3"}>
+          <div className={"pl-4 w-50 d-flex flex-row pr-3"}>
             <p
               className={""}
               style={{ fontFamily: "cursive", width: "fit-content" }}
@@ -369,7 +369,7 @@ class Search extends Component {
               getContainer={false}
               style={{ position: "absolute", overflow: "hidden" }}
             >
-              <h4 style={{ fontFamily: "cursive", width: "fit-content" }}>
+              <h4 className={'pt-3 pl-3'} style={{ fontFamily: "cursive", width: "fit-content" }}>
                 Almost there!
               </h4>
               {drawerContent}

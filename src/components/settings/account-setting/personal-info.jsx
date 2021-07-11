@@ -322,7 +322,6 @@ class PersonalInfo extends Component {
   render() {
     return (
       <div className="personalInfo-main">
-        <ToastContainer />
         <div className="personalInfo-avatar mt-4 mb-4">
           <IconContext.Provider value={{ color: "black", size: 100 }}>
             <div>
