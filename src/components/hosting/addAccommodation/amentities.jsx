@@ -159,6 +159,10 @@ class Amentities extends Component {
   };
 
   handleSubmit = () => {
+    if (this.state.maximumCapacity < this.state.normalCapacity) {
+      toast.info("Base capacity cannot be more than maximum capacity");
+      return;
+    }
     sessionStorage.setItem("add-villa-amentities", JSON.stringify(this.state));
     document.getElementById("goToFacilities").click();
   };
@@ -174,7 +178,7 @@ class Amentities extends Component {
             <ToastContainer />
             <div className="amentities-options">
               <div className="amentities-option mb-4 row">
-                <b className="col">Normal capacity</b>
+                <b className="col">Base capacity</b>
                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
                   <img
                     data-testid="nCapMinus"
@@ -342,7 +346,7 @@ class Amentities extends Component {
               </div>
 
               <div className="amentities-option mb-4 row">
-                <b className="col">Numebr of showers</b>
+                <b className="col">Number of showers</b>
                 <div className="col d-flex flex-row amentities-counter justify-content-xl-around">
                   <img
                     data-testid="showerMinus"

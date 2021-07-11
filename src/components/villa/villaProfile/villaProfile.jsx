@@ -16,6 +16,8 @@ import hairD from "../../../assets/img/hairdryer.png";
 import { fromLonLat, toLonLat } from "ol/proj";
 import { Coordinate } from "ol/coordinate";
 import { Point } from "ol/geom";
+import { Dropdown } from "react-bootstrap";
+import { FiMenu } from "react-icons/fi";
 import "ol/ol.css";
 import {
   RContext,
@@ -36,9 +38,11 @@ import {
   API_GET_FIXED_RULES,
   API_GET_show_chat_info_and_list,
   API_START_CHAT,
+  API_ADD_REMOVE_FAVORITE_VILLA,
 } from "../../constants";
 import Reserve1 from "../reservation/reserve1";
 import { none } from "ol/centerconstraint";
+import { toast } from "react-toastify";
 
 let center = fromLonLat([-90.108862, 29.909324]);
 
@@ -70,11 +74,12 @@ class VillaProfile extends Component {
       fixed_rules: [],
       host_rules: [],
       location: [0, 0],
-      isReserved: true,
+      isReserved: null,
       place_address: null,
       owner_phoneNumber: null,
-      owner_id: 0,
-      isFavorite: false,
+      owner_id: null,
+      isFavorite: null,
+      isOwner: null,
       facilities: [
         {
           src: (
@@ -538,8 +543,6 @@ class VillaProfile extends Component {
 
   loadData = (data) => {
     console.log("price = : " + data.price_per_night);
-    console.log("user id : " + getItem("user-id"));
-    console.log("owner id : " + data.user_id);
     this.setState({
       placeName: data.name,
       placeDescription: data.description,
@@ -564,8 +567,12 @@ class VillaProfile extends Component {
       place_address: data.address,
       owner_phoneNumber: data.phone_number,
       owner_id: data.user_id,
+      isOwner:
+        parseInt(data.user_id) === parseInt(getItem("user-id")) ? true : false,
+      visible: data.visible,
+      isReserved: data.reserved,
+      isFavorite: data.like,
     });
-
     this.mapGoTo(data.latitude, data.longitude);
 
     let array = [];
@@ -587,8 +594,61 @@ class VillaProfile extends Component {
     document.getElementById("map-go-to-villaProfile").click();
   }
 
-  handleFavorite = (action) => {
-    console.log("action : " + action);
+  handleFavorite = async (action) => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("id");
+    if (action === "add") {
+      console.log("add");
+      this.setState({ isFavorite: !this.state.isFavorite });
+      let FormData = require("form-data");
+      let data = new FormData();
+      data.append("villa_id", id);
+      data.append("like", true);
+
+      await axios
+        .post(API_ADD_REMOVE_FAVORITE_VILLA, data, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("added to favorite");
+            toast.success("Villa added to your favorites");
+          } else {
+            console.log("unknown status");
+            toast.info("A problem happened");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (action === "remove") {
+      this.setState({ isFavorite: !this.state.isFavorite });
+      let FormData = require("form-data");
+      let data = new FormData();
+      data.append("villa_id", id);
+      data.append("like", false);
+      await axios
+        .post(API_ADD_REMOVE_FAVORITE_VILLA, data, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("removed from favorite");
+            toast.info("Villa removed from your favorites");
+          } else {
+            console.log("unknown status");
+            toast.info("A problem happened");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   async startChat() {
@@ -622,6 +682,72 @@ class VillaProfile extends Component {
     }
   }
 
+  handleReserve = async (action) => {
+    if (action === "reserve") {
+      document.getElementById("reserve-component").click();
+    } else if (action === "cancel") {
+      console.log("canceled");
+      this.setState({ isReserved: !this.state.isReserved });
+    }
+  };
+
+  handleHide = async (action) => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("id");
+    if (action === "hide") {
+      this.setState({ visible: !this.state.visible });
+
+      await axios
+        .get(API_VILLA_PROFILE_URL, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+          params: {
+            villa_id: id,
+            visible: false,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("villa hidded");
+            toast.success("Villa is not hided anymore");
+          } else {
+            console.log("unknown status");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (action === "unhide") {
+      this.setState({ visible: !this.state.visible });
+
+      await axios
+        .get(API_VILLA_PROFILE_URL, {
+          headers: {
+            Authorization: "Token ".concat(getItem("user-token")),
+          },
+          params: {
+            villa_id: id,
+            visible: true,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log("villa unhidded");
+            toast.success("Villa is not hided anymore");
+          } else {
+            console.log("unknown status");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+  handleReservationBtn = () => {
+    this.setState({ isReserved: !this.state.isReserved });
+  };
   render() {
     return (
       <div className="villaProfile-main ml-4 mr-4">
@@ -630,8 +756,8 @@ class VillaProfile extends Component {
           show={this.state.showGallary}
           exit={this.exit}
         />
-        <div className="villaProfile-header">
-          <div className="villaProfile-title">
+        <div className="villaProfile-header row">
+          <div className="villaProfile-title col-10">
             <h4>{this.state.placeName}</h4>
             <div className="villaProfile-subTitle">
               <h6>
@@ -642,6 +768,58 @@ class VillaProfile extends Component {
                   this.state.placeCity}
               </h6>
             </div>
+          </div>
+          <div className="col-2 d-flex justify-content-center">
+            <Dropdown>
+              <Dropdown.Toggle
+                className={"btn shadow-none d-flex justify-content-center"}
+                id="dropdown-basic"
+              >
+                <FiMenu color="black" />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className="dropDown">
+                {this.state.isOwner ? (
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() =>
+                      this.handleHide(this.state.visible ? "hide" : "unhide")
+                    }
+                  >
+                    {this.state.visible ? "Hide place" : "Unhide place"}
+                  </Dropdown.Item>
+                ) : (
+                  ""
+                )}
+                {!this.state.isOwner ? (
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() =>
+                      this.handleReserve(
+                        this.state.isReserved ? "cancel" : "reserve"
+                      )
+                    }
+                  >
+                    {this.state.isReserved ? "Cancel trip" : "Reserve place"}
+                  </Dropdown.Item>
+                ) : (
+                  ""
+                )}
+
+                <Dropdown.Item
+                  as="button"
+                  onClick={() =>
+                    this.handleFavorite(
+                      !this.state.isFavorite ? "add" : "remove"
+                    )
+                  }
+                >
+                  {!this.state.isFavorite
+                    ? "Add to favorites"
+                    : "Remove from favorites"}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
 
@@ -719,15 +897,13 @@ class VillaProfile extends Component {
                 </div>
 
                 <div className="col-xl-3 col-lg-2 col-md-2 col-sm-3 col-xs-2">
-                  {parseInt(this.state.owner_id) ===
-                  parseInt(getItem("user-id")) ? null : (
-                    <button
-                      onClick={this.startChat}
-                      className="btn btn-primary"
-                    >
-                      Start chat
-                    </button>
-                  )}
+                  <button
+                    onClick={this.startChat}
+                    className="btn btn-primary"
+                    disabled={this.state.isOwner}
+                  >
+                    Start chat
+                  </button>
                 </div>
               </div>
 
@@ -843,9 +1019,9 @@ class VillaProfile extends Component {
                   height={"60vh"}
                   initial={{
                     center: center,
-                    zoom: 5,
-                    maxZoom: 10,
+                    zoom: 11,
                   }}
+                  maxZoom={11}
                 >
                   <ROSM />
                   <RControl.RCustom>
@@ -915,10 +1091,25 @@ class VillaProfile extends Component {
 
           <div className="villaProfile-reservation row mt-4 mb-5">
             <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-              <Link to="/villa/villaProfile/reserve/1/">
-                <button className="btn btn-primary">Reserve</button>
-              </Link>
-
+              <button
+                disabled={this.state.isOwner ? true : false}
+                className="btn btn-primary"
+                onClick={() =>
+                  this.handleReserve(
+                    this.state.isReserved ? "cancel" : "reserve"
+                  )
+                }
+              >
+                {this.state.isReserved && !this.state.isOwner
+                  ? "Reserve"
+                  : this.state.isReserved && !this.state.isOwner
+                  ? "Cancel"
+                  : "Reserve"}
+              </button>
+              <Link
+                id="reserve-component"
+                to="/villa/villaProfile/reserve/1/"
+              ></Link>
               <button
                 onClick={() =>
                   this.handleFavorite(!this.state.isFavorite ? "add" : "remove")
@@ -934,12 +1125,16 @@ class VillaProfile extends Component {
           <Switch>
             <Route path="/villa/villaProfile/reserve/">
               <Reserve
+                mapWidth={"100%"}
+                mapHeight={"60vh"}
+                mapInitial={{ center: center, zoom: 11 }}
                 place_id={this.state.id}
                 place_address={this.state.place_address}
                 owner_phoneNumber={this.state.owner_phoneNumber}
                 placeOwner={this.state.placeOwner}
                 placeMaxCapacity={this.state.placeMaxCapacity}
                 PlacePrice={this.state.placePrice}
+                handleReservationBtn={this.handleReservationBtn}
               />
             </Route>
             <Route path="/villa/villaProfile/reserve/1/">

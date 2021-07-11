@@ -163,8 +163,9 @@ class SearchPage extends Component {
             <RMap
               width={"60vw"}
               height={"50vh"}
-              initial={{ center: center, zoom: 7 }}
+              initial={{ center: center, zoom: 11 }}
               onMoveEnd={this.setCenterOnMove}
+              maxZoom={11}
             >
               <ROSM />
               <RControl.RCustom>
