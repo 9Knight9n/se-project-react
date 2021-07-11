@@ -77,8 +77,9 @@ class Chat extends Component {
         this.setState({chatList});
     };
 
-    showDrawer = () => {
+    showDrawer = async () => {
         if (!getItem("user-token")) return toast.error("you should login first. ");
+        await this.loadChatList()
         this.setState(
             {
                 visible: true,
@@ -117,6 +118,7 @@ class Chat extends Component {
         this.setState({
             childrenDrawer: false,
         });
+        this.loadChatList()
     };
 
     render() {
@@ -198,10 +200,15 @@ class Chat extends Component {
                                 }
                                 name={chat.first_name + " " + chat.last_name}
                                 lastMessage={
-                                    "some really ducking long message goes here to check whether it would collapse it or not!"
+                                    chat.last_message.file?<div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" className="bi bi-file-earmark mr-1 mb-1" viewBox="0 0 16 16">
+                                            <path
+                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                                        </svg>File</div>:chat.last_message.text
                                 }
-                                date={new Date()}
-                                unread={parseInt("5")}
+                                date={(new Date(chat.last_message.ctime) + new Date('00:4:00'))}
+                                // unread={parseInt("5")}
                             />
                         </div>
                     ))}

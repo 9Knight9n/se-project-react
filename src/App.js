@@ -3,7 +3,7 @@ import "./App.css";
 import {Component, Fragment} from "react";
 import {BrowserRouter} from "react-router-dom";
 import PageRouter from "./components/pageRouter";
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import {eventViewport, getItem} from "./components/util";
 import Chat from "./components/chat/chat";
 import {sendToken, getMessaging} from './components/firebase'
@@ -25,6 +25,23 @@ class App extends Component {
         let msg = getMessaging();
         msg.onMessage((payload)=>{
             console.log('message:',payload)
+            toast.info(<div>
+                <h4 style={{color:"white"}}>
+                    {payload.notification.title}
+                </h4>
+                <p>
+                    {payload.notification.body}
+                </p>
+                </div>
+                ,{
+                position: "top-right",
+                autoClose: false,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         });
 
         if(getItem('user-token'))

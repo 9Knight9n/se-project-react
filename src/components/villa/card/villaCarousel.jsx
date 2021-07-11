@@ -123,11 +123,11 @@ class VillaCarousel extends Component {
             // console.log(-5 < parseInt(this.state.cardsSize))
             console.log(cardSize)
             for (let z = 0; z < cardSize; z++) {
-                console.log('inside2')
+                // console.log('inside2')
                 console.log(this.state.cards)
                 let card = this.state.cards[k * cardSize + z];
                 if (!card) continue;
-                console.log('passed')
+                // console.log('passed')
                 // console.log(card)
                 cardGroups = [
                     ...cardGroups,
@@ -173,7 +173,7 @@ class VillaCarousel extends Component {
                     ,
                 ];
             }
-            console.log(cardGroups)
+            // console.log(cardGroups)
             if (cardGroups.length > 0)
                 arr = [
                     ...arr,
@@ -195,7 +195,7 @@ class VillaCarousel extends Component {
                     </Carousel.Item>,
                 ];
         }
-        console.log("++++",arr)
+        // console.log("++++",arr)
         // this.setState({arr})
         return arr;
     }
