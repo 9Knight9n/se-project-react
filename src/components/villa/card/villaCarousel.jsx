@@ -93,11 +93,11 @@ class VillaCarousel extends Component {
                         name={card.name}
                         id={card.villa_id}
                         src={API_BASE_URL.substr(0, API_BASE_URL.length - 1).concat(
-                            card.default_image_url
+                            card.default_image_url?card.default_image_url:card.images[0]
                         )}
                         addr={card.country + ", " + card.state + ", " + card.city}
                         cost={card.price_per_night}
-                        rate={card.rate__avg}
+                        rate={card.rate__avg?card.rate__avg:card.rate}
                     />,
                 ];
             }
