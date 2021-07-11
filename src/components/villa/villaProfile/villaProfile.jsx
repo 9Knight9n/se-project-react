@@ -1025,7 +1025,7 @@ class VillaProfile extends Component {
           <div className="villaProfile-reservation row mt-4 mb-5">
             <div className="col-xl-6 mt-4 villaProfile-reserveButton">
               <button
-                disabled={this.state.isOwner ? true : false}
+                disabled={!this.state.isOwner}
                 className="btn btn-primary"
                 onClick={() =>
                   this.handleReserve(

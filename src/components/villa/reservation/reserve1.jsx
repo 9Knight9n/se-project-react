@@ -243,7 +243,7 @@ class Reserve1 extends Component {
                   </label>
                   <div className="reserve-counter col-md-12 justify-content-center">
                     <div className="d-flex flex-row justify-content-start w-100">
-                      <img
+                      <img style={{width:25,height:25}}
                         data-testid="counter-icon-minus"
                         name="passangers"
                         onClick={(select, operator) =>
@@ -264,7 +264,7 @@ class Reserve1 extends Component {
                           {this.state.passangers}
                         </b>
                       </div>
-                      <img
+                      <img style={{width:25,height:25}}
                         data-testid="counter-icon-plus"
                         name="passangers"
                         onClick={(select, operator) =>
