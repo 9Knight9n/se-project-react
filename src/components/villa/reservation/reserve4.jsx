@@ -7,11 +7,15 @@ import { DatePicker, Space } from "antd";
 import { STORAGE_KEY } from "../../constants";
 import { ToastContainer, toast } from "react-toastify";
 import { fromLonLat } from "ol/proj";
-import { RMap, ROSM } from "rlayers";
+import {RFeature, RLayerVector, RMap, ROSM, ROverlay, RStyle} from "rlayers";
+import {Point} from "ol/geom";
+import locationIcon from "../../../assets/location.png";
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
 const { size } = 20;
 const now = new Date();
+
+let center = fromLonLat([-90.108862, 29.909324]);
 
 class Reserve2 extends Component {
   constructor(props) {
@@ -99,8 +103,28 @@ class Reserve2 extends Component {
                 <RMap
                   width={this.props.mapWidth}
                   height={this.props.mapHeight}
-                  initial={this.props.mapInitial}
+                  initial={{
+                    center: this.props.mapInitial.center,
+                    zoom: 11,
+                  }}
                 >
+                  <RLayerVector zIndex={10}>
+                    <RStyle.RStyle>
+                      <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} />
+                    </RStyle.RStyle>
+                    <RFeature
+                        geometry={new Point(this.props.mapInitial.center)}
+                        onClick={(e) =>
+                            e.map
+                                .getView()
+                                .fit(e.target.getGeometry().getExtent(), {
+                                  duration: 250,
+                                  zoom: 11,
+                                })
+                        }
+                    >
+                    </RFeature>
+                  </RLayerVector>
                   <ROSM />
                 </RMap>
               </div>
