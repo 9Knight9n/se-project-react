@@ -841,7 +841,7 @@ class VillaProfile extends Component {
                   <button
                     onClick={this.startChat}
                     className="btn btn-primary"
-                    disabled={!this.state.isOwner}
+                    disabled={this.state.isOwner}
                   >
                     Start chat
                   </button>
@@ -1044,7 +1044,7 @@ class VillaProfile extends Component {
             <div className="col-xl-6 mt-4 villaProfile-reserveButton">
               <Link id="reserve-component" to="/villa/villaProfile/reserve/1/">
                 <button
-                  disabled={!this.state.isOwner}
+                  disabled={this.state.isOwner}
                   className="btn btn-primary"
                 >
                   Reserve
@@ -1067,7 +1067,10 @@ class VillaProfile extends Component {
               <Reserve
                 mapWidth={"100%"}
                 mapHeight={"60vh"}
-                mapInitial={{ center: fromLonLat(this.state.location), zoom: 11 }}
+                mapInitial={{
+                  center: fromLonLat(this.state.location),
+                  zoom: 11,
+                }}
                 place_id={this.state.id}
                 place_address={this.state.place_address}
                 owner_phoneNumber={this.state.owner_phoneNumber}
