@@ -16,7 +16,7 @@ class Footer extends Component {
           <hr />
           <ul className="list-inline" id="text_decoration">
             <li>
-              <a className="decoration" href="#">
+              <a className="decoration" href="/">
                 Home
               </a>
             </li>
@@ -27,7 +27,7 @@ class Footer extends Component {
               <a href="#">About</a>
             </li>
             <li>
-              <a href="#">Terms</a>
+              <a href="/settings/terms">Terms</a>
             </li>
             <li>
               <a href="#">Privacy Policy</a>

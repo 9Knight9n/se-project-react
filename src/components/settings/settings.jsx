@@ -265,7 +265,7 @@ class Settings extends Component {
       <Router>
         <div className="setting m-0 w-100" id={"settings"}>
           <div className="setting-main d-flex row w-100">
-            <div className="setting-left justify-content-start col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-4">
+            <div style={{borderRight:'dotted 1px black'}} className="mb-5 setting-left justify-content-start col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-4">
               <ProSidebar
                 collapsed={this.state.collapsed}
                 className="setting-sideBar"
