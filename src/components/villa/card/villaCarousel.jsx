@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Carousel} from "react-bootstrap";
 import VillaCard from "./villaCard";
-import {API_BASE_URL} from "../../constants";
+import {API_BASE_URL, API_USER_HOSTED, API_USER_RESERVED} from "../../constants";
 import {getItem} from "../../util";
 import axios from "axios";
-import {Empty} from "antd";
+import {Empty, Popconfirm} from "antd";
 
 let cardSize = 0;
 
@@ -67,6 +67,26 @@ class VillaCarousel extends Component {
     }
 
 
+    hidePlace = async () =>{
+
+
+
+
+
+        await this.loadCardList(this.props.url);
+    }
+
+
+    cancelReserve = async () =>{
+
+
+
+
+
+        await this.loadCardList(this.props.url);
+    }
+
+
     renderList() {
         // console.log('////',this.state.cards)
         // console.log('////',typeof this.state.cards.length)
@@ -89,16 +109,46 @@ class VillaCarousel extends Component {
                 // console.log(card)
                 cardGroups = [
                     ...cardGroups,
-                    <VillaCard
-                        name={card.name}
-                        id={card.villa_id}
-                        src={API_BASE_URL.substr(0, API_BASE_URL.length - 1).concat(
-                            card.default_image_url?card.default_image_url:card.images[0]
-                        )}
-                        addr={card.country + ", " + card.state + ", " + card.city}
-                        cost={card.price_per_night}
-                        rate={card.rate__avg?card.rate__avg:card.rate}
-                    />,
+                    <div className={'d-flex flex-column'}>
+                        <VillaCard
+                            name={card.name}
+                            id={card.villa_id}
+                            src={API_BASE_URL.substr(0, API_BASE_URL.length - 1).concat(
+                                card.default_image_url?card.default_image_url:card.images[0]
+                            )}
+                            addr={card.country + ", " + card.state + ", " + card.city}
+                            cost={card.price_per_night}
+                            rate={card.rate__avg?card.rate__avg:card.rate}
+                        />
+                        {this.props.url===API_USER_HOSTED?
+                            <Popconfirm
+                                title="Are you sure to hide this place?"
+                                onConfirm={()=>this.hidePlace(card.villa_id)}
+                                okText="Yes"
+                                cancelText="No"
+                                placement="bottom"
+                            >
+                                <button className={'btn btn-secondary p-1 ml-auto mr-auto '} style={{width:"98%"}}>
+                                    Hide place
+                                </button>
+                            </Popconfirm>
+                            :
+                        this.props.url===API_USER_RESERVED?
+                            <Popconfirm
+                                title="Are you sure to cancel this reservation?"
+                                onConfirm={()=>this.cancelReserve(card.register_id)}
+                                okText="Yes"
+                                cancelText="No"
+                                placement="bottom"
+                            >
+                                <button className={'btn btn-warning p-1 ml-auto mr-auto '} style={{width:"98%"}}>
+                                    Cancel reservation
+                                </button>
+                            </Popconfirm>
+                            :""
+                        }
+                    </div>
+                    ,
                 ];
             }
             console.log(cardGroups)
@@ -137,7 +187,7 @@ class VillaCarousel extends Component {
                 // style={{width: "fit-content"}}
             >
                 <h4
-                    className={" mt-auto ml-4"}
+                    className={" mt-auto ml-5"}
                     style={{fontFamily: "cursive",color:"black"}}
                 >
                     {this.props.title}
