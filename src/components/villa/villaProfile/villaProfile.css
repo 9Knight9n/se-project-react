@@ -102,6 +102,17 @@
 .villaProfile-map {
   border: 2px solid #8f8ff8;
 }
+.title {
+  min-width: 30%;
+  max-width: 95%;
+}
+/* .villaProfile-favorite-icon {
+  max-width: 5%;
+}
+.villaProfile-favorite-icon :hover {
+  cursor: pointer;
+  scale: 1.5;
+} */
 
 .dropdown-toggle::after {
   align-self: center;

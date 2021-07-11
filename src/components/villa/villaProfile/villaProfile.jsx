@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./villaProfile.css";
 import sampleProfileImg from "../../../assets/img/default-profile-picture.jpg";
-import plusImg from "../../../assets/img/plus.png";
-import minusImg from "../../../assets/img/minus.png";
 import { Link, Route, Switch } from "react-router-dom";
 import "date-fns";
 import Reserve from "../reservation/reserve";
@@ -690,9 +688,6 @@ class VillaProfile extends Component {
       this.setState({ isReserved: !this.state.isReserved });
     }
   };
-  handleReservationBtn = () => {
-    this.setState({ isReserved: !this.state.isReserved });
-  };
   render() {
     return (
       <div className="villaProfile-main ml-4 mr-4">
@@ -704,6 +699,19 @@ class VillaProfile extends Component {
         <div className="villaProfile-header row">
           <div className="villaProfile-title col-10">
             <h4>{this.state.placeName}</h4>
+            {/* {!this.state.isFavorite ? (
+              <img
+                onClick={() => this.handleFavorite("add")}
+                className="col villaProfile-favorite-icon"
+                src={favorite}
+              />
+            ) : (
+              <img
+                onClick={() => this.handleFavorite("remove")}
+                className="col villaProfile-favorite-icon"
+                src={star}
+              />
+            )} */}
             <div className="villaProfile-subTitle">
               <h6>
                 {this.state.palceCountry +
@@ -714,7 +722,7 @@ class VillaProfile extends Component {
               </h6>
             </div>
           </div>
-          <div className="col-2 d-flex justify-content-center">
+          {/* <div className="col-2 d-flex justify-content-center">
             <Dropdown>
               <Dropdown.Toggle
                 className={"btn shadow-none d-flex justify-content-center"}
@@ -753,7 +761,7 @@ class VillaProfile extends Component {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </div>
+          </div> */}
         </div>
 
         <div className="villaProfile-body">
@@ -1024,30 +1032,19 @@ class VillaProfile extends Component {
 
           <div className="villaProfile-reservation row mt-4 mb-5">
             <div className="col-xl-6 mt-4 villaProfile-reserveButton">
-              <button
-                disabled={!this.state.isOwner}
-                className="btn btn-primary"
-                onClick={() =>
-                  this.handleReserve(
-                    this.state.isReserved ? "cancel" : "reserve"
-                  )
-                }
-              >
-                {this.state.isReserved && !this.state.isOwner
-                  ? "Reserve"
-                  : this.state.isReserved && !this.state.isOwner
-                  ? "Cancel"
-                  : "Reserve"}
-              </button>
-              <Link
-                id="reserve-component"
-                to="/villa/villaProfile/reserve/1/"
-              ></Link>
+              <Link id="reserve-component" to="/villa/villaProfile/reserve/1/">
+                <button
+                  disabled={!this.state.isOwner}
+                  className="btn btn-primary"
+                >
+                  Reserve
+                </button>
+              </Link>
               <button
                 onClick={() =>
                   this.handleFavorite(!this.state.isFavorite ? "add" : "remove")
                 }
-                className="btn btn-outline-secondary villaProfile-favorite-btn ml-5"
+                className="btn btn-outline-primary villaProfile-favorite-btn ml-5"
               >
                 {!this.state.isFavorite
                   ? "Add to favorites"
@@ -1067,7 +1064,6 @@ class VillaProfile extends Component {
                 placeOwner={this.state.placeOwner}
                 placeMaxCapacity={this.state.placeMaxCapacity}
                 PlacePrice={this.state.placePrice}
-                handleReservationBtn={this.handleReservationBtn}
               />
             </Route>
             <Route path="/villa/villaProfile/reserve/1/">
