@@ -8,8 +8,7 @@ import {eventViewport, getItem} from "./components/util";
 import Chat from "./components/chat/chat";
 import {sendToken, getMessaging} from './components/firebase'
 import {
-    API_GET_SHOW_CHAT_INFO_AND_LIST,
-    API_REGISTER_FIREBASE_TOKE, API_REGISTER_FIREBASE_TOKEN,
+    API_REGISTER_FIREBASE_TOKEN,
     STORAGE_KEY,
     WEB_PUSH_CERTIFICATE
 } from "./components/constants";

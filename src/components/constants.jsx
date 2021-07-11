@@ -2,8 +2,8 @@ import axios from "axios";
 export const VERIFY_LENGTH = 6;
 // export const API_BASE_URL = "http://softcheetahs.herokuapp.com/"
 // export const API_BASE_URL = "http://172.17.3.149/";
-// export const API_BASE_URL = "http://127.0.0.1:8000/";
-export const API_BASE_URL = "http://172.17.3.149/";
+export const API_BASE_URL = "http://127.0.0.1:8000/";
+// export const API_BASE_URL = "http://172.17.3.149/";
 axios.defaults.baseURL = API_BASE_URL;
 
 export const API_UPLOAD_DOC_URL = "api/account/upload-documents";
@@ -38,10 +38,10 @@ export const API_START_CHAT = "api/chat/add/";
 export const API_CHAT_UPLOAD_FILE = "api/chat/upload/";
 export const API_REGISTER_FIREBASE_TOKEN = "device/add/";
 
-export const WS_BASE_URL = "ws://172.17.3.149:3000/";
-// export const WS_BASE_URL = "ws://localhost:8000/";
+// export const WS_BASE_URL = "ws://172.17.3.149:3000/";
+export const WS_BASE_URL = "ws://localhost:8000/";
 export const API_ADD_REMOVE_FAVORITE_VILLA = "/api/villa/like/";
-export const API_HIDE = "/api/villa/user/?villa_id=1&visible=";
+// export const API_HIDE = "/api/villa/user/?villa_id=1&visible=";
 export const WS_CHAT_URL = "ws/api/chat/";
 export const WEB_PUSH_CERTIFICATE =
   "BPMnplC3Ef7aPJoRSQ9qUW5kvtpPIWOYTMqFJdy5Pod-h3v3aaRo5qFJts746LRY_709ZiTZ9TgQgViATLucIqQ";

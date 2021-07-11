@@ -841,7 +841,7 @@ class VillaProfile extends Component {
                   <button
                     onClick={this.startChat}
                     className="btn btn-primary"
-                    disabled={this.state.isOwner}
+                    disabled={!this.state.isOwner}
                   >
                     Start chat
                   </button>
@@ -960,9 +960,9 @@ class VillaProfile extends Component {
                   height={"60vh"}
                   initial={{
                     center: center,
-                    zoom: 11,
+                    zoom: 10,
                   }}
-                  maxZoom={this.state.isReserved ? "" : 11}
+                  maxZoom={this.state.isReserved ? 1000 : 11}
                 >
                   <ROSM />
                   <RControl.RCustom>
@@ -990,7 +990,7 @@ class VillaProfile extends Component {
                           .getView()
                           .fit(e.target.getGeometry().getExtent(), {
                             duration: 250,
-                            maxZoom: 10,
+                            zoom: 11,
                           })
                       }
                     >
