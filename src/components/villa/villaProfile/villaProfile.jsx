@@ -690,61 +690,6 @@ class VillaProfile extends Component {
       this.setState({ isReserved: !this.state.isReserved });
     }
   };
-
-  handleHide = async (action) => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get("id");
-    if (action === "hide") {
-      this.setState({ visible: !this.state.visible });
-
-      await axios
-        .get(API_VILLA_PROFILE_URL, {
-          headers: {
-            Authorization: "Token ".concat(getItem("user-token")),
-          },
-          params: {
-            villa_id: id,
-            visible: false,
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log("villa hidded");
-            toast.success("Villa is not hided anymore");
-          } else {
-            console.log("unknown status");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else if (action === "unhide") {
-      this.setState({ visible: !this.state.visible });
-
-      await axios
-        .get(API_VILLA_PROFILE_URL, {
-          headers: {
-            Authorization: "Token ".concat(getItem("user-token")),
-          },
-          params: {
-            villa_id: id,
-            visible: true,
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            console.log("villa unhidded");
-            toast.success("Villa is not hided anymore");
-          } else {
-            console.log("unknown status");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
   handleReservationBtn = () => {
     this.setState({ isReserved: !this.state.isReserved });
   };
@@ -779,18 +724,6 @@ class VillaProfile extends Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="dropDown">
-                {this.state.isOwner ? (
-                  <Dropdown.Item
-                    as="button"
-                    onClick={() =>
-                      this.handleHide(this.state.visible ? "hide" : "unhide")
-                    }
-                  >
-                    {this.state.visible ? "Hide place" : "Unhide place"}
-                  </Dropdown.Item>
-                ) : (
-                  ""
-                )}
                 {!this.state.isOwner ? (
                   <Dropdown.Item
                     as="button"

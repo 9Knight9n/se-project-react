@@ -45,7 +45,7 @@ class VillaCard extends Component {
             <div>
               <div className={'d-flex flex-row pr-2 pl-2 rounded'}
                    style={{ width: "fit-content", height: "fit-content",position:'absolute',backgroundColor:'white',right:0,bottom:0 }}>
-                <Rate disabled defaultValue={1} count={1} /> <div className={'ml-2 mt-2'}>5{" "}</div>
+                <Rate disabled defaultValue={1} count={1} /> <div className={'ml-2 mt-2'}>{this.props.rate?this.props.rate:"Not rated"}{" "}</div>
               </div>
               <img
                 style={{ width: "320px", height: "200px", objectFit: "cover" }}

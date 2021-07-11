@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Carousel} from "react-bootstrap";
 import VillaCard from "./villaCard";
-import {API_BASE_URL, API_USER_HOSTED, API_USER_RESERVED} from "../../constants";
+import {API_BASE_URL, API_USER_HOSTED, API_USER_RESERVED, API_VILLA_PROFILE_URL} from "../../constants";
 import {getItem} from "../../util";
 import axios from "axios";
 import {Empty, Popconfirm} from "antd";
+import {toast} from "react-toastify";
 
 let cardSize = 0;
 
@@ -67,8 +68,29 @@ class VillaCarousel extends Component {
     }
 
 
-    hidePlace = async () =>{
+    hidePlace = async (id,status) =>{
 
+        await axios
+            .get(API_VILLA_PROFILE_URL, {
+                headers: {
+                    Authorization: "Token ".concat(getItem("user-token")),
+                },
+                params: {
+                    villa_id: id,
+                    visible: status,
+                },
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    // console.log("villa hidded");
+                    toast.success("Villa is "+(status?"visible":"hidden")+' now');
+                } else {
+                    console.log("unknown status");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
 
 
@@ -122,14 +144,14 @@ class VillaCarousel extends Component {
                         />
                         {this.props.url===API_USER_HOSTED?
                             <Popconfirm
-                                title="Are you sure to hide this place?"
-                                onConfirm={()=>this.hidePlace(card.villa_id)}
+                                title={'Are you sure to '+(card.visible?'hide':'reveal' )+" this place?"}
+                                onConfirm={()=>this.hidePlace(card.villa_id,!card.visible)}
                                 okText="Yes"
                                 cancelText="No"
                                 placement="bottom"
                             >
                                 <button className={'btn btn-secondary p-1 ml-auto mr-auto '} style={{width:"98%"}}>
-                                    Hide place
+                                    {card.visible?'Hide place':'Reveal place'}
                                 </button>
                             </Popconfirm>
                             :

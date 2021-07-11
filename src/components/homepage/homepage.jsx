@@ -498,9 +498,12 @@ class Homepage extends Component {
                         className={"homepage-div-bg pt-5 pb-5"}
                         style={{backgroundColor: "white", borderRadius: "1.5rem"}}
                     >
+                        <VillaCarousel url={API_SEARCH_VILLA} addNum={true} cardSize={parseInt(this.state.cardsSize)} title={'New places:'}/>
                         <VillaCarousel url={API_TOP_RATED_VILLA} addNum={true} cardSize={parseInt(this.state.cardsSize)} title={'High rate places:'}/>
                         <VillaCarousel url={API_MOST_REGISTERED_VILLA} addNum={true} cardSize={parseInt(this.state.cardsSize)} title={'Most reserved places:'}/>
-                        <VillaCarousel url={API_FAVORITE_VILLA} cardSize={parseInt(this.state.cardsSize)} title={'Your Favorite places:'}/>
+
+                        {getItem('user-id')?
+                            <VillaCarousel url={API_FAVORITE_VILLA} cardSize={parseInt(this.state.cardsSize)} title={'Your Favorite places:'}/>:""}
                     </SElement>
                 </div>
             </React.Fragment>
