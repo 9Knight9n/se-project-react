@@ -44,7 +44,7 @@ class Hosting extends Component {
         return (
             <div
                 className={"container-fluid"}
-                style={{paddingTop: "10%", minHeight: "100vh"}}
+                style={{paddingTop: "10%", minHeight: "100vh",paddingLeft:0,paddingRight:0}}
             >
                 <Switch>
                     <Route path="/hosting/addaccommodation/">
@@ -52,41 +52,42 @@ class Hosting extends Component {
                     </Route>
 
                     <Route path="/hosting/">
-                        <div
-                            style={{height: '100vh'}}
-                            className={" d-flex m-auto w-100"}
-                        >
-                            <div className={"w-100 h-100 d-flex flex-column"}>
-                                <h4
-                                    className={" mb-4"}
-                                    style={{fontFamily: "cursive", marginLeft: "10%"}}
-                                >
-                                    Become a host:
-                                </h4>
-                                <div
-                                    style={{
-                                        backgroundImage: "url(" + host_bg + ")",
-                                        borderRadius: "1.5rem",
-                                    }}
-                                    className={
-                                        "d-flex  mb-auto ml-auto mr-auto become-host-div-bg pr-5"
-                                    }
-                                >
-                                    <Link to={"/hosting/addaccommodation/categories/"}
-                                          className={"ml-auto  mt-auto mb-auto mr-5"}
-                                          style={{height: "fit-content"}}
+                        <div className={'pr-5 pl-5'}>
+                            <div
+                                style={{height: '100vh'}}
+                                className={" d-flex m-auto w-100"}
+                            >
+                                <div className={"w-100 h-100 d-flex flex-column"}>
+                                    <h4
+                                        className={"mb-4 ml-3"}
+                                        style={{fontFamily: "cursive"}}
                                     >
-                                        <Button className={"btn btn-primary w-auto hover-effect"}>
-                                            Add Accommodation
-                                        </Button>
-                                    </Link>
+                                        Become a host:
+                                    </h4>
+                                    <div
+                                        style={{
+                                            backgroundImage: "url(" + host_bg + ")",
+                                            borderRadius: "1.5rem",
+                                        }}
+                                        className={
+                                            "d-flex  mb-auto ml-auto mr-auto become-host-div-bg pr-5"
+                                        }
+                                    >
+                                        <Link to={"/hosting/addaccommodation/categories/"}
+                                              className={"ml-auto  mt-auto mb-auto mr-5"}
+                                              style={{height: "fit-content"}}
+                                        >
+                                            <Button className={"btn btn-primary w-auto hover-effect"}>
+                                                Add Accommodation
+                                            </Button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
+
+                            <VillaCarousel url={API_USER_HOSTED} cardSize={parseInt(this.state.cardsSize)} title={'Hosting places:'}/>
+                            <VillaCarousel url={API_USER_RESERVED} cardSize={parseInt(this.state.cardsSize)} title={'Reserved places:'}/>
                         </div>
-
-                        <VillaCarousel url={API_USER_HOSTED} cardSize={parseInt(this.state.cardsSize)} title={'Hosting places:'}/>
-                        <VillaCarousel url={API_USER_RESERVED} cardSize={parseInt(this.state.cardsSize)} title={'Reserved places:'}/>
-
                     </Route>
                 </Switch>
             </div>

@@ -122,29 +122,7 @@ class Homepage extends Component {
         document.addEventListener(STORAGE_KEY + "screen-size-changed", (event) =>
             this.handleScreenSizeChange(event.detail)
         );
-        // document.addEventListener("scroll", this.leftOptionsSelectedShow);
-        // sessionStorage.removeItem("scroll-hp-sub");
-        // await this.loadCardList(API_TOP_RATED_VILLA);
-        // await this.loadCardList(API_MOST_REGISTERED_VILLA);
-        // let config = {
-        //     method: 'get',
-        //     url: API_SEARCH_VILLA+'?page=1&number_of_villa=100',
-        //     headers: {
-        //         // 'Authorization': 'Token '.concat(getItem('user-token')),
-        //     }
-        // };
-        // let cardList = await axios(config)
-        //     .then(function (response) {
-        //         // console.log(JSON.stringify(response.data));
-        //         console.log(response.data.data)
-        //         return response.data.data
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //         return []
-        //     });
-        // console.log(cardList)
-        // this.setState({cards1:cardList,cards2:cardList})
+        document.addEventListener("scroll", this.leftOptionsSelectedShow);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -464,12 +442,12 @@ class Homepage extends Component {
                     <SElement
                         id={"hp-sub-2"}
                         name={"hp-sub-2"}
-                        className={"homepage-div-bg d-flex m-auto"}
+                        className={"homepage-div-bg d-flex m-auto pl-5 pr-5"}
                     >
                         <div className={"w-100 h-100 d-flex flex-column"}>
                             <h4
-                                className={" mt-auto mb-4"}
-                                style={{fontFamily: "cursive", marginLeft: "10%"}}
+                                className={" mt-auto mb-4 ml-3"}
+                                style={{fontFamily: "cursive"}}
                             >
                                 Maybe try becoming a host yourself:
                             </h4>
@@ -495,7 +473,7 @@ class Homepage extends Component {
                     <SElement
                         id={"hp-sub-3"}
                         name={"hp-sub-3"}
-                        className={"homepage-div-bg pt-5 pb-5"}
+                        className={"homepage-div-bg pt-5 pb-5 pr-5 pl-5"}
                         style={{backgroundColor: "white", borderRadius: "1.5rem"}}
                     >
                         <VillaCarousel url={API_SEARCH_VILLA} addNum={true} cardSize={parseInt(this.state.cardsSize)} title={'New places:'}/>
