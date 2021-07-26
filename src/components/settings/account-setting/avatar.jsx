@@ -79,7 +79,7 @@ class Avatar extends Component {
           <h5 style={{ textAlign: "center" }}>Edit your profile avatar.</h5>
         </Modal.Header>
         <Modal.Body>
-          <div className="w-100 avatar">
+          <div className="w-100 avatar p-1">
             <SelectAvatar
               className="w-100 h-100"
               src={this.state.src}
