@@ -14,6 +14,7 @@
 .villaProfile-gallery img {
   width: 100% !important;
   height: 100%;
+  object-fit: cover;
 }
 
 /* .villaProfile-menu-button svg {
@@ -22,7 +23,7 @@
 
 .villaProfile-gallery img:hover {
   cursor: pointer;
-  border: 2px black solid;
+  /* border: 2px black solid; */
   border-radius: 10px;
   transition: all 0.5s ease;
   filter: opacity(60%);
