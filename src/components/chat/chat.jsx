@@ -218,20 +218,14 @@ class Chat extends Component {
                     ""
                   )
                 }
-                // date={(new Date(chat.last_message.ctime))}
                 date={new moment(
                   chat.last_message ? chat.last_message.ctime : ""
                 )
                   .add(270, "m")
                   .toDate()}
-                // unread={parseInt("5")}
               />
             </div>
           ))}
-
-          {/*<button type="primary" >*/}
-          {/*    Two-level drawer*/}
-          {/*</button>*/}
           <Drawer
             // title="chatroom"
             closeIcon={

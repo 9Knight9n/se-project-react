@@ -10,7 +10,12 @@ import {
   validatePass,
 } from "../../../util";
 import axios from "axios";
-import {API_EMAIL_CHECK_URL, API_LOGIN_URL, API_REGISTER_FIREBASE_TOKEN, STORAGE_KEY} from "../../../constants";
+import {
+  API_EMAIL_CHECK_URL,
+  API_LOGIN_URL,
+  API_REGISTER_FIREBASE_TOKEN,
+  STORAGE_KEY,
+} from "../../../constants";
 
 class Login extends Component {
   constructor(props) {
@@ -69,92 +74,41 @@ class Login extends Component {
     this.setState({ pageNum });
   }
 
-  async emailValidation() {
+  emailValidation() {
     this.setState({ loading: true });
     let email = document.getElementById("email-input").value;
     if (!validateEmail(email))
       return this.setState({ loading: false, isInvalid: true });
-
-    let FormData = require("form-data");
-    let data = new FormData();
-    data.append("email", email);
-    await axios
-      .post(API_EMAIL_CHECK_URL, data)
-      .then((res) => {
-        if (res.status === 200) {
-          this.setPage(1);
-        } else {
-          console.log("unknown status");
-          return this.setState({ connectionError: true, loading: false });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        return this.setPage(2);
-        // console.log("error")
-        // console.log(error)
-        // return this.setState({connectionError:true,loading:false})
-      });
+    else this.setPage(1);
   }
 
   async login() {
-    this.setState({ loading: true });
-    let pass = document.getElementById("pass-input").value;
+    this.props.onSuccess();
+    this.exit(false, false, null);
 
-    let FormData = require("form-data");
-    let data = new FormData();
-    data.append("username", this.state.email);
-    data.append("password", pass);
-    await axios
-      .post(API_LOGIN_URL, data)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log("success");
-          saveCredentials(
-            res.data.user_id,
-            res.data.email,
-            res.data.token,
-            res.data.image,
-            true
-          );
-          showMemoryVariables();
-          this.props.onSuccess();
-          return this.exit(false, false, null);
-        } else {
-          console.log("unknown status");
-          return this.setState({ connectionError: true, loading: false });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        return this.setState({ loading: false, isInvalid: true });
-        // return this.setPage(2)
-        // console.log("error")
-        // console.log(error)
-        // return this.setState({connectionError:true,loading:false})
-      });
-
-    if(getItem('user-token'))
-    {
+    if (getItem("user-token")) {
       let data = new FormData();
-      data.append('token', sessionStorage.getItem(STORAGE_KEY+'firebase-token'));
+      data.append(
+        "token",
+        sessionStorage.getItem(STORAGE_KEY + "firebase-token")
+      );
 
       var config = {
-        method: 'post',
+        method: "post",
         url: API_REGISTER_FIREBASE_TOKEN,
         headers: {
           Authorization: "Token ".concat(getItem("user-token")),
         },
-        data : data
+        data: data,
       };
 
       axios(config)
-          .then(function (response) {
-            console.log(JSON.stringify(response.data));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
 
     // return setTimeout(() => , 500);
